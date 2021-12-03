@@ -34,6 +34,9 @@
     "@babel/plugin-transform-runtime": "^7.16.4",
     "@babel/preset-env": "^7.15.4",
     "@babel/preset-react": "^7.14.5",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/lab": "^4.0.0-alpha.60",
+    "@material-ui/styles": "^4.11.4",
     "@mdi/js": "^6.2.95",
     "@mdi/react": "^1.5.0",
     "@microsoft/api-documenter": "^7.13.33",
@@ -75,10 +78,12 @@
     "ts-jest": "^27.0.4",
     "ts-node": "^10.1.0",
     "tslib": "^2.3.0",
-    "typescript": "^4.3.5",
-    "@material-ui/core": "^4.12.3"
+    "typescript": "^4.3.5"
   },
   "peerDependencies": {
+    "@material-ui/core": "4.x",
+    "@material-ui/lab": "4.x",
+    "@material-ui/styles": "4.x",
     "@mdi/js": "6.x",
     "@mdi/react": "1.x",
     "@popperjs/core": "2.x",
@@ -93,8 +98,7 @@
     "scripthost": "0.x",
     "scripthost-browser": "0.x",
     "scripthost-core": "0.x",
-    "scripthost-react": "0.x",
-    "@material-ui/core": "4.x"
+    "scripthost-react": "0.x"
   },
   "dependencies": {
     "browser-fs-access": "^0.23.0"
