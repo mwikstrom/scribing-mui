@@ -53,13 +53,13 @@ import { ToggleUnorderedList } from "./commands/ToggleUnorderedList";
 import { ToggleOrderedList } from "./commands/ToggleOrderedList";
 import { IncrementIndent } from "./commands/IncrementIndent";
 import { DecrementIndent } from "./commands/DecrementIndent";
+import { ParagraphVariantSelector } from "./ParagraphVariantSelector";
 
 /** @public */
 export interface FlowEditorToolbarProps {
     controller?: FlowEditorController | null;
 }
 
-// TODO: Paragraph variant dropdown
 // TODO: Box variant dropdown
 // TODO: Insert component
 // TODO: FIX CUT/COPY/PASTE
@@ -82,16 +82,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={Paste}/>
             </ToolGroup>
             <ToolGroup>
-                <CommandButton controller={controller} command={ToggleBold}/>
-                <CommandButton controller={controller} command={ToggleItalic}/>
-                <CommandButton controller={controller} command={ToggleUnderline}/>
-                <CommandButton controller={controller} command={ToggleStrikeThrough}/>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={ToggleSubscript}/>
-                <CommandButton controller={controller} command={ToggleSuperscript}/>
-            </ToolGroup>
-            <ToolGroup>
+                <ParagraphVariantSelector controller={controller}/>
                 <ToolButton disabled>
                     <Stack size={1}>
                         <Icon path={mdiFormatColorFill}/>
@@ -104,6 +95,16 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <ToolButton disabled>
                     <Icon size={1} path={mdiFormatSize}/>
                 </ToolButton>
+            </ToolGroup>
+            <ToolGroup>
+                <CommandButton controller={controller} command={ToggleBold}/>
+                <CommandButton controller={controller} command={ToggleItalic}/>
+                <CommandButton controller={controller} command={ToggleUnderline}/>
+                <CommandButton controller={controller} command={ToggleStrikeThrough}/>
+            </ToolGroup>
+            <ToolGroup>
+                <CommandButton controller={controller} command={ToggleSubscript}/>
+                <CommandButton controller={controller} command={ToggleSuperscript}/>
             </ToolGroup>
             <ToolGroup>
                 <CommandButton controller={controller} command={AlignLeft}/>

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
-import React, { FC, ReactNode, useCallback } from "react";
+import React, { FC, forwardRef, ReactNode, useCallback } from "react";
 import { alpha, Button, ButtonProps, Theme } from "@material-ui/core";
 
 export interface ToolButtonProps extends ButtonProps {
@@ -9,7 +9,7 @@ export interface ToolButtonProps extends ButtonProps {
     active?: boolean;
 }
 
-export const ToolButton: FC<ToolButtonProps> = props => {
+export const ToolButton: FC<ToolButtonProps> = forwardRef((props, ref) => {
     const { children, className: givenClass, active, ...rest } = props;
     const classes = useStyles();
     const onMouseDown = useCallback((e: React.MouseEvent) => e.preventDefault(), []);
@@ -19,11 +19,11 @@ export const ToolButton: FC<ToolButtonProps> = props => {
         active && classes.active,
     );
     return (
-        <Button {...rest} className={className} onMouseDown={onMouseDown}>
+        <Button {...rest} ref={ref} className={className} onMouseDown={onMouseDown}>
             {children}
         </Button>
     );
-};
+});
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
