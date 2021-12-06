@@ -3,6 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { FlowEditorToolbar } from "../src/FlowEditorToolbar";
 import { createTheme, MuiThemeProvider, Paper } from "@material-ui/core";
 import { FlowEditor, FlowEditorController } from "scribing-react";
+import { MaterialFlowPalette } from "../src/MaterialFlowPalette";
 
 interface StoryProps {
     dark?: boolean;
@@ -15,8 +16,10 @@ const Story: FC<StoryProps> = props => {
     return (
         <MuiThemeProvider theme={theme}>
             <Paper>
-                <FlowEditorToolbar controller={controller}/>
-                <FlowEditor onControllerChange={setController} autoFocus/>
+                <MaterialFlowPalette>
+                    <FlowEditorToolbar controller={controller}/>
+                    <FlowEditor onControllerChange={setController} autoFocus/>
+                </MaterialFlowPalette>
             </Paper>
         </MuiThemeProvider>
     );
