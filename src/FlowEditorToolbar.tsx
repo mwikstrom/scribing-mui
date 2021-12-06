@@ -29,7 +29,6 @@ import {
     mdiFunctionVariant,
     mdiGestureTapButton,
     mdiImagePlus,
-    mdiRedo,
     mdiSpellcheck,
     mdiTableColumnPlusAfter,
     mdiTableColumnPlusBefore,
@@ -41,7 +40,6 @@ import {
     mdiTableRowRemove,
     mdiTableSplitCell,
     mdiTextBoxPlusOutline,
-    mdiUndo,
 } from "@mdi/js";
 import { makeStyles } from "@material-ui/styles";
 import { ToolGroup } from "./ToolGroup";
@@ -53,6 +51,8 @@ import { ToggleUnderline } from "./commands/ToggleUnderline";
 import { ToggleStrikeThrough } from "./commands/ToggleStrikeThrough";
 import { ToggleSubscript } from "./commands/ToggleSubscript";
 import { ToggleSuperscript } from "./commands/ToggleSuperscript";
+import { Undo } from "./commands/Undo";
+import { Redo } from "./commands/Redo";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -72,12 +72,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     return (
         <Toolbar className={classes.root} disableGutters>
             <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiUndo}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiRedo}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={Undo}/>
+                <CommandButton controller={controller} command={Redo}/>
             </ToolGroup>
             <ToolGroup>
                 <ToolButton disabled>
