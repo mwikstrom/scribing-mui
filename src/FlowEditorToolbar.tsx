@@ -53,6 +53,8 @@ import { AlignLeft } from "./commands/AlignLeft";
 import { AlignJustify } from "./commands/AlignJustify";
 import { AlignRight } from "./commands/AlignRight";
 import { AlignCenter } from "./commands/AlignCenter";
+import { ReadingLtr } from "./commands/ReadingLtr";
+import { ReadingRtl } from "./commands/ReadingRtl";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -189,12 +191,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatTextdirectionLToR}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatTextdirectionRToL}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={ReadingLtr}/>
+                <CommandButton controller={controller} command={ReadingRtl}/>
                 <ToolButton disabled>
                     <Icon size={1} path={mdiSpellcheck}/>
                 </ToolButton>
