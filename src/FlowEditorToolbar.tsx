@@ -10,8 +10,6 @@ import {
     mdiEyeCheck,
     mdiFormatColorFill, 
     mdiFormatFont, 
-    mdiFormatIndentDecrease, 
-    mdiFormatIndentIncrease, 
     mdiFormatLineSpacing, 
     mdiFormatSize, 
     mdiFunctionVariant,
@@ -53,6 +51,8 @@ import { ReadingRtl } from "./commands/ReadingRtl";
 import { ToggleFormattingMarks } from "./commands/ToggleFormattingMarks";
 import { ToggleUnorderedList } from "./commands/ToggleUnorderedList";
 import { ToggleOrderedList } from "./commands/ToggleOrderedList";
+import { IncrementIndent } from "./commands/IncrementIndent";
+import { DecrementIndent } from "./commands/DecrementIndent";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -116,12 +116,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={ToggleOrderedList}/>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatIndentDecrease}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatIndentIncrease}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={DecrementIndent}/>
+                <CommandButton controller={controller} command={IncrementIndent}/>
             </ToolGroup>
             <ToolGroup>
                 <ToolButton disabled>
