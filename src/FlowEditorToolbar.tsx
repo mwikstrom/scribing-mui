@@ -9,7 +9,6 @@ import {
     mdiCreation,
     mdiEyeCheck,
     mdiFormatColorFill, 
-    mdiFormatFont, 
     mdiFormatLineSpacing, 
     mdiFormatSize, 
     mdiFunctionVariant,
@@ -55,12 +54,14 @@ import { IncrementIndent } from "./commands/IncrementIndent";
 import { DecrementIndent } from "./commands/DecrementIndent";
 import { ParagraphVariantSelector } from "./ParagraphVariantSelector";
 import { TextColorButton } from "./TextColorButton";
+import { FontFamilyButton } from "./FontFamilyButton";
 
 /** @public */
 export interface FlowEditorToolbarProps {
     controller?: FlowEditorController | null;
 }
 
+// TODO: Flow typografy
 // TODO: Box variant dropdown
 // TODO: Insert component
 // TODO: FIX CUT/COPY/PASTE
@@ -85,9 +86,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
             <ToolGroup>
                 <ParagraphVariantSelector controller={controller}/>
                 <TextColorButton controller={controller}/>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatFont}/>
-                </ToolButton>
+                <FontFamilyButton controller={controller}/>
                 <ToolButton disabled>
                     <Icon size={1} path={mdiFormatSize}/>
                 </ToolButton>
