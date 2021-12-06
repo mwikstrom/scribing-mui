@@ -8,10 +8,6 @@ import {
     mdiColorHelper,
     mdiCreation,
     mdiEyeCheck,
-    mdiFormatAlignCenter,
-    mdiFormatAlignJustify,
-    mdiFormatAlignLeft,
-    mdiFormatAlignRight,
     mdiFormatColorFill, 
     mdiFormatFont, 
     mdiFormatIndentDecrease, 
@@ -53,6 +49,10 @@ import { Redo } from "./commands/Redo";
 import { Copy } from "./commands/Copy";
 import { Cut } from "./commands/Cut";
 import { Paste } from "./commands/Paste";
+import { AlignLeft } from "./commands/AlignLeft";
+import { AlignJustify } from "./commands/AlignJustify";
+import { AlignRight } from "./commands/AlignRight";
+import { AlignCenter } from "./commands/AlignCenter";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -106,18 +106,10 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatAlignLeft}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatAlignCenter}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatAlignRight}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatAlignJustify}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={AlignLeft}/>
+                <CommandButton controller={controller} command={AlignCenter}/>
+                <CommandButton controller={controller} command={AlignRight}/>
+                <CommandButton controller={controller} command={AlignJustify}/>
             </ToolGroup>
             <ToolGroup>
                 <ToolButton disabled>
