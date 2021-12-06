@@ -35,7 +35,6 @@
     "@babel/preset-env": "^7.15.4",
     "@babel/preset-react": "^7.14.5",
     "@material-ui/core": "^4.12.3",
-    "@material-ui/lab": "^4.0.0-alpha.60",
     "@material-ui/styles": "^4.11.4",
     "@mdi/js": "^6.2.95",
     "@mdi/react": "^1.5.0",
@@ -82,7 +81,6 @@
   },
   "peerDependencies": {
     "@material-ui/core": "4.x",
-    "@material-ui/lab": "4.x",
     "@material-ui/styles": "4.x",
     "@mdi/js": "6.x",
     "@mdi/react": "1.x",

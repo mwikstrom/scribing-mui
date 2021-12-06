@@ -1,5 +1,5 @@
+import { ButtonGroup } from "@material-ui/core";
 import { Theme } from "@material-ui/core/styles";
-import { ToggleButtonGroup } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/styles";
 import React, { FC, ReactNode } from "react";
 
@@ -10,9 +10,9 @@ export interface ToolGroupProps {
 export const ToolGroup: FC<ToolGroupProps> = ({children}) => {
     const classes = useStyles();
     return (
-        <ToggleButtonGroup size="small" className={classes.root}>
+        <ButtonGroup size="small" className={classes.root}>
             {children}
-        </ToggleButtonGroup>
+        </ButtonGroup>
     );
 };
 

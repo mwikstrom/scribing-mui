@@ -1,9 +1,9 @@
 import clsx from "clsx";
-import { ToggleButton, ToggleButtonProps } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/styles";
 import React, { FC, ReactNode } from "react";
+import { Button, ButtonProps, Theme } from "@material-ui/core";
 
-export interface ToolButtonProps extends ToggleButtonProps {
+export interface ToolButtonProps extends ButtonProps {
     children: ReactNode;
     className?: string;
 }
@@ -11,12 +11,16 @@ export interface ToolButtonProps extends ToggleButtonProps {
 export const ToolButton: FC<ToolButtonProps> = ({children, className, ...rest}) => {
     const classes = useStyles();
     return (
-        <ToggleButton {...rest} className={clsx(classes.root, className)}>
+        <Button {...rest} className={clsx(classes.root, className)}>
             {children}
-        </ToggleButton>
+        </Button>
     );
 };
 
-const useStyles = makeStyles({
-    root: {},
-});
+const useStyles = makeStyles((theme: Theme) => ({
+    root: {
+        color: theme.palette.text.secondary,
+        minWidth: theme.spacing(5),
+        minHeight: theme.spacing(5),
+    },
+}));
