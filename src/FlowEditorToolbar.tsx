@@ -17,8 +17,6 @@ import {
     mdiFormatListNumbered, 
     mdiFormatPilcrow, 
     mdiFormatSize, 
-    mdiFormatTextdirectionLToR, 
-    mdiFormatTextdirectionRToL, 
     mdiFunctionVariant,
     mdiGestureTapButton,
     mdiImagePlus,
