@@ -15,23 +15,17 @@ import {
     mdiFormatAlignJustify,
     mdiFormatAlignLeft,
     mdiFormatAlignRight,
-    mdiFormatBold, 
     mdiFormatColorFill, 
     mdiFormatFont, 
     mdiFormatIndentDecrease, 
     mdiFormatIndentIncrease, 
-    mdiFormatItalic, 
     mdiFormatLineSpacing, 
     mdiFormatListBulleted, 
     mdiFormatListNumbered, 
     mdiFormatPilcrow, 
     mdiFormatSize, 
-    mdiFormatStrikethrough, 
-    mdiFormatSubscript, 
-    mdiFormatSuperscript, 
     mdiFormatTextdirectionLToR, 
     mdiFormatTextdirectionRToL, 
-    mdiFormatUnderline,
     mdiFunctionVariant,
     mdiGestureTapButton,
     mdiImagePlus,
@@ -52,6 +46,13 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import { ToolGroup } from "./ToolGroup";
 import { ToolButton } from "./ToolButton";
+import { CommandButton } from "./CommandButton";
+import { ToggleBold } from "./commands/ToggleBold";
+import { ToggleItalic } from "./commands/ToggleItalic";
+import { ToggleUnderline } from "./commands/ToggleUnderline";
+import { ToggleStrikeThrough } from "./commands/ToggleStrikeThrough";
+import { ToggleSubscript } from "./commands/ToggleSubscript";
+import { ToggleSuperscript } from "./commands/ToggleSuperscript";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -65,172 +66,161 @@ export interface FlowEditorToolbarProps {
 // TODO: Connection status?
 
 /** @public */
-export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = () => {
+export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
+    const { controller } = props;
     const classes = useStyles();
     return (
         <Toolbar className={classes.root} disableGutters>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiUndo}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiRedo}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiContentCopy}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiContentCut}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiContentPaste}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
-                    <Icon size={1} path={mdiFormatBold}/>
-                </ToolButton>
-                <ToolButton>
-                    <Icon size={1} path={mdiFormatItalic}/>
-                </ToolButton>
-                <ToolButton>
-                    <Icon size={1} path={mdiFormatUnderline}/>
-                </ToolButton>
-                <ToolButton>
-                    <Icon size={1} path={mdiFormatStrikethrough}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={ToggleBold}/>
+                <CommandButton controller={controller} command={ToggleItalic}/>
+                <CommandButton controller={controller} command={ToggleUnderline}/>
+                <CommandButton controller={controller} command={ToggleStrikeThrough}/>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
-                    <Icon size={1} path={mdiFormatSubscript}/>
-                </ToolButton>
-                <ToolButton>
-                    <Icon size={1} path={mdiFormatSuperscript}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={ToggleSubscript}/>
+                <CommandButton controller={controller} command={ToggleSuperscript}/>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Stack size={1}>
                         <Icon path={mdiFormatColorFill}/>
                         <Icon path={mdiColorHelper}/>
                     </Stack>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatFont}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatSize}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatAlignLeft}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatAlignCenter}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatAlignRight}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatAlignJustify}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatListBulleted}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatListNumbered}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatIndentDecrease}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatIndentIncrease}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiGestureTapButton}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFunctionVariant}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTextBoxPlusOutline}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiCreation}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiImagePlus}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTablePlus}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiCodeTags}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTableRowPlusBefore}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTableRowPlusAfter}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTableColumnPlusBefore}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTableColumnPlusAfter}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTableRowRemove}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTableColumnRemove}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTableMergeCells}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiTableSplitCell}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiArrowExpandHorizontal}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatLineSpacing}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatTextdirectionLToR}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatTextdirectionRToL}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiSpellcheck}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiFormatPilcrow}/>
                 </ToolButton>
-                <ToolButton>
+                <ToolButton disabled>
                     <Icon size={1} path={mdiEyeCheck}/>
                 </ToolButton>
             </ToolGroup>

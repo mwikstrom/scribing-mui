@@ -1,17 +1,25 @@
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
-import React, { FC, ReactNode } from "react";
-import { Button, ButtonProps, Theme } from "@material-ui/core";
+import React, { FC, ReactNode, useCallback } from "react";
+import { alpha, Button, ButtonProps, Theme } from "@material-ui/core";
 
 export interface ToolButtonProps extends ButtonProps {
-    children: ReactNode;
+    children?: ReactNode;
     className?: string;
+    active?: boolean;
 }
 
-export const ToolButton: FC<ToolButtonProps> = ({children, className, ...rest}) => {
+export const ToolButton: FC<ToolButtonProps> = props => {
+    const { children, className: givenClass, active, ...rest } = props;
     const classes = useStyles();
+    const onMouseDown = useCallback((e: React.MouseEvent) => e.preventDefault(), []);
+    const className = clsx(
+        classes.root,
+        givenClass,
+        active && classes.active,
+    );
     return (
-        <Button {...rest} className={clsx(classes.root, className)}>
+        <Button {...rest} className={className} onMouseDown={onMouseDown}>
             {children}
         </Button>
     );
@@ -19,8 +27,15 @@ export const ToolButton: FC<ToolButtonProps> = ({children, className, ...rest}) 
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        color: theme.palette.text.secondary,
+        color: alpha(theme.palette.action.active, 0.38),
         minWidth: theme.spacing(5),
         minHeight: theme.spacing(5),
+    },
+    active: {
+        color: theme.palette.action.active,
+        backgroundColor: alpha(theme.palette.action.active, 0.12),
+        "&:hover": {
+            backgroundColor: alpha(theme.palette.action.active, 0.15),
+        },
     },
 }));
