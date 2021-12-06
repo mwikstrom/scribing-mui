@@ -55,10 +55,12 @@ import { DecrementIndent } from "./commands/DecrementIndent";
 import { ParagraphVariantSelector } from "./ParagraphVariantSelector";
 import { TextColorButton } from "./TextColorButton";
 import { FontFamilyButton } from "./FontFamilyButton";
+import clsx from "clsx";
 
 /** @public */
 export interface FlowEditorToolbarProps {
     controller?: FlowEditorController | null;
+    className?: string;
 }
 
 // TODO: Flow typografy
@@ -70,10 +72,10 @@ export interface FlowEditorToolbarProps {
 
 /** @public */
 export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
-    const { controller } = props;
+    const { controller, className } = props;
     const classes = useStyles();
     return (
-        <Toolbar className={classes.root} disableGutters>
+        <Toolbar className={clsx(classes.root, className)} disableGutters>
             <ToolGroup>
                 <CommandButton controller={controller} command={Undo}/>
                 <CommandButton controller={controller} command={Redo}/>
