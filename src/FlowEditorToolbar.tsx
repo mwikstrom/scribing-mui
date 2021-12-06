@@ -6,9 +6,6 @@ import {
     mdiArrowExpandHorizontal,
     mdiCodeTags,
     mdiColorHelper,
-    mdiContentCopy,
-    mdiContentCut,
-    mdiContentPaste,
     mdiCreation,
     mdiEyeCheck,
     mdiFormatAlignCenter,
@@ -53,6 +50,9 @@ import { ToggleSubscript } from "./commands/ToggleSubscript";
 import { ToggleSuperscript } from "./commands/ToggleSuperscript";
 import { Undo } from "./commands/Undo";
 import { Redo } from "./commands/Redo";
+import { Copy } from "./commands/Copy";
+import { Cut } from "./commands/Cut";
+import { Paste } from "./commands/Paste";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -62,6 +62,7 @@ export interface FlowEditorToolbarProps {
 // TODO: Paragraph variant dropdown
 // TODO: Box variant dropdown
 // TODO: Insert component
+// TODO: FIX CUT/COPY/PASTE
 // TODO: Check-in?
 // TODO: Connection status?
 
@@ -76,15 +77,9 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={Redo}/>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiContentCopy}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiContentCut}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiContentPaste}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={Copy}/>
+                <CommandButton controller={controller} command={Cut}/>
+                <CommandButton controller={controller} command={Paste}/>
             </ToolGroup>
             <ToolGroup>
                 <CommandButton controller={controller} command={ToggleBold}/>
