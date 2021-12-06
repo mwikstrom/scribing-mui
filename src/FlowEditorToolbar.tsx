@@ -15,7 +15,6 @@ import {
     mdiFormatLineSpacing, 
     mdiFormatListBulleted, 
     mdiFormatListNumbered, 
-    mdiFormatPilcrow, 
     mdiFormatSize, 
     mdiFunctionVariant,
     mdiGestureTapButton,
@@ -53,6 +52,7 @@ import { AlignRight } from "./commands/AlignRight";
 import { AlignCenter } from "./commands/AlignCenter";
 import { ReadingLtr } from "./commands/ReadingLtr";
 import { ReadingRtl } from "./commands/ReadingRtl";
+import { ToggleFormattingMarks } from "./commands/ToggleFormattingMarks";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -196,9 +196,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatPilcrow}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={ToggleFormattingMarks}/>
                 <ToolButton disabled>
                     <Icon size={1} path={mdiEyeCheck}/>
                 </ToolButton>
