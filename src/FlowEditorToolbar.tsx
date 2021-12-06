@@ -13,8 +13,6 @@ import {
     mdiFormatIndentDecrease, 
     mdiFormatIndentIncrease, 
     mdiFormatLineSpacing, 
-    mdiFormatListBulleted, 
-    mdiFormatListNumbered, 
     mdiFormatSize, 
     mdiFunctionVariant,
     mdiGestureTapButton,
@@ -53,6 +51,8 @@ import { AlignCenter } from "./commands/AlignCenter";
 import { ReadingLtr } from "./commands/ReadingLtr";
 import { ReadingRtl } from "./commands/ReadingRtl";
 import { ToggleFormattingMarks } from "./commands/ToggleFormattingMarks";
+import { ToggleUnorderedList } from "./commands/ToggleUnorderedList";
+import { ToggleOrderedList } from "./commands/ToggleOrderedList";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -112,12 +112,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={AlignJustify}/>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatListBulleted}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatListNumbered}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={ToggleUnorderedList}/>
+                <CommandButton controller={controller} command={ToggleOrderedList}/>
             </ToolGroup>
             <ToolGroup>
                 <ToolButton disabled>

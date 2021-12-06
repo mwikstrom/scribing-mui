@@ -11,8 +11,7 @@ export interface CommandButtonProps extends ToolButtonProps {
 }
 
 export const CommandButton: FC<CommandButtonProps> = props => {
-    const { command, controller, children, ...rest } = props;
-    const { iconPath } = command;
+    const { command, controller, children: givenChildren, ...rest } = props;
     
     const disabled = useMemo(() => {
         if (!controller) {
@@ -34,6 +33,25 @@ export const CommandButton: FC<CommandButtonProps> = props => {
         }
     }, [command, controller]);
 
+    const children = useMemo(() => {
+        if (givenChildren) {
+            return givenChildren;
+        }
+        const iconPath = typeof command.iconPath === "function" ? 
+            controller && command.iconPath(controller) : 
+            command.iconPath;
+        if (!iconPath) {
+            return null;
+        }
+        return (
+            <Icon
+                size={1}
+                path={iconPath}
+                horizontal={command.flipIcon && !!controller && command.flipIcon(controller)}
+            />
+        );
+    }, [givenChildren, command, controller]);
+
     const onClick = useCallback(() => {
         if (controller) {
             command.exec(controller);
@@ -46,7 +64,7 @@ export const CommandButton: FC<CommandButtonProps> = props => {
             disabled={disabled}
             active={active}
             onClick={onClick}
-            children={children ? children : iconPath && <Icon size={1} path={iconPath}/>}
+            children={children}
         />
     );
 };
