@@ -1,6 +1,6 @@
-import { Menu, MenuItem, Typography } from "@material-ui/core";
+import { ListItemText, Menu, MenuItem, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { mdiFormatText, mdiMenuDown } from "@mdi/js";
+import { mdiCheck, mdiFormatText, mdiMenuDown } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import clsx from "clsx";
 import React, { FC, useCallback, useMemo, useState } from "react";
@@ -29,7 +29,7 @@ export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props
             <ToolButton
                 {...rest} 
                 ref={setButtonRef}
-                startIcon={<Icon size={0.75}path={mdiFormatText}/>}
+                startIcon={<Icon size={0.75} path={mdiFormatText}/>}
                 endIcon={<Icon size={1} path={mdiMenuDown}/>}
                 onClick={openMenu}
                 disabled={!controller}
@@ -50,9 +50,19 @@ export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props
                 {PARAGRAPH_VARIANTS.map(variant => (
                     <MenuItem
                         key={variant}
+                        disableGutters
                         selected={current === variant}
-                        children={DisplayLabels[variant]}
                         onClick={() => applyVariant(variant)}
+                        children={(
+                            <div className={classes.menuItem}>
+                                <Icon
+                                    className={classes.menuIcon}
+                                    size={0.75}
+                                    path={current === variant ? mdiCheck : ""}
+                                />
+                                <ListItemText secondary={DisplayLabels[variant]}/>
+                            </div>
+                        )}
                     />
                 ))}
             </Menu>
@@ -74,7 +84,7 @@ const DisplayLabels: Record<ParagraphVariant, string> = {
     h6: "Heading 6",
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
     label: {
         textAlign: "start",
         textTransform: "none",
@@ -85,4 +95,15 @@ const useStyles = makeStyles({
     inactiveLabelItem: {
         height: 0,
     },
-});
+    menuItem: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(4),
+        color: theme.palette.text.secondary,
+    },
+    menuIcon: {
+        marginRight: theme.spacing(1),
+    },
+}));
