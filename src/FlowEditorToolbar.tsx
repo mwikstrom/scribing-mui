@@ -54,6 +54,7 @@ import { ToggleOrderedList } from "./commands/ToggleOrderedList";
 import { IncrementIndent } from "./commands/IncrementIndent";
 import { DecrementIndent } from "./commands/DecrementIndent";
 import { ParagraphVariantSelector } from "./ParagraphVariantSelector";
+import { TextColorButton } from "./TextColorButton";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -83,17 +84,20 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
             </ToolGroup>
             <ToolGroup>
                 <ParagraphVariantSelector controller={controller}/>
-                <ToolButton disabled>
-                    <Stack size={1}>
-                        <Icon path={mdiFormatColorFill}/>
-                        <Icon path={mdiColorHelper}/>
-                    </Stack>
-                </ToolButton>
+                <TextColorButton controller={controller}/>
                 <ToolButton disabled>
                     <Icon size={1} path={mdiFormatFont}/>
                 </ToolButton>
                 <ToolButton disabled>
                     <Icon size={1} path={mdiFormatSize}/>
+                </ToolButton>
+            </ToolGroup>
+            <ToolGroup>
+                <ToolButton disabled>
+                    <Stack size={1}>
+                        <Icon path={mdiFormatColorFill}/>
+                        <Icon path={mdiColorHelper}/>
+                    </Stack>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
