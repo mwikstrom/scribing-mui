@@ -63,8 +63,7 @@ export interface FlowEditorToolbarProps {
     className?: string;
 }
 
-// TODO: Flow typografy
-// TODO: Box variant dropdown
+// TODO: Flow typography
 // TODO: Insert component
 // TODO: FIX CUT/COPY/PASTE
 // TODO: Check-in?
