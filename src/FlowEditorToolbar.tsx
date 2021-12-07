@@ -1,14 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { FlowEditorController } from "scribing-react";
 import { Toolbar } from "@material-ui/core";
-import Icon, { Stack } from "@mdi/react";
+import Icon from "@mdi/react";
 import { 
     mdiArrowExpandHorizontal,
     mdiCodeTags,
-    mdiColorHelper,
     mdiCreation,
     mdiEyeCheck,
-    mdiFormatColorFill, 
     mdiFormatLineSpacing, 
     mdiFormatSize, 
     mdiFunctionVariant,
@@ -56,6 +54,8 @@ import { TextColorButton } from "./TextColorButton";
 import { FontFamilyButton } from "./FontFamilyButton";
 import clsx from "clsx";
 import { InsertBox } from "./commands/InsertBox";
+import { BoxVariantSelector } from "./BoxVariantSelector";
+import { BoxColorButton } from "./BoxColorButton";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -73,6 +73,7 @@ export interface FlowEditorToolbarProps {
 /** @public */
 export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const { controller, className } = props;
+    const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
     const classes = useStyles();
     return (
         <Toolbar className={clsx(classes.root, className)} disableGutters>
@@ -85,32 +86,34 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={Cut}/>
                 <CommandButton controller={controller} command={Paste}/>
             </ToolGroup>
-            <ToolGroup>
-                <ParagraphVariantSelector controller={controller}/>
-                <TextColorButton controller={controller}/>
-                <FontFamilyButton controller={controller}/>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatSize}/>
-                </ToolButton>
-            </ToolGroup>
-            <ToolGroup>
-                <ToolButton disabled>
-                    <Stack size={1}>
-                        <Icon path={mdiFormatColorFill}/>
-                        <Icon path={mdiColorHelper}/>
-                    </Stack>
-                </ToolButton>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={ToggleBold}/>
-                <CommandButton controller={controller} command={ToggleItalic}/>
-                <CommandButton controller={controller} command={ToggleUnderline}/>
-                <CommandButton controller={controller} command={ToggleStrikeThrough}/>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={ToggleSubscript}/>
-                <CommandButton controller={controller} command={ToggleSuperscript}/>
-            </ToolGroup>
+            {!isBoxSelection && (
+                <>
+                    <ToolGroup>
+                        <ParagraphVariantSelector controller={controller}/>
+                        <TextColorButton controller={controller}/>
+                        <FontFamilyButton controller={controller}/>
+                        <ToolButton disabled>
+                            <Icon size={1} path={mdiFormatSize}/>
+                        </ToolButton>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={ToggleBold}/>
+                        <CommandButton controller={controller} command={ToggleItalic}/>
+                        <CommandButton controller={controller} command={ToggleUnderline}/>
+                        <CommandButton controller={controller} command={ToggleStrikeThrough}/>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={ToggleSubscript}/>
+                        <CommandButton controller={controller} command={ToggleSuperscript}/>
+                    </ToolGroup>
+                </>
+            )}
+            {isBoxSelection && (
+                <ToolGroup>
+                    <BoxVariantSelector controller={controller}/>
+                    <BoxColorButton controller={controller}/>
+                </ToolGroup>
+            )}
             <ToolGroup>
                 <CommandButton controller={controller} command={AlignLeft}/>
                 <CommandButton controller={controller} command={AlignCenter}/>

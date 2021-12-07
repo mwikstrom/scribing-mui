@@ -1,24 +1,24 @@
-import { mdiFormatColorText } from "@mdi/js";
+import { mdiFormatColorFill } from "@mdi/js";
 import React, { FC, useCallback, useMemo } from "react";
 import { FlowColor } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { ColorButton } from "./ColorButton";
 import { ToolButtonProps } from "./ToolButton";
 
-export interface TextColorButtonProps extends ToolButtonProps {
+export interface BoxColorButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
 }
 
-export const TextColorButton: FC<TextColorButtonProps> = props => {
+export const BoxColorButton: FC<BoxColorButtonProps> = props => {
     const { controller, ...rest } = props;
-    const current = useMemo(() => controller?.getTextColor(), [controller]);
-    const setCurrent = useCallback((color: FlowColor) => controller?.setTextColor(color), [controller]);
+    const current = useMemo(() => controller?.getBoxColor(), [controller]);
+    const setCurrent = useCallback((color: FlowColor) => controller?.setBoxColor(color), [controller]);
     return (
         <ColorButton
             {...rest}
             current={current}
             setCurrent={setCurrent}
-            iconPath={mdiFormatColorText}
+            iconPath={mdiFormatColorFill}
         />
     );
 };
