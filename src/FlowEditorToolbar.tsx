@@ -11,11 +11,7 @@ import {
     mdiFunctionVariant,
     mdiGestureTapButton,
     mdiSpellcheck,
-    mdiTableColumnPlusAfter,
-    mdiTableColumnPlusBefore,
     mdiTableColumnRemove,
-    mdiTableRowPlusAfter,
-    mdiTableRowPlusBefore,
     mdiTableRowRemove,
 } from "@mdi/js";
 import { makeStyles } from "@material-ui/styles";
@@ -56,6 +52,10 @@ import { InsertImage } from "./commands/InsertImage";
 import { InsertTableButton } from "./tools/InsertTableButton";
 import { MergeTableCells } from "./commands/MergeTableCells";
 import { SplitTableCell } from "./commands/SplitTableCell";
+import { InsertTableColumnAfter } from "./commands/InsertTableColumnAfter";
+import { InsertTableColumnBefore } from "./commands/InsertTableColumnBefore";
+import { InsertTableRowAfter } from "./commands/InsertTableRowAfter";
+import { InsertTableRowBefore } from "./commands/InsertTableRowBefore";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -74,6 +74,7 @@ export interface FlowEditorToolbarProps {
 export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const { controller, className } = props;
     const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
+    const isTableSelection = useMemo(() => controller?.isTableSelection(), [controller]);
     const classes = useStyles();
     return (
         <Toolbar className={clsx(classes.root, className)} disableGutters>
@@ -132,49 +133,47 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={DecrementIndent}/>
                 <CommandButton controller={controller} command={IncrementIndent}/>
             </ToolGroup>
-            <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiGestureTapButton}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFunctionVariant}/>
-                </ToolButton>
-                <CommandButton controller={controller} command={InsertBox}/>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiCreation}/>
-                </ToolButton>
-                <CommandButton controller={controller} command={InsertImage}/>
-                <InsertTableButton controller={controller}/>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiCodeTags}/>
-                </ToolButton>
-            </ToolGroup>
-            <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTableRowPlusBefore}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTableRowPlusAfter}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTableColumnPlusBefore}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTableColumnPlusAfter}/>
-                </ToolButton>
-            </ToolGroup>
-            <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTableRowRemove}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTableColumnRemove}/>
-                </ToolButton>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={MergeTableCells}/>
-                <CommandButton controller={controller} command={SplitTableCell}/>
-            </ToolGroup>
+            {!isTableSelection && (
+                <ToolGroup>
+                    <ToolButton disabled>
+                        <Icon size={1} path={mdiGestureTapButton}/>
+                    </ToolButton>
+                    <ToolButton disabled>
+                        <Icon size={1} path={mdiFunctionVariant}/>
+                    </ToolButton>
+                    <CommandButton controller={controller} command={InsertBox}/>
+                    <ToolButton disabled>
+                        <Icon size={1} path={mdiCreation}/>
+                    </ToolButton>
+                    <CommandButton controller={controller} command={InsertImage}/>
+                    <InsertTableButton controller={controller}/>
+                    <ToolButton disabled>
+                        <Icon size={1} path={mdiCodeTags}/>
+                    </ToolButton>
+                </ToolGroup>
+            )}
+            {isTableSelection && (
+                <>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={InsertTableRowBefore}/>
+                        <CommandButton controller={controller} command={InsertTableRowAfter}/>
+                        <CommandButton controller={controller} command={InsertTableColumnBefore}/>
+                        <CommandButton controller={controller} command={InsertTableColumnAfter}/>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <ToolButton disabled>
+                            <Icon size={1} path={mdiTableRowRemove}/>
+                        </ToolButton>
+                        <ToolButton disabled>
+                            <Icon size={1} path={mdiTableColumnRemove}/>
+                        </ToolButton>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={MergeTableCells}/>
+                        <CommandButton controller={controller} command={SplitTableCell}/>
+                    </ToolGroup>
+                </>
+            )}
             <ToolGroup>
                 <CommandButton controller={controller} command={ReadingLtr}/>
                 <CommandButton controller={controller} command={ReadingRtl}/>
