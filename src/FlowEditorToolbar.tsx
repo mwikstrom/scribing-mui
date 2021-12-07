@@ -11,8 +11,6 @@ import {
     mdiFunctionVariant,
     mdiGestureTapButton,
     mdiSpellcheck,
-    mdiTableColumnRemove,
-    mdiTableRowRemove,
 } from "@mdi/js";
 import { makeStyles } from "@material-ui/styles";
 import { ToolGroup } from "./tools/ToolGroup";
@@ -56,6 +54,8 @@ import { InsertTableColumnAfter } from "./commands/InsertTableColumnAfter";
 import { InsertTableColumnBefore } from "./commands/InsertTableColumnBefore";
 import { InsertTableRowAfter } from "./commands/InsertTableRowAfter";
 import { InsertTableRowBefore } from "./commands/InsertTableRowBefore";
+import { RemoveTableRow } from "./commands/RemoveTableRow";
+import { RemoveTableColumn } from "./commands/RemoveTableColumn";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -161,12 +161,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                         <CommandButton controller={controller} command={InsertTableColumnAfter}/>
                     </ToolGroup>
                     <ToolGroup>
-                        <ToolButton disabled>
-                            <Icon size={1} path={mdiTableRowRemove}/>
-                        </ToolButton>
-                        <ToolButton disabled>
-                            <Icon size={1} path={mdiTableColumnRemove}/>
-                        </ToolButton>
+                        <CommandButton controller={controller} command={RemoveTableRow}/>
+                        <CommandButton controller={controller} command={RemoveTableColumn}/>
                     </ToolGroup>
                     <ToolGroup>
                         <CommandButton controller={controller} command={MergeTableCells}/>
