@@ -10,12 +10,21 @@ import { DefaultFlowPalette } from "scribing-react";
 
 export interface ScriptEditorProps {
     className?: string;
+    initialValue?: string;
+    onValueChange?: (value: string) => void;
 }
 
 export const ScriptEditor: FC<ScriptEditorProps> = props => {
-    const { className } = props;
+    const { className, initialValue, onValueChange } = props;
+    const [value, setValue] = useState(initialValue || "");
     const [rootRef, setRootRef] = useState<HTMLElement | null>(null);
     const { palette } = useTheme<Theme>();
+
+    useEffect(() => {
+        if (onValueChange) {
+            onValueChange(value);
+        }
+    }, [onValueChange, value]);
 
     const editorTheme = useMemo(() => EditorView.theme({
         "&": {
@@ -96,10 +105,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         },
         {
             tag: [
-                //t.variableName, 
                 t.labelName, 
-                //t.propertyName, 
-                //t.special(t.propertyName), 
                 t.function(t.propertyName), 
                 t.function(t.definition(t.variableName)),
                 t.definition(t.className),
@@ -123,6 +129,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         }
         const editor = new EditorView({
             state: EditorState.create({
+                doc: initialValue,
                 extensions: [
                     basicSetup,
                     keymap.of([indentWithTab]),
@@ -131,6 +138,12 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                     highlightStyle,
                 ],
             }),
+            dispatch: transaction => {
+                if (transaction.docChanged) {
+                    setValue(transaction.newDoc.sliceString(0));
+                }
+                editor.update([transaction]);
+            },
             parent: rootRef,
         });
         return () => { editor.destroy(); };

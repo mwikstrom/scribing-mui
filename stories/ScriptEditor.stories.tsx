@@ -22,7 +22,10 @@ const Root: FC<Omit<StoryProps, "dark">> = () => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <ScriptEditor className={classes.editor}/>
+            <ScriptEditor
+                className={classes.editor}
+                initialValue="console.log('Hello world');"
+            />
         </div>
     );
 };
