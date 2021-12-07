@@ -1,4 +1,4 @@
-import { Menu, MenuItem, Theme, Typography } from "@material-ui/core";
+import { Menu, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { mdiTablePlus } from "@mdi/js";
 import { Icon } from "@mdi/react";
