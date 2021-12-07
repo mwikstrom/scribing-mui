@@ -24,7 +24,6 @@ import {
     mdiTableRowPlusBefore,
     mdiTableRowRemove,
     mdiTableSplitCell,
-    mdiTextBoxPlusOutline,
 } from "@mdi/js";
 import { makeStyles } from "@material-ui/styles";
 import { ToolGroup } from "./ToolGroup";
@@ -56,6 +55,7 @@ import { ParagraphVariantSelector } from "./ParagraphVariantSelector";
 import { TextColorButton } from "./TextColorButton";
 import { FontFamilyButton } from "./FontFamilyButton";
 import clsx from "clsx";
+import { InsertBox } from "./commands/InsertBox";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -132,9 +132,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <ToolButton disabled>
                     <Icon size={1} path={mdiFunctionVariant}/>
                 </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTextBoxPlusOutline}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={InsertBox}/>
                 <ToolButton disabled>
                     <Icon size={1} path={mdiCreation}/>
                 </ToolButton>
