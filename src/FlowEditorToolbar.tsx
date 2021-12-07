@@ -3,7 +3,6 @@ import { FlowEditorController } from "scribing-react";
 import { Toolbar } from "@material-ui/core";
 import Icon from "@mdi/react";
 import { 
-    mdiArrowExpandHorizontal,
     mdiCodeTags,
     mdiCreation,
     mdiEyeCheck,
@@ -56,6 +55,7 @@ import clsx from "clsx";
 import { InsertBox } from "./commands/InsertBox";
 import { BoxVariantSelector } from "./BoxVariantSelector";
 import { BoxColorButton } from "./BoxColorButton";
+import { ToggleFullWidthBox } from "./commands/ToggleFullWidthBox";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -95,6 +95,9 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                         <ToolButton disabled>
                             <Icon size={1} path={mdiFormatSize}/>
                         </ToolButton>
+                        <ToolButton disabled>
+                            <Icon size={1} path={mdiFormatLineSpacing}/>
+                        </ToolButton>
                     </ToolGroup>
                     <ToolGroup>
                         <CommandButton controller={controller} command={ToggleBold}/>
@@ -112,6 +115,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <ToolGroup>
                     <BoxVariantSelector controller={controller}/>
                     <BoxColorButton controller={controller}/>
+                    <CommandButton controller={controller} command={ToggleFullWidthBox}/>
                 </ToolGroup>
             )}
             <ToolGroup>
@@ -177,14 +181,6 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 </ToolButton>
                 <ToolButton disabled>
                     <Icon size={1} path={mdiTableSplitCell}/>
-                </ToolButton>
-            </ToolGroup>
-            <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiArrowExpandHorizontal}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatLineSpacing}/>
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
