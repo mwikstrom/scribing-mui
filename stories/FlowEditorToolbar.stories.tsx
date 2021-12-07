@@ -33,7 +33,7 @@ const Root: FC<Omit<StoryProps, "dark">> = () => {
                 />
                 <FlowEditor
                     className={classes.editor}
-                    defaultState={FlowEditorState.empty.set("content", FlowContent.emptyParagraph)}
+                    defaultState={INITIAL_STATE}
                     onControllerChange={setController}
                     autoFocus
                 />
@@ -41,6 +41,8 @@ const Root: FC<Omit<StoryProps, "dark">> = () => {
         </div>
     );
 };
+
+const INITIAL_STATE = FlowEditorState.empty.set("content", FlowContent.emptyParagraph);
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
