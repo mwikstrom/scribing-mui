@@ -14,11 +14,9 @@ import {
     mdiTableColumnPlusAfter,
     mdiTableColumnPlusBefore,
     mdiTableColumnRemove,
-    mdiTableMergeCells,
     mdiTableRowPlusAfter,
     mdiTableRowPlusBefore,
     mdiTableRowRemove,
-    mdiTableSplitCell,
 } from "@mdi/js";
 import { makeStyles } from "@material-ui/styles";
 import { ToolGroup } from "./tools/ToolGroup";
@@ -56,6 +54,8 @@ import { BoxColorButton } from "./tools/BoxColorButton";
 import { ToggleFullWidthBox } from "./commands/ToggleFullWidthBox";
 import { InsertImage } from "./commands/InsertImage";
 import { InsertTableButton } from "./tools/InsertTableButton";
+import { MergeTableCells } from "./commands/MergeTableCells";
+import { SplitTableCell } from "./commands/SplitTableCell";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -172,12 +172,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 </ToolButton>
             </ToolGroup>
             <ToolGroup>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTableMergeCells}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTableSplitCell}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={MergeTableCells}/>
+                <CommandButton controller={controller} command={SplitTableCell}/>
             </ToolGroup>
             <ToolGroup>
                 <CommandButton controller={controller} command={ReadingLtr}/>
