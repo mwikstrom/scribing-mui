@@ -1,4 +1,4 @@
-import { ListItemText, Menu, MenuItem, Theme, Typography } from "@material-ui/core";
+import { Menu, MenuItem, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { mdiCheck, mdiFormatText, mdiMenuDown } from "@mdi/js";
 import { Icon } from "@mdi/react";
@@ -38,7 +38,8 @@ export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props
                         {PARAGRAPH_VARIANTS.map(variant => (
                             <Typography
                                 key={variant}
-                                variant="body2"
+                                variant="caption"
+                                component="div"
                                 className={clsx(classes.labelItem, current !== variant && classes.inactiveLabelItem)}
                                 children={DisplayLabels[variant]}
                             />
@@ -60,7 +61,7 @@ export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props
                                     size={0.75}
                                     path={current === variant ? mdiCheck : ""}
                                 />
-                                <ListItemText secondary={DisplayLabels[variant]}/>
+                                <Typography variant="caption">{DisplayLabels[variant]}</Typography>
                             </div>
                         )}
                     />
@@ -91,6 +92,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     labelItem: { 
         overflow: "hidden",
+        lineHeight: "unset",
     },
     inactiveLabelItem: {
         height: 0,

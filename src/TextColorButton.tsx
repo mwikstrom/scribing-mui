@@ -1,4 +1,4 @@
-import { ListItemText, Menu, MenuItem, Theme } from "@material-ui/core";
+import { Menu, MenuItem, Theme, Typography } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { mdiCheck, mdiColorHelper, mdiFormatColorText } from "@mdi/js";
 import { Icon, Stack } from "@mdi/react";
@@ -58,7 +58,7 @@ export const TextColorButton: FC<TextColorButtonProps> = props => {
                                     size={0.75}
                                     path={current === color ? mdiCheck : ""}
                                 />
-                                <ListItemText secondary={DisplayLabels[color]}/>
+                                <Typography variant="caption">{DisplayLabels[color]}</Typography>
                             </div>
                         )}
                     />

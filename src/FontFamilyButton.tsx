@@ -1,4 +1,4 @@
-import { ListItemText, Menu, MenuItem, Theme } from "@material-ui/core";
+import { Menu, MenuItem, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { mdiCheck, mdiFormatFont } from "@mdi/js";
 import { Icon } from "@mdi/react";
@@ -46,7 +46,7 @@ export const FontFamilyButton: FC<FontFamilyButtonProps> = props => {
                                     size={0.75}
                                     path={current === font ? mdiCheck : ""}
                                 />
-                                <ListItemText secondary={DisplayLabels[font]}/>
+                                <Typography variant="caption">{DisplayLabels[font]}</Typography>
                             </div>
                         )}
                     />
