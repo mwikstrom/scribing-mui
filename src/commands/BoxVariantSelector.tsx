@@ -6,7 +6,7 @@ import clsx from "clsx";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { BoxVariant, BOX_VARIANTS } from "scribing";
 import { FlowEditorController } from "scribing-react";
-import { ToolButton, ToolButtonProps } from "./ToolButton";
+import { ToolButton, ToolButtonProps } from "../tools/ToolButton";
 
 export interface BoxVariantSelectorProps extends ToolButtonProps {
     controller?: FlowEditorController | null;

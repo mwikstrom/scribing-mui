@@ -15,16 +15,15 @@ import {
     mdiTableColumnPlusBefore,
     mdiTableColumnRemove,
     mdiTableMergeCells,
-    mdiTablePlus,
     mdiTableRowPlusAfter,
     mdiTableRowPlusBefore,
     mdiTableRowRemove,
     mdiTableSplitCell,
 } from "@mdi/js";
 import { makeStyles } from "@material-ui/styles";
-import { ToolGroup } from "./ToolGroup";
-import { ToolButton } from "./ToolButton";
-import { CommandButton } from "./CommandButton";
+import { ToolGroup } from "./tools/ToolGroup";
+import { ToolButton } from "./tools/ToolButton";
+import { CommandButton } from "./commands/CommandButton";
 import { ToggleBold } from "./commands/ToggleBold";
 import { ToggleItalic } from "./commands/ToggleItalic";
 import { ToggleUnderline } from "./commands/ToggleUnderline";
@@ -47,15 +46,16 @@ import { ToggleUnorderedList } from "./commands/ToggleUnorderedList";
 import { ToggleOrderedList } from "./commands/ToggleOrderedList";
 import { IncrementIndent } from "./commands/IncrementIndent";
 import { DecrementIndent } from "./commands/DecrementIndent";
-import { ParagraphVariantSelector } from "./ParagraphVariantSelector";
-import { TextColorButton } from "./TextColorButton";
-import { FontFamilyButton } from "./FontFamilyButton";
+import { ParagraphVariantSelector } from "./tools/ParagraphVariantSelector";
+import { TextColorButton } from "./tools/TextColorButton";
+import { FontFamilyButton } from "./tools/FontFamilyButton";
 import clsx from "clsx";
 import { InsertBox } from "./commands/InsertBox";
-import { BoxVariantSelector } from "./BoxVariantSelector";
-import { BoxColorButton } from "./BoxColorButton";
+import { BoxVariantSelector } from "./commands/BoxVariantSelector";
+import { BoxColorButton } from "./tools/BoxColorButton";
 import { ToggleFullWidthBox } from "./commands/ToggleFullWidthBox";
 import { InsertImage } from "./commands/InsertImage";
+import { InsertTableButton } from "./tools/InsertTableButton";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -144,9 +144,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                     <Icon size={1} path={mdiCreation}/>
                 </ToolButton>
                 <CommandButton controller={controller} command={InsertImage}/>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiTablePlus}/>
-                </ToolButton>
+                <InsertTableButton controller={controller}/>
                 <ToolButton disabled>
                     <Icon size={1} path={mdiCodeTags}/>
                 </ToolButton>

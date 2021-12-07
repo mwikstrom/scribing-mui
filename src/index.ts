@@ -3,4 +3,5 @@
  * @packageDocumentation
  */
 
+export * from "./MaterialFlowPalette";
 export * from "./FlowEditorToolbar";

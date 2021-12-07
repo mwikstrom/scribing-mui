@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useCallback, useMemo } from "react";
-import { Command } from "./commands/Command";
+import { Command } from "./Command";
 import { FlowEditorController } from "scribing-react";
-import { ToolButton, ToolButtonProps } from "./ToolButton";
+import { ToolButton, ToolButtonProps } from "../tools/ToolButton";
 import Icon from "@mdi/react";
 
 export interface CommandButtonProps extends ToolButtonProps {
