@@ -10,7 +10,6 @@ import {
     mdiFormatSize, 
     mdiFunctionVariant,
     mdiGestureTapButton,
-    mdiImagePlus,
     mdiSpellcheck,
     mdiTableColumnPlusAfter,
     mdiTableColumnPlusBefore,
@@ -56,6 +55,7 @@ import { InsertBox } from "./commands/InsertBox";
 import { BoxVariantSelector } from "./BoxVariantSelector";
 import { BoxColorButton } from "./BoxColorButton";
 import { ToggleFullWidthBox } from "./commands/ToggleFullWidthBox";
+import { InsertImage } from "./commands/InsertImage";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -143,9 +143,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <ToolButton disabled>
                     <Icon size={1} path={mdiCreation}/>
                 </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiImagePlus}/>
-                </ToolButton>
+                <CommandButton controller={controller} command={InsertImage}/>
                 <ToolButton disabled>
                     <Icon size={1} path={mdiTablePlus}/>
                 </ToolButton>
