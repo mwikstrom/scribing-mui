@@ -34,8 +34,8 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClickOk} color="primary" variant="outlined">OK</Button>
                 <Button onClick={onClickCancel}>Cancel</Button>
+                <Button onClick={onClickOk} color="primary">Insert</Button>
             </DialogActions>
         </Dialog>
     );

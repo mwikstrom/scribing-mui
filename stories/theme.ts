@@ -21,6 +21,24 @@ export const useStoryTheme = (dark = false): Theme => useMemo(() => {
         };
     }
 
-    const options: ThemeOptions = { palette };
+    const options: ThemeOptions = { 
+        palette,
+        typography: {
+            fontFamily: CROSS_PLATFORM_SYSTEM_FONT_FAMILY,
+        },
+    };
     return createTheme(options);
 }, [dark]);
+
+const CROSS_PLATFORM_SYSTEM_FONT_FAMILY = [
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "\"Segoe UI\"",
+    "Roboto",
+    "\"Helvetica Neue\"",
+    "Arial",
+    "sans-serif",
+    "\"Apple Color Emoji\"",
+    "\"Segoe UI Emoji\"",
+    "\"Segoe UI Symbol\"",
+].join(",");
