@@ -241,6 +241,9 @@ const useStyles = makeStyles((theme: Theme) => {
                     color: theme.palette.error.main,
                 },
             },
+            "& $input .cm-editor": {
+                outline: "none",
+            },
             "&$multiline $input": {
                 padding: 0,
                 overflowY: "scroll",
@@ -265,6 +268,8 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         error: {},
         input: {
+            paddingTop: theme.spacing(0.5),
+            paddingBottom: theme.spacing(0.5),
             paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
             flex: 1,
