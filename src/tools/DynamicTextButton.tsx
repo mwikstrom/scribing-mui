@@ -4,6 +4,7 @@ import React, { FC, useCallback, useMemo, useState } from "react";
 import { DynamicText } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { ScriptEditorDialog } from "../components/ScriptEditorDialog";
+import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButton, ToolButtonProps } from "./ToolButton";
 
 export interface DynamicTextButtonProps extends ToolButtonProps {
@@ -37,6 +38,7 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
     }, [controller]);
     const active = useMemo(() => controller?.isDynamicText(), [controller]);
     const initialValue = useMemo(() => controller?.getDynamicTextExpression() ?? "", [controller]);
+    const locale = useMaterialFlowLocale();
     return (
         <>
             <ToolButton
@@ -51,6 +53,8 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
                 initialValue={initialValue}
                 onClose={closeDialog}
                 onComplete={completeDialog}
+                scriptLabel={locale.label_dynamic_text_script}
+                completeLabel={active ? locale.button_apply : locale.button_insert}
             />
         </>
     );

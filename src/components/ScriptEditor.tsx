@@ -14,6 +14,7 @@ export interface ScriptEditorProps {
     initialValue?: string;
     autoFocus?: boolean;
     onValueChange?: (value: string) => void;
+    label?: string;
 }
 
 export const ScriptEditor: FC<ScriptEditorProps> = props => {
@@ -22,6 +23,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         initialValue,
         autoFocus,
         onValueChange,
+        label,
     } = props;
     const [value, setValue] = useState(initialValue || "");
     const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
@@ -183,7 +185,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
 
     return (
         <fieldset {...rootProps}>
-            <legend className={classes.label}>Label</legend>
+            {label && <legend className={classes.label}>{label}</legend>}
             <div ref={setEditorElem}/>
         </fieldset>
     );
