@@ -189,6 +189,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         className: clsx(
             className,
             classes.root,
+            label && classes.hasLabel,
             error && classes.error,
         ),
         onClick,        
@@ -214,8 +215,10 @@ const useStyles = makeStyles((theme: Theme) => {
             margin: 0,
             borderColor,
             padding: 1,
-            paddingTop: 0,
             cursor: "text",
+            "&$hasLabel": {
+                paddingTop: 0,
+            },
             "&:hover": {
                 borderColor: theme.palette.text.primary,
             },
@@ -234,6 +237,7 @@ const useStyles = makeStyles((theme: Theme) => {
                 },
             },
         },
+        hasLabel: {},
         label: {
             marginLeft: theme.spacing(1),
             paddingLeft: theme.spacing(0.75),
