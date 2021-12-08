@@ -41,7 +41,7 @@ import { TextColorButton } from "./tools/TextColorButton";
 import { FontFamilyButton } from "./tools/FontFamilyButton";
 import clsx from "clsx";
 import { InsertBox } from "./commands/InsertBox";
-import { BoxVariantSelector } from "./commands/BoxVariantSelector";
+import { BoxVariantSelector } from "./tools/BoxVariantSelector";
 import { BoxColorButton } from "./tools/BoxColorButton";
 import { ToggleFullWidthBox } from "./commands/ToggleFullWidthBox";
 import { InsertImage } from "./commands/InsertImage";

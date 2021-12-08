@@ -7,7 +7,7 @@ import React, { FC, useCallback, useMemo, useState } from "react";
 import { BoxVariant, BOX_VARIANTS } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
-import { ToolButton, ToolButtonProps } from "../tools/ToolButton";
+import { ToolButton, ToolButtonProps } from "./ToolButton";
 
 export interface BoxVariantSelectorProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
@@ -40,7 +40,7 @@ export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
                         {BOX_VARIANTS.map(variant => (
                             <Typography
                                 key={variant}
-                                variant="caption"
+                                variant="body2"
                                 component="div"
                                 className={clsx(classes.labelItem, current !== variant && classes.inactiveLabelItem)}
                                 children={locale[`box_${variant}`]}
@@ -63,7 +63,7 @@ export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
                                     size={0.75}
                                     path={current === variant ? mdiCheck : ""}
                                 />
-                                <Typography variant="caption">{locale[`box_${variant}`]}</Typography>
+                                <Typography variant="body2">{locale[`box_${variant}`]}</Typography>
                             </div>
                         )}
                     />
@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     labelItem: { 
         overflow: "hidden",
         lineHeight: "unset",
+        color: theme.palette.text.primary,
     },
     inactiveLabelItem: {
         height: 0,
@@ -91,7 +92,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         alignItems: "center",
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(4),
-        color: theme.palette.text.secondary,
     },
     menuIcon: {
         marginRight: theme.spacing(1),

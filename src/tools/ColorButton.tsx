@@ -60,7 +60,7 @@ export const ColorButton: FC<ColorButtonProps> = props => {
                                     size={0.75}
                                     path={current === color ? mdiCheck : ""}
                                 />
-                                <Typography variant="caption">{locale[`color_${color}`]}</Typography>
+                                <Typography variant="body2">{locale[`color_${color}`]}</Typography>
                             </div>
                         )}
                     />
@@ -85,7 +85,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         alignItems: "center",
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(4),
-        color: theme.palette.text.secondary,
     },
     menuIcon: {
         marginRight: theme.spacing(1),

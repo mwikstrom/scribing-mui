@@ -48,7 +48,7 @@ export const FontFamilyButton: FC<FontFamilyButtonProps> = props => {
                                     size={0.75}
                                     path={current === font ? mdiCheck : ""}
                                 />
-                                <Typography variant="caption">{locale[`font_family_${font}`]}</Typography>
+                                <Typography variant="body2">{locale[`font_family_${font}`]}</Typography>
                             </div>
                         )}
                     />
@@ -65,7 +65,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         alignItems: "center",
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(4),
-        color: theme.palette.text.secondary,
     },
     menuIcon: {
         marginRight: theme.spacing(1),
