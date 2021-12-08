@@ -5,6 +5,7 @@ import { Icon, Stack } from "@mdi/react";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { FlowColor, FLOW_COLORS } from "scribing";
 import { FlowPalette, useFlowPalette } from "scribing-react";
+import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButton, ToolButtonProps } from "./ToolButton";
 
 export interface ColorButtonProps extends ToolButtonProps {
@@ -27,6 +28,7 @@ export const ColorButton: FC<ColorButtonProps> = props => {
     const htmlColor = useMemo(() => getHtmlColor(current, palette), [palette, current]);
     const classes = useStyles();
     const muiTheme = useTheme<Theme>();
+    const locale = useMaterialFlowLocale();
     return (
         <>
             <ToolButton
@@ -58,7 +60,7 @@ export const ColorButton: FC<ColorButtonProps> = props => {
                                     size={0.75}
                                     path={current === color ? mdiCheck : ""}
                                 />
-                                <Typography variant="caption">{DisplayLabels[color]}</Typography>
+                                <Typography variant="caption">{locale[`color_${color}`]}</Typography>
                             </div>
                         )}
                     />
@@ -66,17 +68,6 @@ export const ColorButton: FC<ColorButtonProps> = props => {
             </Menu>
         </>
     );
-};
-
-const DisplayLabels: Record<FlowColor, string> = {
-    default: "Default",
-    primary: "Primary accent",
-    secondary: "Secondary accent",
-    subtle: "Subtle",
-    information: "Information",
-    success: "Success",
-    warning: "Warning",
-    error: "Error",
 };
 
 const getHtmlColor = (color: FlowColor | undefined, palette: FlowPalette): string | undefined => {

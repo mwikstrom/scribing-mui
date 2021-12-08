@@ -5,6 +5,7 @@ import { Icon } from "@mdi/react";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { FontFamily, FONT_FAMILIES } from "scribing";
 import { FlowEditorController } from "scribing-react";
+import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButton, ToolButtonProps } from "./ToolButton";
 
 export interface FontFamilyButtonProps extends ToolButtonProps {
@@ -23,6 +24,7 @@ export const FontFamilyButton: FC<FontFamilyButtonProps> = props => {
         controller?.setFontFamily(font);
     }, [controller, closeMenu]);
     const classes = useStyles();
+    const locale = useMaterialFlowLocale();
     return (
         <>
             <ToolButton
@@ -46,7 +48,7 @@ export const FontFamilyButton: FC<FontFamilyButtonProps> = props => {
                                     size={0.75}
                                     path={current === font ? mdiCheck : ""}
                                 />
-                                <Typography variant="caption">{DisplayLabels[font]}</Typography>
+                                <Typography variant="caption">{locale[`font_family_${font}`]}</Typography>
                             </div>
                         )}
                     />
@@ -54,12 +56,6 @@ export const FontFamilyButton: FC<FontFamilyButtonProps> = props => {
             </Menu>
         </>
     );
-};
-
-const DisplayLabels: Record<FontFamily, string> = {
-    body: "Body",
-    heading: "Heading",
-    monospace: "Monospace",
 };
 
 const useStyles = makeStyles((theme: Theme) => ({

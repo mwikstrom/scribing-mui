@@ -6,6 +6,7 @@ import clsx from "clsx";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { BoxVariant, BOX_VARIANTS } from "scribing";
 import { FlowEditorController } from "scribing-react";
+import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButton, ToolButtonProps } from "../tools/ToolButton";
 
 export interface BoxVariantSelectorProps extends ToolButtonProps {
@@ -24,6 +25,7 @@ export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
         controller?.formatBox("variant", variant);
     }, [controller, closeMenu]);
     const classes = useStyles();
+    const locale = useMaterialFlowLocale();
     return (
         <>
             <ToolButton
@@ -41,7 +43,7 @@ export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
                                 variant="caption"
                                 component="div"
                                 className={clsx(classes.labelItem, current !== variant && classes.inactiveLabelItem)}
-                                children={DisplayLabels[variant]}
+                                children={locale[`box_${variant}`]}
                             />
                         ))}            
                     </div>
@@ -61,7 +63,7 @@ export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
                                     size={0.75}
                                     path={current === variant ? mdiCheck : ""}
                                 />
-                                <Typography variant="caption">{DisplayLabels[variant]}</Typography>
+                                <Typography variant="caption">{locale[`box_${variant}`]}</Typography>
                             </div>
                         )}
                     />
@@ -69,14 +71,6 @@ export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
             </Menu>
         </>
     );
-};
-
-const DisplayLabels: Record<BoxVariant, string> = {
-    basic: "Basic",
-    outlined: "Outlined",
-    contained: "Contained",
-    quote: "Quote",
-    alert: "Alert",
 };
 
 const useStyles = makeStyles((theme: Theme) => ({

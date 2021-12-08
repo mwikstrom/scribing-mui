@@ -6,6 +6,7 @@ import clsx from "clsx";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { ParagraphVariant, PARAGRAPH_VARIANTS } from "scribing";
 import { FlowEditorController } from "scribing-react";
+import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButton, ToolButtonProps } from "./ToolButton";
 
 export interface ParagraphVariantSelectorProps extends ToolButtonProps {
@@ -24,6 +25,7 @@ export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props
         controller?.setParagraphVariant(variant);
     }, [controller, closeMenu]);
     const classes = useStyles();
+    const locale = useMaterialFlowLocale();
     return (
         <>
             <ToolButton
@@ -41,7 +43,7 @@ export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props
                                 variant="caption"
                                 component="div"
                                 className={clsx(classes.labelItem, current !== variant && classes.inactiveLabelItem)}
-                                children={DisplayLabels[variant]}
+                                children={locale[`paragraph_${variant}`]}
                             />
                         ))}            
                     </div>
@@ -61,7 +63,7 @@ export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props
                                     size={0.75}
                                     path={current === variant ? mdiCheck : ""}
                                 />
-                                <Typography variant="caption">{DisplayLabels[variant]}</Typography>
+                                <Typography variant="caption">{locale[`paragraph_${variant}`]}</Typography>
                             </div>
                         )}
                     />
@@ -69,20 +71,6 @@ export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props
             </Menu>
         </>
     );
-};
-
-const DisplayLabels: Record<ParagraphVariant, string> = {
-    normal: "Normal",
-    title: "Title",
-    subtitle: "Subtitle",
-    preamble: "Preamble",
-    code: "Code",
-    h1: "Heading 1",
-    h2: "Heading 2",
-    h3: "Heading 3",
-    h4: "Heading 4",
-    h5: "Heading 5",
-    h6: "Heading 6",
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
