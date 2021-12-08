@@ -48,6 +48,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         }
     }, [onValueChange, value]);
 
+    const multiline = useMemo(() => value.indexOf("\n") > 0, [value]);
     const editorTheme = useMemo(() => EditorView.theme({
         "&": {
             color: palette.text.primary,
@@ -62,15 +63,11 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
             backgroundColor: DefaultFlowPalette.selection,
             color: DefaultFlowPalette.selectionText,
         },
-        ".cm-activeLine": {
+        ".cm-activeLineGutter": {
             backgroundColor: palette.action.hover,
         },
         ".cm-gutters": {
-            color: palette.text.secondary,
-            border: "none"
-        },
-        ".cm-activeLineGutter": {
-            backgroundColor: palette.action.hover,
+            display: "none",
         },
     }, {dark: palette.type === "dark"}), [palette]);
 
@@ -191,6 +188,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
             classes.root,
             label && classes.hasLabel,
             error && classes.error,
+            multiline && classes.multiline,
         ),
         onClick,        
     };
@@ -199,7 +197,10 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         <>
             <fieldset {...rootProps}>
                 {label && <legend className={classes.label}>{label}</legend>}
-                <div ref={setEditorElem}/>
+                <div 
+                    ref={setEditorElem}
+                    className={classes.input}
+                />
             </fieldset>
         </>
     );
@@ -236,6 +237,17 @@ const useStyles = makeStyles((theme: Theme) => {
                     color: theme.palette.error.main,
                 },
             },
+            "&$multiline $input": {
+                padding: 0,
+                "& .cm-activeLine": {
+                    backgroundColor: theme.palette.action.hover,
+                },
+                "& .cm-gutters": {
+                    display: "flex",
+                    color: theme.palette.text.secondary,
+                    border: "none"
+                },        
+            },
         },
         hasLabel: {},
         label: {
@@ -246,6 +258,11 @@ const useStyles = makeStyles((theme: Theme) => {
             userSelect: "none",
             ...theme.typography.caption,
         },
-        error: {}
+        error: {},
+        input: {
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),            
+        },
+        multiline: {},
     };
 });
