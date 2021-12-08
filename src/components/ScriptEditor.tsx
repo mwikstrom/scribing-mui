@@ -1,12 +1,13 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { EditorState, EditorView, basicSetup } from "@codemirror/basic-setup";
 import { indentWithTab } from "@codemirror/commands";
 import { javascript } from "@codemirror/lang-javascript";
 import { keymap } from "@codemirror/view";
 import { HighlightStyle, tags as t } from "@codemirror/highlight";
-import { useTheme } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import { Theme } from "@material-ui/core";
 import { DefaultFlowPalette } from "scribing-react";
+import clsx from "clsx";
 
 export interface ScriptEditorProps {
     className?: string;
@@ -16,10 +17,16 @@ export interface ScriptEditorProps {
 }
 
 export const ScriptEditor: FC<ScriptEditorProps> = props => {
-    const { className, initialValue, autoFocus, onValueChange } = props;
+    const {
+        className,
+        initialValue,
+        autoFocus,
+        onValueChange,
+    } = props;
     const [value, setValue] = useState(initialValue || "");
-    const [rootRef, setRootRef] = useState<HTMLElement | null>(null);
+    const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
     const { palette } = useTheme<Theme>();
+    const classes = useStyles();
 
     useEffect(() => {
         if (onValueChange) {
@@ -30,7 +37,6 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
     const editorTheme = useMemo(() => EditorView.theme({
         "&": {
             color: palette.text.primary,
-            backgroundColor: palette.background.paper,
         },
         ".cm-content": {
             caretColor: palette.text.primary
@@ -46,7 +52,6 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
             backgroundColor: palette.action.hover,
         },
         ".cm-gutters": {
-            backgroundColor: palette.background.paper,
             color: palette.text.secondary,
             border: "none"
         },
@@ -125,7 +130,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
     ]), [palette]);
 
     const editor = useMemo(() => {
-        if (!rootRef) {
+        if (!editorElem) {
             return null;
         }
         const editor = new EditorView({
@@ -145,10 +150,14 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                 }
                 editor.update([transaction]);
             },
-            parent: rootRef,
+            parent: editorElem,
         });
         return editor;
-    }, [rootRef, editorTheme, highlightStyle]);
+    }, [editorElem, editorTheme, highlightStyle]);
+
+    const onClick = useCallback(() => {
+        editor?.focus();
+    }, [editor]);
 
     useEffect(() => {
         if (editor) {
@@ -162,7 +171,56 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         }
     }, [editor, autoFocus]);
 
+    const isFocused = false;
+    const rootProps = {
+        className: clsx(
+            className,
+            classes.root,
+            isFocused && classes.focused,
+        ),
+        onClick,        
+    };
+
     return (
-        <div className={className} ref={setRootRef}/>
+        <fieldset {...rootProps}>
+            <legend className={classes.label}>Label</legend>
+            <div ref={setEditorElem}/>
+        </fieldset>
     );
 };
+
+const useStyles = makeStyles((theme: Theme) => {
+    const borderColor = theme.palette.type === "light" ? "rgba(0, 0, 0, 0.23)" : "rgba(255, 255, 255, 0.23)";    
+    return {
+        root: {
+            borderRadius: theme.shape.borderRadius,
+            borderStyle: "solid",
+            borderWidth: 1,            
+            margin: 0,
+            borderColor,
+            padding: 1,
+            paddingTop: 0,
+            cursor: "text",
+            "&:hover": {
+                borderColor: theme.palette.text.primary,
+            },
+            "&:focus-within": {
+                borderColor: theme.palette.primary.main,
+                borderWidth: 2,
+                padding: 0,
+                "& $label": {
+                    color: theme.palette.primary.main,
+                },
+            }
+        },
+        label: {
+            marginLeft: theme.spacing(1),
+            paddingLeft: theme.spacing(0.75),
+            paddingRight: theme.spacing(0.75),
+            color: theme.palette.text.secondary,
+            userSelect: "none",
+            ...theme.typography.caption,
+        },
+        focused: {}
+    };
+});
