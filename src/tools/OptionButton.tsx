@@ -15,10 +15,7 @@ export interface OptionButtonProps<T> extends ToolButtonProps {
     getOptionColor?: (value: T) => string | undefined;
 }
 
-export const OptionButton = forwardRef(function OptionButton<T>(
-    props: OptionButtonProps<T>,
-    ref: Ref<HTMLButtonElement>,
-) {
+const _OptionButton = <T,>(props: OptionButtonProps<T>, ref: Ref<HTMLButtonElement>) => {
     const { 
         options,
         selected,
@@ -75,7 +72,9 @@ export const OptionButton = forwardRef(function OptionButton<T>(
             </Menu>
         </>
     );
-});
+};
+
+export const OptionButton = forwardRef(_OptionButton) as typeof _OptionButton;
 
 const Void = () => void(0);
 
