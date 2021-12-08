@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogProps, Theme } from "@material-ui/core";
+import { Button, Dialog, DialogActions, DialogProps, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
@@ -36,16 +36,17 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     }, [onComplete]);
     useEffect(() => setScript(initialValue), [rest.open]);
     return (
-        <Dialog {...rest}>
-            <DialogContent>
+        <Dialog {...rest} scroll="paper">
+            <div className={classes.content}>
                 <ScriptEditor
                     className={classes.editor}
                     initialValue={initialValue}
                     onValueChange={setScript}
                     label={scriptLabel}
+                    maxHeight="calc(max(40px, min(67vh - 80px, 800px)))"
                     autoFocus
                 />
-            </DialogContent>
+            </div>
             <DialogActions>
                 <Button onClick={onClickCancel}>{cancelLabel}</Button>
                 <Button onClick={onClickComplete} color="primary">{completeLabel}</Button>
@@ -55,9 +56,12 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+    content: {
+        flex: 1,
+        padding: `${theme.spacing(1)}px ${theme.spacing(3)}px`,
+        paddingTop: theme.spacing(2.5),
+    },
     editor: {
-        minWidth: theme.spacing(40),
-        maxHeight: "60vh",
-        overflow: "auto",
+        minWidth: theme.spacing(40)    
     },
 }));

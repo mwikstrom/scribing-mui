@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     editor: {
         flex: 1,
-        overflow: "auto",
     },
 }));
 

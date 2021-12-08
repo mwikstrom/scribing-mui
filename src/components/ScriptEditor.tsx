@@ -15,6 +15,7 @@ export interface ScriptEditorProps {
     autoFocus?: boolean;
     onValueChange?: (value: string) => void;
     label?: string;
+    maxHeight?: string | number,
 }
 
 export const ScriptEditor: FC<ScriptEditorProps> = props => {
@@ -24,6 +25,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         autoFocus,
         onValueChange,
         label,
+        maxHeight,
     } = props;
     const [value, setValue] = useState(initialValue || "");
     const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
@@ -48,7 +50,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         }
     }, [onValueChange, value]);
 
-    const multiline = useMemo(() => value.indexOf("\n") > 0, [value]);
+    const multiline = useMemo(() => value.indexOf("\n") >= 0, [value]);
     const editorTheme = useMemo(() => EditorView.theme({
         "&": {
             color: palette.text.primary,
@@ -180,7 +182,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         if (editor && autoFocus) {
             editor.focus();
         }
-    }, [editor, autoFocus]);
+    }, [editor, autoFocus]);    
 
     const rootProps = {
         className: clsx(
@@ -191,16 +193,13 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
             multiline && classes.multiline,
         ),
         onClick,        
-    };
+    };    
 
     return (
         <>
             <fieldset {...rootProps}>
                 {label && <legend className={classes.label}>{label}</legend>}
-                <div 
-                    ref={setEditorElem}
-                    className={classes.input}
-                />
+                <div ref={setEditorElem} className={classes.input} style={{maxHeight}}/>
             </fieldset>
         </>
     );
@@ -210,6 +209,8 @@ const useStyles = makeStyles((theme: Theme) => {
     const borderColor = theme.palette.type === "light" ? "rgba(0, 0, 0, 0.23)" : "rgba(255, 255, 255, 0.23)";    
     return {
         root: {
+            display: "flex",
+            flexDirection: "column",
             borderRadius: theme.shape.borderRadius,
             borderStyle: "solid",
             borderWidth: 1,            
@@ -239,6 +240,7 @@ const useStyles = makeStyles((theme: Theme) => {
             },
             "&$multiline $input": {
                 padding: 0,
+                overflowY: "scroll",
                 "& .cm-activeLine": {
                     backgroundColor: theme.palette.action.hover,
                 },
@@ -261,7 +263,9 @@ const useStyles = makeStyles((theme: Theme) => {
         error: {},
         input: {
             paddingLeft: theme.spacing(1),
-            paddingRight: theme.spacing(1),            
+            paddingRight: theme.spacing(1),
+            flex: 1,
+            overflow: "hidden",
         },
         multiline: {},
     };
