@@ -4,6 +4,7 @@ import clsx from "clsx";
 import React, { FC, useEffect, useState } from "react";
 import { DataIcon, useDataIcons } from "scribing-react";
 import { useMaterialFlowLocale } from "..";
+import { IconTagSelector } from "./IconTagSelector";
 import { VirtualGrid } from "./VirtualGrid";
 
 export interface IconSelectorProps {
@@ -19,8 +20,10 @@ export const IconSelector: FC<IconSelectorProps> = props => {
     const [tabIndex, setTabIndex] = useState(0);
     const [selectedIcon, setSelectedIcon] = useState(initial);
     const pack = ["predefined", "mdi"][tabIndex];
-    const iconArray = useDataIcons(pack);
+    const [tag, setTag] = useState("");
+    const iconArray = useDataIcons(pack, tag);
     const classes = useStyles();
+    useEffect(() => setTag(""), [pack]);
     useEffect(() => {
         if (onChange) {
             onChange(selectedIcon);
@@ -28,10 +31,19 @@ export const IconSelector: FC<IconSelectorProps> = props => {
     }, [onChange, selectedIcon]);
     return (
         <div className={className}>
-            <Tabs value={tabIndex} onChange={(_, value) => setTabIndex(value)} textColor="secondary">
-                <Tab label={locale.tab_predefined_icons}/>
-                <Tab label={locale.tab_material_design_icons}/>
-            </Tabs>
+            <div className={classes.header}>
+                <Tabs value={tabIndex} onChange={(_, value) => setTabIndex(value)} textColor="secondary">
+                    <Tab label={locale.tab_predefined_icons}/>
+                    <Tab label={locale.tab_material_design_icons}/>
+                </Tabs>
+                <div style={{flex:1}}/>
+                <IconTagSelector
+                    className={classes.tagSelector}
+                    pack={pack}
+                    selected={tag}
+                    onChange={setTag}
+                />
+            </div>
             <VirtualGrid 
                 className={classes.gallery}
                 children={iconArray}
@@ -68,6 +80,10 @@ const MAX_ROWS = 5;
 const ITEM_SIZE = 80;
 
 const useStyles = makeStyles((theme: Theme) => ({
+    header: {
+        display: "flex",
+        flexDirection: "row",
+    },
     gallery: {
         minHeight: ITEM_SIZE * MAX_ROWS,
     },
@@ -87,6 +103,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     icon: {
         width: ICON_SIZE,
         height: ICON_SIZE,
+    },
+    tagSelector: {
+        maxHeight: 40,
+        overflow: "hidden",
+        alignSelf: "center",
     },
 }));
 

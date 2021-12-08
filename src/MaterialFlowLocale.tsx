@@ -34,6 +34,7 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     button_apply: string;
     button_cancel: string;
     label_dynamic_text_script: string;
+    label_all_categories: string;
     tab_predefined_icons: string;
     tab_material_design_icons: string;
 }
@@ -47,6 +48,7 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     tab_predefined_icons: "Predefined icons",
     tab_material_design_icons: "Material design icons",
     label_dynamic_text_script: "Dynamic text script",
+    label_all_categories: "All categories",
     paragraph_normal: "Normal",
     paragraph_title: "Title",
     paragraph_subtitle: "Subtitle",
