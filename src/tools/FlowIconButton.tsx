@@ -19,10 +19,14 @@ export const FlowIconButton: FC<FlowIconButtonProps> = props => {
     const completeDialog = useCallback((icon: string | null) => {
         closeDialog();
         if (icon !== null) {
-            controller?.insertNode(new FlowIcon({
-                data: icon,
-                style: controller.getCaretStyle(),
-            }));
+            if (controller?.isCaret()) {
+                controller?.insertNode(new FlowIcon({
+                    data: icon,
+                    style: controller.getCaretStyle(),
+                }));
+            } else {
+                controller?.setIcon(icon);
+            }
         }
     }, [controller, closeDialog]);
     const disabled = useMemo(() => {

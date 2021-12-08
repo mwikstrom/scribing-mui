@@ -19,10 +19,14 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
     const completeDialog = useCallback((script: string | null) => {
         closeDialog();
         if (script !== null) {
-            controller?.insertNode(new DynamicText({
-                expression: script,
-                style: controller.getCaretStyle(),
-            }));
+            if (controller?.isCaret()) {
+                controller?.insertNode(new DynamicText({
+                    expression: script,
+                    style: controller.getCaretStyle(),
+                }));
+            } else {
+                controller?.setDynamicTextExpression(script);
+            }
         }
     }, [controller, closeDialog]);
     const disabled = useMemo(() => {
