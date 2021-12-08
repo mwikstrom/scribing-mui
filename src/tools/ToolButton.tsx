@@ -1,27 +1,38 @@
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
-import React, { FC, forwardRef, ReactNode, useCallback } from "react";
+import React, { FC, forwardRef, useCallback } from "react";
 import { alpha, Button, ButtonProps, Theme } from "@material-ui/core";
 
 export interface ToolButtonProps extends ButtonProps {
-    children?: ReactNode;
-    className?: string;
     active?: boolean;
 }
 
 export const ToolButton: FC<ToolButtonProps> = forwardRef((props, ref) => {
-    const { children, className: givenClass, active, ...rest } = props;
+    const { 
+        className,
+        active,
+        onMouseDown,
+        ...rest
+    } = props;
     const classes = useStyles();
-    const onMouseDown = useCallback((e: React.MouseEvent) => e.preventDefault(), []);
-    const className = clsx(
+    const onMouseDownOverride = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if (onMouseDown) {
+            onMouseDown(e);
+        }
+    }, [onMouseDown]);
+    const classNameOverride = clsx(
         classes.root,
-        givenClass,
+        className,
         active && classes.active,
-    );
+    );    
     return (
-        <Button {...rest} ref={ref} className={className} onMouseDown={onMouseDown}>
-            {children}
-        </Button>
+        <Button
+            {...rest}
+            ref={ref}
+            className={classNameOverride}
+            onMouseDown={onMouseDownOverride}
+        />
     );
 });
 
