@@ -4,7 +4,6 @@ import { Toolbar } from "@material-ui/core";
 import Icon from "@mdi/react";
 import { 
     mdiCodeTags,
-    mdiCreation,
     mdiEyeCheck,
     mdiFormatLineSpacing, 
     mdiFormatSize, 
@@ -56,6 +55,7 @@ import { InsertTableRowBefore } from "./commands/InsertTableRowBefore";
 import { RemoveTableRow } from "./commands/RemoveTableRow";
 import { RemoveTableColumn } from "./commands/RemoveTableColumn";
 import { DynamicTextButton } from "./tools/DynamicTextButton";
+import { FlowIconButton } from "./tools/FlowIconButton";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -139,9 +139,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                     </ToolButton>
                     <DynamicTextButton controller={controller}/>
                     <CommandButton controller={controller} command={InsertBox}/>
-                    <ToolButton disabled>
-                        <Icon size={1} path={mdiCreation}/>
-                    </ToolButton>
+                    <FlowIconButton controller={controller}/>
                     <CommandButton controller={controller} command={InsertImage}/>
                     <InsertTableButton controller={controller}/>
                     <ToolButton disabled>

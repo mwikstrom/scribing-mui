@@ -10,10 +10,11 @@ export interface IconSelectorProps {
     className?: string;
     initial?: string;
     onChange?: (value: string) => void;
+    onApply?: (value: string) => void;
 }
 
 export const IconSelector: FC<IconSelectorProps> = props => {
-    const { className, initial = "", onChange } = props;
+    const { className, initial = "", onChange, onApply } = props;
     const locale = useMaterialFlowLocale();
     const [tabIndex, setTabIndex] = useState(0);
     const [selectedIcon, setSelectedIcon] = useState(initial);
@@ -45,11 +46,17 @@ export const IconSelector: FC<IconSelectorProps> = props => {
                         )}
                         children={<DataIcon className={classes.icon} data={item}/>}
                         onClick={() => setSelectedIcon(item)}
+                        onDoubleClick={() => {
+                            setSelectedIcon(item);
+                            if (onApply) {
+                                onApply(item);
+                            }
+                        }}
                     />
                 )}
                 itemClass={classes.galleryItem}
                 itemDisplay={"inline-flex"}
-                maxRows={5}
+                maxRows={MAX_ROWS}
                 resetScrollOnChange
             />
         </div>
@@ -57,10 +64,12 @@ export const IconSelector: FC<IconSelectorProps> = props => {
 };
 
 const ICON_SIZE = 48;
+const MAX_ROWS = 5;
 const ITEM_SIZE = 80;
 
 const useStyles = makeStyles((theme: Theme) => ({
     gallery: {
+        minHeight: ITEM_SIZE * MAX_ROWS,
     },
     galleryItem: {
         width: ITEM_SIZE,
