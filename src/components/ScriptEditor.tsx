@@ -65,6 +65,9 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
             backgroundColor: DefaultFlowPalette.selection,
             color: DefaultFlowPalette.selectionText,
         },
+        ".cm-activeLine": {
+            backgroundColor: "transparent",
+        },
         ".cm-activeLineGutter": {
             backgroundColor: palette.action.hover,
         },
