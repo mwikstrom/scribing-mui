@@ -11,11 +11,12 @@ import { DefaultFlowPalette } from "scribing-react";
 export interface ScriptEditorProps {
     className?: string;
     initialValue?: string;
+    autoFocus?: boolean;
     onValueChange?: (value: string) => void;
 }
 
 export const ScriptEditor: FC<ScriptEditorProps> = props => {
-    const { className, initialValue, onValueChange } = props;
+    const { className, initialValue, autoFocus, onValueChange } = props;
     const [value, setValue] = useState(initialValue || "");
     const [rootRef, setRootRef] = useState<HTMLElement | null>(null);
     const { palette } = useTheme<Theme>();
@@ -123,9 +124,9 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         },
     ]), [palette]);
 
-    useEffect(() => {
+    const editor = useMemo(() => {
         if (!rootRef) {
-            return;
+            return null;
         }
         const editor = new EditorView({
             state: EditorState.create({
@@ -146,8 +147,20 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
             },
             parent: rootRef,
         });
-        return () => { editor.destroy(); };
+        return editor;
     }, [rootRef, editorTheme, highlightStyle]);
+
+    useEffect(() => {
+        if (editor) {
+            return editor.destroy.bind(editor);
+        }
+    }, [editor]);
+    
+    useEffect(() => {
+        if (editor && autoFocus) {
+            editor.focus();
+        }
+    }, [editor, autoFocus]);
 
     return (
         <div className={className} ref={setRootRef}/>

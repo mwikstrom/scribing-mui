@@ -8,7 +8,6 @@ import {
     mdiEyeCheck,
     mdiFormatLineSpacing, 
     mdiFormatSize, 
-    mdiFunctionVariant,
     mdiGestureTapButton,
     mdiSpellcheck,
 } from "@mdi/js";
@@ -56,6 +55,7 @@ import { InsertTableRowAfter } from "./commands/InsertTableRowAfter";
 import { InsertTableRowBefore } from "./commands/InsertTableRowBefore";
 import { RemoveTableRow } from "./commands/RemoveTableRow";
 import { RemoveTableColumn } from "./commands/RemoveTableColumn";
+import { DynamicTextButton } from "./tools/DynamicTextButton";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -137,9 +137,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                     <ToolButton disabled>
                         <Icon size={1} path={mdiGestureTapButton}/>
                     </ToolButton>
-                    <ToolButton disabled>
-                        <Icon size={1} path={mdiFunctionVariant}/>
-                    </ToolButton>
+                    <DynamicTextButton controller={controller}/>
                     <CommandButton controller={controller} command={InsertBox}/>
                     <ToolButton disabled>
                         <Icon size={1} path={mdiCreation}/>
