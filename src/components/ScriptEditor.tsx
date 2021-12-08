@@ -30,6 +30,18 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
     const { palette } = useTheme<Theme>();
     const classes = useStyles();
 
+    const error = useMemo(() => {
+        if (!value) {
+            return null;
+        }
+        try {
+            new Function(`"use strict"; async () => ${value};`);
+            return null;
+        } catch (err) {
+            return err instanceof Error ? err : new Error(String(err));
+        }
+    }, [value]);
+
     useEffect(() => {
         if (onValueChange) {
             onValueChange(value);
@@ -173,21 +185,22 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         }
     }, [editor, autoFocus]);
 
-    const isFocused = false;
     const rootProps = {
         className: clsx(
             className,
             classes.root,
-            isFocused && classes.focused,
+            error && classes.error,
         ),
         onClick,        
     };
 
     return (
-        <fieldset {...rootProps}>
-            {label && <legend className={classes.label}>{label}</legend>}
-            <div ref={setEditorElem}/>
-        </fieldset>
+        <>
+            <fieldset {...rootProps}>
+                {label && <legend className={classes.label}>{label}</legend>}
+                <div ref={setEditorElem}/>
+            </fieldset>
+        </>
     );
 };
 
@@ -210,10 +223,16 @@ const useStyles = makeStyles((theme: Theme) => {
                 borderColor: theme.palette.primary.main,
                 borderWidth: 2,
                 padding: 0,
-                "& $label": {
+                "&>$label": {
                     color: theme.palette.primary.main,
                 },
-            }
+            },
+            "&$error, &$error:focus-within": {
+                borderColor: theme.palette.error.main,
+                "&>$label": {
+                    color: theme.palette.error.main,
+                },
+            },
         },
         label: {
             marginLeft: theme.spacing(1),
@@ -223,6 +242,6 @@ const useStyles = makeStyles((theme: Theme) => {
             userSelect: "none",
             ...theme.typography.caption,
         },
-        focused: {}
+        error: {}
     };
 });
