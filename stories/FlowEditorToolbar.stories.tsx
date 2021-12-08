@@ -1,11 +1,12 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { FlowEditorToolbar } from "../src/FlowEditorToolbar";
-import { createTheme, MuiThemeProvider, Theme } from "@material-ui/core";
+import { MuiThemeProvider, Theme } from "@material-ui/core";
 import { FlowEditor, FlowEditorController, FlowEditorState } from "scribing-react";
 import { MaterialFlowPalette } from "../src/MaterialFlowPalette";
 import { makeStyles } from "@material-ui/styles";
 import { FlowContent } from "scribing";
+import { useStoryTheme } from "./theme";
 
 interface StoryProps {
     dark?: boolean;
@@ -13,7 +14,7 @@ interface StoryProps {
 
 const Story: FC<StoryProps> = props => {
     const { dark, ...rest } = props;
-    const theme = useMemo(() => createTheme({ palette: { type: dark ? "dark" : "light" }  }), [dark]);
+    const theme = useStoryTheme(dark);
     return (
         <MuiThemeProvider theme={theme}>
             <Root {...rest}/>
