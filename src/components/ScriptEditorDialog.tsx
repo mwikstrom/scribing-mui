@@ -36,7 +36,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     }, [onComplete]);
     useEffect(() => setScript(initialValue), [rest.open]);
     return (
-        <Dialog {...rest} scroll="paper">
+        <Dialog {...rest} scroll="paper" disableEscapeKeyDown={script !== initialValue}>
             <div className={classes.content}>
                 <ScriptEditor
                     className={classes.editor}
