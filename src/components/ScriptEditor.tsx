@@ -33,7 +33,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
     const classes = useStyles();
 
     const error = useMemo(() => {
-        if (!value) {
+        if (/^\s*$/.test(value)) {
             return null;
         }
         try {
