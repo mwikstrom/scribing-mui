@@ -12,7 +12,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     const { onComplete, initialValue = "", ...rest } = props;
     const [script, setScript] = useState(initialValue);
     const classes = useStyles();
-    const onClickOk = useCallback(() => {
+    const onClickComplete = useCallback(() => {
         if (onComplete) {
             onComplete(script);
         }
@@ -35,7 +35,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClickCancel}>Cancel</Button>
-                <Button onClick={onClickOk} color="primary">Insert</Button>
+                <Button onClick={onClickComplete} color="primary">Insert</Button>
             </DialogActions>
         </Dialog>
     );
