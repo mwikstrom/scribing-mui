@@ -86,38 +86,32 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={Cut}/>
                 <CommandButton controller={controller} command={Paste}/>
             </ToolGroup>
-            {!isBoxSelection && (
-                <>
-                    <ToolGroup>
-                        <ParagraphVariantSelector controller={controller}/>
-                        <TextColorButton controller={controller}/>
-                        <FontFamilyButton controller={controller}/>
-                        <ToolButton disabled>
-                            <Icon size={1} path={mdiFormatSize}/>
-                        </ToolButton>
-                        <ToolButton disabled>
-                            <Icon size={1} path={mdiFormatLineSpacing}/>
-                        </ToolButton>
-                    </ToolGroup>
-                    <ToolGroup>
-                        <CommandButton controller={controller} command={ToggleBold}/>
-                        <CommandButton controller={controller} command={ToggleItalic}/>
-                        <CommandButton controller={controller} command={ToggleUnderline}/>
-                        <CommandButton controller={controller} command={ToggleStrikeThrough}/>
-                    </ToolGroup>
-                    <ToolGroup>
-                        <CommandButton controller={controller} command={ToggleSubscript}/>
-                        <CommandButton controller={controller} command={ToggleSuperscript}/>
-                    </ToolGroup>
-                </>
-            )}
-            {isBoxSelection && (
-                <ToolGroup>
-                    <BoxVariantSelector controller={controller}/>
-                    <BoxColorButton controller={controller}/>
-                    <CommandButton controller={controller} command={ToggleFullWidthBox}/>
-                </ToolGroup>
-            )}
+            <ToolGroup collapse={isBoxSelection}>
+                <ParagraphVariantSelector controller={controller}/>
+                <TextColorButton controller={controller}/>
+                <FontFamilyButton controller={controller}/>
+                <ToolButton disabled>
+                    <Icon size={1} path={mdiFormatSize}/>
+                </ToolButton>
+                <ToolButton disabled>
+                    <Icon size={1} path={mdiFormatLineSpacing}/>
+                </ToolButton>
+            </ToolGroup>
+            <ToolGroup collapse={isBoxSelection}>
+                <CommandButton controller={controller} command={ToggleBold}/>
+                <CommandButton controller={controller} command={ToggleItalic}/>
+                <CommandButton controller={controller} command={ToggleUnderline}/>
+                <CommandButton controller={controller} command={ToggleStrikeThrough}/>
+            </ToolGroup>
+            <ToolGroup collapse={isBoxSelection}>
+                <CommandButton controller={controller} command={ToggleSubscript}/>
+                <CommandButton controller={controller} command={ToggleSuperscript}/>
+            </ToolGroup>
+            <ToolGroup collapse={!isBoxSelection}>
+                <BoxVariantSelector controller={controller}/>
+                <BoxColorButton controller={controller}/>
+                <CommandButton controller={controller} command={ToggleFullWidthBox}/>
+            </ToolGroup>
             <ToolGroup>
                 <CommandButton controller={controller} command={AlignLeft}/>
                 <CommandButton controller={controller} command={AlignCenter}/>
@@ -132,39 +126,33 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={DecrementIndent}/>
                 <CommandButton controller={controller} command={IncrementIndent}/>
             </ToolGroup>
-            {!isTableSelection && (
-                <ToolGroup>
-                    <ToolButton disabled>
-                        <Icon size={1} path={mdiGestureTapButton}/>
-                    </ToolButton>
-                    <DynamicTextButton controller={controller}/>
-                    <CommandButton controller={controller} command={InsertBox}/>
-                    <FlowIconButton controller={controller}/>
-                    <CommandButton controller={controller} command={InsertImage}/>
-                    <InsertTableButton controller={controller}/>
-                    <ToolButton disabled>
-                        <Icon size={1} path={mdiCodeTags}/>
-                    </ToolButton>
-                </ToolGroup>
-            )}
-            {isTableSelection && (
-                <>
-                    <ToolGroup>
-                        <CommandButton controller={controller} command={InsertTableRowBefore}/>
-                        <CommandButton controller={controller} command={InsertTableRowAfter}/>
-                        <CommandButton controller={controller} command={InsertTableColumnBefore}/>
-                        <CommandButton controller={controller} command={InsertTableColumnAfter}/>
-                    </ToolGroup>
-                    <ToolGroup>
-                        <CommandButton controller={controller} command={RemoveTableRow}/>
-                        <CommandButton controller={controller} command={RemoveTableColumn}/>
-                    </ToolGroup>
-                    <ToolGroup>
-                        <CommandButton controller={controller} command={MergeTableCells}/>
-                        <CommandButton controller={controller} command={SplitTableCell}/>
-                    </ToolGroup>
-                </>
-            )}
+            <ToolGroup collapse={isTableSelection}>
+                <ToolButton disabled>
+                    <Icon size={1} path={mdiGestureTapButton}/>
+                </ToolButton>
+                <DynamicTextButton controller={controller}/>
+                <CommandButton controller={controller} command={InsertBox}/>
+                <FlowIconButton controller={controller}/>
+                <CommandButton controller={controller} command={InsertImage}/>
+                <InsertTableButton controller={controller}/>
+                <ToolButton disabled>
+                    <Icon size={1} path={mdiCodeTags}/>
+                </ToolButton>
+            </ToolGroup>
+            <ToolGroup collapse={!isTableSelection}>
+                <CommandButton controller={controller} command={InsertTableRowBefore}/>
+                <CommandButton controller={controller} command={InsertTableRowAfter}/>
+                <CommandButton controller={controller} command={InsertTableColumnBefore}/>
+                <CommandButton controller={controller} command={InsertTableColumnAfter}/>
+            </ToolGroup>
+            <ToolGroup collapse={!isTableSelection}>
+                <CommandButton controller={controller} command={RemoveTableRow}/>
+                <CommandButton controller={controller} command={RemoveTableColumn}/>
+            </ToolGroup>
+            <ToolGroup collapse={!isTableSelection}>
+                <CommandButton controller={controller} command={MergeTableCells}/>
+                <CommandButton controller={controller} command={SplitTableCell}/>
+            </ToolGroup>
             <ToolGroup>
                 <CommandButton controller={controller} command={ReadingLtr}/>
                 <CommandButton controller={controller} command={ReadingRtl}/>
