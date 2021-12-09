@@ -7,7 +7,6 @@ import {
     mdiEyeCheck,
     mdiFormatLineSpacing, 
     mdiFormatSize, 
-    mdiGestureTapButton,
     mdiSpellcheck,
 } from "@mdi/js";
 import { makeStyles } from "@material-ui/styles";
@@ -56,6 +55,7 @@ import { RemoveTableRow } from "./commands/RemoveTableRow";
 import { RemoveTableColumn } from "./commands/RemoveTableColumn";
 import { DynamicTextButton } from "./tools/DynamicTextButton";
 import { FlowIconButton } from "./tools/FlowIconButton";
+import { InteractionButton } from "./tools/InteractionButton";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -102,8 +102,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={ToggleItalic}/>
                 <CommandButton controller={controller} command={ToggleUnderline}/>
                 <CommandButton controller={controller} command={ToggleStrikeThrough}/>
-            </ToolGroup>
-            <ToolGroup collapse={isBoxSelection}>
+                <InteractionButton controller={controller}/>
                 <CommandButton controller={controller} command={ToggleSubscript}/>
                 <CommandButton controller={controller} command={ToggleSuperscript}/>
             </ToolGroup>
@@ -127,9 +126,6 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <CommandButton controller={controller} command={IncrementIndent}/>
             </ToolGroup>
             <ToolGroup collapse={isTableSelection}>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiGestureTapButton}/>
-                </ToolButton>
                 <DynamicTextButton controller={controller}/>
                 <CommandButton controller={controller} command={InsertBox}/>
                 <FlowIconButton controller={controller}/>

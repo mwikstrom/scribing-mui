@@ -37,6 +37,9 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_all_categories: string;
     tab_predefined_icons: string;
     tab_material_design_icons: string;
+    interaction_none: string;
+    interaction_open_url: string;
+    interaction_run_script: string;
 }
 
 /** @public */
@@ -49,6 +52,9 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     tab_material_design_icons: "Material design icons",
     label_dynamic_text_script: "Dynamic text script",
     label_all_categories: "All categories",
+    interaction_none: "Not interactive",
+    interaction_open_url: "Open URL",
+    interaction_run_script: "Run script",
     paragraph_normal: "Normal",
     paragraph_title: "Title",
     paragraph_subtitle: "Subtitle",
