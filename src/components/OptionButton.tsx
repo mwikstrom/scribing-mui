@@ -77,12 +77,12 @@ const Option: FC<OptionProps> = props => {
     }, [color, muiTheme]);
     return (
         <div className={classes.root}>
-            <Icon
-                className={classes.icon}
-                style={style}
-                size={0.75}
-                path={selected ? mdiCheck : ""}
-            />
+            <div className={classes.icon} style={style}>
+                <Icon
+                    size={0.75}
+                    path={selected ? mdiCheck : "Z"}
+                />
+            </div>
             <Typography variant="body2">{label}</Typography>
         </div>
     );
@@ -97,8 +97,12 @@ const useOptionStyles = makeStyles((theme: Theme) => ({
         paddingRight: theme.spacing(4),
     },
     icon: {
+        width: theme.spacing(2.5),
+        height: theme.spacing(2.5),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         marginRight: theme.spacing(1),
         borderRadius: 2,
-        padding: 1,
     },
 }));

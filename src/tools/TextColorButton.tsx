@@ -12,12 +12,12 @@ export interface TextColorButtonProps extends ToolButtonProps {
 export const TextColorButton: FC<TextColorButtonProps> = props => {
     const { controller, ...rest } = props;
     const selected = useMemo(() => controller?.getTextColor(), [controller]);
-    const onOptionChange = useCallback((color: FlowColor) => controller?.setTextColor(color), [controller]);
+    const onOptionSelected = useCallback((color: FlowColor) => controller?.setTextColor(color), [controller]);
     return (
         <ColorButton
             {...rest}
             selected={selected}
-            onOptionChange={onOptionChange}
+            onOptionSelected={onOptionSelected}
             iconPath={mdiFormatColorText}
         />
     );
