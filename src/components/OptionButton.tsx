@@ -1,9 +1,10 @@
 import { makeStyles, useTheme } from "@material-ui/styles";
-import React, { CSSProperties, FC, forwardRef, Ref, useCallback, useMemo, useState } from "react";
-import { Menu, MenuItem, Theme, Typography, useForkRef } from "@material-ui/core";
-import { ToolButton, ToolButtonProps } from "./ToolButton";
+import React, { CSSProperties, FC, forwardRef, Ref, useMemo } from "react";
+import { MenuItem, Theme, Typography } from "@material-ui/core";
+import { ToolButtonProps } from "./ToolButton";
 import Icon from "@mdi/react";
 import { mdiCheck } from "@mdi/js";
+import { MenuButton } from "./MenuButton";
 
 export interface OptionButtonProps<T> extends ToolButtonProps {
     options: readonly T[];
@@ -19,7 +20,6 @@ const _OptionButton = <T,>(props: OptionButtonProps<T>, ref: Ref<HTMLButtonEleme
     const { 
         options,
         selected,
-        onClick,
         onOptionSelected,
         isSameOption = Object.is,
         getOptionKey = String,
@@ -27,50 +27,29 @@ const _OptionButton = <T,>(props: OptionButtonProps<T>, ref: Ref<HTMLButtonEleme
         getOptionColor = Void,
         ...rest
     } = props;
-    const [isMenuOpen, setMenuOpen] = useState(false);
-    const [buttonRef, setButtonRef] = useState<HTMLElement | null>(null);
-    const forkRef = useForkRef<HTMLButtonElement>(ref, setButtonRef);
-    const closeMenu = useCallback(() => setMenuOpen(false), []);
-    const onClickOverride = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-        if (onClick) {
-            onClick(e);
-        }
-        if (!e.defaultPrevented) {
-            setMenuOpen(true);
-        }
-    }, [onClick]);
-    const onOptionSelectedOverride = useCallback((value: T) => {
-        closeMenu();
-        onOptionSelected(value);
-    }, [closeMenu, onOptionSelected]);
     return (
-        <>
-            <ToolButton
-                {...rest}
-                ref={forkRef}
-                onClick={onClickOverride}
-            />
-            <Menu open={isMenuOpen} anchorEl={buttonRef} onClose={closeMenu}>
-                {options.map(value => {
-                    const isSelected = selected !== void(0) && isSameOption(selected, value); 
-                    return (
-                        <MenuItem
-                            key={getOptionKey(value)}
-                            disableGutters
-                            selected={isSelected}
-                            onClick={() => onOptionSelectedOverride(value)}
-                            children={(
-                                <Option
-                                    selected={isSelected}
-                                    label={getOptionLabel(value)}
-                                    color={getOptionColor(value)}
-                                />
-                            )}
-                        />
-                    );
-                })}
-            </Menu>
-        </>
+        <MenuButton
+            {...rest}
+            ref={ref}
+            menu={options.map(value => {
+                const isSelected = selected !== void(0) && isSameOption(selected, value); 
+                return (
+                    <MenuItem
+                        key={getOptionKey(value)}
+                        disableGutters
+                        selected={isSelected}
+                        onClick={() => onOptionSelected(value)}
+                        children={(
+                            <Option
+                                selected={isSelected}
+                                label={getOptionLabel(value)}
+                                color={getOptionColor(value)}
+                            />
+                        )}
+                    />
+                );
+            })}
+        />
     );
 };
 
