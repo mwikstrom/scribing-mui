@@ -11,9 +11,9 @@ import {
     mdiSpellcheck,
 } from "@mdi/js";
 import { makeStyles } from "@material-ui/styles";
-import { ToolGroup } from "./tools/ToolGroup";
-import { ToolButton } from "./tools/ToolButton";
-import { CommandButton } from "./commands/CommandButton";
+import { ToolGroup } from "./components/ToolGroup";
+import { ToolButton } from "./components/ToolButton";
+import { CommandButton } from "./tools/CommandButton";
 import { ToggleBold } from "./commands/ToggleBold";
 import { ToggleItalic } from "./commands/ToggleItalic";
 import { ToggleUnderline } from "./commands/ToggleUnderline";

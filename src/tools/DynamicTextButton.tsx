@@ -5,7 +5,7 @@ import { DynamicText } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { ScriptEditorDialog } from "../components/ScriptEditorDialog";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
-import { ToolButton, ToolButtonProps } from "./ToolButton";
+import { ToolButton, ToolButtonProps } from "../components/ToolButton";
 
 export interface DynamicTextButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;

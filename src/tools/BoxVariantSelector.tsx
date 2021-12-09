@@ -7,8 +7,8 @@ import React, { FC, useCallback, useMemo } from "react";
 import { BoxVariant, BOX_VARIANTS } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
-import { OptionButton } from "./OptionButton";
-import { ToolButtonProps } from "./ToolButton";
+import { OptionButton } from "../components/OptionButton";
+import { ToolButtonProps } from "../components/ToolButton";
 
 export interface BoxVariantSelectorProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
@@ -18,7 +18,7 @@ export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
     const { controller, ...rest } = props;
     const selected = useMemo(() => controller?.getBoxStyle()?.variant, [controller]);
     const locale = useMaterialFlowLocale();
-    const getOptionLabel = useCallback((value: BoxVariant) => locale[`box_${value}`], [locale]);
+    const getOptionLabel = useCallback((value: BoxVariant) => locale[`box_${value}` as const], [locale]);
     const onOptionSelected = useCallback((variant: BoxVariant) => {
         controller?.formatBox("variant", variant);
     }, [controller]);
@@ -41,7 +41,7 @@ export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
                             variant="body2"
                             component="div"
                             className={clsx(classes.labelItem, selected !== variant && classes.inactiveLabelItem)}
-                            children={locale[`box_${variant}`]}
+                            children={getOptionLabel(variant)}
                         />
                     ))}            
                 </div>

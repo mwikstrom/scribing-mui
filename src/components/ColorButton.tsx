@@ -60,7 +60,7 @@ export const ColorButton: FC<ColorButtonProps> = props => {
                                     size={0.75}
                                     path={current === color ? mdiCheck : ""}
                                 />
-                                <Typography variant="body2">{locale[`color_${color}`]}</Typography>
+                                <Typography variant="body2">{locale[`color_${color}` as const]}</Typography>
                             </div>
                         )}
                     />

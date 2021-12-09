@@ -6,7 +6,7 @@ import React, { FC, useCallback, useMemo, useState } from "react";
 import { FontFamily, FONT_FAMILIES } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
-import { ToolButton, ToolButtonProps } from "./ToolButton";
+import { ToolButton, ToolButtonProps } from "../components/ToolButton";
 
 export interface FontFamilyButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
@@ -48,7 +48,7 @@ export const FontFamilyButton: FC<FontFamilyButtonProps> = props => {
                                     size={0.75}
                                     path={current === font ? mdiCheck : ""}
                                 />
-                                <Typography variant="body2">{locale[`font_family_${font}`]}</Typography>
+                                <Typography variant="body2">{locale[`font_family_${font}` as const]}</Typography>
                             </div>
                         )}
                     />

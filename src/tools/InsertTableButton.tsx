@@ -5,7 +5,7 @@ import { Icon } from "@mdi/react";
 import clsx from "clsx";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { FlowEditorController } from "scribing-react";
-import { ToolButton, ToolButtonProps } from "./ToolButton";
+import { ToolButton, ToolButtonProps } from "../components/ToolButton";
 
 export interface InsertTableButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;

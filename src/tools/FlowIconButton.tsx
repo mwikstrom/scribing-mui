@@ -5,7 +5,7 @@ import { FlowIcon } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { IconDialog } from "../components/IconDialog";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
-import { ToolButton, ToolButtonProps } from "./ToolButton";
+import { ToolButton, ToolButtonProps } from "../components/ToolButton";
 
 export interface FlowIconButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
