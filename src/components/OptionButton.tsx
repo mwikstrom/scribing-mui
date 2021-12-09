@@ -5,14 +5,10 @@ import { ToolButtonProps } from "./ToolButton";
 import Icon from "@mdi/react";
 import { mdiCheck } from "@mdi/js";
 import { MenuButton } from "./MenuButton";
+import { OptionLabel, OptionLabelProps } from "./OptionLabel";
 
-export interface OptionButtonProps<T> extends ToolButtonProps {
-    options: readonly T[];
-    selected: T | undefined;
+export interface OptionButtonProps<T> extends ToolButtonProps, OptionLabelProps<T> {
     onOptionSelected: (value: T) => void;
-    isSameOption?: (first: T, second: T) => boolean;
-    getOptionKey?: (value: T) => string | number;
-    getOptionLabel?: (value: T) => string;
     getOptionColor?: (value: T) => string | undefined;
 }
 
@@ -25,12 +21,22 @@ const _OptionButton = <T,>(props: OptionButtonProps<T>, ref: Ref<HTMLButtonEleme
         getOptionKey = String,
         getOptionLabel = String,
         getOptionColor = Void,
+        children = (
+            <OptionLabel
+                options={options}
+                selected={selected}
+                getOptionKey={getOptionKey}
+                getOptionLabel={getOptionLabel}
+                isSameOption={isSameOption}
+            />
+        ),
         ...rest
     } = props;
     return (
         <MenuButton
             {...rest}
             ref={ref}
+            children={children}
             menu={options.map(value => {
                 const isSelected = selected !== void(0) && isSameOption(selected, value); 
                 return (

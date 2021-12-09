@@ -71,7 +71,7 @@
     "react-test-renderer": "^16.14.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.56.3",
-    "scribing": "^0.7.14",
+    "scribing": "^0.7.15",
     "scribing-react": "^0.3.6",
     "scripthost": "^0.3.10",
     "scripthost-browser": "^0.1.12",
