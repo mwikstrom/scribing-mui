@@ -86,7 +86,7 @@ const Option: FC<OptionProps> = props => {
             <div className={classes.icon} style={style}>
                 <Icon
                     size={0.75}
-                    path={selected ? mdiCheck : "Z"}
+                    path={selected ? mdiCheck : ""}
                 />
             </div>
             <Typography variant="body2">{label}</Typography>
