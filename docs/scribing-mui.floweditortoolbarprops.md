@@ -15,5 +15,6 @@ export interface FlowEditorToolbarProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [className?](./scribing-mui.floweditortoolbarprops.classname.md) | string | <i>(Optional)</i> |
 |  [controller?](./scribing-mui.floweditortoolbarprops.controller.md) | FlowEditorController \| null | <i>(Optional)</i> |
 

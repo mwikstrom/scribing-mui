@@ -3,7 +3,6 @@ import { FlowEditorController } from "scribing-react";
 import { Toolbar } from "@material-ui/core";
 import Icon from "@mdi/react";
 import { 
-    mdiCodeTags,
     mdiEyeCheck,
     mdiFormatLineSpacing, 
     mdiFormatSize, 

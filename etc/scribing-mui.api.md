@@ -4,8 +4,23 @@
 
 ```ts
 
+import { BoxVariant } from 'scribing';
 import { FC } from 'react';
+import { FlowColor } from 'scribing';
 import { FlowEditorController } from 'scribing-react';
+import { FlowLocale } from 'scribing-react';
+import { FontFamily } from 'scribing';
+import { ParagraphVariant } from 'scribing';
+import { ReactNode } from 'react';
+
+// @public (undocumented)
+export type BoxVariantLocaleKey = `box_${BoxVariant}`;
+
+// @public (undocumented)
+export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale>;
+
+// @public (undocumented)
+export type FlowColorLocaleKey = `color_${FlowColor}`;
 
 // @public (undocumented)
 export const FlowEditorToolbar: FC<FlowEditorToolbarProps>;
@@ -13,7 +28,61 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps>;
 // @public (undocumented)
 export interface FlowEditorToolbarProps {
     // (undocumented)
+    className?: string;
+    // (undocumented)
     controller?: FlowEditorController | null;
 }
+
+// @public (undocumented)
+export type FontFamilyLocaleKey = `font_family_${FontFamily}`;
+
+// @public (undocumented)
+export type LocaleItemKey = (ParagraphVariantLocaleKey | FlowColorLocaleKey | FontFamilyLocaleKey | BoxVariantLocaleKey);
+
+// @public (undocumented)
+export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowLocale {
+    // (undocumented)
+    button_apply: string;
+    // (undocumented)
+    button_cancel: string;
+    // (undocumented)
+    button_insert: string;
+    // (undocumented)
+    interaction_none: string;
+    // (undocumented)
+    interaction_open_url: string;
+    // (undocumented)
+    interaction_run_script: string;
+    // (undocumented)
+    label_all_categories: string;
+    // (undocumented)
+    label_dynamic_text_script: string;
+    // (undocumented)
+    label_markup_tag: string;
+    // (undocumented)
+    tab_material_design_icons: string;
+    // (undocumented)
+    tab_predefined_icons: string;
+}
+
+// @public (undocumented)
+export const MaterialFlowLocale: FC<MaterialFlowLocaleProps>;
+
+// @public (undocumented)
+export interface MaterialFlowLocaleProps {
+    // (undocumented)
+    children: ReactNode;
+    // (undocumented)
+    locale: Partial<MaterialFlowLocale>;
+}
+
+// @public (undocumented)
+export const MaterialFlowPalette: FC;
+
+// @public (undocumented)
+export type ParagraphVariantLocaleKey = `paragraph_${ParagraphVariant}`;
+
+// @public (undocumented)
+export function useMaterialFlowLocale(): Readonly<MaterialFlowLocale>;
 
 ```

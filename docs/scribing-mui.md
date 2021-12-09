@@ -6,15 +6,36 @@
 
 Material-UI components for collaborative rich text editing
 
+## Functions
+
+|  Function | Description |
+|  --- | --- |
+|  [useMaterialFlowLocale()](./scribing-mui.usematerialflowlocale.md) |  |
+
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
 |  [FlowEditorToolbarProps](./scribing-mui.floweditortoolbarprops.md) |  |
+|  [MaterialFlowLocale](./scribing-mui.materialflowlocale.md) |  |
+|  [MaterialFlowLocaleProps](./scribing-mui.materialflowlocaleprops.md) |  |
 
 ## Variables
 
 |  Variable | Description |
 |  --- | --- |
+|  [DefaultMaterialFlowLocale](./scribing-mui.defaultmaterialflowlocale.md) |  |
 |  [FlowEditorToolbar](./scribing-mui.floweditortoolbar.md) |  |
+|  [MaterialFlowLocale](./scribing-mui.materialflowlocale.md) |  |
+|  [MaterialFlowPalette](./scribing-mui.materialflowpalette.md) |  |
+
+## Type Aliases
+
+|  Type Alias | Description |
+|  --- | --- |
+|  [BoxVariantLocaleKey](./scribing-mui.boxvariantlocalekey.md) |  |
+|  [FlowColorLocaleKey](./scribing-mui.flowcolorlocalekey.md) |  |
+|  [FontFamilyLocaleKey](./scribing-mui.fontfamilylocalekey.md) |  |
+|  [LocaleItemKey](./scribing-mui.localeitemkey.md) |  |
+|  [ParagraphVariantLocaleKey](./scribing-mui.paragraphvariantlocalekey.md) |  |
 
