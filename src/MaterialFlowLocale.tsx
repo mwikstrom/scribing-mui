@@ -40,6 +40,7 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     interaction_none: string;
     interaction_open_url: string;
     interaction_run_script: string;
+    label_markup_tag: string;
 }
 
 /** @public */
@@ -55,6 +56,7 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     interaction_none: "Not interactive",
     interaction_open_url: "Open URL",
     interaction_run_script: "Run script",
+    label_markup_tag: "Markup tag",
     paragraph_normal: "Normal",
     paragraph_title: "Title",
     paragraph_subtitle: "Subtitle",

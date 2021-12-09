@@ -56,6 +56,7 @@ import { RemoveTableColumn } from "./commands/RemoveTableColumn";
 import { DynamicTextButton } from "./tools/DynamicTextButton";
 import { FlowIconButton } from "./tools/FlowIconButton";
 import { InteractionButton } from "./tools/InteractionButton";
+import { MarkupButton } from "./tools/MarkupButton";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -131,9 +132,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                 <FlowIconButton controller={controller}/>
                 <CommandButton controller={controller} command={InsertImage}/>
                 <InsertTableButton controller={controller}/>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiCodeTags}/>
-                </ToolButton>
+                <MarkupButton controller={controller}/>
             </ToolGroup>
             <ToolGroup collapse={!isTableSelection}>
                 <CommandButton controller={controller} command={InsertTableRowBefore}/>

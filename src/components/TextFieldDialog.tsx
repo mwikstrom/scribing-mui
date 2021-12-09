@@ -7,6 +7,7 @@ export interface TextFieldDialogProps extends DialogProps {
     cancelLabel?: string;
     completeLabel?: string;
     initialValue?: string;
+    allowEmpty?: boolean;
     onComplete?: (value: string | null) => void;
 }
 
@@ -15,6 +16,7 @@ export const TextFieldDialog: FC<TextFieldDialogProps> = props => {
     const {
         onComplete,
         initialValue = "",
+        allowEmpty = false,
         inputLabel,
         cancelLabel = locale.button_cancel,
         completeLabel = locale.button_apply,
@@ -31,24 +33,37 @@ export const TextFieldDialog: FC<TextFieldDialogProps> = props => {
             onComplete(null);
         }
     }, [onComplete]);
+    const onSubmit = useCallback((e: React.FormEvent) => {
+        e.preventDefault();
+        if (onComplete) {
+            onComplete(value);
+        }
+    }, [onComplete, value]);
     useEffect(() => setValue(initialValue), [rest.open]);
     return (
         <Dialog {...rest} scroll="paper" disableEscapeKeyDown={value !== initialValue}>
             <DialogContent>
-                <TextField
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    value={value}
-                    onChange={e => setValue(e.target.value)}
-                    label={inputLabel}
-                    InputLabelProps={{shrink: true}}
-                    autoFocus
-                />
+                <form onSubmit={onSubmit}>
+                    <TextField
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        value={value}
+                        onChange={e => setValue(e.target.value)}
+                        label={inputLabel}
+                        InputLabelProps={{shrink: true}}
+                        autoFocus
+                    />
+                </form>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClickCancel}>{cancelLabel}</Button>
-                <Button onClick={onClickComplete} color="primary">{completeLabel}</Button>
+                <Button
+                    onClick={onClickComplete}
+                    color="primary"
+                    disabled={!allowEmpty && !value}
+                    children={completeLabel}
+                />
             </DialogActions>
         </Dialog>
     );
