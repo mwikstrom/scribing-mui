@@ -9,23 +9,23 @@ import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButton, ToolButtonProps } from "./ToolButton";
 
 export interface ColorButtonProps extends ToolButtonProps {
-    current: FlowColor | undefined;
+    selected: FlowColor | undefined;
     iconPath: string;
-    setCurrent: (color: FlowColor) => void;
+    onOptionChange: (color: FlowColor) => void;
 }
 
 export const ColorButton: FC<ColorButtonProps> = props => {
-    const { current, setCurrent, iconPath, ...rest } = props;
+    const { selected, onOptionChange, iconPath, ...rest } = props;
     const [isMenuOpen, setMenuOpen] = useState(false);
     const [buttonRef, setButtonRef] = useState<HTMLElement | null>(null);
     const openMenu = useCallback(() => setMenuOpen(true), []);
     const closeMenu = useCallback(() => setMenuOpen(false), []);
     const applyColor = useCallback((color: FlowColor) => {
         closeMenu();
-        setCurrent(color);
-    }, [setCurrent, closeMenu]);
+        onOptionChange(color);
+    }, [onOptionChange, closeMenu]);
     const palette = useFlowPalette();
-    const htmlColor = useMemo(() => getHtmlColor(current, palette), [palette, current]);
+    const htmlColor = useMemo(() => getHtmlColor(selected, palette), [palette, selected]);
     const classes = useStyles();
     const muiTheme = useTheme<Theme>();
     const locale = useMaterialFlowLocale();
@@ -47,7 +47,7 @@ export const ColorButton: FC<ColorButtonProps> = props => {
                     <MenuItem
                         key={color}
                         disableGutters
-                        selected={current === color}
+                        selected={selected === color}
                         onClick={() => applyColor(color)}
                         children={(
                             <div className={classes.menuItem}>
@@ -58,7 +58,7 @@ export const ColorButton: FC<ColorButtonProps> = props => {
                                         color: muiTheme.palette.getContrastText(getHtmlColor(color, palette) || ""),
                                     }}
                                     size={0.75}
-                                    path={current === color ? mdiCheck : ""}
+                                    path={selected === color ? mdiCheck : ""}
                                 />
                                 <Typography variant="body2">{locale[`color_${color}` as const]}</Typography>
                             </div>
