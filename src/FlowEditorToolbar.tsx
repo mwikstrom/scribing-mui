@@ -1,14 +1,16 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import { FlowEditorController } from "scribing-react";
-import { Toolbar } from "@material-ui/core";
+import { Collapse, IconButton, Theme, Toolbar } from "@material-ui/core";
 import Icon from "@mdi/react";
 import { 
     mdiEyeCheck,
     mdiFormatLineSpacing, 
     mdiFormatSize, 
+    mdiMenuDown, 
+    mdiMenuUp, 
     mdiSpellcheck,
 } from "@mdi/js";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import { ToolGroup } from "./components/ToolGroup";
 import { ToolButton } from "./components/ToolButton";
 import { CommandButton } from "./tools/CommandButton";
@@ -56,6 +58,7 @@ import { DynamicTextButton } from "./tools/DynamicTextButton";
 import { FlowIconButton } from "./tools/FlowIconButton";
 import { InteractionButton } from "./tools/InteractionButton";
 import { MarkupButton } from "./tools/MarkupButton";
+import { useElementSize } from "./hooks/use-element-size";
 
 /** @public */
 export interface FlowEditorToolbarProps {
@@ -74,99 +77,139 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const { controller, className } = props;
     const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
     const isTableSelection = useMemo(() => controller?.isTableSelection(), [controller]);
+    const [isExpanded, setExpanded] = useState(false);
+    const [toolsRef, setToolsRef] = useState<HTMLElement | null>(null);
+    const toolsSize = useElementSize(toolsRef);
+    const theme = useTheme<Theme>();
+    const collapsedSize = theme.spacing(6);
+    const isWrapped = useMemo(() => {
+        console.log("CHECKING");
+        if (toolsRef) {
+            for (
+                let child = toolsRef.firstElementChild as (HTMLElement | null); 
+                child !== null; 
+                child = child.nextElementSibling as (HTMLElement | null)
+            ) {
+                if (child.offsetTop >= collapsedSize) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }, [toolsSize, controller, toolsRef, collapsedSize]);
+    const toggleExpanded = useCallback(() => setExpanded(before => !before), []);
     const classes = useStyles();
     return (
-        <Toolbar className={clsx(classes.root, className)} disableGutters>
-            <ToolGroup>
-                <CommandButton controller={controller} command={Undo}/>
-                <CommandButton controller={controller} command={Redo}/>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={Copy}/>
-                <CommandButton controller={controller} command={Cut}/>
-                <CommandButton controller={controller} command={Paste}/>
-            </ToolGroup>
-            <ToolGroup collapse={isBoxSelection}>
-                <ParagraphVariantSelector controller={controller}/>
-                <TextColorButton controller={controller}/>
-                <FontFamilyButton controller={controller}/>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatSize}/>
-                </ToolButton>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiFormatLineSpacing}/>
-                </ToolButton>
-            </ToolGroup>
-            <ToolGroup collapse={isBoxSelection}>
-                <CommandButton controller={controller} command={ToggleBold}/>
-                <CommandButton controller={controller} command={ToggleItalic}/>
-                <CommandButton controller={controller} command={ToggleUnderline}/>
-                <CommandButton controller={controller} command={ToggleStrikeThrough}/>
-                <InteractionButton controller={controller}/>
-                <CommandButton controller={controller} command={ToggleSubscript}/>
-                <CommandButton controller={controller} command={ToggleSuperscript}/>
-            </ToolGroup>
-            <ToolGroup collapse={!isBoxSelection}>
-                <BoxVariantSelector controller={controller}/>
-                <BoxColorButton controller={controller}/>
-                <CommandButton controller={controller} command={ToggleFullWidthBox}/>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={AlignLeft}/>
-                <CommandButton controller={controller} command={AlignCenter}/>
-                <CommandButton controller={controller} command={AlignRight}/>
-                <CommandButton controller={controller} command={AlignJustify}/>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={ToggleUnorderedList}/>
-                <CommandButton controller={controller} command={ToggleOrderedList}/>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={DecrementIndent}/>
-                <CommandButton controller={controller} command={IncrementIndent}/>
-            </ToolGroup>
-            <ToolGroup collapse={isTableSelection}>
-                <DynamicTextButton controller={controller}/>
-                <CommandButton controller={controller} command={InsertBox}/>
-                <FlowIconButton controller={controller}/>
-                <CommandButton controller={controller} command={InsertImage}/>
-                <InsertTableButton controller={controller}/>
-                <MarkupButton controller={controller}/>
-            </ToolGroup>
-            <ToolGroup collapse={!isTableSelection}>
-                <CommandButton controller={controller} command={InsertTableRowBefore}/>
-                <CommandButton controller={controller} command={InsertTableRowAfter}/>
-                <CommandButton controller={controller} command={InsertTableColumnBefore}/>
-                <CommandButton controller={controller} command={InsertTableColumnAfter}/>
-            </ToolGroup>
-            <ToolGroup collapse={!isTableSelection}>
-                <CommandButton controller={controller} command={RemoveTableRow}/>
-                <CommandButton controller={controller} command={RemoveTableColumn}/>
-            </ToolGroup>
-            <ToolGroup collapse={!isTableSelection}>
-                <CommandButton controller={controller} command={MergeTableCells}/>
-                <CommandButton controller={controller} command={SplitTableCell}/>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={ReadingLtr}/>
-                <CommandButton controller={controller} command={ReadingRtl}/>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiSpellcheck}/>
-                </ToolButton>
-            </ToolGroup>
-            <ToolGroup>
-                <CommandButton controller={controller} command={ToggleFormattingMarks}/>
-                <ToolButton disabled>
-                    <Icon size={1} path={mdiEyeCheck}/>
-                </ToolButton>
-            </ToolGroup>
-        </Toolbar>
+        <Collapse in={isExpanded} collapsedSize={collapsedSize}>
+            <Toolbar className={clsx(classes.root, className)} disableGutters>
+                <div className={classes.tools} ref={setToolsRef}>
+                    <ToolGroup collapse={isBoxSelection}>
+                        <ParagraphVariantSelector controller={controller}/>
+                        <TextColorButton controller={controller}/>
+                        <FontFamilyButton controller={controller}/>
+                        <ToolButton disabled>
+                            <Icon size={1} path={mdiFormatSize}/>
+                        </ToolButton>
+                        <ToolButton disabled>
+                            <Icon size={1} path={mdiFormatLineSpacing}/>
+                        </ToolButton>
+                    </ToolGroup>
+                    <ToolGroup collapse={isBoxSelection}>
+                        <CommandButton controller={controller} command={ToggleBold}/>
+                        <CommandButton controller={controller} command={ToggleItalic}/>
+                        <CommandButton controller={controller} command={ToggleUnderline}/>
+                        <CommandButton controller={controller} command={ToggleStrikeThrough}/>
+                        <InteractionButton controller={controller}/>
+                        <CommandButton controller={controller} command={ToggleSubscript}/>
+                        <CommandButton controller={controller} command={ToggleSuperscript}/>
+                    </ToolGroup>
+                    <ToolGroup collapse={!isBoxSelection}>
+                        <BoxVariantSelector controller={controller}/>
+                        <BoxColorButton controller={controller}/>
+                        <CommandButton controller={controller} command={ToggleFullWidthBox}/>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={AlignLeft}/>
+                        <CommandButton controller={controller} command={AlignCenter}/>
+                        <CommandButton controller={controller} command={AlignRight}/>
+                        <CommandButton controller={controller} command={AlignJustify}/>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={ToggleUnorderedList}/>
+                        <CommandButton controller={controller} command={ToggleOrderedList}/>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={DecrementIndent}/>
+                        <CommandButton controller={controller} command={IncrementIndent}/>
+                    </ToolGroup>
+                    <ToolGroup collapse={isTableSelection}>
+                        <DynamicTextButton controller={controller}/>
+                        <CommandButton controller={controller} command={InsertBox}/>
+                        <FlowIconButton controller={controller}/>
+                        <CommandButton controller={controller} command={InsertImage}/>
+                        <InsertTableButton controller={controller}/>
+                        <MarkupButton controller={controller}/>
+                    </ToolGroup>
+                    <ToolGroup collapse={!isTableSelection}>
+                        <CommandButton controller={controller} command={InsertTableRowBefore}/>
+                        <CommandButton controller={controller} command={InsertTableRowAfter}/>
+                        <CommandButton controller={controller} command={InsertTableColumnBefore}/>
+                        <CommandButton controller={controller} command={InsertTableColumnAfter}/>
+                    </ToolGroup>
+                    <ToolGroup collapse={!isTableSelection}>
+                        <CommandButton controller={controller} command={RemoveTableRow}/>
+                        <CommandButton controller={controller} command={RemoveTableColumn}/>
+                    </ToolGroup>
+                    <ToolGroup collapse={!isTableSelection}>
+                        <CommandButton controller={controller} command={MergeTableCells}/>
+                        <CommandButton controller={controller} command={SplitTableCell}/>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={Undo}/>
+                        <CommandButton controller={controller} command={Redo}/>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={Copy}/>
+                        <CommandButton controller={controller} command={Cut}/>
+                        <CommandButton controller={controller} command={Paste}/>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={ReadingLtr}/>
+                        <CommandButton controller={controller} command={ReadingRtl}/>
+                        <ToolButton disabled>
+                            <Icon size={1} path={mdiSpellcheck}/>
+                        </ToolButton>
+                    </ToolGroup>
+                    <ToolGroup>
+                        <CommandButton controller={controller} command={ToggleFormattingMarks}/>
+                        <ToolButton disabled>
+                            <Icon size={1} path={mdiEyeCheck}/>
+                        </ToolButton>
+                    </ToolGroup>
+                </div>
+                {isWrapped && (
+                    <IconButton className={classes.expandButton} onClick={toggleExpanded}>
+                        <Icon size={1} path={isExpanded ? mdiMenuUp : mdiMenuDown}/>
+                    </IconButton>  
+                )}                  
+            </Toolbar>
+        </Collapse>
     );
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
+        minHeight: theme.spacing(6),
+        display: "flex",
+        flexDirection: "row",
+    },
+    tools: {
+        flex: 1,
         display: "flex",
         flexWrap: "wrap",
-    }
-});
+    },
+    expandButton: {
+        flex: 0,
+        alignSelf: "start",
+    },
+}));
