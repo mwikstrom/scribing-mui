@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         margin: theme.spacing(0.5),
         overflow: "hidden",
         maxWidth: "100%",
-        transition: theme.transitions.create(["margin", "max-width", "opacity"]),
     },
     collapse: {
         maxWidth: 0,
