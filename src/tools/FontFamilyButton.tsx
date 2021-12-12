@@ -21,7 +21,7 @@ export const FontFamilyButton: FC<FontFamilyButtonProps> = props => {
         <OptionButton
             {...rest} 
             disabled={!controller}
-            options={FONT_FAMILIES}
+            options={FONT_FAMILIES}            
             selected={selected}
             onOptionSelected={onOptionSelected}
             getOptionLabel={getOptionLabel}

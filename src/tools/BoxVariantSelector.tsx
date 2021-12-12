@@ -14,6 +14,7 @@ export interface BoxVariantSelectorProps extends ToolButtonProps {
 export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
     const { controller, ...rest } = props;
     const selected = useMemo(() => controller?.getBoxStyle()?.variant, [controller]);
+    const disabled = useMemo(() => !controller || !controller.isBox(), [controller]);
     const locale = useMaterialFlowLocale();
     const getOptionLabel = useCallback((value: BoxVariant) => locale[`box_${value}` as const], [locale]);
     const onOptionSelected = useCallback((variant: BoxVariant) => {
@@ -24,7 +25,7 @@ export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
             {...rest} 
             startIcon={<Icon size={0.75} path={mdiTextBoxOutline}/>}
             endIcon={<Icon size={1} path={mdiMenuDown}/>}
-            disabled={!controller}
+            disabled={disabled}
             selected={selected}
             options={BOX_VARIANTS}
             onOptionSelected={onOptionSelected}

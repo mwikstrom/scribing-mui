@@ -17,6 +17,7 @@ export const TextColorButton: FC<TextColorButtonProps> = props => {
         <ColorButton
             {...rest}
             selected={selected}
+            disabled={!controller}
             onOptionSelected={onOptionSelected}
             iconPath={mdiFormatColorText}
         />

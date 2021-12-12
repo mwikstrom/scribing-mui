@@ -12,11 +12,13 @@ export interface BoxColorButtonProps extends ToolButtonProps {
 export const BoxColorButton: FC<BoxColorButtonProps> = props => {
     const { controller, ...rest } = props;
     const selected = useMemo(() => controller?.getBoxColor(), [controller]);
+    const disabled = useMemo(() => !controller || !controller.isBox(), [controller]);
     const onOptionSelected = useCallback((color: FlowColor) => controller?.setBoxColor(color), [controller]);
     return (
         <ColorButton
             {...rest}
             selected={selected}
+            disabled={disabled}
             onOptionSelected={onOptionSelected}
             iconPath={mdiFormatColorFill}
         />
