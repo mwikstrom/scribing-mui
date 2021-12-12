@@ -202,11 +202,13 @@ const useStyles = makeStyles((theme: Theme) => ({
         minHeight: theme.spacing(6),
         display: "flex",
         flexDirection: "row",
+        justifyContent: "center",
     },
     tools: {
         flex: 1,
         display: "flex",
         flexWrap: "wrap",
+        justifyContent: "inherit",
     },
     expandButton: {
         flex: 0,
