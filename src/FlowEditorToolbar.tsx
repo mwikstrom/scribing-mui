@@ -83,7 +83,6 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const theme = useTheme<Theme>();
     const collapsedSize = theme.spacing(6);
     const isWrapped = useMemo(() => {
-        console.log("CHECKING");
         if (toolsRef) {
             for (
                 let child = toolsRef.firstElementChild as (HTMLElement | null); 
