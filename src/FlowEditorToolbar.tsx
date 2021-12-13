@@ -202,7 +202,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         minHeight: theme.spacing(6),
         display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
     },
     tools: {
         flex: 1,
