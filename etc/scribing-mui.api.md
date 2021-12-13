@@ -46,6 +46,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     button_cancel: string;
     // (undocumented)
+    button_exit_preview: string;
+    // (undocumented)
     button_insert: string;
     // (undocumented)
     interaction_none: string;
