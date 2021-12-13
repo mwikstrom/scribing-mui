@@ -81,10 +81,11 @@ export interface FlowEditorToolbarProps {
     onCheckOut?: () => void;
 }
 
+// TODO: Disable commands when frozen!
+// TODO: Connection status?
 // TODO: Flow typography
 // TODO: Insert component
 // TODO: FIX CUT/COPY/PASTE
-// TODO: Connection status?
 
 /** @public */
 export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
@@ -114,14 +115,15 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const toggleExpanded = useCallback(() => setExpanded(before => !before), []);
     const classes = useStyles();
     const checkInOutProps = { source, onCheckIn, onCheckOut, };
+    const toolProps = { controller, frozen };
     return (
         <Collapse in={isExpanded} collapsedSize={collapsedSize}>
             <Toolbar className={clsx(classes.root, className)} disableGutters>
                 <div className={classes.tools} ref={setToolsRef}>
-                    {isPreview || frozen ? (
+                    {isPreview ? (
                         <>
                             <ToolGroup>
-                                <ExitPreviewButton controller={controller} disabled={frozen}/>
+                                <ExitPreviewButton {...toolProps}/>
                             </ToolGroup>
                             <ToolGroup>
                                 <CheckInOutButton {...checkInOutProps} showLabel/>
@@ -130,9 +132,9 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                     ) : (
                         <>
                             <ToolGroup collapse={isBoxSelection}>
-                                <ParagraphVariantSelector controller={controller}/>
-                                <TextColorButton controller={controller}/>
-                                <FontFamilyButton controller={controller}/>
+                                <ParagraphVariantSelector {...toolProps}/>
+                                <TextColorButton {...toolProps}/>
+                                <FontFamilyButton {...toolProps}/>
                                 <ToolButton disabled>
                                     <Icon size={1} path={mdiFormatSize}/>
                                 </ToolButton>
@@ -141,67 +143,67 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 </ToolButton>
                             </ToolGroup>
                             <ToolGroup collapse={isBoxSelection}>
-                                <CommandButton controller={controller} command={ToggleBold}/>
-                                <CommandButton controller={controller} command={ToggleItalic}/>
-                                <CommandButton controller={controller} command={ToggleUnderline}/>
-                                <CommandButton controller={controller} command={ToggleStrikeThrough}/>
-                                <InteractionButton controller={controller}/>
-                                <CommandButton controller={controller} command={ToggleSubscript}/>
-                                <CommandButton controller={controller} command={ToggleSuperscript}/>
+                                <CommandButton {...toolProps} command={ToggleBold}/>
+                                <CommandButton {...toolProps} command={ToggleItalic}/>
+                                <CommandButton {...toolProps} command={ToggleUnderline}/>
+                                <CommandButton {...toolProps} command={ToggleStrikeThrough}/>
+                                <InteractionButton {...toolProps}/>
+                                <CommandButton {...toolProps} command={ToggleSubscript}/>
+                                <CommandButton {...toolProps} command={ToggleSuperscript}/>
                             </ToolGroup>
                             <ToolGroup collapse={!isBoxSelection}>
-                                <BoxVariantSelector controller={controller}/>
-                                <BoxColorButton controller={controller}/>
-                                <CommandButton controller={controller} command={ToggleFullWidthBox}/>
+                                <BoxVariantSelector {...toolProps}/>
+                                <BoxColorButton {...toolProps}/>
+                                <CommandButton {...toolProps} command={ToggleFullWidthBox}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton controller={controller} command={AlignLeft}/>
-                                <CommandButton controller={controller} command={AlignCenter}/>
-                                <CommandButton controller={controller} command={AlignRight}/>
-                                <CommandButton controller={controller} command={AlignJustify}/>
+                                <CommandButton {...toolProps} command={AlignLeft}/>
+                                <CommandButton {...toolProps} command={AlignCenter}/>
+                                <CommandButton {...toolProps} command={AlignRight}/>
+                                <CommandButton {...toolProps} command={AlignJustify}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton controller={controller} command={ToggleUnorderedList}/>
-                                <CommandButton controller={controller} command={ToggleOrderedList}/>
+                                <CommandButton {...toolProps} command={ToggleUnorderedList}/>
+                                <CommandButton {...toolProps} command={ToggleOrderedList}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton controller={controller} command={DecrementIndent}/>
-                                <CommandButton controller={controller} command={IncrementIndent}/>
+                                <CommandButton {...toolProps} command={DecrementIndent}/>
+                                <CommandButton {...toolProps} command={IncrementIndent}/>
                             </ToolGroup>
                             <ToolGroup collapse={isTableSelection}>
-                                <DynamicTextButton controller={controller}/>
-                                <CommandButton controller={controller} command={InsertBox}/>
-                                <FlowIconButton controller={controller}/>
-                                <CommandButton controller={controller} command={InsertImage}/>
-                                <InsertTableButton controller={controller}/>
-                                <MarkupButton controller={controller}/>
+                                <DynamicTextButton {...toolProps}/>
+                                <CommandButton {...toolProps} command={InsertBox}/>
+                                <FlowIconButton {...toolProps}/>
+                                <CommandButton {...toolProps} command={InsertImage}/>
+                                <InsertTableButton {...toolProps}/>
+                                <MarkupButton {...toolProps}/>
                             </ToolGroup>
                             <ToolGroup collapse={!isTableSelection}>
-                                <CommandButton controller={controller} command={InsertTableRowBefore}/>
-                                <CommandButton controller={controller} command={InsertTableRowAfter}/>
-                                <CommandButton controller={controller} command={InsertTableColumnBefore}/>
-                                <CommandButton controller={controller} command={InsertTableColumnAfter}/>
+                                <CommandButton {...toolProps} command={InsertTableRowBefore}/>
+                                <CommandButton {...toolProps} command={InsertTableRowAfter}/>
+                                <CommandButton {...toolProps} command={InsertTableColumnBefore}/>
+                                <CommandButton {...toolProps} command={InsertTableColumnAfter}/>
                             </ToolGroup>
                             <ToolGroup collapse={!isTableSelection}>
-                                <CommandButton controller={controller} command={RemoveTableRow}/>
-                                <CommandButton controller={controller} command={RemoveTableColumn}/>
+                                <CommandButton {...toolProps} command={RemoveTableRow}/>
+                                <CommandButton {...toolProps} command={RemoveTableColumn}/>
                             </ToolGroup>
                             <ToolGroup collapse={!isTableSelection}>
-                                <CommandButton controller={controller} command={MergeTableCells}/>
-                                <CommandButton controller={controller} command={SplitTableCell}/>
+                                <CommandButton {...toolProps} command={MergeTableCells}/>
+                                <CommandButton {...toolProps} command={SplitTableCell}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton controller={controller} command={Undo}/>
-                                <CommandButton controller={controller} command={Redo}/>
+                                <CommandButton {...toolProps} command={Undo}/>
+                                <CommandButton {...toolProps} command={Redo}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton controller={controller} command={Copy}/>
-                                <CommandButton controller={controller} command={Cut}/>
-                                <CommandButton controller={controller} command={Paste}/>
+                                <CommandButton {...toolProps} command={Copy}/>
+                                <CommandButton {...toolProps} command={Cut}/>
+                                <CommandButton {...toolProps} command={Paste}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton controller={controller} command={ReadingLtr}/>
-                                <CommandButton controller={controller} command={ReadingRtl}/>
+                                <CommandButton {...toolProps} command={ReadingLtr}/>
+                                <CommandButton {...toolProps} command={ReadingRtl}/>
                                 <ToolButton disabled>
                                     <Icon size={1} path={mdiSpellcheck}/>
                                 </ToolButton>
@@ -210,8 +212,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 </ToolButton>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton controller={controller} command={ToggleFormattingMarks}/>
-                                <CommandButton controller={controller} command={TogglePreview}/>
+                                <CommandButton {...toolProps} command={ToggleFormattingMarks}/>
+                                <CommandButton {...toolProps} command={TogglePreview}/>
                                 <CheckInOutButton {...checkInOutProps}/>
                             </ToolGroup>
                         </>

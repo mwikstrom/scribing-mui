@@ -9,10 +9,11 @@ import { OptionButton } from "../components/OptionButton";
 
 export interface FontFamilyButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
+    frozen?: boolean;
 }
 
 export const FontFamilyButton: FC<FontFamilyButtonProps> = props => {
-    const { controller, ...rest } = props;
+    const { controller, frozen, ...rest } = props;
     const selected = useMemo(() => controller?.getFontFamily(), [controller]);
     const onOptionSelected = useCallback((font: FontFamily) => controller?.setFontFamily(font), [controller]);
     const locale = useMaterialFlowLocale();
@@ -20,7 +21,7 @@ export const FontFamilyButton: FC<FontFamilyButtonProps> = props => {
     return (
         <OptionButton
             {...rest} 
-            disabled={!controller}
+            disabled={frozen || !controller}
             options={FONT_FAMILIES}            
             selected={selected}
             onOptionSelected={onOptionSelected}

@@ -9,10 +9,11 @@ import { ToolButtonProps } from "../components/ToolButton";
 
 export interface ParagraphVariantSelectorProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
+    frozen?: boolean;
 }
 
 export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props => {
-    const { controller, ...rest } = props;
+    const { controller, frozen, ...rest } = props;
     const selected = useMemo(() => controller?.getParagraphVariant(), [controller]);
     const locale = useMaterialFlowLocale();
     const getOptionLabel = useCallback((value: ParagraphVariant) => locale[`paragraph_${value}` as const], [locale]);
@@ -24,7 +25,7 @@ export const ParagraphVariantSelector: FC<ParagraphVariantSelectorProps> = props
             {...rest} 
             startIcon={<Icon size={0.75} path={mdiFormatText}/>}
             endIcon={<Icon size={1} path={mdiMenuDown}/>}
-            disabled={!controller}
+            disabled={frozen || !controller}
             selected={selected}
             options={PARAGRAPH_VARIANTS}
             onOptionSelected={onOptionSelected}

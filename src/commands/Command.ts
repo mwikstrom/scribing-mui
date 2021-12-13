@@ -6,4 +6,5 @@ export interface Command {
     isDisabled?: (controller: FlowEditorController) => boolean | undefined;
     iconPath?: string | ((controller: FlowEditorController) => string);
     flipIcon?: (controller: FlowEditorController) => boolean | undefined;
+    ignoreFrozen?: boolean;
 }

@@ -11,10 +11,11 @@ import { TextFieldDialog } from "../components/TextFieldDialog";
 
 export interface InteractionButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
+    frozen?: boolean;
 }
 
 export const InteractionButton: FC<InteractionButtonProps> = props => {
-    const { controller, ...rest } = props;
+    const { controller, frozen, ...rest } = props;
     const interaction = useMemo<Interaction | null | undefined>(() => controller?.getInteraction(), [controller]);
     const selected = useMemo<InteractionOption | undefined>(() => {
         if (interaction === null) {
@@ -60,7 +61,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
             <OptionButton
                 {...rest} 
                 active={!!interaction}
-                disabled={!controller}
+                disabled={frozen || !controller}
                 options={INTERACTION_OPTIONS}
                 selected={selected}
                 onOptionSelected={onOptionSelected}

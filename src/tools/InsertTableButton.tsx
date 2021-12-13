@@ -10,16 +10,17 @@ import { ToolButtonProps } from "../components/ToolButton";
 
 export interface InsertTableButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
+    frozen?: boolean;
 }
 
 export const InsertTableButton: FC<InsertTableButtonProps> = props => {
-    const { controller, ...rest } = props;
+    const { controller, frozen, ...rest } = props;
     const [cols, setCols] = useState(1);
     const [rows, setRows] = useState(1);
     const insertTable = useCallback(() => {
         controller?.insertTable(cols, rows);
     }, [controller, cols, rows]);
-    const disabled = useMemo(() => !controller || !controller.isCaret(), [controller]);
+    const disabled = useMemo(() => frozen || !controller || !controller.isCaret(), [frozen, controller]);
     const classes = useStyles();
     return (
         <MenuButton

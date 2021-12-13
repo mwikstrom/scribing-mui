@@ -7,23 +7,26 @@ import Icon from "@mdi/react";
 export interface CommandButtonProps extends ToolButtonProps {
     command: Command;
     controller?: FlowEditorController | null;
+    frozen?: boolean;
     children?: ReactNode;
 }
 
 export const CommandButton: FC<CommandButtonProps> = props => {
-    const { command, controller, children: givenChildren, disabled: disabledOverride, ...rest } = props;
+    const { command, controller, frozen, children: givenChildren, disabled: disabledOverride, ...rest } = props;
     
     const disabled = useMemo(() => {
-        if (typeof disabledOverride === "boolean") {
+        if (frozen && !command.ignoreFrozen) {
+            return true;
+        } else if (typeof disabledOverride === "boolean") {
             return disabledOverride;
-        } if (!controller) {
+        } else if (!controller) {
             return true;
         } else if (!command.isDisabled) {
             return false;
         } else {
             return command.isDisabled(controller);
         }
-    }, [disabledOverride, command, controller]);
+    }, [disabledOverride, command, frozen, controller]);
     
     const active = useMemo(() => {
         if (!controller) {

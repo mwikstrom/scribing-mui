@@ -9,10 +9,11 @@ import { ToolButton, ToolButtonProps } from "../components/ToolButton";
 
 export interface DynamicTextButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
+    frozen?: boolean;
 }
 
 export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
-    const { controller, ...rest } = props;
+    const { controller, frozen, ...rest } = props;
     const [isDialogOpen, setDialogOpen] = useState(false);
     const openDialog = useCallback(() => setDialogOpen(true), []);
     const closeDialog = useCallback(() => setDialogOpen(false), []);    
@@ -30,8 +31,8 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
         }
     }, [controller, closeDialog]);
     const disabled = useMemo(() => {
-        if (!controller) {
-            return false;
+        if (!controller || frozen) {
+            return true;
         } else if (controller.isCaret()) {
             return false;
         } else if (controller.isDynamicText()) {
@@ -39,7 +40,7 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
         } else {
             return true;
         }
-    }, [controller]);
+    }, [frozen, controller]);
     const active = useMemo(() => controller?.isDynamicText(), [controller]);
     const initialValue = useMemo(() => controller?.getDynamicTextExpression() ?? "", [controller]);
     const locale = useMaterialFlowLocale();

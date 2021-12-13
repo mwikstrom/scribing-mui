@@ -5,4 +5,5 @@ export const Copy: Command = {
     exec: () => document.execCommand("copy"),
     isDisabled: controller => controller.isCaret(),
     iconPath: mdiContentCopy,
+    ignoreFrozen: true,
 };

@@ -9,10 +9,11 @@ import { ToolButton, ToolButtonProps } from "../components/ToolButton";
 
 export interface FlowIconButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
+    frozen?: boolean;
 }
 
 export const FlowIconButton: FC<FlowIconButtonProps> = props => {
-    const { controller, ...rest } = props;
+    const { controller, frozen, ...rest } = props;
     const [isDialogOpen, setDialogOpen] = useState(false);
     const openDialog = useCallback(() => setDialogOpen(true), []);
     const closeDialog = useCallback(() => setDialogOpen(false), []);    
@@ -30,8 +31,8 @@ export const FlowIconButton: FC<FlowIconButtonProps> = props => {
         }
     }, [controller, closeDialog]);
     const disabled = useMemo(() => {
-        if (!controller) {
-            return false;
+        if (frozen || !controller) {
+            return true;
         } else if (controller.isCaret()) {
             return false;
         } else if (controller.isIcon()) {
@@ -39,7 +40,7 @@ export const FlowIconButton: FC<FlowIconButtonProps> = props => {
         } else {
             return true;
         }
-    }, [controller]);
+    }, [frozen, controller]);
     const active = useMemo(() => controller?.isIcon(), [controller]);
     const initialValue = useMemo(() => controller?.getIcon() ?? "", [controller]);
     const locale = useMaterialFlowLocale();

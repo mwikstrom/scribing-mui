@@ -8,10 +8,11 @@ import { TextFieldDialog } from "../components/TextFieldDialog";
 
 export interface MarkupButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
+    frozen?: boolean;
 }
 
 export const MarkupButton: FC<MarkupButtonProps> = props => {
-    const { controller, ...rest } = props;
+    const { controller, frozen, ...rest } = props;
     const [isDialogOpen, setDialogOpen] = useState(false);
     const openDialog = useCallback(() => setDialogOpen(true), []);
     const closeDialog = useCallback(() => setDialogOpen(false), []);    
@@ -21,7 +22,7 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
             controller?.insertMarkup(tag);
         }
     }, [controller, closeDialog]);
-    const disabled = useMemo(() => !controller || controller?.isTableSelection(), [controller]);
+    const disabled = useMemo(() => frozen || !controller || controller?.isTableSelection(), [frozen, controller]);
     const locale = useMaterialFlowLocale();
     return (
         <>

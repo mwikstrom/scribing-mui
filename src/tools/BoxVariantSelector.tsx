@@ -9,12 +9,13 @@ import { ToolButtonProps } from "../components/ToolButton";
 
 export interface BoxVariantSelectorProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
+    frozen?: boolean;
 }
 
 export const BoxVariantSelector: FC<BoxVariantSelectorProps> = props => {
-    const { controller, ...rest } = props;
+    const { controller, frozen, ...rest } = props;
     const selected = useMemo(() => controller?.getBoxStyle()?.variant, [controller]);
-    const disabled = useMemo(() => !controller || !controller.isBox(), [controller]);
+    const disabled = useMemo(() => frozen || !controller || !controller.isBox(), [frozen, controller]);
     const locale = useMaterialFlowLocale();
     const getOptionLabel = useCallback((value: BoxVariant) => locale[`box_${value}` as const], [locale]);
     const onOptionSelected = useCallback((variant: BoxVariant) => {
