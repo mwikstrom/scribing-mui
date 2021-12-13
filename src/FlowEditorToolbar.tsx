@@ -3,11 +3,13 @@ import { FlowEditorController } from "scribing-react";
 import { Collapse, IconButton, Theme, Toolbar } from "@material-ui/core";
 import Icon from "@mdi/react";
 import { 
+    mdiDatabaseImport,
     mdiFormatLineSpacing, 
     mdiFormatSize, 
     mdiMenuDown, 
     mdiMenuUp, 
     mdiSpellcheck,
+    mdiTranslate,
 } from "@mdi/js";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { ToolGroup } from "./components/ToolGroup";
@@ -186,10 +188,16 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 <ToolButton disabled>
                                     <Icon size={1} path={mdiSpellcheck}/>
                                 </ToolButton>
+                                <ToolButton disabled>
+                                    <Icon size={1} path={mdiTranslate}/>
+                                </ToolButton>
                             </ToolGroup>
                             <ToolGroup>
                                 <CommandButton controller={controller} command={ToggleFormattingMarks}/>
                                 <CommandButton controller={controller} command={TogglePreview}/>
+                                <ToolButton disabled>
+                                    <Icon size={1} path={mdiDatabaseImport}/>
+                                </ToolButton>
                             </ToolGroup>
                         </>
                     )}
