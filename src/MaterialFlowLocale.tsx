@@ -34,6 +34,9 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     button_apply: string;
     button_cancel: string;
     button_exit_preview: string;
+    button_check_in: string;
+    button_check_out: string;
+    label_please_wait: string;
     label_dynamic_text_script: string;
     label_all_categories: string;
     tab_predefined_icons: string;
@@ -51,6 +54,9 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     button_apply: "Apply",
     button_cancel: "Cancel",
     button_exit_preview: "Exit preview",
+    button_check_out: "Check out",
+    button_check_in: "Check in",
+    label_please_wait: "Please wait",
     tab_predefined_icons: "Predefined icons",
     tab_material_design_icons: "Material design icons",
     label_dynamic_text_script: "Dynamic text script",

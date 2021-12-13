@@ -11,17 +11,19 @@ export interface CommandButtonProps extends ToolButtonProps {
 }
 
 export const CommandButton: FC<CommandButtonProps> = props => {
-    const { command, controller, children: givenChildren, ...rest } = props;
+    const { command, controller, children: givenChildren, disabled: disabledOverride, ...rest } = props;
     
     const disabled = useMemo(() => {
-        if (!controller) {
+        if (typeof disabledOverride === "boolean") {
+            return disabledOverride;
+        } if (!controller) {
             return true;
         } else if (!command.isDisabled) {
             return false;
         } else {
             return command.isDisabled(controller);
         }
-    }, [command, controller]);
+    }, [disabledOverride, command, controller]);
     
     const active = useMemo(() => {
         if (!controller) {

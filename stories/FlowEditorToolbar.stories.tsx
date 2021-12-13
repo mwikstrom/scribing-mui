@@ -1,6 +1,6 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { FlowEditorToolbar } from "../src/FlowEditorToolbar";
+import { EditorSourceState, FlowEditorToolbar } from "../src/FlowEditorToolbar";
 import { MuiThemeProvider, Theme } from "@material-ui/core";
 import { FlowEditor, FlowEditorController, FlowEditorState } from "scribing-react";
 import { MaterialFlowPalette } from "../src/MaterialFlowPalette";
@@ -25,12 +25,25 @@ const Story: FC<StoryProps> = props => {
 const Root: FC<Omit<StoryProps, "dark">> = () => {
     const [controller, setController] = useState<FlowEditorController | null>(null);
     const classes = useStyles();
+    const [source, setSource] = useState<EditorSourceState>("checked-out");
+    const transitionSource = useCallback((target: EditorSourceState, delay = 1000) => {
+        setSource("busy");
+        const timerId = setTimeout(() => setSource(target), delay);
+        return () => clearTimeout(timerId);
+    }, []);
+    const onCheckIn = useCallback(() => transitionSource("checked-in"), []);
+    const onCheckOut = useCallback(() => transitionSource("checked-out"), []);
+    const frozen = useMemo(() => source === "busy" || source === "checked-in", [source]);    
     return (
         <div className={classes.root}>
             <MaterialFlowPalette>
                 <FlowEditorToolbar
                     className={classes.toolbar}
                     controller={controller}
+                    source={source}
+                    frozen={frozen}
+                    onCheckIn={onCheckIn}
+                    onCheckOut={onCheckOut}
                 />
                 <FlowEditor
                     className={classes.editor}

@@ -3,7 +3,6 @@ import { FlowEditorController } from "scribing-react";
 import { Collapse, IconButton, Theme, Toolbar } from "@material-ui/core";
 import Icon from "@mdi/react";
 import { 
-    mdiDatabaseImport,
     mdiFormatLineSpacing, 
     mdiFormatSize, 
     mdiMenuDown, 
@@ -62,22 +61,34 @@ import { MarkupButton } from "./tools/MarkupButton";
 import { useElementSize } from "./hooks/use-element-size";
 import { TogglePreview } from "./commands/TogglePreview";
 import { ExitPreviewButton } from "./components/ExitPreviewButton";
+import { CheckInOutButton } from "./components/CheckInOutButton";
+
+/** @public */
+export type EditorSourceState = (
+    "none" |
+    "busy" |
+    "checked-out" |
+    "checked-in"
+);
 
 /** @public */
 export interface FlowEditorToolbarProps {
     controller?: FlowEditorController | null;
     className?: string;
+    source?: EditorSourceState;
+    frozen?: boolean;
+    onCheckIn?: () => void;
+    onCheckOut?: () => void;
 }
 
 // TODO: Flow typography
 // TODO: Insert component
 // TODO: FIX CUT/COPY/PASTE
-// TODO: Check-in?
 // TODO: Connection status?
 
 /** @public */
 export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
-    const { controller, className } = props;
+    const { controller, className, source, frozen, onCheckIn, onCheckOut } = props;
     const isPreview = useMemo(() => controller?.getPreview(), [controller]);
     const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
     const isTableSelection = useMemo(() => controller?.isTableSelection(), [controller]);
@@ -102,14 +113,20 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     }, [toolsSize, controller, toolsRef, collapsedSize]);
     const toggleExpanded = useCallback(() => setExpanded(before => !before), []);
     const classes = useStyles();
+    const checkInOutProps = { source, onCheckIn, onCheckOut, };
     return (
         <Collapse in={isExpanded} collapsedSize={collapsedSize}>
             <Toolbar className={clsx(classes.root, className)} disableGutters>
                 <div className={classes.tools} ref={setToolsRef}>
-                    {isPreview ? (
-                        <ToolGroup>
-                            <ExitPreviewButton controller={controller}/>
-                        </ToolGroup>
+                    {isPreview || frozen ? (
+                        <>
+                            <ToolGroup>
+                                <ExitPreviewButton controller={controller} disabled={frozen}/>
+                            </ToolGroup>
+                            <ToolGroup>
+                                <CheckInOutButton {...checkInOutProps} showLabel/>
+                            </ToolGroup>
+                        </>
                     ) : (
                         <>
                             <ToolGroup collapse={isBoxSelection}>
@@ -195,9 +212,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                             <ToolGroup>
                                 <CommandButton controller={controller} command={ToggleFormattingMarks}/>
                                 <CommandButton controller={controller} command={TogglePreview}/>
-                                <ToolButton disabled>
-                                    <Icon size={1} path={mdiDatabaseImport}/>
-                                </ToolButton>
+                                <CheckInOutButton {...checkInOutProps}/>
                             </ToolGroup>
                         </>
                     )}
