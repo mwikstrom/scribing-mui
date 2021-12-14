@@ -20,6 +20,9 @@ export type BoxVariantLocaleKey = `box_${BoxVariant}`;
 export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale>;
 
 // @public (undocumented)
+export type EditorSourceState = ("none" | "busy" | "checked-out" | "checked-in");
+
+// @public (undocumented)
 export type FlowColorLocaleKey = `color_${FlowColor}`;
 
 // @public (undocumented)
@@ -31,6 +34,14 @@ export interface FlowEditorToolbarProps {
     className?: string;
     // (undocumented)
     controller?: FlowEditorController | null;
+    // (undocumented)
+    frozen?: boolean;
+    // (undocumented)
+    onCheckIn?: () => void;
+    // (undocumented)
+    onCheckOut?: () => void;
+    // (undocumented)
+    source?: EditorSourceState;
 }
 
 // @public (undocumented)
@@ -45,6 +56,10 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     button_apply: string;
     // (undocumented)
     button_cancel: string;
+    // (undocumented)
+    button_check_in: string;
+    // (undocumented)
+    button_check_out: string;
     // (undocumented)
     button_exit_preview: string;
     // (undocumented)
@@ -61,6 +76,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_dynamic_text_script: string;
     // (undocumented)
     label_markup_tag: string;
+    // (undocumented)
+    label_please_wait: string;
     // (undocumented)
     tab_material_design_icons: string;
     // (undocumented)
@@ -80,6 +97,9 @@ export interface MaterialFlowLocaleProps {
 
 // @public (undocumented)
 export const MaterialFlowPalette: FC;
+
+// @public (undocumented)
+export const MaterialFlowTypography: FC;
 
 // @public (undocumented)
 export type ParagraphVariantLocaleKey = `paragraph_${ParagraphVariant}`;

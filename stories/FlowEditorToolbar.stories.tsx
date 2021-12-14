@@ -7,6 +7,7 @@ import { MaterialFlowPalette } from "../src/MaterialFlowPalette";
 import { makeStyles } from "@material-ui/styles";
 import { FlowContent } from "scribing";
 import { useStoryTheme } from "./theme";
+import { MaterialFlowTypography } from "../src/MaterialFlowTypography";
 
 interface StoryProps {
     dark?: boolean;
@@ -36,22 +37,24 @@ const Root: FC<Omit<StoryProps, "dark">> = () => {
     const frozen = useMemo(() => source === "busy" || source === "checked-in", [source]);    
     return (
         <div className={classes.root}>
-            <MaterialFlowPalette>
-                <FlowEditorToolbar
-                    className={classes.toolbar}
-                    controller={controller}
-                    source={source}
-                    frozen={frozen}
-                    onCheckIn={onCheckIn}
-                    onCheckOut={onCheckOut}
-                />
-                <FlowEditor
-                    className={classes.editor}
-                    defaultState={INITIAL_STATE}
-                    onControllerChange={setController}
-                    autoFocus
-                />
-            </MaterialFlowPalette>
+            <MaterialFlowTypography>
+                <MaterialFlowPalette>
+                    <FlowEditorToolbar
+                        className={classes.toolbar}
+                        controller={controller}
+                        source={source}
+                        frozen={frozen}
+                        onCheckIn={onCheckIn}
+                        onCheckOut={onCheckOut}
+                    />
+                    <FlowEditor
+                        className={classes.editor}
+                        defaultState={INITIAL_STATE}
+                        onControllerChange={setController}
+                        autoFocus
+                    />
+                </MaterialFlowPalette>
+            </MaterialFlowTypography>
         </div>
     );
 };

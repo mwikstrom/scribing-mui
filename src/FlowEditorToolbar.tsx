@@ -81,7 +81,6 @@ export interface FlowEditorToolbarProps {
     onCheckOut?: () => void;
 }
 
-// TODO: Flow typography
 // TODO: FIX CUT/COPY/PASTE
 
 /** @public */
