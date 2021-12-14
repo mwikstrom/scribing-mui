@@ -1,4 +1,4 @@
-import { alpha, Theme } from "@material-ui/core";
+import { Theme } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import React, { FC, useMemo } from "react";
 import { FlowPalette, FlowPaletteScope } from "scribing-react";
@@ -16,7 +16,7 @@ export const MaterialFlowPalette: FC = ({children}) => {
         warning: muiPalette.warning.main,
         success: muiPalette.success.main,
         information: muiPalette.info.main,
-        tooltip: alpha(muiPalette.grey[700], 0.9),
+        tooltip: muiPalette.grey[700],
         tooltipText: muiPalette.common.white,
     }), [muiPalette]);
     return (
