@@ -12,6 +12,7 @@ export const MaterialFlowTypography: FC = ({children}) => {
         monospace: "monospace",
         cursive: muiTypography.fontFamily,
         decorative: muiTypography.fontFamily,
+        ui: muiTypography.fontFamily,
     }), [muiTypography]);
     return (
         <FlowTypographyScope children={children} typography={flowTypography}/>
