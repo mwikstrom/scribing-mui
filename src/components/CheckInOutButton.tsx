@@ -21,7 +21,7 @@ export const CheckInOutButton: FC<CheckInOutButtonProps> = props => {
             return {
                 label: locale.label_please_wait,
                 icon: mdiSync,
-                spin: true,
+                spin: -1,
                 onClick: noop,
             };
         } else if (source === "checked-in") {
