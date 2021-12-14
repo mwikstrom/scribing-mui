@@ -62,13 +62,15 @@ import { useElementSize } from "./hooks/use-element-size";
 import { TogglePreview } from "./commands/TogglePreview";
 import { ExitPreviewButton } from "./components/ExitPreviewButton";
 import { CheckInOutButton } from "./components/CheckInOutButton";
+import { ConnectionBroken } from "./components/ConnectionBroken";
 
 /** @public */
 export type EditorSourceState = (
     "none" |
     "busy" |
     "checked-out" |
-    "checked-in"
+    "checked-in" |
+    "broken"
 );
 
 /** @public */
@@ -79,13 +81,14 @@ export interface FlowEditorToolbarProps {
     frozen?: boolean;
     onCheckIn?: () => void;
     onCheckOut?: () => void;
+    onReset?: () => void;
 }
 
 // TODO: FIX CUT/COPY/PASTE
 
 /** @public */
 export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
-    const { controller, className, source, frozen, onCheckIn, onCheckOut } = props;
+    const { controller, className, source, frozen, onCheckIn, onCheckOut, onReset } = props;
     const isPreview = useMemo(() => controller?.getPreview(), [controller]);
     const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
     const isTableSelection = useMemo(() => controller?.isTableSelection(), [controller]);
@@ -113,10 +116,12 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const checkInOutProps = { source, onCheckIn, onCheckOut, };
     const toolProps = { controller, frozen };
     return (
-        <Collapse in={isExpanded} collapsedSize={collapsedSize}>
+        <Collapse in={isExpanded || source === "broken"} collapsedSize={collapsedSize}>
             <Toolbar className={clsx(classes.root, className)} disableGutters>
                 <div className={classes.tools} ref={setToolsRef}>
-                    {isPreview ? (
+                    {source === "broken" ? (
+                        <ConnectionBroken onReset={onReset}/>
+                    ) : isPreview ? (
                         <>
                             <ToolGroup>
                                 <ExitPreviewButton {...toolProps}/>

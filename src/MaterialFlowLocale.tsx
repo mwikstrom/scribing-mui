@@ -36,6 +36,7 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     button_exit_preview: string;
     button_check_in: string;
     button_check_out: string;
+    button_reset: string;
     label_please_wait: string;
     label_dynamic_text_script: string;
     label_all_categories: string;
@@ -45,6 +46,7 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     interaction_open_url: string;
     interaction_run_script: string;
     label_markup_tag: string;
+    message_connection_broken: string;
 }
 
 /** @public */
@@ -56,6 +58,7 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     button_exit_preview: "Exit preview",
     button_check_out: "Check out",
     button_check_in: "Check in",
+    button_reset: "Reset",
     label_please_wait: "Please wait",
     tab_predefined_icons: "Predefined icons",
     tab_material_design_icons: "Material design icons",
@@ -65,6 +68,7 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     interaction_open_url: "Open URL",
     interaction_run_script: "Run script",
     label_markup_tag: "Markup tag",
+    message_connection_broken: "Ouch! A synchronization problem occurred. It's a bug and we'll do our best to fix it!",
     paragraph_normal: "Normal",
     paragraph_title: "Title",
     paragraph_subtitle: "Subtitle",

@@ -20,7 +20,7 @@ export type BoxVariantLocaleKey = `box_${BoxVariant}`;
 export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale>;
 
 // @public (undocumented)
-export type EditorSourceState = ("none" | "busy" | "checked-out" | "checked-in");
+export type EditorSourceState = ("none" | "busy" | "checked-out" | "checked-in" | "broken");
 
 // @public (undocumented)
 export type FlowColorLocaleKey = `color_${FlowColor}`;
@@ -40,6 +40,8 @@ export interface FlowEditorToolbarProps {
     onCheckIn?: () => void;
     // (undocumented)
     onCheckOut?: () => void;
+    // (undocumented)
+    onReset?: () => void;
     // (undocumented)
     source?: EditorSourceState;
 }
@@ -65,6 +67,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     button_insert: string;
     // (undocumented)
+    button_reset: string;
+    // (undocumented)
     interaction_none: string;
     // (undocumented)
     interaction_open_url: string;
@@ -78,6 +82,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_markup_tag: string;
     // (undocumented)
     label_please_wait: string;
+    // (undocumented)
+    message_connection_broken: string;
     // (undocumented)
     tab_material_design_icons: string;
     // (undocumented)

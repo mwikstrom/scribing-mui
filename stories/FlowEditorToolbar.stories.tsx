@@ -11,6 +11,7 @@ import { MaterialFlowTypography } from "../src/MaterialFlowTypography";
 
 interface StoryProps {
     dark?: boolean;
+    broken?: boolean;
 }
 
 const Story: FC<StoryProps> = props => {
@@ -23,10 +24,11 @@ const Story: FC<StoryProps> = props => {
     );
 };
 
-const Root: FC<Omit<StoryProps, "dark">> = () => {
+const Root: FC<Omit<StoryProps, "dark">> = props => {
+    const { broken } = props;
     const [controller, setController] = useState<FlowEditorController | null>(null);
     const classes = useStyles();
-    const [source, setSource] = useState<EditorSourceState>("checked-out");
+    const [source, setSource] = useState<EditorSourceState>(broken ? "broken" : "checked-out");
     const transitionSource = useCallback((target: EditorSourceState, delay = 1000) => {
         setSource("busy");
         const timerId = setTimeout(() => setSource(target), delay);
@@ -93,3 +95,9 @@ Light.args = {};
 
 export const Dark = Template.bind({});
 Dark.args = { dark: true };
+
+export const LightBroken = Template.bind({});
+LightBroken.args = { broken: true };
+
+export const DarkBroken = Template.bind({});
+DarkBroken.args = { broken: true, dark: true };

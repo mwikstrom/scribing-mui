@@ -8,5 +8,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type EditorSourceState = ("none" | "busy" | "checked-out" | "checked-in");
+export declare type EditorSourceState = ("none" | "busy" | "checked-out" | "checked-in" | "broken");
 ```
