@@ -87,6 +87,8 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     font_family_body: "Body",
     font_family_heading: "Heading",
     font_family_monospace: "Monospace",
+    font_family_cursive: "Cursive",
+    font_family_decorative: "Decorative",
     box_basic: "Basic",
     box_outlined: "Outlined",
     box_contained: "Contained",
