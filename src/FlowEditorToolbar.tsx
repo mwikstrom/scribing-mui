@@ -81,10 +81,7 @@ export interface FlowEditorToolbarProps {
     onCheckOut?: () => void;
 }
 
-// TODO: Disable commands when frozen!
-// TODO: Connection status?
 // TODO: Flow typography
-// TODO: Insert component
 // TODO: FIX CUT/COPY/PASTE
 
 /** @public */
