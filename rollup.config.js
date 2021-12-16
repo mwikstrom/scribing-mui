@@ -1,13 +1,12 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import pluginTypescript from "@rollup/plugin-typescript";
 import pluginCommonjs from "@rollup/plugin-commonjs";
 import pluginNodeResolve from "@rollup/plugin-node-resolve";
 import { babel } from "@rollup/plugin-babel";
-import * as path from "path";
 import pkg from "./package.json";
 
-const moduleName = pkg.name.replace(/^@.*\//, "");
 const inputFileName = "src/index.ts";
-const banner = `// ${moduleName} - version ${pkg.version}`;
+const banner = `// ${pkg.name} - version ${pkg.version}`;
 
 export default [
     {
@@ -18,13 +17,13 @@ export default [
                 format: "cjs",
                 sourcemap: true,
                 banner,
-                exports: "named",
-                inlineDynamicImports: true,
             },
         ],
-        external: [
-            ...Object.keys(pkg.peerDependencies || {}),
-        ],
+        external: id => (
+            !(id in pkg.dependencies) && 
+            !/(src|node_modules)/.test(id) && 
+            !/^\.+/.test(id)
+        ),
         plugins: [
             pluginTypescript({
                 target: "ES2019",
@@ -38,7 +37,7 @@ export default [
             }),
             babel({
                 babelHelpers: "runtime",
-                configFile: path.resolve(__dirname, ".babelrc"),
+                extensions: [ ".ts", ".tsx" ],
             }),
             pluginNodeResolve({
                 browser: false,
