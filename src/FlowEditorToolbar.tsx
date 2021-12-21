@@ -127,7 +127,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 <ExitPreviewButton {...toolProps}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CheckInOutButton {...checkInOutProps} showLabel/>
+                                <CheckInOutButton {...checkInOutProps} showLabel primary/>
                             </ToolGroup>
                         </>
                     ) : (

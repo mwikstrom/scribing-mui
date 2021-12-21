@@ -60,6 +60,7 @@
     "babel-jest": "^27.1.1",
     "babel-loader": "^8.2.2",
     "clsx": "^1.1.1",
+    "color": "^3.2.1",
     "eslint": "^7.31.0",
     "jest": "^27.0.6",
     "paratype": "^0.7.0",
