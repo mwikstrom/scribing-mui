@@ -43,7 +43,7 @@ export const CommandButton: FC<CommandButtonProps> = props => {
             return givenChildren;
         }
         const iconPath = typeof command.iconPath === "function" ? 
-            controller && command.iconPath(controller) : 
+            command.iconPath(controller) : 
             command.iconPath;
         if (!iconPath) {
             return null;

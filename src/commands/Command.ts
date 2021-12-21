@@ -4,7 +4,7 @@ export interface Command {
     exec: (controller: FlowEditorController) => void;
     isActive?: (controller: FlowEditorController) => boolean | undefined;
     isDisabled?: (controller: FlowEditorController) => boolean | undefined;
-    iconPath?: string | ((controller: FlowEditorController) => string);
+    iconPath?: string | ((controller: FlowEditorController | null | undefined) => string);
     flipIcon?: (controller: FlowEditorController) => boolean | undefined;
     ignoreFrozen?: boolean;
 }
