@@ -116,9 +116,9 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const checkInOutProps = { source, onCheckIn, onCheckOut, };
     const toolProps = { controller, frozen };
     return (
-        <Collapse in={isExpanded || source === "broken"} collapsedSize={collapsedSize}>
-            <Toolbar className={clsx(classes.root, className)} disableGutters>
-                <div className={classes.tools} ref={setToolsRef}>
+        <div className={clsx(classes.root, className)}>
+            <Collapse in={isExpanded || source === "broken"} collapsedSize={collapsedSize}>
+                <Toolbar className={classes.tools} ref={setToolsRef} disableGutters>
                     {source === "broken" ? (
                         <ConnectionBroken onReset={onReset}/>
                     ) : isPreview ? (
@@ -219,24 +219,24 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                             </ToolGroup>
                         </>
                     )}
-                </div>
-                {isWrapped && (
-                    <IconButton className={classes.expandButton} onClick={toggleExpanded}>
-                        <Icon size={1} path={isExpanded ? mdiMenuUp : mdiMenuDown}/>
-                    </IconButton>  
-                )}                  
-            </Toolbar>
-        </Collapse>
+                </Toolbar>
+            </Collapse>
+            {isWrapped && (
+                <IconButton className={classes.expandButton} onClick={toggleExpanded}>
+                    <Icon size={1} path={isExpanded ? mdiMenuUp : mdiMenuDown}/>
+                </IconButton>  
+            )}                  
+        </div>
     );
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        minHeight: theme.spacing(6),
         display: "flex",
         flexDirection: "row",
     },
     tools: {
+        minHeight: theme.spacing(6),
         flex: 1,
         display: "flex",
         flexWrap: "wrap",
@@ -244,6 +244,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     expandButton: {
         flex: 0,
-        alignSelf: "start",
+        alignSelf: "end",
     },
 }));
