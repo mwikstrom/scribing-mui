@@ -97,21 +97,22 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const toolsSize = useElementSize(toolsRef);
     const theme = useTheme<Theme>();
     const isHighWindow = useMediaQuery("(min-height: 600px)");
-    const collapsedSize = theme.spacing(isHighWindow ? 12 : 6);
-    const isWrapped = useMemo(() => {
+    const lineSize = theme.spacing(6);
+    const maxOffset = useMemo(() => {
+        let result = 0;
         if (toolsRef) {
             for (
                 let child = toolsRef.firstElementChild as (HTMLElement | null); 
                 child !== null; 
                 child = child.nextElementSibling as (HTMLElement | null)
             ) {
-                if (child.offsetTop >= collapsedSize) {
-                    return true;
-                }
+                result = Math.max(result, child.offsetTop);
             }
         }
-        return false;
-    }, [toolsSize, controller, toolsRef, collapsedSize]);
+        return result;
+    }, [toolsSize, controller, toolsRef]);
+    const desiredLineCount = 1 + Math.round(maxOffset / lineSize);
+    const collapsedSize = lineSize * Math.min(desiredLineCount, isHighWindow ? 2 : 1);
     const toggleExpanded = useCallback(() => setExpanded(before => !before), []);
     const classes = useStyles();
     const checkInOutProps = { source, onCheckIn, onCheckOut, };
@@ -222,7 +223,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                     )}
                 </Toolbar>
             </Collapse>
-            {isWrapped && (
+            {maxOffset >= collapsedSize && (
                 <IconButton className={classes.expandButton} onClick={toggleExpanded}>
                     <Icon size={1} path={isExpanded ? mdiMenuUp : mdiMenuDown}/>
                 </IconButton>  
