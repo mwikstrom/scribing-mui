@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { FlowEditorController } from "scribing-react";
-import { Collapse, IconButton, Theme, Toolbar } from "@material-ui/core";
+import { Collapse, IconButton, Theme, Toolbar, useMediaQuery } from "@material-ui/core";
 import Icon from "@mdi/react";
 import { 
     mdiFormatLineSpacing, 
@@ -96,7 +96,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const [toolsRef, setToolsRef] = useState<HTMLElement | null>(null);
     const toolsSize = useElementSize(toolsRef);
     const theme = useTheme<Theme>();
-    const collapsedSize = theme.spacing(6);
+    const isHighWindow = useMediaQuery("(min-height: 600px)");
+    const collapsedSize = theme.spacing(isHighWindow ? 12 : 6);
     const isWrapped = useMemo(() => {
         if (toolsRef) {
             for (
