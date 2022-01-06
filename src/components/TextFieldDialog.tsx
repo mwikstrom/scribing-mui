@@ -33,12 +33,13 @@ export const TextFieldDialog: FC<TextFieldDialogProps> = props => {
             onComplete(null);
         }
     }, [onComplete]);
+    const disabled = !allowEmpty && !value;
     const onSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
-        if (onComplete) {
+        if (onComplete && !disabled) {
             onComplete(value);
         }
-    }, [onComplete, value]);
+    }, [onComplete, value, disabled]);
     useEffect(() => setValue(initialValue), [rest.open]);
     return (
         <Dialog {...rest} scroll="paper" disableEscapeKeyDown={value !== initialValue}>
@@ -61,7 +62,7 @@ export const TextFieldDialog: FC<TextFieldDialogProps> = props => {
                 <Button
                     onClick={onClickComplete}
                     color="primary"
-                    disabled={!allowEmpty && !value}
+                    disabled={disabled}
                     children={completeLabel}
                 />
             </DialogActions>
