@@ -2,9 +2,8 @@ import { mdiCodeTags } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { FlowEditorController } from "scribing-react";
-import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButton, ToolButtonProps } from "../components/ToolButton";
-import { TextFieldDialog } from "../components/TextFieldDialog";
+import { MarkupDialog, UnsetSymbol } from "../components/MarkupDialog";
 
 export interface MarkupButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
@@ -16,29 +15,53 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const openDialog = useCallback(() => setDialogOpen(true), []);
     const closeDialog = useCallback(() => setDialogOpen(false), []);    
-    const completeDialog = useCallback((tag: string | null) => {
+    const completeDialog = useCallback((tag: string, attr: Map<string, string | UnsetSymbol>, insertEmpty: boolean) => {
         closeDialog();
-        if (tag) {
-            controller?.insertMarkup(tag);
+        if (controller) {
+            if (!controller.isMarkup()) {
+                const insertAttr = new Map<string, string>();
+                for (const [key, value] of attr) {
+                    if (typeof value === "string") {
+                        insertAttr.set(key, value);
+                    }
+                }
+                controller.insertMarkup(tag, insertAttr, insertEmpty);
+            } else {
+                if (tag && controller.getMarkupTag() !== tag) {
+                    controller.setMarkupTag(tag);
+                }
+                for (const [key, value] of attr) {
+                    if (typeof value === "string") {
+                        controller.setMarkupAttr(key, value);
+                    } else {
+                        controller.unsetMarkupAttr(key);
+                    }
+                }
+            }
         }
     }, [controller, closeDialog]);
     const disabled = useMemo(() => frozen || !controller || controller?.isTableSelection(), [frozen, controller]);
-    const locale = useMaterialFlowLocale();
+    const active = useMemo(() => controller?.isMarkup(), [controller]);
     return (
         <>
             <ToolButton
                 {...rest} 
                 onClick={openDialog}
                 disabled={disabled}
+                active={active}
                 children={<Icon size={1} path={mdiCodeTags}/>}
             />
-            <TextFieldDialog
-                open={isDialogOpen}
-                onClose={closeDialog}
-                onComplete={completeDialog}
-                inputLabel={locale.label_markup_tag}
-                completeLabel={locale.button_insert}
-            />
+            {isDialogOpen && (
+                <MarkupDialog
+                    open={isDialogOpen}
+                    isNew={!active}
+                    tag={controller?.getMarkupTag()}
+                    attr={controller?.getMarkupAttrs()}
+                    canInsertEmpty={!active && controller?.isCaret()}
+                    onClose={closeDialog}
+                    onComplete={completeDialog}
+                />
+            )}
         </>
     );
 };

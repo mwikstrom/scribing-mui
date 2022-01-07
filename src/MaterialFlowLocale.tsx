@@ -47,6 +47,11 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     interaction_run_script: string;
     label_markup_tag: string;
     message_connection_broken: string;
+    label_multiple_values: string;
+    label_insert_empty_element: string;
+    label_attribute: string;
+    label_new_attribute: string;
+    label_value: string;
 }
 
 /** @public */
@@ -98,6 +103,11 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     box_contained: "Contained",
     box_quote: "Quote",
     box_alert: "Alert",
+    label_multiple_values: "Multiple values",
+    label_insert_empty_element: "Insert empty element",
+    label_attribute: "Attribute",
+    label_new_attribute: "Type a new attribute here",
+    label_value: "Value",
 });
 
 /** @public */
