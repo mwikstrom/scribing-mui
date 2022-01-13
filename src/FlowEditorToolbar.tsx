@@ -157,6 +157,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                             <ToolGroup collapse={!isBoxSelection}>
                                 <BoxVariantSelector {...toolProps}/>
                                 <BoxColorButton {...toolProps}/>
+                                <InteractionButton {...toolProps}/>
                                 <CommandButton {...toolProps} command={ToggleFullWidthBox}/>
                             </ToolGroup>
                             <ToolGroup>
