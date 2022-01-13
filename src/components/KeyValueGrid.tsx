@@ -121,6 +121,9 @@ const useStyles = makeStyles((theme: Theme) => {
             "& $columnHeader": {
                 borderColor,
             },
+            "& $columnHeader:focus, & $columnHeader:focus-within": {
+                outline: "none",
+            },
             "& $columnHeader:last-child": {
                 borderRight: "none",
             },
