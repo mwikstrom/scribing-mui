@@ -1,5 +1,5 @@
 import { Box, Theme, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import { 
     DataGrid,
     GridCellValue,
@@ -23,6 +23,7 @@ export interface KeyValueGridProps {
 export const KeyValueGrid: FC<KeyValueGridProps> = props => {
     const locale = useMaterialFlowLocale();
     const { data, keyLabel, newKeyLabel, valueLabel = locale.label_value, onSetValue, onUnsetValue } = props;
+    const classes = useStyles();
     const columns = useMemo<GridColumns>(() => {
         const commonProps: Partial<GridColDef> = {
             flex: 1,
@@ -86,6 +87,7 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
             hideFooter
             editMode="row"
             onRowEditStop={onRowEditStop}
+            classes={classes}
         />
     );
 };
@@ -103,3 +105,31 @@ const Cell: FC<CellProps> = ({children, color}) => {
         </Box>
     );
 };
+
+const useStyles = makeStyles((theme: Theme) => {
+    const borderColor =
+        theme.palette.type === "light" ? "rgba(0, 0, 0, 0.23)" : "rgba(255, 255, 255, 0.23)";
+    return {
+        root: {
+            borderColor,
+            "& .MuiDataGrid-columnsContainer": {
+                borderColor,
+            },
+            "& $cell": {
+                borderColor,
+            },
+            "& $columnHeader": {
+                borderColor,
+            },
+            "& $columnHeader:last-child": {
+                borderRight: "none",
+            },
+            "& $row:last-child $cell": {
+                borderBottom: "none",
+            },
+        },
+        cell: {},
+        row: {},
+        columnHeader: {},
+    };
+});

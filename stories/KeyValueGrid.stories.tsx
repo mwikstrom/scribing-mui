@@ -32,13 +32,15 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
     );
     return (
         <div className={classes.root}>
-            <KeyValueGrid
-                data={data}
-                keyLabel="Key"
-                newKeyLabel="Type a new key here"
-                onSetValue={onSetValue}
-                onUnsetValue={onUnsetValue}
-            />
+            <div>
+                <KeyValueGrid
+                    data={data}
+                    keyLabel="Key"
+                    newKeyLabel="Type a new key here"
+                    onSetValue={onSetValue}
+                    onUnsetValue={onUnsetValue}
+                />
+            </div>
         </div>
     );
 };
