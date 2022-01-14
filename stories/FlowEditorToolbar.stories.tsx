@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { EditorSourceState, FlowEditorToolbar } from "../src/FlowEditorToolbar";
-import { MuiThemeProvider, Theme } from "@material-ui/core";
+import { CustomInteractionOption, EditorSourceState, FlowEditorToolbar } from "../src/FlowEditorToolbar";
+import { Button, Dialog, DialogActions, DialogTitle, MuiThemeProvider, TextField, Theme } from "@material-ui/core";
 import { FlowEditor, FlowEditorController, FlowEditorState } from "scribing-react";
 import { MaterialFlowPalette } from "../src/MaterialFlowPalette";
 import { makeStyles } from "@material-ui/styles";
-import { FlowContent } from "scribing";
+import { FlowContent, Interaction, OpenUrl } from "scribing";
 import { useStoryTheme } from "./theme";
 import { MaterialFlowTypography } from "../src/MaterialFlowTypography";
 
@@ -37,6 +37,15 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
     const onCheckIn = useCallback(() => transitionSource("checked-in"), []);
     const onCheckOut = useCallback(() => transitionSource("checked-out"), []);
     const frozen = useMemo(() => source === "busy" || source === "checked-in", [source]);    
+    const getCustomInteractionOptions = useCallback((interaction: Interaction | null) => {
+        const openTopic: CustomInteractionOption = {
+            key: "open_topic",
+            label: "Open topic",
+            selected: interaction instanceof OpenUrl && /^[a-zA-Z0-9-]+$/.test(interaction.url),
+            renderDialog: (interaction, onClose) => <OpenTopicDialog interaction={interaction} onClose={onClose}/>
+        };
+        return [openTopic];
+    }, []);
     return (
         <div className={classes.root}>
             <MaterialFlowTypography>
@@ -48,6 +57,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
                         frozen={frozen}
                         onCheckIn={onCheckIn}
                         onCheckOut={onCheckOut}
+                        getCustomInteractionOptions={getCustomInteractionOptions}
                     />
                     <FlowEditor
                         className={classes.editor}
@@ -58,6 +68,26 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
                 </MaterialFlowPalette>
             </MaterialFlowTypography>
         </div>
+    );
+};
+
+interface OpenTopicDialogProps {
+    interaction: Interaction | null;
+    onClose: (interaction?: Interaction | null) => void;
+}
+
+const OpenTopicDialog = (props: OpenTopicDialogProps) => {
+    const { interaction, onClose } = props;
+    const [url, setUrl] = useState(() => interaction instanceof OpenUrl ? interaction.url : "");
+    return (
+        <Dialog open onClose={() => onClose()}>
+            <DialogTitle>Open topic</DialogTitle>
+            <TextField value={url} onChange={e => setUrl(e.target.value)}/>
+            <DialogActions>
+                <Button onClick={() => onClose()}>Cancel</Button>
+                <Button onClick={() => onClose(new OpenUrl({ url }))}>OK</Button>
+            </DialogActions>
+        </Dialog>
     );
 };
 

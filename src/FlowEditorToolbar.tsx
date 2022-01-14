@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, ReactNode, useCallback, useMemo, useState } from "react";
 import { FlowEditorController } from "scribing-react";
 import { Collapse, IconButton, Theme, Toolbar, useMediaQuery } from "@material-ui/core";
 import Icon from "@mdi/react";
@@ -63,6 +63,7 @@ import { TogglePreview } from "./commands/TogglePreview";
 import { ExitPreviewButton } from "./components/ExitPreviewButton";
 import { CheckInOutButton } from "./components/CheckInOutButton";
 import { ConnectionBroken } from "./components/ConnectionBroken";
+import { Interaction } from "scribing";
 
 /** @public */
 export type EditorSourceState = (
@@ -82,13 +83,31 @@ export interface FlowEditorToolbarProps {
     onCheckIn?: () => void;
     onCheckOut?: () => void;
     onReset?: () => void;
+    getCustomInteractionOptions?: (current: Interaction | null) => readonly CustomInteractionOption[];
+}
+
+/** @public */
+export interface CustomInteractionOption {
+    key: string;
+    label: string;
+    selected: boolean;
+    renderDialog(current: Interaction | null, onClose: (result: Interaction | null | undefined) => void): ReactNode;
 }
 
 // TODO: FIX CUT/COPY/PASTE
 
 /** @public */
 export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
-    const { controller, className, source, frozen, onCheckIn, onCheckOut, onReset } = props;
+    const {
+        controller,
+        className,
+        source,
+        frozen,
+        onCheckIn,
+        onCheckOut,
+        onReset,
+        getCustomInteractionOptions,
+    } = props;
     const isPreview = useMemo(() => controller?.getPreview(), [controller]);
     const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
     const isTableSelection = useMemo(() => controller?.isTableSelection(), [controller]);
@@ -150,7 +169,10 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 <CommandButton {...toolProps} command={ToggleItalic}/>
                                 <CommandButton {...toolProps} command={ToggleUnderline}/>
                                 <CommandButton {...toolProps} command={ToggleStrikeThrough}/>
-                                <InteractionButton {...toolProps}/>
+                                <InteractionButton
+                                    {...toolProps}
+                                    getCustomInteractionOptions={getCustomInteractionOptions}
+                                />
                                 <CommandButton {...toolProps} command={ToggleSubscript}/>
                                 <CommandButton {...toolProps} command={ToggleSuperscript}/>
                             </ToolGroup>
