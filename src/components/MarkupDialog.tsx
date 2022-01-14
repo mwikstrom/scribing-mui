@@ -104,7 +104,7 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
                         InputLabelProps={{shrink: true}}
                         autoFocus
                     />
-                    {(isNew || initialAttr !== null) && (
+                    {(isNew || initialAttr) && (
                         <Box pt={2}>
                             <KeyValueGrid
                                 data={attr}
