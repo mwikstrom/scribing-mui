@@ -10,11 +10,24 @@ import { FlowColor } from 'scribing';
 import { FlowEditorController } from 'scribing-react';
 import { FlowLocale } from 'scribing-react';
 import { FontFamily } from 'scribing';
+import { Interaction } from 'scribing';
 import { ParagraphVariant } from 'scribing';
 import { ReactNode } from 'react';
 
 // @public (undocumented)
 export type BoxVariantLocaleKey = `box_${BoxVariant}`;
+
+// @public (undocumented)
+export interface CustomInteractionOption {
+    // (undocumented)
+    key: string;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    renderDialog(current: Interaction | null, onClose: (result: Interaction | null | undefined) => void): ReactNode;
+    // (undocumented)
+    selected: boolean;
+}
 
 // @public (undocumented)
 export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale>;
@@ -36,6 +49,8 @@ export interface FlowEditorToolbarProps {
     controller?: FlowEditorController | null;
     // (undocumented)
     frozen?: boolean;
+    // (undocumented)
+    getCustomInteractionOptions?: (current: Interaction | null) => readonly CustomInteractionOption[];
     // (undocumented)
     onCheckIn?: () => void;
     // (undocumented)

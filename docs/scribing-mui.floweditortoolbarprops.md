@@ -18,6 +18,7 @@ export interface FlowEditorToolbarProps
 |  [className?](./scribing-mui.floweditortoolbarprops.classname.md) | string | <i>(Optional)</i> |
 |  [controller?](./scribing-mui.floweditortoolbarprops.controller.md) | FlowEditorController \| null | <i>(Optional)</i> |
 |  [frozen?](./scribing-mui.floweditortoolbarprops.frozen.md) | boolean | <i>(Optional)</i> |
+|  [getCustomInteractionOptions?](./scribing-mui.floweditortoolbarprops.getcustominteractionoptions.md) | (current: Interaction \| null) =&gt; readonly [CustomInteractionOption](./scribing-mui.custominteractionoption.md)<!-- -->\[\] | <i>(Optional)</i> |
 |  [onCheckIn?](./scribing-mui.floweditortoolbarprops.oncheckin.md) | () =&gt; void | <i>(Optional)</i> |
 |  [onCheckOut?](./scribing-mui.floweditortoolbarprops.oncheckout.md) | () =&gt; void | <i>(Optional)</i> |
 |  [onReset?](./scribing-mui.floweditortoolbarprops.onreset.md) | () =&gt; void | <i>(Optional)</i> |

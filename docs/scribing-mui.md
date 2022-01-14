@@ -16,6 +16,7 @@ Material-UI components for collaborative rich text editing
 
 |  Interface | Description |
 |  --- | --- |
+|  [CustomInteractionOption](./scribing-mui.custominteractionoption.md) |  |
 |  [FlowEditorToolbarProps](./scribing-mui.floweditortoolbarprops.md) |  |
 |  [MaterialFlowLocale](./scribing-mui.materialflowlocale.md) |  |
 |  [MaterialFlowLocaleProps](./scribing-mui.materialflowlocaleprops.md) |  |
