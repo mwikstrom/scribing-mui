@@ -52,6 +52,51 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_attribute: string;
     label_new_attribute: string;
     label_value: string;
+    tip_more_tools: string;
+    tip_check_in: string;
+    tip_preview: string;
+    tip_formatting_marks: string;
+    tip_reading_ltr: string;
+    tip_reading_rtl: string;
+    tip_paste: string;
+    tip_copy: string;
+    tip_cut: string;
+    tip_redo: string;
+    tip_undo: string;
+    tip_table_split_cell: string;
+    tip_table_merge_cells: string;
+    tip_table_column_remove: string;
+    tip_table_row_remove: string;
+    tip_table_row_insert_before: string;
+    tip_table_row_insert_after: string;
+    tip_table_column_insert_before: string;
+    tip_table_column_insert_after: string;
+    tip_markup: string;
+    tip_insert_table: string;
+    tip_image: string;
+    tip_icon: string;
+    tip_insert_box: string;
+    tip_dynamic_text: string;
+    tip_indent_increment: string;
+    tip_indent_decrement: string;
+    tip_list_ordered: string;
+    tip_list_unordered: string;
+    tip_align_left: string;
+    tip_align_center: string;
+    tip_align_right: string;
+    tip_align_justify: string;
+    tip_box_full_width: string;
+    tip_box_interaction: string;
+    tip_box_color: string;
+    tip_superscript: string;
+    tip_subscript: string;
+    tip_link_interaction: string;
+    tip_strikethrough: string;
+    tip_bold: string;
+    tip_italic: string;
+    tip_underline: string;
+    tip_font_family: string;
+    tip_text_color: string;
 }
 
 /** @public */
@@ -108,6 +153,51 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     label_attribute: "Attribute",
     label_new_attribute: "Type a new attribute here",
     label_value: "Value",
+    tip_more_tools: "Hide or show additional tools",
+    tip_check_in: "Check in",
+    tip_preview: "Show preview",
+    tip_formatting_marks: "Hide or show formatting marks",
+    tip_reading_ltr: "Left-to-right reading direction",
+    tip_reading_rtl: "Right-to-left reading direction",
+    tip_paste: "Paste from clipboard",
+    tip_copy: "Copy to clipboard",
+    tip_cut: "Cut to clipboard",
+    tip_redo: "Redo",
+    tip_undo: "Undo",
+    tip_table_split_cell: "Split merged table cell",
+    tip_table_merge_cells: "Merge table cells",
+    tip_table_column_remove: "Remove table column",
+    tip_table_row_remove: "Remove table row",
+    tip_table_row_insert_before: "Insert table row before",
+    tip_table_row_insert_after: "Insert table row after",
+    tip_table_column_insert_before: "Insert table column before",
+    tip_table_column_insert_after: "Insert table column after",
+    tip_markup: "Insert or edit markup",
+    tip_insert_table: "Insert table",
+    tip_image: "Insert or change image",
+    tip_icon: "Insert or change icon",
+    tip_insert_box: "Insert box",
+    tip_dynamic_text: "Insert or edit dynamic text",
+    tip_indent_increment: "Increase indent",
+    tip_indent_decrement: "Decrease indent",
+    tip_list_ordered: "Toggle ordered list",
+    tip_list_unordered: "Toggle unordered list",
+    tip_align_left: "Align content to the left",
+    tip_align_center: "Align content to the right",
+    tip_align_right: "Center content",
+    tip_align_justify: "Justify content",
+    tip_box_full_width: "Toggle full-width box",
+    tip_box_interaction: "Box interaction",
+    tip_box_color: "Box color",
+    tip_superscript: "Superscript",
+    tip_subscript: "Subscript",
+    tip_link_interaction: "Link interaction",
+    tip_strikethrough: "Strikethrough",
+    tip_bold: "Bold",
+    tip_italic: "Italic",
+    tip_underline: "Underline",
+    tip_font_family: "Font family",
+    tip_text_color: "Text color",
 });
 
 /** @public */

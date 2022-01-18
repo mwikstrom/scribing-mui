@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
 import React, { FC, forwardRef, useCallback } from "react";
-import { alpha, Button, ButtonProps, Theme } from "@material-ui/core";
+import { alpha, Button, ButtonProps, Theme, Tooltip } from "@material-ui/core";
 
 export interface ToolButtonProps extends ButtonProps {
     active?: boolean;
     primary?: boolean;
+    title?: string;
 }
 
 export const ToolButton: FC<ToolButtonProps> = forwardRef((props, ref) => {
@@ -14,6 +15,7 @@ export const ToolButton: FC<ToolButtonProps> = forwardRef((props, ref) => {
         active,
         primary,
         onMouseDown,
+        title = "",
         ...rest
     } = props;
     const classes = useStyles();
@@ -30,12 +32,14 @@ export const ToolButton: FC<ToolButtonProps> = forwardRef((props, ref) => {
         primary && classes.primary,
     );    
     return (
-        <Button
-            {...rest}
-            ref={ref}
-            className={classNameOverride}
-            onMouseDown={onMouseDownOverride}
-        />
+        <Tooltip arrow interactive placement="bottom" title={title}>
+            <Button
+                {...rest}
+                ref={ref}
+                className={classNameOverride}
+                onMouseDown={onMouseDownOverride}
+            />
+        </Tooltip>
     );
 });
 

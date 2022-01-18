@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useCallback, useMemo, useState } from "react";
 import { FlowEditorController } from "scribing-react";
-import { Collapse, IconButton, Theme, Toolbar, useMediaQuery } from "@material-ui/core";
+import { Collapse, IconButton, Theme, Toolbar, Tooltip, useMediaQuery } from "@material-ui/core";
 import Icon from "@mdi/react";
 import { 
     mdiFormatLineSpacing, 
@@ -64,6 +64,7 @@ import { ExitPreviewButton } from "./components/ExitPreviewButton";
 import { CheckInOutButton } from "./components/CheckInOutButton";
 import { ConnectionBroken } from "./components/ConnectionBroken";
 import { Interaction } from "scribing";
+import { useMaterialFlowLocale } from ".";
 
 /** @public */
 export type EditorSourceState = (
@@ -136,6 +137,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const classes = useStyles();
     const checkInOutProps = { source, onCheckIn, onCheckOut, };
     const toolProps = { controller, frozen };
+    const locale = useMaterialFlowLocale();
     return (
         <div className={clsx(classes.root, className)}>
             <Collapse in={isExpanded || source === "broken"} collapsedSize={collapsedSize}>
@@ -155,8 +157,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                         <>
                             <ToolGroup collapse={isBoxSelection}>
                                 <ParagraphVariantSelector {...toolProps}/>
-                                <TextColorButton {...toolProps}/>
-                                <FontFamilyButton {...toolProps}/>
+                                <TextColorButton {...toolProps} title={locale.tip_text_color}/>
+                                <FontFamilyButton {...toolProps} title={locale.tip_font_family}/>
                                 <ToolButton disabled>
                                     <Icon size={1} path={mdiFormatSize}/>
                                 </ToolButton>
@@ -165,71 +167,132 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 </ToolButton>
                             </ToolGroup>
                             <ToolGroup collapse={isBoxSelection}>
-                                <CommandButton {...toolProps} command={ToggleBold}/>
-                                <CommandButton {...toolProps} command={ToggleItalic}/>
-                                <CommandButton {...toolProps} command={ToggleUnderline}/>
-                                <CommandButton {...toolProps} command={ToggleStrikeThrough}/>
+                                <CommandButton {...toolProps} command={ToggleBold} title={locale.tip_bold}/>
+                                <CommandButton {...toolProps} command={ToggleItalic} title={locale.tip_italic}/>
+                                <CommandButton {...toolProps} command={ToggleUnderline} title={locale.tip_underline}/>
+                                <CommandButton
+                                    {...toolProps}
+                                    command={ToggleStrikeThrough}
+                                    title={locale.tip_strikethrough}
+                                />
                                 <InteractionButton
                                     {...toolProps}
                                     getCustomInteractionOptions={getCustomInteractionOptions}
+                                    title={locale.tip_link_interaction}
                                 />
-                                <CommandButton {...toolProps} command={ToggleSubscript}/>
-                                <CommandButton {...toolProps} command={ToggleSuperscript}/>
+                                <CommandButton {...toolProps} command={ToggleSubscript} title={locale.tip_subscript}/>
+                                <CommandButton
+                                    {...toolProps}
+                                    command={ToggleSuperscript}
+                                    title={locale.tip_superscript}
+                                />
                             </ToolGroup>
                             <ToolGroup collapse={!isBoxSelection}>
                                 <BoxVariantSelector {...toolProps}/>
-                                <BoxColorButton {...toolProps}/>
-                                <InteractionButton {...toolProps}/>
-                                <CommandButton {...toolProps} command={ToggleFullWidthBox}/>
+                                <BoxColorButton {...toolProps} title={locale.tip_box_color}/>
+                                <InteractionButton {...toolProps} title={locale.tip_box_interaction}/>
+                                <CommandButton
+                                    {...toolProps}
+                                    command={ToggleFullWidthBox}
+                                    title={locale.tip_box_full_width}
+                                />
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton {...toolProps} command={AlignLeft}/>
-                                <CommandButton {...toolProps} command={AlignCenter}/>
-                                <CommandButton {...toolProps} command={AlignRight}/>
-                                <CommandButton {...toolProps} command={AlignJustify}/>
+                                <CommandButton {...toolProps} command={AlignLeft} title={locale.tip_align_left}/>
+                                <CommandButton {...toolProps} command={AlignCenter} title={locale.tip_align_center}/>
+                                <CommandButton {...toolProps} command={AlignRight} title={locale.tip_align_right}/>
+                                <CommandButton {...toolProps} command={AlignJustify} title={locale.tip_align_justify}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton {...toolProps} command={ToggleUnorderedList}/>
-                                <CommandButton {...toolProps} command={ToggleOrderedList}/>
+                                <CommandButton
+                                    {...toolProps}
+                                    command={ToggleUnorderedList}
+                                    title={locale.tip_list_unordered}
+                                />
+                                <CommandButton
+                                    {...toolProps}
+                                    command={ToggleOrderedList}
+                                    title={locale.tip_list_ordered}
+                                />
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton {...toolProps} command={DecrementIndent}/>
-                                <CommandButton {...toolProps} command={IncrementIndent}/>
+                                <CommandButton
+                                    {...toolProps}
+                                    command={DecrementIndent}
+                                    title={locale.tip_indent_decrement}
+                                />
+                                <CommandButton
+                                    {...toolProps}
+                                    command={IncrementIndent}
+                                    title={locale.tip_indent_increment}
+                                />
                             </ToolGroup>
                             <ToolGroup collapse={isTableSelection}>
-                                <DynamicTextButton {...toolProps}/>
-                                <CommandButton {...toolProps} command={InsertBox}/>
-                                <FlowIconButton {...toolProps}/>
-                                <CommandButton {...toolProps} command={InsertImage}/>
-                                <InsertTableButton {...toolProps}/>
-                                <MarkupButton {...toolProps}/>
+                                <DynamicTextButton {...toolProps} title={locale.tip_dynamic_text}/>
+                                <CommandButton {...toolProps} command={InsertBox} title={locale.tip_insert_box}/>
+                                <FlowIconButton {...toolProps} title={locale.tip_icon}/>
+                                <CommandButton {...toolProps} command={InsertImage} title={locale.tip_image}/>
+                                <InsertTableButton {...toolProps} title={locale.tip_insert_table}/>
+                                <MarkupButton {...toolProps} title={locale.tip_markup}/>
                             </ToolGroup>
                             <ToolGroup collapse={!isTableSelection}>
-                                <CommandButton {...toolProps} command={InsertTableRowBefore}/>
-                                <CommandButton {...toolProps} command={InsertTableRowAfter}/>
-                                <CommandButton {...toolProps} command={InsertTableColumnBefore}/>
-                                <CommandButton {...toolProps} command={InsertTableColumnAfter}/>
+                                <CommandButton
+                                    {...toolProps}
+                                    command={InsertTableRowBefore}
+                                    title={locale.tip_table_row_insert_before}
+                                />
+                                <CommandButton
+                                    {...toolProps}
+                                    command={InsertTableRowAfter}
+                                    title={locale.tip_table_row_insert_after}
+                                />
+                                <CommandButton
+                                    {...toolProps}
+                                    command={InsertTableColumnBefore}
+                                    title={locale.tip_table_column_insert_before}
+                                />
+                                <CommandButton
+                                    {...toolProps}
+                                    command={InsertTableColumnAfter}
+                                    title={locale.tip_table_column_insert_after}
+                                />
                             </ToolGroup>
                             <ToolGroup collapse={!isTableSelection}>
-                                <CommandButton {...toolProps} command={RemoveTableRow}/>
-                                <CommandButton {...toolProps} command={RemoveTableColumn}/>
+                                <CommandButton
+                                    {...toolProps}
+                                    command={RemoveTableRow}
+                                    title={locale.tip_table_row_remove}
+                                />
+                                <CommandButton
+                                    {...toolProps}
+                                    command={RemoveTableColumn}
+                                    title={locale.tip_table_column_remove}
+                                />
                             </ToolGroup>
                             <ToolGroup collapse={!isTableSelection}>
-                                <CommandButton {...toolProps} command={MergeTableCells}/>
-                                <CommandButton {...toolProps} command={SplitTableCell}/>
+                                <CommandButton
+                                    {...toolProps}
+                                    command={MergeTableCells}
+                                    title={locale.tip_table_merge_cells}
+                                />
+                                <CommandButton
+                                    {...toolProps}
+                                    command={SplitTableCell}
+                                    title={locale.tip_table_split_cell}
+                                />
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton {...toolProps} command={Undo}/>
-                                <CommandButton {...toolProps} command={Redo}/>
+                                <CommandButton {...toolProps} command={Undo} title={locale.tip_undo}/>
+                                <CommandButton {...toolProps} command={Redo} title={locale.tip_redo}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton {...toolProps} command={Copy}/>
-                                <CommandButton {...toolProps} command={Cut}/>
-                                <CommandButton {...toolProps} command={Paste}/>
+                                <CommandButton {...toolProps} command={Copy} title={locale.tip_copy}/>
+                                <CommandButton {...toolProps} command={Cut} title={locale.tip_cut}/>
+                                <CommandButton {...toolProps} command={Paste} title={locale.tip_paste}/>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton {...toolProps} command={ReadingLtr}/>
-                                <CommandButton {...toolProps} command={ReadingRtl}/>
+                                <CommandButton {...toolProps} command={ReadingLtr} title={locale.tip_reading_ltr}/>
+                                <CommandButton {...toolProps} command={ReadingRtl} title={locale.tip_reading_rtl}/>
                                 <ToolButton disabled>
                                     <Icon size={1} path={mdiSpellcheck}/>
                                 </ToolButton>
@@ -238,18 +301,24 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 </ToolButton>
                             </ToolGroup>
                             <ToolGroup>
-                                <CommandButton {...toolProps} command={ToggleFormattingMarks}/>
-                                <CommandButton {...toolProps} command={TogglePreview}/>
-                                <CheckInOutButton {...checkInOutProps}/>
+                                <CommandButton
+                                    {...toolProps}
+                                    command={ToggleFormattingMarks}
+                                    title={locale.tip_formatting_marks}
+                                />
+                                <CommandButton {...toolProps} command={TogglePreview} title={locale.tip_preview}/>
+                                <CheckInOutButton {...checkInOutProps} title={locale.tip_check_in}/>
                             </ToolGroup>
                         </>
                     )}
                 </Toolbar>
             </Collapse>
             {maxOffset >= collapsedSize && (
-                <IconButton className={classes.expandButton} onClick={toggleExpanded}>
-                    <Icon size={1} path={isExpanded ? mdiMenuUp : mdiMenuDown}/>
-                </IconButton>  
+                <Tooltip arrow interactive placement="bottom" title={locale.tip_more_tools}>
+                    <IconButton className={classes.expandButton} onClick={toggleExpanded}>
+                        <Icon size={1} path={isExpanded ? mdiMenuUp : mdiMenuDown}/>
+                    </IconButton>
+                </Tooltip>  
             )}                  
         </div>
     );
