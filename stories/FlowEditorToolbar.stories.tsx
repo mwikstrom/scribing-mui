@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/styles";
 import { FlowContent, Interaction, OpenUrl } from "scribing";
 import { useStoryTheme } from "./theme";
 import { MaterialFlowTypography } from "../src/MaterialFlowTypography";
+import { MaterialScribingComponents } from "../src";
 
 interface StoryProps {
     dark?: boolean;
@@ -50,21 +51,23 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
         <div className={classes.root}>
             <MaterialFlowTypography>
                 <MaterialFlowPalette>
-                    <FlowEditorToolbar
-                        className={classes.toolbar}
-                        controller={controller}
-                        source={source}
-                        frozen={frozen}
-                        onCheckIn={onCheckIn}
-                        onCheckOut={onCheckOut}
-                        getCustomInteractionOptions={getCustomInteractionOptions}
-                    />
-                    <FlowEditor
-                        className={classes.editor}
-                        defaultState={INITIAL_STATE}
-                        onControllerChange={setController}
-                        autoFocus
-                    />
+                    <MaterialScribingComponents>
+                        <FlowEditorToolbar
+                            className={classes.toolbar}
+                            controller={controller}
+                            source={source}
+                            frozen={frozen}
+                            onCheckIn={onCheckIn}
+                            onCheckOut={onCheckOut}
+                            getCustomInteractionOptions={getCustomInteractionOptions}
+                        />
+                        <FlowEditor
+                            className={classes.editor}
+                            defaultState={INITIAL_STATE}
+                            onControllerChange={setController}
+                            autoFocus
+                        />
+                    </MaterialScribingComponents>
                 </MaterialFlowPalette>
             </MaterialFlowTypography>
         </div>

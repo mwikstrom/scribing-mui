@@ -6,4 +6,5 @@
 export * from "./MaterialFlowPalette";
 export * from "./MaterialFlowTypography";
 export * from "./MaterialFlowLocale";
+export * from "./MaterialScribingComponents";
 export * from "./FlowEditorToolbar";
