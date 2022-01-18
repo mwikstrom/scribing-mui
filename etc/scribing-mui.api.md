@@ -13,6 +13,7 @@ import { FontFamily } from 'scribing';
 import { Interaction } from 'scribing';
 import { ParagraphVariant } from 'scribing';
 import { ReactNode } from 'react';
+import { ScribingComponents } from 'scribing-react';
 
 // @public (undocumented)
 export type BoxVariantLocaleKey = `box_${BoxVariant}`;
@@ -221,6 +222,9 @@ export const MaterialFlowPalette: FC;
 
 // @public (undocumented)
 export const MaterialFlowTypography: FC;
+
+// @public (undocumented)
+export const MaterialScribingComponents: FC<Partial<ScribingComponents>>;
 
 // @public (undocumented)
 export type ParagraphVariantLocaleKey = `paragraph_${ParagraphVariant}`;

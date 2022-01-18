@@ -30,6 +30,7 @@ Material-UI components for collaborative rich text editing
 |  [MaterialFlowLocale](./scribing-mui.materialflowlocale.md) |  |
 |  [MaterialFlowPalette](./scribing-mui.materialflowpalette.md) |  |
 |  [MaterialFlowTypography](./scribing-mui.materialflowtypography.md) |  |
+|  [MaterialScribingComponents](./scribing-mui.materialscribingcomponents.md) |  |
 
 ## Type Aliases
 
