@@ -87,7 +87,7 @@ const ButtonColorMapping: Partial<Record<FlowColor, ButtonProps["color"]>> = {
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        "& .ScribingTextSegment-root": {
+        "& .ScribingTextSegment-root, & .ScribingDynamicText-root > *": {
             color: "inherit !important",
             fontFamily: "inherit !important",
             fontSize: "inherit !important",
