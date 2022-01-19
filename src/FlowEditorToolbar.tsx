@@ -191,7 +191,11 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                             <ToolGroup collapse={!isBoxSelection}>
                                 <BoxVariantSelector {...toolProps}/>
                                 <BoxColorButton {...toolProps} title={locale.tip_box_color}/>
-                                <InteractionButton {...toolProps} title={locale.tip_box_interaction}/>
+                                <InteractionButton
+                                    {...toolProps}
+                                    getCustomInteractionOptions={getCustomInteractionOptions}
+                                    title={locale.tip_box_interaction}
+                                />
                                 <BoxSourceButton {...toolProps} title={locale.tip_data_source}/>
                                 <CommandButton
                                     {...toolProps}
