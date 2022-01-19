@@ -71,7 +71,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.64.0",
     "scribing": "^0.10.7",
-    "scribing-react": "^0.5.19",
+    "scribing-react": "^0.5.20",
     "scripthost": "^0.3.11",
     "scripthost-browser": "^0.1.14",
     "scripthost-core": "^0.2.6",
