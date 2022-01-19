@@ -95,6 +95,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     label_attribute: string;
     // (undocumented)
+    label_data_source: string;
+    // (undocumented)
     label_dynamic_text_script: string;
     // (undocumented)
     label_insert_empty_element: string;
@@ -136,6 +138,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_copy: string;
     // (undocumented)
     tip_cut: string;
+    // (undocumented)
+    tip_data_source: string;
     // (undocumented)
     tip_dynamic_text: string;
     // (undocumented)
