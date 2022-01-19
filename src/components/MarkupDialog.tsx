@@ -10,57 +10,52 @@ import {
     TextField,
 } from "@material-ui/core";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { MarkupInfo, MarkupUpdateInfo, UnsetAttribute } from "../MarkupInfo";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { KeyValueGrid } from "./KeyValueGrid";
 
-const UNSET_SYMBOL: unique symbol = Symbol();
-export type UnsetSymbol = typeof UNSET_SYMBOL;
-
 export interface MarkupDialogProps extends Omit<DialogProps, "onClose"> {
-    tag?: string | null;
-    attr?: ReadonlyMap<string, string | null> | null;
-    isNew?: boolean;
+    current: MarkupInfo | null;
     canInsertEmpty?: boolean;
-    onComplete?: (tag: string, attr: Map<string, string | UnsetSymbol>, insertEmpty: boolean) => void;
+    onComplete?: (update: MarkupUpdateInfo) => void;
     onClose?: () => void;
 }
 
 export const MarkupDialog: FC<MarkupDialogProps> = props => {
     const locale = useMaterialFlowLocale();
     const {
-        tag: initialTag,
-        attr: initialAttr,
-        isNew,
+        current: initial,
         canInsertEmpty,
         onComplete,
         ...dialogProps
     } = props;
     const { open, onClose } = dialogProps;
-    const [tag, setTag] = useState(initialTag || "");
-    const [attr, setAttr] = useState(() => initialAttr || new Map());
+    const [tag, setTag] = useState(() => initial?.tag || "");
+    const [attr, setAttr] = useState(() => initial?.attr || new Map());
     const [insertEmpty, setInsertEmpty] = useState(false);
     const changedAttr = useMemo(() => {
-        const result = new Map<string, string | UnsetSymbol>();
+        const result = new Map<string, string | UnsetAttribute>();
         for (const [key, value] of attr) {
             if (typeof value === "string") {
                 result.set(key, value);
             }
         }
-        if (initialAttr) {
-            for (const [key, value] of initialAttr) {
+        if (initial?.attr) {
+            for (const [key, value] of initial.attr) {
                 const assigned = attr.get(key);
                 if (assigned === undefined) {
-                    result.set(key, UNSET_SYMBOL);
+                    result.set(key, UnsetAttribute);
                 } else if (assigned === value) {
                     result.delete(key);
                 }
             }
         }     
         return result;
-    }, [initialAttr, attr]);
+    }, [initial, attr]);
     const onClickComplete = useCallback(() => {
         if (onComplete) {
-            onComplete(tag, changedAttr, insertEmpty);
+            const update: MarkupUpdateInfo = { tag, attr: changedAttr, empty: insertEmpty };
+            onComplete(update);
         }
     }, [onComplete, tag, changedAttr, insertEmpty]);
     const onClickCancel = useCallback(() => {
@@ -68,8 +63,9 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
             onClose();
         }
     }, [onClose]);
+    const isNew = !initial;
     const canSubmit = !isNew || !!tag;
-    const isChanged = (tag && tag !== initialTag) || changedAttr.size > 0;
+    const isChanged = (tag && tag !== initial?.tag) || changedAttr.size > 0;
     const onSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
         if (canSubmit) {
@@ -84,8 +80,8 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
     }, []);
     useEffect(() => {
         if (!open) {
-            setTag(initialTag || "");
-            setAttr(initialAttr || new Map());
+            setTag(initial?.tag || "");
+            setAttr(initial?.attr || new Map());
             setInsertEmpty(false);
         }
     }, [open]);
@@ -98,13 +94,13 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
                         size="small"
                         fullWidth
                         value={tag}
-                        placeholder={(initialTag === null && !isNew) ? locale.label_multiple_values : undefined}
+                        placeholder={(initial?.tag === null && !isNew) ? locale.label_multiple_values : undefined}
                         onChange={e => setTag(e.target.value)}
                         label={locale.label_markup_tag}
                         InputLabelProps={{shrink: true}}
                         autoFocus
                     />
-                    {(isNew || initialAttr) && (
+                    {(isNew || initial?.attr) && (
                         <Box pt={2}>
                             <KeyValueGrid
                                 data={attr}

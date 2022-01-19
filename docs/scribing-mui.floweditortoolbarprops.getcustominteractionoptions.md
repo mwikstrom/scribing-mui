@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-getCustomInteractionOptions?: (current: Interaction | null) => readonly CustomInteractionOption[];
+getCustomInteractionOptions?: CustomOptionProvider<Interaction | null>;
 ```

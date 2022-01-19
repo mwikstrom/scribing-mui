@@ -45,6 +45,7 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     interaction_none: string;
     interaction_open_url: string;
     interaction_run_script: string;
+    markup_advanced: string;
     label_markup_tag: string;
     message_connection_broken: string;
     label_multiple_values: string;
@@ -119,6 +120,7 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     interaction_none: "Not interactive",
     interaction_open_url: "Open URL",
     interaction_run_script: "Run script",
+    markup_advanced: "Advanced",
     label_markup_tag: "Markup tag",
     message_connection_broken: "Ouch! A synchronization problem occurred. It's a bug and we'll do our best to fix it!",
     paragraph_normal: "Normal",

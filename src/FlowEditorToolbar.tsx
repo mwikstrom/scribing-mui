@@ -64,8 +64,9 @@ import { ExitPreviewButton } from "./components/ExitPreviewButton";
 import { CheckInOutButton } from "./components/CheckInOutButton";
 import { ConnectionBroken } from "./components/ConnectionBroken";
 import { Interaction } from "scribing";
-import { useMaterialFlowLocale } from ".";
+import { MarkupUpdateInfo, useMaterialFlowLocale } from ".";
 import { BoxSourceButton } from "./tools/BoxSourceButton";
+import { MarkupInfo } from "./MarkupInfo";
 
 /** @public */
 export type EditorSourceState = (
@@ -85,15 +86,21 @@ export interface FlowEditorToolbarProps {
     onCheckIn?: () => void;
     onCheckOut?: () => void;
     onReset?: () => void;
-    getCustomInteractionOptions?: (current: Interaction | null) => readonly CustomInteractionOption[];
+    getCustomInteractionOptions?: CustomOptionProvider<Interaction | null>;
+    getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
 }
 
 /** @public */
-export interface CustomInteractionOption {
+export type CustomOptionProvider<T, U = T> = (
+    current: T
+) => readonly CustomOption<T, U>[];
+
+/** @public */
+export interface CustomOption<T, U = T> {
     key: string;
     label: string;
     selected: boolean;
-    renderDialog(current: Interaction | null, onClose: (result: Interaction | null | undefined) => void): ReactNode;
+    renderDialog(current: T, onClose: (result: U | undefined) => void): ReactNode;
 }
 
 // TODO: FIX CUT/COPY/PASTE
@@ -109,6 +116,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
         onCheckOut,
         onReset,
         getCustomInteractionOptions,
+        getCustomMarkupOptions,
     } = props;
     const isPreview = useMemo(() => controller?.getPreview(), [controller]);
     const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
@@ -241,7 +249,11 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 <FlowIconButton {...toolProps} title={locale.tip_icon}/>
                                 <CommandButton {...toolProps} command={InsertImage} title={locale.tip_image}/>
                                 <InsertTableButton {...toolProps} title={locale.tip_insert_table}/>
-                                <MarkupButton {...toolProps} title={locale.tip_markup}/>
+                                <MarkupButton
+                                    {...toolProps}
+                                    title={locale.tip_markup}
+                                    getCustomMarkupOptions={getCustomMarkupOptions}
+                                />
                             </ToolGroup>
                             <ToolGroup collapse={!isTableSelection}>
                                 <CommandButton

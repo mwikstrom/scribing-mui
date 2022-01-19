@@ -19,16 +19,19 @@ import { ScribingComponents } from 'scribing-react';
 export type BoxVariantLocaleKey = `box_${BoxVariant}`;
 
 // @public (undocumented)
-export interface CustomInteractionOption {
+export interface CustomOption<T, U = T> {
     // (undocumented)
     key: string;
     // (undocumented)
     label: string;
     // (undocumented)
-    renderDialog(current: Interaction | null, onClose: (result: Interaction | null | undefined) => void): ReactNode;
+    renderDialog(current: T, onClose: (result: U | undefined) => void): ReactNode;
     // (undocumented)
     selected: boolean;
 }
+
+// @public (undocumented)
+export type CustomOptionProvider<T, U = T> = (current: T) => readonly CustomOption<T, U>[];
 
 // @public (undocumented)
 export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale>;
@@ -51,7 +54,9 @@ export interface FlowEditorToolbarProps {
     // (undocumented)
     frozen?: boolean;
     // (undocumented)
-    getCustomInteractionOptions?: (current: Interaction | null) => readonly CustomInteractionOption[];
+    getCustomInteractionOptions?: CustomOptionProvider<Interaction | null>;
+    // (undocumented)
+    getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
     // (undocumented)
     onCheckIn?: () => void;
     // (undocumented)
@@ -66,7 +71,30 @@ export interface FlowEditorToolbarProps {
 export type FontFamilyLocaleKey = `font_family_${FontFamily}`;
 
 // @public (undocumented)
+export function getMarkupInfo(controller: FlowEditorController | null | undefined): MarkupInfo | null;
+
+// @public (undocumented)
 export type LocaleItemKey = (ParagraphVariantLocaleKey | FlowColorLocaleKey | FontFamilyLocaleKey | BoxVariantLocaleKey);
+
+// @public (undocumented)
+export interface MarkupInfo {
+    // (undocumented)
+    attr: ReadonlyMap<string, string | null> | null;
+    // (undocumented)
+    empty: boolean | null;
+    // (undocumented)
+    tag: string | null;
+}
+
+// @public (undocumented)
+export interface MarkupUpdateInfo {
+    // (undocumented)
+    attr?: ReadonlyMap<string, string | null | UnsetAttribute>;
+    // (undocumented)
+    empty?: boolean;
+    // (undocumented)
+    tag?: string;
+}
 
 // @public (undocumented)
 export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowLocale {
@@ -110,6 +138,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_please_wait: string;
     // (undocumented)
     label_value: string;
+    // (undocumented)
+    markup_advanced: string;
     // (undocumented)
     message_connection_broken: string;
     // (undocumented)
@@ -232,6 +262,12 @@ export const MaterialScribingComponents: FC<Partial<ScribingComponents>>;
 
 // @public (undocumented)
 export type ParagraphVariantLocaleKey = `paragraph_${ParagraphVariant}`;
+
+// @public (undocumented)
+export const UnsetAttribute: unique symbol;
+
+// @public (undocumented)
+export type UnsetAttribute = typeof UnsetAttribute;
 
 // @public (undocumented)
 export function useMaterialFlowLocale(): Readonly<MaterialFlowLocale>;

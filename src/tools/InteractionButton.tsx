@@ -8,14 +8,12 @@ import { ToolButtonProps } from "../components/ToolButton";
 import { OptionButton } from "../components/OptionButton";
 import { ScriptEditorDialog } from "../components/ScriptEditorDialog";
 import { TextFieldDialog } from "../components/TextFieldDialog";
-import { FlowEditorToolbarProps } from "../FlowEditorToolbar";
-import { CustomInteractionOption } from "..";
+import { CustomOption, CustomOptionProvider } from "../FlowEditorToolbar";
 
-export interface InteractionButtonProps extends
-    ToolButtonProps, 
-    Pick<FlowEditorToolbarProps, "getCustomInteractionOptions"> {
+export interface InteractionButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
     frozen?: boolean;
+    getCustomInteractionOptions?: CustomOptionProvider<Interaction | null>;
 }
 
 export const InteractionButton: FC<InteractionButtonProps> = props => {
@@ -23,7 +21,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
     const locale = useMaterialFlowLocale();
     const interaction = useMemo<Interaction | null | undefined>(() => controller?.getInteraction(), [controller]);
 
-    const customOptions = useMemo<readonly CustomInteractionOption[]>(() => {
+    const customOptions = useMemo<readonly CustomOption<Interaction | null>[]>(() => {
         if (getCustomInteractionOptions) {
             return getCustomInteractionOptions(interaction || null);
         } else {
@@ -146,7 +144,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
     );
 };
 
-type InteractionOption = DefaultInteractionOption | CustomInteractionOption;
+type InteractionOption = DefaultInteractionOption | CustomOption<Interaction | null>;
 
 type DefaultInteractionOption = (typeof DEFAULT_INTERACTION_OPTIONS)[number];
 

@@ -2,66 +2,135 @@ import { mdiCodeTags } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { FlowEditorController } from "scribing-react";
-import { ToolButton, ToolButtonProps } from "../components/ToolButton";
-import { MarkupDialog, UnsetSymbol } from "../components/MarkupDialog";
+import { ToolButtonProps } from "../components/ToolButton";
+import { MarkupDialog } from "../components/MarkupDialog";
+import { getMarkupInfo, MarkupInfo, MarkupUpdateInfo } from "../MarkupInfo";
+import { CustomOption, CustomOptionProvider } from "../FlowEditorToolbar";
+import { useMaterialFlowLocale } from "../MaterialFlowLocale";
+import { OptionButton } from "../components/OptionButton";
 
 export interface MarkupButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
     frozen?: boolean;
+    getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
 }
 
 export const MarkupButton: FC<MarkupButtonProps> = props => {
-    const { controller, frozen, ...rest } = props;
-    const [isDialogOpen, setDialogOpen] = useState(false);
-    const openDialog = useCallback(() => setDialogOpen(true), []);
-    const closeDialog = useCallback(() => setDialogOpen(false), []);    
-    const completeDialog = useCallback((tag: string, attr: Map<string, string | UnsetSymbol>, insertEmpty: boolean) => {
+    const { controller, frozen, getCustomMarkupOptions, ...rest } = props;
+    const locale = useMaterialFlowLocale();
+    const current = useMemo(() => getMarkupInfo(controller), [controller]);
+    const disabled = useMemo(() => frozen || !controller || controller?.isTableSelection(), [frozen, controller]);
+    const active = !!current;
+
+    const customOptions = useMemo<readonly CustomOption<MarkupInfo | null, MarkupUpdateInfo>[]>(() => {
+        if (getCustomMarkupOptions) {
+            return getCustomMarkupOptions(current);
+        } else {
+            return [];
+        }
+    }, [current, getCustomMarkupOptions]);
+    
+    const options = useMemo<readonly MarkupOption[]>(() => ([
+        ...customOptions,
+        ...DEFAULT_MARKUP_OPTIONS,
+    ]), [customOptions]);
+
+    const selected = useMemo<MarkupOption | undefined>(() => {
+        const customSelected = customOptions.find(opt => opt.selected);
+        if (customSelected) {
+            return customSelected;
+        } else if (current) {
+            return "advanced";
+        }
+    }, [current, customOptions]);
+
+    const [dialog, setDialog] = useState<Exclude<MarkupOption, "none"> | null>(null);
+    const closeDialog = useCallback(() => setDialog(null), []);
+
+    const completeDialog = useCallback((update: MarkupUpdateInfo | undefined) => {
         closeDialog();
-        if (controller) {
-            if (!controller.isMarkup()) {
-                const insertAttr = new Map<string, string>();
-                for (const [key, value] of attr) {
-                    if (typeof value === "string") {
-                        insertAttr.set(key, value);
-                    }
-                }
-                controller.insertMarkup(tag, insertAttr, insertEmpty);
-            } else {
+        if (controller && update) {
+            const { tag, attr, empty } = update;
+            if (controller.isMarkup()) {
                 if (tag && controller.getMarkupTag() !== tag) {
                     controller.setMarkupTag(tag);
                 }
-                for (const [key, value] of attr) {
-                    if (typeof value === "string") {
-                        controller.setMarkupAttr(key, value);
-                    } else {
-                        controller.unsetMarkupAttr(key);
+                if (attr) {
+                    for (const [key, value] of attr) {
+                        if (typeof value === "string") {
+                            controller.setMarkupAttr(key, value);
+                        } else {
+                            controller.unsetMarkupAttr(key);
+                        }
                     }
                 }
+            } else if (tag) {
+                const insertAttr = new Map<string, string>();
+                if (attr) {
+                    for (const [key, value] of attr) {
+                        if (typeof value === "string") {
+                            insertAttr.set(key, value);
+                        }
+                    }
+                }
+                controller.insertMarkup(tag, insertAttr, empty);
             }
         }
     }, [controller, closeDialog]);
-    const disabled = useMemo(() => frozen || !controller || controller?.isTableSelection(), [frozen, controller]);
-    const active = useMemo(() => controller?.isMarkup(), [controller]);
+
+    const getOptionKey = useCallback((value: MarkupOption): string => {
+        if (typeof value === "string") {
+            return value;
+        } else {
+            return `$${value.key}`;
+        }
+    }, []);
+
+    const isSameOption = useCallback((first: MarkupOption, second: MarkupOption) => {
+        return getOptionKey(first) === getOptionKey(second);
+    }, [getOptionKey]);
+
+    const getOptionLabel = useCallback((value: MarkupOption) => {
+        if (typeof value === "string") {
+            return `${locale[`markup_${value}` as const]}…`;
+        } else {
+            return `${value.label}…`;
+        }
+    }, [locale]);
+
     return (
         <>
-            <ToolButton
+            <OptionButton
                 {...rest} 
-                onClick={openDialog}
-                disabled={disabled}
+                autoSelectSingleOption
                 active={active}
+                disabled={disabled}
+                options={options}
+                selected={selected}
+                onOptionSelected={setDialog}
+                isSameOption={isSameOption}
+                getOptionKey={getOptionKey}
+                getOptionLabel={getOptionLabel}
                 children={<Icon size={1} path={mdiCodeTags}/>}
             />
-            {isDialogOpen && (
+            {dialog === "advanced" && (
                 <MarkupDialog
-                    open={isDialogOpen}
-                    isNew={!active}
-                    tag={controller?.getMarkupTag()}
-                    attr={controller?.getMarkupAttrs()}
-                    canInsertEmpty={!active && controller?.isCaret()}
+                    open
+                    current={current}
+                    canInsertEmpty={!current && controller?.isCaret()}
                     onClose={closeDialog}
                     onComplete={completeDialog}
                 />
             )}
+            {typeof dialog === "object" && dialog !== null && dialog.renderDialog(current, completeDialog)}
         </>
     );
 };
+
+type MarkupOption = DefaultMarkupOption | CustomOption<MarkupInfo | null, MarkupUpdateInfo>;
+
+type DefaultMarkupOption = (typeof DEFAULT_MARKUP_OPTIONS)[number];
+
+const DEFAULT_MARKUP_OPTIONS = [
+    "advanced",
+] as const;

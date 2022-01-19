@@ -1,13 +1,14 @@
 import { makeStyles, useTheme } from "@material-ui/styles";
-import React, { CSSProperties, FC, forwardRef, Ref, useMemo } from "react";
+import React, { CSSProperties, FC, forwardRef, Ref, useCallback, useMemo } from "react";
 import { MenuItem, Theme, Typography } from "@material-ui/core";
-import { ToolButtonProps } from "./ToolButton";
+import { ToolButton, ToolButtonProps } from "./ToolButton";
 import Icon from "@mdi/react";
 import { mdiCheck } from "@mdi/js";
 import { MenuButton } from "./MenuButton";
 import { OptionLabel, OptionLabelProps } from "./OptionLabel";
 
 export interface OptionButtonProps<T> extends ToolButtonProps, OptionLabelProps<T> {
+    autoSelectSingleOption?: boolean;
     onOptionSelected: (value: T) => void;
     getOptionColor?: (value: T) => string | undefined;
 }
@@ -16,6 +17,7 @@ const _OptionButton = <T,>(props: OptionButtonProps<T>, ref: Ref<HTMLButtonEleme
     const { 
         options,
         selected,
+        autoSelectSingleOption,
         onOptionSelected,
         isSameOption = Object.is,
         getOptionKey = String,
@@ -32,31 +34,50 @@ const _OptionButton = <T,>(props: OptionButtonProps<T>, ref: Ref<HTMLButtonEleme
         ),
         ...rest
     } = props;
-    return (
-        <MenuButton
-            {...rest}
-            ref={ref}
-            children={children}
-            menu={options.map(value => {
-                const isSelected = selected !== void(0) && isSameOption(selected, value); 
-                return (
-                    <MenuItem
-                        key={getOptionKey(value)}
-                        disableGutters
-                        selected={isSelected}
-                        onClick={() => onOptionSelected(value)}
-                        children={(
-                            <Option
-                                selected={isSelected}
-                                label={getOptionLabel(value)}
-                                color={getOptionColor(value)}
-                            />
-                        )}
-                    />
-                );
-            })}
-        />
-    );
+
+    const singleOption = useMemo(() => options.length === 1 ? options[0] : undefined, [options]);
+    const onSingleOptionSelected = useCallback(() => {
+        if (singleOption) {
+            onOptionSelected(singleOption);
+        }
+    }, [onOptionSelected, singleOption]);
+
+    if (autoSelectSingleOption && singleOption) {
+        return (
+            <ToolButton
+                {...rest}
+                ref={ref}
+                children={children}
+                onClick={onSingleOptionSelected}
+            />
+        );
+    } else {
+        return (
+            <MenuButton
+                {...rest}
+                ref={ref}
+                children={children}
+                menu={options.map(value => {
+                    const isSelected = selected !== void(0) && isSameOption(selected, value); 
+                    return (
+                        <MenuItem
+                            key={getOptionKey(value)}
+                            disableGutters
+                            selected={isSelected}
+                            onClick={() => onOptionSelected(value)}
+                            children={(
+                                <Option
+                                    selected={isSelected}
+                                    label={getOptionLabel(value)}
+                                    color={getOptionColor(value)}
+                                />
+                            )}
+                        />
+                    );
+                })}
+            />
+        );
+    }
 };
 
 export const OptionButton = forwardRef(_OptionButton) as typeof _OptionButton;

@@ -10,14 +10,17 @@ Material-UI components for collaborative rich text editing
 
 |  Function | Description |
 |  --- | --- |
+|  [getMarkupInfo(controller)](./scribing-mui.getmarkupinfo.md) |  |
 |  [useMaterialFlowLocale()](./scribing-mui.usematerialflowlocale.md) |  |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
-|  [CustomInteractionOption](./scribing-mui.custominteractionoption.md) |  |
+|  [CustomOption](./scribing-mui.customoption.md) |  |
 |  [FlowEditorToolbarProps](./scribing-mui.floweditortoolbarprops.md) |  |
+|  [MarkupInfo](./scribing-mui.markupinfo.md) |  |
+|  [MarkupUpdateInfo](./scribing-mui.markupupdateinfo.md) |  |
 |  [MaterialFlowLocale](./scribing-mui.materialflowlocale.md) |  |
 |  [MaterialFlowLocaleProps](./scribing-mui.materialflowlocaleprops.md) |  |
 
@@ -31,15 +34,18 @@ Material-UI components for collaborative rich text editing
 |  [MaterialFlowPalette](./scribing-mui.materialflowpalette.md) |  |
 |  [MaterialFlowTypography](./scribing-mui.materialflowtypography.md) |  |
 |  [MaterialScribingComponents](./scribing-mui.materialscribingcomponents.md) |  |
+|  [UnsetAttribute](./scribing-mui.unsetattribute.md) |  |
 
 ## Type Aliases
 
 |  Type Alias | Description |
 |  --- | --- |
 |  [BoxVariantLocaleKey](./scribing-mui.boxvariantlocalekey.md) |  |
+|  [CustomOptionProvider](./scribing-mui.customoptionprovider.md) |  |
 |  [EditorSourceState](./scribing-mui.editorsourcestate.md) |  |
 |  [FlowColorLocaleKey](./scribing-mui.flowcolorlocalekey.md) |  |
 |  [FontFamilyLocaleKey](./scribing-mui.fontfamilylocalekey.md) |  |
 |  [LocaleItemKey](./scribing-mui.localeitemkey.md) |  |
 |  [ParagraphVariantLocaleKey](./scribing-mui.paragraphvariantlocalekey.md) |  |
+|  [UnsetAttribute](./scribing-mui.unsetattribute.md) |  |
 

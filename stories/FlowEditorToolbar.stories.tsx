@@ -1,14 +1,24 @@
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { CustomInteractionOption, EditorSourceState, FlowEditorToolbar } from "../src/FlowEditorToolbar";
-import { Button, Dialog, DialogActions, DialogTitle, MuiThemeProvider, TextField, Theme } from "@material-ui/core";
+import { CustomOption, EditorSourceState, FlowEditorToolbar } from "../src/FlowEditorToolbar";
+import { 
+    Button, 
+    Dialog, 
+    DialogActions, 
+    DialogContent, 
+    DialogTitle, 
+    MuiThemeProvider, 
+    TextField, 
+    Theme 
+} from "@material-ui/core";
 import { FlowEditor, FlowEditorController, FlowEditorState } from "scribing-react";
 import { MaterialFlowPalette } from "../src/MaterialFlowPalette";
 import { makeStyles } from "@material-ui/styles";
 import { FlowContent, Interaction, OpenUrl } from "scribing";
 import { useStoryTheme } from "./theme";
 import { MaterialFlowTypography } from "../src/MaterialFlowTypography";
-import { MaterialScribingComponents } from "../src";
+import { MarkupInfo, MarkupUpdateInfo } from "../src/MarkupInfo";
+import { MaterialScribingComponents } from "../src/MaterialScribingComponents";
 
 interface StoryProps {
     dark?: boolean;
@@ -39,13 +49,22 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
     const onCheckOut = useCallback(() => transitionSource("checked-out"), []);
     const frozen = useMemo(() => source === "busy" || source === "checked-in", [source]);    
     const getCustomInteractionOptions = useCallback((interaction: Interaction | null) => {
-        const openTopic: CustomInteractionOption = {
+        const openTopic: CustomOption<Interaction | null> = {
             key: "open_topic",
             label: "Open topic",
             selected: interaction instanceof OpenUrl && /^[a-zA-Z0-9-]+$/.test(interaction.url),
-            renderDialog: (interaction, onClose) => <OpenTopicDialog interaction={interaction} onClose={onClose}/>
+            renderDialog: (current, onClose) => <OpenTopicDialog interaction={current} onClose={onClose}/>
         };
         return [openTopic];
+    }, []);
+    const getCustomMarkupOptions = useCallback((markup: MarkupInfo | null) => {
+        const importFragment: CustomOption<MarkupInfo | null, MarkupUpdateInfo> = {
+            key: "import_fragment",
+            label: "Import fragment",
+            selected: markup?.tag === "Import" && !!markup.attr?.has("topic"),
+            renderDialog: (current, onClose) => <ImportTopicDialog markup={current} onClose={onClose}/>
+        };
+        return [importFragment];
     }, []);
     return (
         <div className={classes.root}>
@@ -60,6 +79,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
                             onCheckIn={onCheckIn}
                             onCheckOut={onCheckOut}
                             getCustomInteractionOptions={getCustomInteractionOptions}
+                            getCustomMarkupOptions={getCustomMarkupOptions}
                         />
                         <FlowEditor
                             className={classes.editor}
@@ -85,10 +105,37 @@ const OpenTopicDialog = (props: OpenTopicDialogProps) => {
     return (
         <Dialog open onClose={() => onClose()}>
             <DialogTitle>Open topic</DialogTitle>
-            <TextField value={url} onChange={e => setUrl(e.target.value)}/>
+            <DialogContent>
+                <TextField autoFocus variant="outlined" value={url} onChange={e => setUrl(e.target.value)}/>
+            </DialogContent>
             <DialogActions>
                 <Button onClick={() => onClose()}>Cancel</Button>
                 <Button onClick={() => onClose(new OpenUrl({ url }))}>OK</Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
+interface ImportTopicDialogProps {
+    markup: MarkupInfo | null;
+    onClose: (update?: MarkupUpdateInfo) => void;
+}
+
+const ImportTopicDialog = (props: ImportTopicDialogProps) => {
+    const { markup, onClose } = props;
+    const [topic, setTopic] = useState(() => markup?.attr?.get("topic") || "");
+    const onApply = useCallback(() => {
+        onClose({ tag: "Import", attr: new Map().set("topic", topic), empty: true});
+    }, [onClose, topic]);
+    return (
+        <Dialog open onClose={() => onClose()}>
+            <DialogTitle>Import topic</DialogTitle>
+            <DialogContent>
+                <TextField autoFocus variant="outlined" value={topic} onChange={e => setTopic(e.target.value)}/>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => onClose()}>Cancel</Button>
+                <Button onClick={onApply}>OK</Button>
             </DialogActions>
         </Dialog>
     );
