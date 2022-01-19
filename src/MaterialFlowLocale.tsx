@@ -52,6 +52,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_attribute: string;
     label_new_attribute: string;
     label_value: string;
+    label_data_source: string;
+    tip_data_source: string;
     tip_more_tools: string;
     tip_check_in: string;
     tip_preview: string;
@@ -153,6 +155,8 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     label_attribute: "Attribute",
     label_new_attribute: "Type a new attribute here",
     label_value: "Value",
+    label_data_source: "Data source",
+    tip_data_source: "Data source",
     tip_more_tools: "Hide or show additional tools",
     tip_check_in: "Check in",
     tip_preview: "Show preview",

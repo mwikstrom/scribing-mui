@@ -65,6 +65,7 @@ import { CheckInOutButton } from "./components/CheckInOutButton";
 import { ConnectionBroken } from "./components/ConnectionBroken";
 import { Interaction } from "scribing";
 import { useMaterialFlowLocale } from ".";
+import { BoxSourceButton } from "./tools/BoxSourceButton";
 
 /** @public */
 export type EditorSourceState = (
@@ -191,6 +192,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 <BoxVariantSelector {...toolProps}/>
                                 <BoxColorButton {...toolProps} title={locale.tip_box_color}/>
                                 <InteractionButton {...toolProps} title={locale.tip_box_interaction}/>
+                                <BoxSourceButton {...toolProps} title={locale.tip_data_source}/>
                                 <CommandButton
                                     {...toolProps}
                                     command={ToggleFullWidthBox}
@@ -228,7 +230,9 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 />
                             </ToolGroup>
                             <ToolGroup collapse={isTableSelection}>
-                                <DynamicTextButton {...toolProps} title={locale.tip_dynamic_text}/>
+                                {!isBoxSelection && (
+                                    <DynamicTextButton {...toolProps} title={locale.tip_dynamic_text}/>
+                                )}
                                 <CommandButton {...toolProps} command={InsertBox} title={locale.tip_insert_box}/>
                                 <FlowIconButton {...toolProps} title={locale.tip_icon}/>
                                 <CommandButton {...toolProps} command={InsertImage} title={locale.tip_image}/>
