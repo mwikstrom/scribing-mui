@@ -40,7 +40,7 @@ export const DefaultButton = forwardRef<HTMLElement, ScribingButtonProps>((props
                 {...otherProps}
                 ref={innerRef}
                 href={href || ""}
-                disabled={disabled || pending}
+                disabled={disabled}
                 variant={buttonVariant}
                 color={buttonColor}
                 fullWidth={!inline}
