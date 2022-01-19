@@ -18,6 +18,7 @@ export const DefaultButton = forwardRef<HTMLElement, ScribingButtonProps>((props
             variant: boxVariant,
             inline
         },
+        href,
         ...otherProps
     } = props;
 
@@ -38,6 +39,7 @@ export const DefaultButton = forwardRef<HTMLElement, ScribingButtonProps>((props
             <Button
                 {...otherProps}
                 ref={innerRef}
+                href={href || ""}
                 disabled={disabled || pending}
                 variant={buttonVariant}
                 color={buttonColor}
