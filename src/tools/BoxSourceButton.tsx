@@ -18,7 +18,9 @@ export const BoxSourceButton: FC<BoxSourceButtonProps> = props => {
     const closeDialog = useCallback(() => setDialogOpen(false), []);    
     const completeDialog = useCallback((script: string | null) => {
         closeDialog();
-        controller?.formatBox("source", script ? script : null);
+        if (script !== null) {
+            controller?.formatBox("source", script);
+        }
     }, [controller, closeDialog]);
     const disabled = useMemo(() => {
         if (!controller || frozen) {
