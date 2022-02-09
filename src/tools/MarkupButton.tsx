@@ -47,8 +47,7 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
     const [dialog, setDialog] = useState<Exclude<MarkupOption, "none"> | null>(null);
     const closeDialog = useCallback(() => setDialog(null), []);
 
-    const completeDialog = useCallback((update: MarkupUpdateInfo | undefined) => {
-        closeDialog();
+    const applyUpdate = useCallback((update: MarkupUpdateInfo | undefined) => {
         if (controller && update) {
             const { tag, attr, empty } = update;
             if (controller.isMarkup()) {
@@ -76,7 +75,12 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
                 controller.insertMarkup(tag, insertAttr, empty);
             }
         }
-    }, [controller, closeDialog]);
+    }, [controller]);
+
+    const completeDialog = useCallback((update: MarkupUpdateInfo | undefined) => {
+        closeDialog();
+        applyUpdate(update);
+    }, [closeDialog, applyUpdate]);
 
     const getOptionKey = useCallback((value: MarkupOption): string => {
         if (typeof value === "string") {
@@ -98,6 +102,14 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
         }
     }, [locale]);
 
+    const onOptionSelected = useCallback((option: MarkupOption) => {
+        if (typeof option !== "object" || option.renderDialog) {
+            setDialog(option);
+        } else if (option.getResult) {
+            applyUpdate(option.getResult(current));
+        }
+    }, [applyUpdate, current]);
+
     return (
         <>
             <OptionButton
@@ -107,7 +119,7 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
                 disabled={disabled}
                 options={options}
                 selected={selected}
-                onOptionSelected={setDialog}
+                onOptionSelected={onOptionSelected}
                 isSameOption={isSameOption}
                 getOptionKey={getOptionKey}
                 getOptionLabel={getOptionLabel}
@@ -122,7 +134,12 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
                     onComplete={completeDialog}
                 />
             )}
-            {typeof dialog === "object" && dialog !== null && dialog.renderDialog(current, completeDialog)}
+            {
+                typeof dialog === "object" && 
+                dialog !== null && 
+                typeof dialog.renderDialog === "function" && 
+                dialog.renderDialog(current, completeDialog)
+            }
         </>
     );
 };

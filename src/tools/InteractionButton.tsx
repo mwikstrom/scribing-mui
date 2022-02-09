@@ -139,7 +139,12 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
                     inputLabel={locale.interaction_open_url}
                 />
             )}
-            {dialog && typeof dialog !== "string" && dialog.renderDialog(interaction || null, setInteraction)}
+            {
+                typeof dialog === "object" && 
+                dialog !== null && 
+                typeof dialog.renderDialog === "function" && 
+                dialog.renderDialog(interaction || null, setInteraction)
+            }
         </>
     );
 };
