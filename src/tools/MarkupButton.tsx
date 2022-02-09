@@ -97,8 +97,10 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
     const getOptionLabel = useCallback((value: MarkupOption) => {
         if (typeof value === "string") {
             return `${locale[`markup_${value}` as const]}…`;
-        } else {
+        } else if (typeof value.renderDialog === "function") {
             return `${value.label}…`;
+        } else {
+            return value.label;
         }
     }, [locale]);
 
