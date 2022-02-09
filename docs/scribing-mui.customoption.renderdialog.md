@@ -2,22 +2,10 @@
 
 [Home](./index.md) &gt; [scribing-mui](./scribing-mui.md) &gt; [CustomOption](./scribing-mui.customoption.md) &gt; [renderDialog](./scribing-mui.customoption.renderdialog.md)
 
-## CustomOption.renderDialog() method
+## CustomOption.renderDialog property
 
 <b>Signature:</b>
 
 ```typescript
-renderDialog(current: T, onClose: (result: U | undefined) => void): ReactNode;
+renderDialog?: (current: T, onClose: (result: U | undefined) => void) => ReactNode;
 ```
-
-## Parameters
-
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  current | T |  |
-|  onClose | (result: U \| undefined) =&gt; void |  |
-
-<b>Returns:</b>
-
-ReactNode
-

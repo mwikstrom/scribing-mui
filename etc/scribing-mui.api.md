@@ -21,11 +21,13 @@ export type BoxVariantLocaleKey = `box_${BoxVariant}`;
 // @public (undocumented)
 export interface CustomOption<T, U = T> {
     // (undocumented)
+    getResult?: (current: T) => U | undefined;
+    // (undocumented)
     key: string;
     // (undocumented)
     label: string;
     // (undocumented)
-    renderDialog(current: T, onClose: (result: U | undefined) => void): ReactNode;
+    renderDialog?: (current: T, onClose: (result: U | undefined) => void) => ReactNode;
     // (undocumented)
     selected: boolean;
 }
