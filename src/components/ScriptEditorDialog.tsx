@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogActions, DialogProps, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { FC, useCallback, useEffect, useState } from "react";
+import { Script } from "scribing";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ScriptEditor } from "./ScriptEditor";
 
@@ -8,40 +9,41 @@ export interface ScriptEditorDialogProps extends DialogProps {
     scriptLabel?: string;
     cancelLabel?: string;
     completeLabel?: string;
-    initialValue?: string;
-    onComplete?: (script: string | null) => void;
+    initialValue?: Script | null;
+    onComplete?: (script: Script | null) => void;
 }
 
 export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     const locale = useMaterialFlowLocale();
     const {
         onComplete,
-        initialValue = "",
+        initialValue = null,
         scriptLabel,
         cancelLabel = locale.button_cancel,
         completeLabel = locale.button_apply,
         ...rest
     } = props;
-    const [script, setScript] = useState(initialValue);
+    const [code, setCode] = useState(initialValue?.code || "");
     const classes = useStyles();
     const onClickComplete = useCallback(() => {
         if (onComplete) {
-            onComplete(script);
+            onComplete(Script.fromData(code));
         }
-    }, [onComplete, script]);
+    }, [onComplete, code]);
     const onClickCancel = useCallback(() => {
         if (onComplete) {
             onComplete(null);
         }
     }, [onComplete]);
-    useEffect(() => setScript(initialValue), [rest.open]);
+    const didChange = code !== (initialValue?.code || "");
+    useEffect(() => setCode(initialValue?.code || ""), [rest.open]);
     return (
-        <Dialog {...rest} scroll="paper" disableEscapeKeyDown={script !== initialValue}>
+        <Dialog {...rest} scroll="paper" disableEscapeKeyDown={didChange}>
             <div className={classes.content}>
                 <ScriptEditor
                     className={classes.editor}
-                    initialValue={initialValue}
-                    onValueChange={setScript}
+                    initialValue={initialValue?.code || ""}
+                    onValueChange={setCode}
                     label={scriptLabel}
                     maxHeight="calc(max(40px, min(67vh - 80px, 800px)))"
                     autoFocus

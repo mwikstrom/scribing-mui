@@ -1,7 +1,7 @@
 import { mdiGestureTapButton } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import React, { FC, useCallback, useMemo, useState } from "react";
-import { Interaction, OpenUrl, RunScript } from "scribing";
+import { Interaction, OpenUrl, RunScript, Script } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButtonProps } from "../components/ToolButton";
@@ -91,7 +91,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
         setDialog(null);
     }, [controller]);
 
-    const setRunScript = useCallback((value: string | null) => {
+    const setRunScript = useCallback((value: Script | null) => {
         if (value !== null) {
             controller?.setInteraction(new RunScript({ script: value }));
         }
@@ -122,7 +122,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
             {dialog === "run_script" && (
                 <ScriptEditorDialog
                     open
-                    initialValue={interaction instanceof RunScript ? interaction.script : ""}
+                    initialValue={interaction instanceof RunScript ? interaction.script : null}
                     onComplete={setRunScript}
                     onClose={closeDialog}
                     scriptLabel={locale.interaction_run_script}

@@ -1,7 +1,7 @@
 import { mdiFunctionVariant } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import React, { FC, useCallback, useMemo, useState } from "react";
-import { DynamicText } from "scribing";
+import { DynamicText, Script } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { ScriptEditorDialog } from "../components/ScriptEditorDialog";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
@@ -17,7 +17,7 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const openDialog = useCallback(() => setDialogOpen(true), []);
     const closeDialog = useCallback(() => setDialogOpen(false), []);    
-    const completeDialog = useCallback((script: string | null) => {
+    const completeDialog = useCallback((script: Script | null) => {
         closeDialog();
         if (script !== null) {
             if (controller?.isCaret()) {
@@ -42,7 +42,7 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
         }
     }, [frozen, controller]);
     const active = useMemo(() => controller?.isDynamicText(), [controller]);
-    const initialValue = useMemo(() => controller?.getDynamicTextExpression() ?? "", [controller]);
+    const initialValue = useMemo(() => controller?.getDynamicTextExpression() ?? null, [controller]);
     const locale = useMaterialFlowLocale();
     return (
         <>

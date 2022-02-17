@@ -5,6 +5,7 @@ import { FlowEditorController } from "scribing-react";
 import { ScriptEditorDialog } from "../components/ScriptEditorDialog";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButton, ToolButtonProps } from "../components/ToolButton";
+import { Script } from "scribing";
 
 export interface BoxSourceButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
@@ -16,7 +17,7 @@ export const BoxSourceButton: FC<BoxSourceButtonProps> = props => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const openDialog = useCallback(() => setDialogOpen(true), []);
     const closeDialog = useCallback(() => setDialogOpen(false), []);    
-    const completeDialog = useCallback((script: string | null) => {
+    const completeDialog = useCallback((script: Script | null) => {
         closeDialog();
         if (script !== null) {
             controller?.formatBox("source", script);
@@ -29,7 +30,7 @@ export const BoxSourceButton: FC<BoxSourceButtonProps> = props => {
             return !controller.isBox();
         }
     }, [frozen, controller]);
-    const initialValue = useMemo(() => controller?.getBoxStyle()?.source ?? "", [controller]);
+    const initialValue = useMemo(() => controller?.getBoxStyle()?.source ?? null, [controller]);
     const active = !!initialValue;
     const locale = useMaterialFlowLocale();
     return (
