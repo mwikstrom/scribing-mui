@@ -91,7 +91,6 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
                 <form onSubmit={onSubmit}>
                     <TextField
                         variant="outlined"
-                        size="small"
                         fullWidth
                         value={tag}
                         placeholder={(initial?.tag === null && !isNew) ? locale.label_multiple_values : undefined}

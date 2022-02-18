@@ -1,12 +1,14 @@
 import { Box, Button, DialogActions, DialogProps, IconButton, Theme, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { mdiFullscreen, mdiFullscreenExit } from "@mdi/js";
+import { mdiFullscreen, mdiFullscreenExit, mdiMessagePlusOutline, mdiMessageTextOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Script } from "scribing";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ResponsiveDialog } from "./ResponsiveDialog";
 import { ScriptEditor } from "./ScriptEditor";
+import { ScriptMessageDialog } from "./ScriptMessageDialog";
+import { ScriptMessageListDialog } from "./ScriptMessageListDialog";
 
 export interface ScriptEditorDialogProps extends DialogProps {
     scriptLabel?: string;
@@ -24,15 +26,18 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         scriptLabel,
         cancelLabel = locale.button_cancel,
         completeLabel = locale.button_apply,
+        open,
         ...rest
     } = props;
-    const [code, setCode] = useState(initialValue?.code || "");
+    const [code, setCode] = useState(initialValue?.code || "");    
+    const [messages, setMessages] = useState(() => initialValue?.messages || Object.freeze(new Map<string, string>()));
+    const hasMessages = useMemo(() => messages.size > 0, [messages]);
     const classes = useStyles();
     const [isFullScreen, setIsFullScreen] = useState<boolean | undefined>();
     const [canToggleFullScreen, setCanTooggleFullScreen] = useState(false);
     const onClickComplete = useCallback(() => {
         if (onComplete) {
-            onComplete(Script.fromData(code));
+            onComplete(new Script({code, messages}));
         }
     }, [onComplete, code]);
     const onClickCancel = useCallback(() => {
@@ -49,8 +54,31 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         }
         setCanTooggleFullScreen(!implied);
     }, []);
-    useEffect(() => setCode(initialValue?.code || ""), [rest.open]);
-    return (
+    const [editMessage, setEditMessage] = useState<string | boolean>(false);
+    const saveMessage = useCallback((key: string, value: string) => {
+        setMessages(before => {
+            return Object.freeze(new Map(before).set(key, value));
+        });
+        setEditMessage(false);
+    }, []);
+    const deleteMessage = useCallback((key: string) => {
+        let gotEmpty = false;
+        setMessages(before => {
+            const after = new Map(before);
+            after.delete(key);
+            gotEmpty = after.size === 0;
+            return Object.freeze(after);
+        });
+        if (gotEmpty) {
+            setEditMessage(false);
+        }
+    }, []);
+    useEffect(() => {
+        setCode(initialValue?.code || "");
+        setMessages(initialValue?.messages || Object.freeze(new Map<string, string>()));
+    }, [open]);
+
+    return editMessage === false ? (
         <ResponsiveDialog 
             {...rest}
             scroll="paper"
@@ -59,6 +87,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
             fullWidth
             fullScreen={isFullScreen}
             onFullScreen={onFullScreen}
+            open={open}
             children={(
                 <>
                     <div className={classes.content}>
@@ -72,10 +101,25 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                         />
                     </div>
                     <DialogActions>
+                        <Tooltip 
+                            arrow
+                            placement="top"
+                            title={hasMessages ? locale.tip_messages : locale.tip_add_message}
+                            children={
+                                <IconButton color="primary" onClick={() => setEditMessage(true)}>
+                                    <Icon
+                                        path={hasMessages ? mdiMessageTextOutline : mdiMessagePlusOutline}
+                                        size={1}
+                                    />
+                                </IconButton>
+                            }
+                        />
                         <Tooltip arrow placement="top" title={locale.tip_toggle_fullscreen}>
-                            <IconButton onClick={() => setIsFullScreen(!isFullScreen)} disabled={!canToggleFullScreen}>
-                                <Icon path={isFullScreen ? mdiFullscreenExit : mdiFullscreen} size={1}/>
-                            </IconButton>
+                            <IconButton 
+                                onClick={() => setIsFullScreen(!isFullScreen)} 
+                                disabled={!canToggleFullScreen}
+                                children={<Icon path={isFullScreen ? mdiFullscreenExit : mdiFullscreen} size={1}/>}
+                            />
                         </Tooltip>
                         <Box flex={1}/>
                         <Button onClick={onClickCancel}>{cancelLabel}</Button>
@@ -83,6 +127,23 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                     </DialogActions>
                 </>
             )}
+        /> 
+    ) : (typeof editMessage === "string" || !hasMessages) ? (
+        <ScriptMessageDialog
+            open={open}
+            allMessages={messages}
+            messageKey={typeof editMessage === "string" ? editMessage : undefined}
+            onClose={() => setEditMessage(false)}
+            onSave={saveMessage}
+        />
+    ) : (
+        <ScriptMessageListDialog
+            open={open}
+            messages={messages}
+            onClose={() => setEditMessage(false)}
+            onMessageClick={setEditMessage}
+            onMessageDelete={deleteMessage}
+            onAddNew={() => setEditMessage("")}
         />
     );
 };

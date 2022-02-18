@@ -37,6 +37,9 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     button_check_in: string;
     button_check_out: string;
     button_reset: string;
+    button_add_new: string;
+    button_close: string;
+    button_test: string;
     label_please_wait: string;
     label_dynamic_text_script: string;
     label_all_categories: string;
@@ -54,6 +57,10 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_new_attribute: string;
     label_value: string;
     label_data_source: string;
+    label_message_id: string;
+    label_message_format: string;
+    label_input: string;
+    label_output: string;
     tip_data_source: string;
     tip_more_tools: string;
     tip_check_in: string;
@@ -101,6 +108,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_font_family: string;
     tip_text_color: string;
     tip_toggle_fullscreen: string;
+    tip_messages: string;
+    tip_add_message: string;
 }
 
 /** @public */
@@ -113,6 +122,9 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     button_check_out: "Check out",
     button_check_in: "Check in",
     button_reset: "Reset",
+    button_add_new: "Add new…",
+    button_close: "Close",
+    button_test: "Test",
     label_please_wait: "Please wait",
     tab_predefined_icons: "Predefined icons",
     tab_material_design_icons: "Material design icons",
@@ -159,6 +171,10 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     label_new_attribute: "Type a new attribute here",
     label_value: "Value",
     label_data_source: "Data source",
+    label_message_id: "Message ID",
+    label_message_format: "Message format",
+    label_input: "Input",
+    label_output: "Output",
     tip_data_source: "Data source",
     tip_more_tools: "Hide or show additional tools",
     tip_check_in: "Check in",
@@ -206,6 +222,8 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     tip_font_family: "Font family",
     tip_text_color: "Text color",
     tip_toggle_fullscreen: "Toogle fullscreen",
+    tip_messages: "Messages",
+    tip_add_message: "Add message",
 });
 
 /** @public */
