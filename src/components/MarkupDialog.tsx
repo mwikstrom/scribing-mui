@@ -2,7 +2,6 @@ import {
     Box,
     Button,
     Checkbox,
-    Dialog,
     DialogActions,
     DialogContent,
     DialogProps,
@@ -13,6 +12,7 @@ import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { MarkupInfo, MarkupUpdateInfo, UnsetAttribute } from "../MarkupInfo";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { KeyValueGrid } from "./KeyValueGrid";
+import { ResponsiveDialog } from "./ResponsiveDialog";
 
 export interface MarkupDialogProps extends Omit<DialogProps, "onClose"> {
     current: MarkupInfo | null;
@@ -86,7 +86,7 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
         }
     }, [open]);
     return (
-        <Dialog maxWidth="sm" scroll="paper" fullWidth {...dialogProps} disableEscapeKeyDown={isChanged}>
+        <ResponsiveDialog maxWidth="sm" scroll="paper" fullWidth {...dialogProps} disableEscapeKeyDown={isChanged}>
             <DialogContent>
                 <form onSubmit={onSubmit}>
                     <TextField
@@ -135,6 +135,6 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
                     children={isNew ? locale.button_insert : locale.button_apply}
                 />
             </DialogActions>
-        </Dialog>
+        </ResponsiveDialog>
     );
 };

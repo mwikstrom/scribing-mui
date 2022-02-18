@@ -1,8 +1,9 @@
-import { Button, Dialog, DialogActions, DialogProps, Theme } from "@material-ui/core";
+import { Button, DialogActions, DialogProps, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { IconSelector } from "./IconSelector";
+import { ResponsiveDialog } from "./ResponsiveDialog";
 
 export interface IconDialogProps extends DialogProps {
     cancelLabel?: string;
@@ -34,7 +35,7 @@ export const IconDialog: FC<IconDialogProps> = props => {
     }, [onComplete]);
     useEffect(() => setIcon(initialValue), [rest.open]);
     return (
-        <Dialog {...rest} scroll="paper" disableEscapeKeyDown={icon !== initialValue} maxWidth="md" fullWidth>
+        <ResponsiveDialog {...rest} scroll="paper" disableEscapeKeyDown={icon !== initialValue} maxWidth="md" fullWidth>
             <div className={classes.content}>
                 <IconSelector
                     initial={initialValue}
@@ -51,7 +52,7 @@ export const IconDialog: FC<IconDialogProps> = props => {
                 <Button onClick={onClickCancel}>{cancelLabel}</Button>
                 <Button onClick={onClickComplete} color="primary" disabled={!icon}>{completeLabel}</Button>
             </DialogActions>
-        </Dialog>
+        </ResponsiveDialog>
     );
 };
 

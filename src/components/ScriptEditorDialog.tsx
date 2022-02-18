@@ -1,8 +1,9 @@
-import { Button, Dialog, DialogActions, DialogProps, Theme } from "@material-ui/core";
+import { Button, DialogActions, DialogProps, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { Script } from "scribing";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
+import { ResponsiveDialog } from "./ResponsiveDialog";
 import { ScriptEditor } from "./ScriptEditor";
 
 export interface ScriptEditorDialogProps extends DialogProps {
@@ -38,7 +39,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     const didChange = code !== (initialValue?.code || "");
     useEffect(() => setCode(initialValue?.code || ""), [rest.open]);
     return (
-        <Dialog {...rest} scroll="paper" disableEscapeKeyDown={didChange}>
+        <ResponsiveDialog {...rest} scroll="paper" disableEscapeKeyDown={didChange}>
             <div className={classes.content}>
                 <ScriptEditor
                     className={classes.editor}
@@ -53,7 +54,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                 <Button onClick={onClickCancel}>{cancelLabel}</Button>
                 <Button onClick={onClickComplete} color="primary">{completeLabel}</Button>
             </DialogActions>
-        </Dialog>
+        </ResponsiveDialog>
     );
 };
 

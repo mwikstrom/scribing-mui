@@ -1,6 +1,7 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogProps, TextField } from "@material-ui/core";
+import { Button, DialogActions, DialogContent, DialogProps, TextField } from "@material-ui/core";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
+import { ResponsiveDialog } from "./ResponsiveDialog";
 
 export interface TextFieldDialogProps extends DialogProps {
     inputLabel?: string;
@@ -42,7 +43,7 @@ export const TextFieldDialog: FC<TextFieldDialogProps> = props => {
     }, [onComplete, value, disabled]);
     useEffect(() => setValue(initialValue), [rest.open]);
     return (
-        <Dialog {...rest} scroll="paper" disableEscapeKeyDown={value !== initialValue}>
+        <ResponsiveDialog {...rest} scroll="paper" disableEscapeKeyDown={value !== initialValue}>
             <DialogContent>
                 <form onSubmit={onSubmit}>
                     <TextField
@@ -66,6 +67,6 @@ export const TextFieldDialog: FC<TextFieldDialogProps> = props => {
                     children={completeLabel}
                 />
             </DialogActions>
-        </Dialog>
+        </ResponsiveDialog>
     );
 };
