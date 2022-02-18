@@ -35,17 +35,21 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     const classes = useStyles();
     const [isFullScreen, setIsFullScreen] = useState<boolean | undefined>();
     const [canToggleFullScreen, setCanTooggleFullScreen] = useState(false);
+    
     const onClickComplete = useCallback(() => {
         if (onComplete) {
             onComplete(new Script({code, messages}));
         }
     }, [onComplete, code]);
+    
     const onClickCancel = useCallback(() => {
         if (onComplete) {
             onComplete(null);
         }
     }, [onComplete]);
+    
     const didChange = code !== (initialValue?.code || "");
+    
     const onFullScreen = useCallback((value: boolean, implied: boolean) => {
         if (implied) {
             setIsFullScreen(undefined);
@@ -54,13 +58,16 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         }
         setCanTooggleFullScreen(!implied);
     }, []);
+    
     const [editMessage, setEditMessage] = useState<string | boolean>(false);
+    
     const saveMessage = useCallback((key: string, value: string) => {
         setMessages(before => {
             return Object.freeze(new Map(before).set(key, value));
         });
         setEditMessage(false);
     }, []);
+
     const deleteMessage = useCallback((key: string) => {
         let gotEmpty = false;
         setMessages(before => {
@@ -73,6 +80,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
             setEditMessage(false);
         }
     }, []);
+
     useEffect(() => {
         setCode(initialValue?.code || "");
         setMessages(initialValue?.messages || Object.freeze(new Map<string, string>()));
