@@ -237,6 +237,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     tip_text_color: string;
     // (undocumented)
+    tip_toggle_fullscreen: string;
+    // (undocumented)
     tip_underline: string;
     // (undocumented)
     tip_undo: string;
