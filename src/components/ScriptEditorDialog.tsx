@@ -1,5 +1,7 @@
-import { Button, DialogActions, DialogProps, Theme } from "@material-ui/core";
+import { Box, Button, DialogActions, DialogProps, IconButton, Theme, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { mdiFullscreen, mdiFullscreenExit } from "@mdi/js";
+import Icon from "@mdi/react";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { Script } from "scribing";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
@@ -26,6 +28,8 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     } = props;
     const [code, setCode] = useState(initialValue?.code || "");
     const classes = useStyles();
+    const [isFullScreen, setIsFullScreen] = useState<boolean | undefined>();
+    const [canToggleFullScreen, setCanTooggleFullScreen] = useState(false);
     const onClickComplete = useCallback(() => {
         if (onComplete) {
             onComplete(Script.fromData(code));
@@ -37,24 +41,49 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         }
     }, [onComplete]);
     const didChange = code !== (initialValue?.code || "");
+    const onFullScreen = useCallback((value: boolean, implied: boolean) => {
+        if (implied) {
+            setIsFullScreen(undefined);
+        } else {
+            setIsFullScreen(value);
+        }
+        setCanTooggleFullScreen(!implied);
+    }, []);
     useEffect(() => setCode(initialValue?.code || ""), [rest.open]);
     return (
-        <ResponsiveDialog {...rest} scroll="paper" disableEscapeKeyDown={didChange}>
-            <div className={classes.content}>
-                <ScriptEditor
-                    className={classes.editor}
-                    initialValue={initialValue?.code || ""}
-                    onValueChange={setCode}
-                    label={scriptLabel}
-                    maxHeight="calc(max(40px, min(67vh - 80px, 800px)))"
-                    autoFocus
-                />
-            </div>
-            <DialogActions>
-                <Button onClick={onClickCancel}>{cancelLabel}</Button>
-                <Button onClick={onClickComplete} color="primary">{completeLabel}</Button>
-            </DialogActions>
-        </ResponsiveDialog>
+        <ResponsiveDialog 
+            {...rest}
+            scroll="paper"
+            disableEscapeKeyDown={didChange}
+            maxWidth="sm"
+            fullWidth
+            fullScreen={isFullScreen}
+            onFullScreen={onFullScreen}
+            children={(
+                <>
+                    <div className={classes.content}>
+                        <ScriptEditor
+                            className={classes.editor}
+                            initialValue={initialValue?.code || ""}
+                            onValueChange={setCode}
+                            label={scriptLabel}
+                            maxHeight="calc(max(40px, min(67vh - 80px, 800px)))"
+                            autoFocus
+                        />
+                    </div>
+                    <DialogActions>
+                        <Tooltip arrow placement="top" title={locale.tip_toggle_fullscreen}>
+                            <IconButton onClick={() => setIsFullScreen(!isFullScreen)} disabled={!canToggleFullScreen}>
+                                <Icon path={isFullScreen ? mdiFullscreenExit : mdiFullscreen} size={1}/>
+                            </IconButton>
+                        </Tooltip>
+                        <Box flex={1}/>
+                        <Button onClick={onClickCancel}>{cancelLabel}</Button>
+                        <Button onClick={onClickComplete} color="primary">{completeLabel}</Button>
+                    </DialogActions>
+                </>
+            )}
+        />
     );
 };
 

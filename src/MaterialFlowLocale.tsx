@@ -100,6 +100,7 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_underline: string;
     tip_font_family: string;
     tip_text_color: string;
+    tip_toggle_fullscreen: string;
 }
 
 /** @public */
@@ -204,6 +205,7 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     tip_underline: "Underline",
     tip_font_family: "Font family",
     tip_text_color: "Text color",
+    tip_toggle_fullscreen: "Toogle fullscreen",
 });
 
 /** @public */
