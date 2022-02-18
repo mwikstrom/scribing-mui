@@ -101,6 +101,8 @@ export interface MarkupUpdateInfo {
 // @public (undocumented)
 export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowLocale {
     // (undocumented)
+    button_add_new: string;
+    // (undocumented)
     button_apply: string;
     // (undocumented)
     button_cancel: string;
@@ -109,11 +111,15 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     button_check_out: string;
     // (undocumented)
+    button_close: string;
+    // (undocumented)
     button_exit_preview: string;
     // (undocumented)
     button_insert: string;
     // (undocumented)
     button_reset: string;
+    // (undocumented)
+    button_test: string;
     // (undocumented)
     interaction_none: string;
     // (undocumented)
@@ -129,13 +135,21 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     label_dynamic_text_script: string;
     // (undocumented)
+    label_input: string;
+    // (undocumented)
     label_insert_empty_element: string;
     // (undocumented)
     label_markup_tag: string;
     // (undocumented)
+    label_message_format: string;
+    // (undocumented)
+    label_message_id: string;
+    // (undocumented)
     label_multiple_values: string;
     // (undocumented)
     label_new_attribute: string;
+    // (undocumented)
+    label_output: string;
     // (undocumented)
     label_please_wait: string;
     // (undocumented)
@@ -148,6 +162,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tab_material_design_icons: string;
     // (undocumented)
     tab_predefined_icons: string;
+    // (undocumented)
+    tip_add_message: string;
     // (undocumented)
     tip_align_center: string;
     // (undocumented)
@@ -200,6 +216,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_list_unordered: string;
     // (undocumented)
     tip_markup: string;
+    // (undocumented)
+    tip_messages: string;
     // (undocumented)
     tip_more_tools: string;
     // (undocumented)
