@@ -67,7 +67,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                             initialValue={initialValue?.code || ""}
                             onValueChange={setCode}
                             label={scriptLabel}
-                            maxHeight="calc(max(40px, min(67vh - 80px, 800px)))"
+                            maxHeight={`calc(100vh - ${isFullScreen ? 120 : 184}px)`}
                             autoFocus
                         />
                     </div>
@@ -92,8 +92,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         flex: 1,
         padding: `${theme.spacing(1)}px ${theme.spacing(3)}px`,
         paddingTop: theme.spacing(2.5),
+        display: "flex",
+        flexDirection: "column",
+        position: "relative"
     },
     editor: {
-        minWidth: theme.spacing(40)    
+        minWidth: theme.spacing(40),
+        flex: 1,
     },
 }));
