@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { ScribingComponentOverride, ScribingComponents} from "scribing-react";
 import { DefaultButton } from "./components/DefaultButton";
-import { DefaultTooltip } from "./components/DefaultTooltoip";
+import { DefaultTooltip } from "./components/DefaultTooltip";
 
 /** @public */
 export const MaterialScribingComponents: FC<Partial<ScribingComponents>> = props => {
