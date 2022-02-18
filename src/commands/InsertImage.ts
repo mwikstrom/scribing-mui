@@ -13,7 +13,7 @@ export const InsertImage: Command = {
         if (controller.isImage()) {
             controller.setImageSource(source);
         } else {
-            controller.insertNode(new FlowImage({ source, style: controller.getCaretStyle() }));
+            controller.insertNode(new FlowImage({ source, style: controller.getCaretStyle(), scale: 1 }));
         }
     },
     isDisabled: controller => !controller.isCaret() && !controller.isImage(),
