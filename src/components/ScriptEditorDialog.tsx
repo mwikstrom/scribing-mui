@@ -40,7 +40,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         if (onComplete) {
             onComplete(new Script({code, messages}));
         }
-    }, [onComplete, code]);
+    }, [onComplete, code, messages]);
     
     const onClickCancel = useCallback(() => {
         if (onComplete) {
