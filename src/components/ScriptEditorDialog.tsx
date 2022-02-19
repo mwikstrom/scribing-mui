@@ -81,78 +81,100 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         }
     }, []);
 
-    useEffect(() => {
-        setCode(initialValue?.code || "");
-        setMessages(initialValue?.messages || Object.freeze(new Map<string, string>()));
-    }, [open]);
+    const [disableBackdropTransition, setDiableBackdropTransition] = useState(false);
 
-    return editMessage === false ? (
-        <ResponsiveDialog 
-            {...rest}
-            scroll="paper"
-            disableEscapeKeyDown={didChange}
-            maxWidth="sm"
-            fullWidth
-            fullScreen={isFullScreen}
-            onFullScreen={onFullScreen}
-            open={open}
-            children={(
-                <>
-                    <div className={classes.content}>
-                        <ScriptEditor
-                            className={classes.editor}
-                            initialValue={initialValue?.code || ""}
-                            onValueChange={setCode}
-                            label={scriptLabel}
-                            maxHeight={`calc(100vh - ${isFullScreen ? 120 : 184}px)`}
-                            autoFocus
-                        />
-                    </div>
-                    <DialogActions>
-                        <Tooltip 
-                            arrow
-                            placement="top"
-                            title={hasMessages ? locale.tip_messages : locale.tip_add_message}
-                            children={
-                                <IconButton color="primary" onClick={() => setEditMessage(true)}>
-                                    <Icon
-                                        path={hasMessages ? mdiMessageTextOutline : mdiMessagePlusOutline}
-                                        size={1}
-                                    />
-                                </IconButton>
-                            }
-                        />
-                        <Tooltip arrow placement="top" title={locale.tip_toggle_fullscreen}>
-                            <IconButton 
-                                onClick={() => setIsFullScreen(!isFullScreen)} 
-                                disabled={!canToggleFullScreen}
-                                children={<Icon path={isFullScreen ? mdiFullscreenExit : mdiFullscreen} size={1}/>}
+    useEffect(() => {
+        if (!open) {
+            setCode(initialValue?.code || "");
+            setMessages(initialValue?.messages || Object.freeze(new Map<string, string>()));
+        }
+    }, [open, initialValue]);
+
+    useEffect(() => {
+        if (editMessage !== false) {
+            setDiableBackdropTransition(true);
+        } else {
+            const timerId = setTimeout(() => setDiableBackdropTransition(false), 300);
+            return () => clearTimeout(timerId);
+        }
+    }, [editMessage]);
+
+    return (
+        <>
+            <ResponsiveDialog 
+                {...rest}
+                scroll="paper"
+                disableEscapeKeyDown={didChange}
+                hideBackdrop={editMessage !== false}
+                BackdropProps={{
+                    transitionDuration: disableBackdropTransition ? 0 : undefined
+                }}
+                maxWidth="sm"
+                fullWidth
+                fullScreen={isFullScreen}
+                onFullScreen={onFullScreen}
+                open={open}
+                children={(
+                    <>
+                        <div className={classes.content}>
+                            <ScriptEditor
+                                className={classes.editor}
+                                initialValue={initialValue?.code || ""}
+                                onValueChange={setCode}
+                                label={scriptLabel}
+                                maxHeight={`calc(100vh - ${isFullScreen ? 120 : 184}px)`}
+                                autoFocus
                             />
-                        </Tooltip>
-                        <Box flex={1}/>
-                        <Button onClick={onClickCancel}>{cancelLabel}</Button>
-                        <Button onClick={onClickComplete} color="primary">{completeLabel}</Button>
-                    </DialogActions>
-                </>
-            )}
-        /> 
-    ) : (typeof editMessage === "string" || !hasMessages) ? (
-        <ScriptMessageDialog
-            open={open}
-            allMessages={messages}
-            messageKey={typeof editMessage === "string" ? editMessage : undefined}
-            onClose={() => setEditMessage(false)}
-            onSave={saveMessage}
-        />
-    ) : (
-        <ScriptMessageListDialog
-            open={open}
-            messages={messages}
-            onClose={() => setEditMessage(false)}
-            onMessageClick={setEditMessage}
-            onMessageDelete={deleteMessage}
-            onAddNew={() => setEditMessage("")}
-        />
+                        </div>
+                        <DialogActions>
+                            <Tooltip 
+                                arrow
+                                placement="top"
+                                title={hasMessages ? locale.tip_messages : locale.tip_add_message}
+                                children={
+                                    <IconButton color="primary" onClick={() => setEditMessage(true)}>
+                                        <Icon
+                                            path={hasMessages ? mdiMessageTextOutline : mdiMessagePlusOutline}
+                                            size={1}
+                                        />
+                                    </IconButton>
+                                }
+                            />
+                            <Tooltip arrow placement="top" title={locale.tip_toggle_fullscreen}>
+                                <IconButton 
+                                    onClick={() => setIsFullScreen(!isFullScreen)} 
+                                    disabled={!canToggleFullScreen}
+                                    children={<Icon path={isFullScreen ? mdiFullscreenExit : mdiFullscreen} size={1}/>}
+                                />
+                            </Tooltip>
+                            <Box flex={1}/>
+                            <Button onClick={onClickCancel}>{cancelLabel}</Button>
+                            <Button onClick={onClickComplete} color="primary">{completeLabel}</Button>
+                        </DialogActions>
+                    </>
+                )}
+            /> 
+            { editMessage !== false && ((typeof editMessage === "string" || !hasMessages) ? (
+                <ScriptMessageDialog
+                    open={open}
+                    BackdropProps={{transitionDuration:0}}
+                    allMessages={messages}
+                    messageKey={typeof editMessage === "string" ? editMessage : undefined}
+                    onClose={() => setEditMessage(false)}
+                    onSave={saveMessage}
+                />
+            ) : (
+                <ScriptMessageListDialog
+                    open={open}
+                    BackdropProps={{transitionDuration:0}}
+                    messages={messages}
+                    onClose={() => setEditMessage(false)}
+                    onMessageClick={setEditMessage}
+                    onMessageDelete={deleteMessage}
+                    onAddNew={() => setEditMessage("")}
+                />
+            ))}
+        </>
     );
 };
 
