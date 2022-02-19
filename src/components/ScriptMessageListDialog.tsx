@@ -8,7 +8,7 @@ import {
     ListItemSecondaryAction,
     ListItemText
 } from "@material-ui/core";
-import { mdiTrashCan } from "@mdi/js";
+import { mdiDelete } from "@mdi/js";
 import Icon from "@mdi/react";
 import React, { FC, useCallback, useMemo } from "react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
@@ -34,7 +34,7 @@ export const ScriptMessageListDialog: FC<ScriptMessageListDialogProps> = props =
     const locale = useMaterialFlowLocale();
     const messageArray = useMemo(() => messages ? Array.from(messages) : [], [messages]);
     return (
-        <ResponsiveDialog {...otherProps} maxWidth="xs" fullWidth onClose={onClose}>
+        <ResponsiveDialog maxWidth="sm" fullWidth {...otherProps} onClose={onClose}>
             <List>
                 {messageArray.map(([key, value]) => (
                     <ScriptMessageListItem
@@ -95,7 +95,7 @@ const ScriptMessageListItem: FC<ScriptMessageListItemProps> = props => {
             />
             <ListItemSecondaryAction>
                 <IconButton onClick={onMessageDelete}>
-                    <Icon size={1} path={mdiTrashCan}/>
+                    <Icon size={1} path={mdiDelete}/>
                 </IconButton>
             </ListItemSecondaryAction>
         </ListItem>
