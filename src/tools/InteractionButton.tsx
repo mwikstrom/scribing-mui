@@ -47,6 +47,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
         }
     }, [interaction, customOptions]);
 
+    const lang = useMemo(() => controller?.getTextStyle().lang, [controller]);
     const [dialog, setDialog] = useState<Exclude<InteractionOption, "none"> | null>(null);
 
     const onOptionSelected = useCallback((value: InteractionOption) => {
@@ -123,6 +124,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
                 <ScriptEditorDialog
                     open
                     initialValue={interaction instanceof RunScript ? interaction.script : null}
+                    lang={lang}
                     onComplete={setRunScript}
                     onClose={closeDialog}
                     scriptLabel={locale.interaction_run_script}

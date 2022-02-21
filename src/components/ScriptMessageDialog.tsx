@@ -9,6 +9,7 @@ export interface ScriptMessageDialogProps extends Omit<ResponsiveDialogProps, "o
     allMessages?: ReadonlyMap<string, string>;
     messageKey?: string;
     messageKeyPrefix?: string;
+    lang?: string;
     onClose?: () => void;
     onSave?: (messageKey: string, messageFormat: string) => void;
 }
@@ -18,6 +19,7 @@ export const ScriptMessageDialog: FC<ScriptMessageDialogProps> = props => {
         allMessages,
         messageKey: givenMessageKey,
         messageKeyPrefix = "TXT",
+        lang,
         onSave: onSaveProp,
         onClose,
         open,
@@ -126,6 +128,7 @@ export const ScriptMessageDialog: FC<ScriptMessageDialogProps> = props => {
                     open={open}
                     BackdropProps={{transitionDuration:0}}
                     messageFormat={messageFormat}
+                    lang={lang}
                     onClose={() => setIsTesting(false)}
                 />
             )}

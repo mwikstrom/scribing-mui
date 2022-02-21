@@ -15,6 +15,7 @@ export interface ScriptEditorDialogProps extends DialogProps {
     cancelLabel?: string;
     completeLabel?: string;
     initialValue?: Script | null;
+    lang?: string;
     onComplete?: (script: Script | null) => void;
 }
 
@@ -26,6 +27,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         scriptLabel,
         cancelLabel = locale.button_cancel,
         completeLabel = locale.button_apply,
+        lang,
         open,
         ...rest
     } = props;
@@ -160,6 +162,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                     BackdropProps={{transitionDuration:0}}
                     allMessages={messages}
                     messageKey={typeof editMessage === "string" ? editMessage : undefined}
+                    lang={lang}
                     onClose={() => setEditMessage(false)}
                     onSave={saveMessage}
                 />

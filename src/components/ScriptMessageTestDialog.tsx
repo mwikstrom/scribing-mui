@@ -3,10 +3,11 @@ import React, { FC, useCallback, useMemo, useState } from "react";
 import { MessageFormatArgumentInfo, Script } from "scribing";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ResponsiveDialog, ResponsiveDialogProps } from "./ResponsiveDialog";
-import { IntlMessageFormat } from "intl-messageformat";
+import { formatMessage } from "scribing-react";
 
 export interface ScriptMessageTestDialogProps extends Omit<ResponsiveDialogProps, "onClose"> {
     messageFormat: string;
+    lang?: string;
     onClose?: () => void;
 }
 
@@ -14,30 +15,28 @@ export const ScriptMessageTestDialog: FC<ScriptMessageTestDialogProps> = props =
     const {
         messageFormat,
         onClose,
+        lang: initialLang,
         ...otherProps
     } = props;
     const locale = useMaterialFlowLocale();
     const argInfo = useMemo(() => Script.getMessageArguments(messageFormat), [messageFormat]);
     const [args, setArgs] = useState(() => createDefaultArgs(argInfo));
-    const formatter = useMemo(() => {
-        try {
-            return new IntlMessageFormat(messageFormat);
-        } catch {
-            return null;
-        }
-    }, [messageFormat]);
-    const output = useMemo(() => {
-        try {            
-            return formatter?.format(args) || "";
-        } catch {
-            return "";
-        }
-    }, [formatter, args]);
+    const [lang, setLang] = useState(initialLang || "");
+    const output = useMemo(() => formatMessage(messageFormat, args, { lang }), [messageFormat, args, lang]);
     return (
         <ResponsiveDialog {...otherProps} maxWidth="sm" fullWidth onClose={onClose}>
             <DialogContent>
+                <TextField
+                    variant="outlined"
+                    fullWidth
+                    value={lang}
+                    onChange={e => setLang(e.target.value)}
+                    label={locale.label_language}
+                    InputLabelProps={{shrink: true}}
+                />
+                <Box py={1.5}/>
                 {argInfo.map(info => (
-                    <Box key={info.key} pb={1.5}>
+                    <Box key={info.key} pb={2}>
                         <ArgumentEditor info={info} args={args} onArgsChange={setArgs}/>
                     </Box>
                 ))}

@@ -44,6 +44,7 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
     const active = useMemo(() => controller?.isDynamicText(), [controller]);
     const initialValue = useMemo(() => controller?.getDynamicTextExpression() ?? null, [controller]);
     const locale = useMaterialFlowLocale();
+    const lang = useMemo(() => controller?.getTextStyle().lang, [controller]);
     return (
         <>
             <ToolButton
@@ -56,6 +57,7 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
             <ScriptEditorDialog
                 open={isDialogOpen}
                 initialValue={initialValue}
+                lang={lang}
                 onClose={closeDialog}
                 onComplete={completeDialog}
                 scriptLabel={locale.label_dynamic_text_script}

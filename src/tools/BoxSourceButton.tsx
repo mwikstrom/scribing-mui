@@ -30,6 +30,7 @@ export const BoxSourceButton: FC<BoxSourceButtonProps> = props => {
             return !controller.isBox();
         }
     }, [frozen, controller]);
+    const lang = useMemo(() => controller?.getTextStyle().lang, [controller]);
     const initialValue = useMemo(() => controller?.getBoxStyle()?.source ?? null, [controller]);
     const active = !!initialValue;
     const locale = useMaterialFlowLocale();
@@ -45,6 +46,7 @@ export const BoxSourceButton: FC<BoxSourceButtonProps> = props => {
             <ScriptEditorDialog
                 open={isDialogOpen}
                 initialValue={initialValue}
+                lang={lang}
                 onClose={closeDialog}
                 onComplete={completeDialog}
                 scriptLabel={locale.label_data_source}
