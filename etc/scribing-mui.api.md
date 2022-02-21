@@ -139,6 +139,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     label_insert_empty_element: string;
     // (undocumented)
+    label_language: string;
+    // (undocumented)
     label_markup_tag: string;
     // (undocumented)
     label_message_format: string;
