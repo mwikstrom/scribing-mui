@@ -19,6 +19,8 @@ export const DefaultButton = forwardRef<HTMLElement, ScribingButtonProps>((props
             inline
         },
         href,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        hover, // discarded prop
         ...otherProps
     } = props;
 
@@ -87,6 +89,9 @@ const ButtonColorMapping: Partial<Record<FlowColor, ButtonProps["color"]>> = {
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
+        marginRight: theme.spacing(1),
+        marginTop: theme.spacing(0.5),
+        marginBottom: theme.spacing(0.5),
         "& .ScribingTextSegment-root, & .ScribingDynamicText-root > *": {
             color: "inherit !important",
             fontFamily: "inherit !important",
