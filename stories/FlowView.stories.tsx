@@ -70,7 +70,7 @@ const btn = (text: string, variant: BoxVariant = "outlined", color: FlowColor = 
     style: {
         variant,
         color,
-        interaction: { script: "" },
+        interaction: { script: "{ await delay(1000); throw new Error('This failed intentionally'); }" },
     }
 });
 
