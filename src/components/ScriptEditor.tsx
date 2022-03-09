@@ -96,7 +96,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                 t.string, 
                 t.regexp
             ],
-            color: palette.warning.main,
+            color: palette.warning.dark,
         },
         {
             tag: [
@@ -104,7 +104,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                 t.null, 
                 t.number, 
             ],
-            color: palette.success.main,
+            color: palette.secondary.main,
         },
         {
             tag: [
@@ -134,7 +134,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                 t.definition(t.propertyName),
                 t.definition(t.special(t.propertyName)),
             ],
-            color: palette.info.light,
+            color: palette.info.main,
         },
         {
             tag: [

@@ -25,11 +25,20 @@ const Root: FC<Omit<StoryProps, "dark">> = () => {
         <div className={classes.root}>
             <ScriptEditor
                 className={classes.editor}
-                initialValue="console.log('Hello world');"
+                initialValue={SCRIPT_TEXT}
             />
         </div>
     );
 };
+
+const SCRIPT_TEXT = `{
+    console.log("Hello world");
+    const apa = 1 + 2.3;
+    // Line comment
+    const olle = JSON.stringify(apa);
+    const func = () => { /* noop */ };
+}
+`;
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
