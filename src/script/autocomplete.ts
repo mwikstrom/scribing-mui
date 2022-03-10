@@ -3,7 +3,14 @@ import { SyntaxNode } from "@lezer/common";
 import { Completion, CompletionResult, CompletionSource } from "@codemirror/autocomplete";
 import { intrinsicGlobals } from "./intrinsic";
 import { getSnippetsFromNode } from "./snippets";
-import { getOuterBlocks, getDeclarations } from "./syntax";
+import {
+    getOuterBlocks,
+    getDeclarations,
+    buildGlobalAssignments,
+    Slicer,
+    getRootNode,
+    buildThisAssignments
+} from "./syntax";
 import { EditorState } from "@codemirror/state";
 import { ParamInfo, TypeInfo } from "../TypeInfo";
 
@@ -132,12 +139,26 @@ const formatType = (info: TypeInfo): string => {
 
 const getScopeFromNode = (node: SyntaxNode | null, state: EditorState): Record<string, TypeInfo> => {
     const result = new Map(Object.entries(intrinsicGlobals));
-    for (const block of getOuterBlocks(node).reverse()) {
-        const decl = getDeclarations(block, state);
-        for (const [key, info] of Object.entries(decl)) {
-            result.set(key, info);
+
+    if (node) {
+        const root = getRootNode(node);
+        const slice: Slicer = (from, to) => state.sliceDoc(from, to);
+        buildGlobalAssignments(root, slice, result);
+
+        const thisInfo = result.get("this");
+        const thisProps = (thisInfo?.decl === "object" && thisInfo.props) || {};
+        const thisMap = new Map(Object.entries(thisProps));
+        buildThisAssignments(root, slice, thisMap);
+        result.set("this", TypeInfo.object(Object.fromEntries(thisMap)));
+
+        for (const block of getOuterBlocks(node).reverse()) {
+            const decl = getDeclarations(block, state);
+            for (const [key, info] of Object.entries(decl)) {
+                result.set(key, info);
+            }
         }
     }
+
     return Object.fromEntries(result);
 };
 

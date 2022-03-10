@@ -25,6 +25,10 @@ const expressions: readonly Completion[] = [
         label: "null",
         type: "keyword",
     }),
+    snip("this", {
+        label: "this",
+        type: "keyword",
+    }),
     snip("await ${promise}", {
         label: "await",
         type: "keyword",

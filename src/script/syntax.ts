@@ -48,7 +48,9 @@ export const getDeclarations = (block: SyntaxNode, state: EditorState): Record<s
 
 export type Slicer = (from: number, to: number) => string;
 
-const buildGlobalAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string, TypeInfo>): void => {
+export const getRootNode = (node: SyntaxNode): SyntaxNode => node.parent ? getRootNode(node.parent) : node;
+
+export const buildGlobalAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string, TypeInfo>): void => {
     if (node.name === "AssignmentExpression") {        
         const varName = node.getChild("VariableName");
         if (varName) {
@@ -62,7 +64,7 @@ const buildGlobalAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string
     }
 };
 
-const buildThisAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string, TypeInfo>): void => {
+export const buildThisAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string, TypeInfo>): void => {
     if (node.name === "AssignmentExpression") {
         const member = node.getChild("MemberExpression");
         if (member) {
