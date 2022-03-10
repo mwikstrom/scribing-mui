@@ -43,10 +43,12 @@ const statements: readonly Completion[] = [
     snip("const ${name} = ${value};", {
         label: "const",
         type: "keyword",
+        detail: "definition",
     }),
     snip("let ${name} = ${value};", {
         label: "let",
         type: "keyword",
+        detail: "definition",
     }),
     snip("return ${};", {
         label: "return",
