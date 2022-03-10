@@ -1,13 +1,13 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { EditorState, EditorView, basicSetup } from "@codemirror/basic-setup";
 import { indentWithTab } from "@codemirror/commands";
-import { javascript } from "@codemirror/lang-javascript";
 import { keymap } from "@codemirror/view";
 import { HighlightStyle, tags as t } from "@codemirror/highlight";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { Theme } from "@material-ui/core";
 import { DefaultFlowPalette } from "scribing-react";
 import clsx from "clsx";
+import { scriptLanguage } from "../script/language";
 
 export interface ScriptEditorProps {
     className?: string;
@@ -15,7 +15,7 @@ export interface ScriptEditorProps {
     autoFocus?: boolean;
     onValueChange?: (value: string) => void;
     label?: string;
-    maxHeight?: string | number,
+    maxHeight?: string | number;
 }
 
 export const ScriptEditor: FC<ScriptEditorProps> = props => {
@@ -151,11 +151,11 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         }
         const editor = new EditorView({
             state: EditorState.create({
-                doc: initialValue,
+                doc: value,
                 extensions: [
                     basicSetup,
                     keymap.of([indentWithTab]),
-                    javascript(),
+                    scriptLanguage(),
                     editorTheme,
                     highlightStyle,
                 ],

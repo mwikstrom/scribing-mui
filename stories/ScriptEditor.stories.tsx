@@ -32,11 +32,11 @@ const Root: FC<Omit<StoryProps, "dark">> = () => {
 };
 
 const SCRIPT_TEXT = `{
-    console.log("Hello world");
-    const apa = 1 + 2.3;
-    // Line comment
-    const olle = JSON.stringify(apa);
-    const func = () => { /* noop */ };
+  console.log("Hello world");
+  const apa = 1 + 2.3;
+  // Line comment
+  const olle = JSON.stringify(apa);
+  const func = () => { /* noop */ };
 }
 `;
 
