@@ -5,12 +5,13 @@ import { ParamInfo, TypeInfo } from "../TypeInfo";
 
 export const parseScript = (input: string): SyntaxNode => javascriptLanguage.parser.parse(input).topNode;
 
-export const getGlobalAssignments = (node: SyntaxNode): Record<string, TypeInfo> => {
-    const result: Record<string, TypeInfo> = {};
-    return result;
+export const getGlobalAssignments = (node: SyntaxNode, slice: Slicer): Record<string, TypeInfo> => {
+    const map = new Map<string, TypeInfo>();
+    buildGlobalAssignments(node, slice, map);
+    return Object.fromEntries(map);
 };
 
-export const getThisAssignments = (node: SyntaxNode): Record<string, TypeInfo> => {
+export const getThisAssignments = (node: SyntaxNode, slice: Slicer): Record<string, TypeInfo> => {
     const result: Record<string, TypeInfo> = {};
     return result;
 };
@@ -42,6 +43,22 @@ export const getDeclarations = (block: SyntaxNode, state: EditorState): Record<s
         }
     }
     return result;
+};
+
+export type Slicer = (from: number, to: number) => string;
+
+const buildGlobalAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string, TypeInfo>): void => {
+    if (node.name === "AssignmentExpression") {
+        const varName = node.getChild("VariableName");
+        if (varName) {
+            const { from, to } = varName;
+            map.set(slice(from, to), TypeInfo.unknown);
+        }
+    } else {
+        for (let child = node.firstChild; child; child = child.nextSibling) {
+            buildGlobalAssignments(child, slice, map);
+        }
+    }
 };
 
 const getVariableName = (decl: SyntaxNode, state: EditorState): string | null => {

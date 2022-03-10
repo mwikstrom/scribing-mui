@@ -13,7 +13,7 @@
     "postbuild": "npm test && api-extractor run --local && api-documenter markdown --input temp --output docs",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix",
-    "test": "echo Testing not available right now :-(",
+    "test": "jest",
     "prepublishOnly": "npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
