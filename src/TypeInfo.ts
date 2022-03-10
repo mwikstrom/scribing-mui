@@ -155,6 +155,10 @@ export const TypeInfo = Object.freeze({
         keys.map(key => [key, type])
     )) as Record<K, TypeInfo>,
     from: (func: ScriptFunction): FunctionType => DECORATED_SCRIPT_FUNCS.get(func) ?? TypeInfo.function(),
+    decorate: <T extends ScriptFunction>(func: T, params: readonly ParamInfo[], returnType?: TypeInfo): T => {
+        DECORATED_SCRIPT_FUNCS.set(func, TypeInfo.function(params, returnType));
+        return func;
+    },
 });
 
 const DECORATED_SCRIPT_FUNCS = new WeakMap<ScriptFunction, FunctionType>();
