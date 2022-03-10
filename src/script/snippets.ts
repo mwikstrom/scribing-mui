@@ -28,14 +28,17 @@ const expressions: readonly Completion[] = [
     snip("await ${promise}", {
         label: "await",
         type: "keyword",
+        detail: "promise",
     }),
     snip("new ${}(${})", {
         label: "new",
         type: "keyword",
+        detail: "constructor",
     }),
     snip("throw ${}", {
         label: "throw",
         type: "keyword",
+        detail: "expression",
     }),
 ];
 
