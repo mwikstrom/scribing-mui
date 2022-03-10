@@ -35,7 +35,9 @@ export type UndefinedType = TypeDecl<"undefined">;
 export type NullType = TypeDecl<"null">;
 
 /** @public */
-export type BooleanType = TypeDecl<"boolean">;
+export interface BooleanType extends TypeDecl<"boolean"> {
+    value?: boolean;
+}
 
 /** @public */
 export interface StringType extends TypeDecl<"string"> {
@@ -100,6 +102,10 @@ export const TypeInfo = Object.freeze({
     scope: <T extends TypeInfo>(scope: string, type: T): T => Object.freeze({
         ...type,
         scope,
+    }),
+    booleanValue: (value: boolean): BooleanType => Object.freeze({
+        decl: "string",
+        value,
     }),
     stringValue: (value: string): StringType => Object.freeze({
         decl: "string",
