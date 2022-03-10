@@ -68,7 +68,7 @@ const completeRoot = (node: SyntaxNode | null, from: number, state: EditorState)
     const result: CompletionResult = {
         from,
         options: [
-            ...getOptionsFromScope(scope),
+            ...getOptionsFromScope(scope).filter(entry => entry.label !== "this"),
             ...getSnippetsFromNode(node),
         ],
         span: /^[\w$]*$/,
@@ -86,7 +86,7 @@ const getOptionsFromScope = (scope: Record<string, TypeInfo>): readonly Completi
 
 const getOptionFromEntry = ([label, info]: [string, TypeInfo]): Completion => {
     let type = "variable";
-    let detail: string | undefined;
+    let detail = info.scope;
     if (info.decl === "object") {
         type = "namespace";
     } else if (info.decl === "function") {
@@ -138,7 +138,9 @@ const formatType = (info: TypeInfo): string => {
 };
 
 const getScopeFromNode = (node: SyntaxNode | null, state: EditorState): Record<string, TypeInfo> => {
-    const result = new Map(Object.entries(intrinsicGlobals));
+    const result = new Map(
+        Object.entries(intrinsicGlobals).map(([key, info]) => [key, TypeInfo.scope("intrinsic", info)])
+    );
 
     if (node) {
         const root = getRootNode(node);
@@ -154,7 +156,7 @@ const getScopeFromNode = (node: SyntaxNode | null, state: EditorState): Record<s
         for (const block of getOuterBlocks(node).reverse()) {
             const decl = getDeclarations(block, state);
             for (const [key, info] of Object.entries(decl)) {
-                result.set(key, info);
+                result.set(key, TypeInfo.scope("local", info));
             }
         }
     }

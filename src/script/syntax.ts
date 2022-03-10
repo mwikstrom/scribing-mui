@@ -55,7 +55,7 @@ export const buildGlobalAssignments = (node: SyntaxNode, slice: Slicer, map: Map
         const varName = node.getChild("VariableName");
         if (varName) {
             const { from, to } = varName;
-            map.set(slice(from, to), TypeInfo.unknown);
+            map.set(slice(from, to), TypeInfo.scope("global", TypeInfo.unknown));
         }
     } else {
         for (let child = node.firstChild; child; child = child.nextSibling) {
