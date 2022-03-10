@@ -104,7 +104,7 @@ export const TypeInfo = Object.freeze({
         scope,
     }),
     booleanValue: (value: boolean): BooleanType => Object.freeze({
-        decl: "string",
+        decl: "boolean",
         value,
     }),
     stringValue: (value: string): StringType => Object.freeze({
