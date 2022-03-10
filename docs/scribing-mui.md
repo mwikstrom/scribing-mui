@@ -17,12 +17,23 @@ Material-UI components for collaborative rich text editing
 
 |  Interface | Description |
 |  --- | --- |
+|  [ArrayType](./scribing-mui.arraytype.md) |  |
+|  [BooleanType](./scribing-mui.booleantype.md) |  |
 |  [CustomOption](./scribing-mui.customoption.md) |  |
 |  [FlowEditorToolbarProps](./scribing-mui.floweditortoolbarprops.md) |  |
+|  [FunctionType](./scribing-mui.functiontype.md) |  |
 |  [MarkupInfo](./scribing-mui.markupinfo.md) |  |
 |  [MarkupUpdateInfo](./scribing-mui.markupupdateinfo.md) |  |
 |  [MaterialFlowLocale](./scribing-mui.materialflowlocale.md) |  |
 |  [MaterialFlowLocaleProps](./scribing-mui.materialflowlocaleprops.md) |  |
+|  [NumberType](./scribing-mui.numbertype.md) |  |
+|  [ObjectType](./scribing-mui.objecttype.md) |  |
+|  [ParamInfo](./scribing-mui.paraminfo.md) |  |
+|  [PromiseType](./scribing-mui.promisetype.md) |  |
+|  [StringType](./scribing-mui.stringtype.md) |  |
+|  [TupleType](./scribing-mui.tupletype.md) |  |
+|  [TypeDecl](./scribing-mui.typedecl.md) |  |
+|  [UnionType](./scribing-mui.uniontype.md) |  |
 
 ## Variables
 
@@ -34,6 +45,7 @@ Material-UI components for collaborative rich text editing
 |  [MaterialFlowPalette](./scribing-mui.materialflowpalette.md) |  |
 |  [MaterialFlowTypography](./scribing-mui.materialflowtypography.md) |  |
 |  [MaterialScribingComponents](./scribing-mui.materialscribingcomponents.md) |  |
+|  [TypeInfo](./scribing-mui.typeinfo.md) |  |
 |  [UnsetAttribute](./scribing-mui.unsetattribute.md) |  |
 
 ## Type Aliases
@@ -46,6 +58,11 @@ Material-UI components for collaborative rich text editing
 |  [FlowColorLocaleKey](./scribing-mui.flowcolorlocalekey.md) |  |
 |  [FontFamilyLocaleKey](./scribing-mui.fontfamilylocalekey.md) |  |
 |  [LocaleItemKey](./scribing-mui.localeitemkey.md) |  |
+|  [NullType](./scribing-mui.nulltype.md) |  |
 |  [ParagraphVariantLocaleKey](./scribing-mui.paragraphvariantlocalekey.md) |  |
+|  [TypeInfo](./scribing-mui.typeinfo.md) |  |
+|  [UndefinedType](./scribing-mui.undefinedtype.md) |  |
+|  [UnknownType](./scribing-mui.unknowntype.md) |  |
 |  [UnsetAttribute](./scribing-mui.unsetattribute.md) |  |
+|  [VoidType](./scribing-mui.voidtype.md) |  |
 

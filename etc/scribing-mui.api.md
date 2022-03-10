@@ -14,6 +14,19 @@ import { Interaction } from 'scribing';
 import { ParagraphVariant } from 'scribing';
 import { ReactNode } from 'react';
 import { ScribingComponents } from 'scribing-react';
+import { ScriptFunction } from 'scripthost';
+
+// @public (undocumented)
+export interface ArrayType extends TypeDecl<"array"> {
+    // (undocumented)
+    itemType?: TypeInfo;
+}
+
+// @public (undocumented)
+export interface BooleanType extends TypeDecl<"boolean"> {
+    // (undocumented)
+    value?: boolean;
+}
 
 // @public (undocumented)
 export type BoxVariantLocaleKey = `box_${BoxVariant}`;
@@ -71,6 +84,14 @@ export interface FlowEditorToolbarProps {
 
 // @public (undocumented)
 export type FontFamilyLocaleKey = `font_family_${FontFamily}`;
+
+// @public (undocumented)
+export interface FunctionType extends TypeDecl<"function"> {
+    // (undocumented)
+    params?: readonly ParamInfo[];
+    // (undocumented)
+    returnType?: TypeInfo;
+}
 
 // @public (undocumented)
 export function getMarkupInfo(controller: FlowEditorController | null | undefined): MarkupInfo | null;
@@ -285,7 +306,100 @@ export const MaterialFlowTypography: FC;
 export const MaterialScribingComponents: FC<Partial<ScribingComponents>>;
 
 // @public (undocumented)
+export type NullType = TypeDecl<"null">;
+
+// @public (undocumented)
+export interface NumberType extends TypeDecl<"number"> {
+    // (undocumented)
+    value?: number;
+}
+
+// @public (undocumented)
+export interface ObjectType extends TypeDecl<"object"> {
+    // (undocumented)
+    props?: Record<string, TypeInfo>;
+}
+
+// @public (undocumented)
 export type ParagraphVariantLocaleKey = `paragraph_${ParagraphVariant}`;
+
+// @public (undocumented)
+export interface ParamInfo {
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    optional?: boolean;
+    // (undocumented)
+    spread?: boolean;
+    // (undocumented)
+    type?: TypeInfo;
+}
+
+// @public (undocumented)
+export interface PromiseType extends TypeDecl<"promise"> {
+    // (undocumented)
+    resolveType?: TypeInfo;
+}
+
+// @public (undocumented)
+export interface StringType extends TypeDecl<"string"> {
+    // (undocumented)
+    value?: string;
+}
+
+// @public (undocumented)
+export interface TupleType extends TypeDecl<"tuple"> {
+    // (undocumented)
+    itemTypes: readonly TypeInfo[];
+}
+
+// @public (undocumented)
+export interface TypeDecl<T> {
+    // (undocumented)
+    decl: T;
+    // (undocumented)
+    scope?: string;
+}
+
+// @public (undocumented)
+export type TypeInfo = (UnknownType | VoidType | UndefinedType | NullType | BooleanType | NullType | StringType | NumberType | ObjectType | ArrayType | TupleType | FunctionType | PromiseType | UnionType);
+
+// @public (undocumented)
+export const TypeInfo: Readonly<{
+    unknown: TypeDecl<"unknown">;
+    void: TypeDecl<"void">;
+    undefined: TypeDecl<"undefined">;
+    null: TypeDecl<"null">;
+    boolean: TypeDecl<"boolean">;
+    string: TypeDecl<"string">;
+    number: TypeDecl<"number">;
+    scope: <T extends TypeInfo>(scope: string, type: T) => T;
+    booleanValue: (value: boolean) => BooleanType;
+    stringValue: (value: string) => StringType;
+    numberValue: (value: number) => NumberType;
+    union: (first: TypeInfo, ...rest: readonly TypeInfo[]) => UnionType;
+    array: (itemType?: TypeInfo | undefined) => ArrayType;
+    tuple: (...itemTypes: readonly TypeInfo[]) => TupleType;
+    object: (props?: Record<string, TypeInfo> | undefined) => ObjectType;
+    function: (params?: readonly ParamInfo[] | undefined, returnType?: TypeInfo | undefined) => FunctionType;
+    param: (name?: string | undefined, type?: TypeInfo | undefined, options?: Pick<ParamInfo, "optional" | "spread">) => ParamInfo;
+    promise: (resolveType?: TypeInfo | undefined) => PromiseType;
+    props: <K extends string>(type: TypeInfo, ...keys: K[]) => Record<K, TypeInfo>;
+    from: (func: ScriptFunction) => FunctionType;
+    decorate: <T_1 extends ScriptFunction>(func: T_1, params: readonly ParamInfo[], returnType?: TypeInfo | undefined) => T_1;
+}>;
+
+// @public (undocumented)
+export type UndefinedType = TypeDecl<"undefined">;
+
+// @public (undocumented)
+export interface UnionType extends TypeDecl<"union"> {
+    // (undocumented)
+    union: readonly TypeInfo[];
+}
+
+// @public (undocumented)
+export type UnknownType = TypeDecl<"unknown">;
 
 // @public (undocumented)
 export const UnsetAttribute: unique symbol;
@@ -295,5 +409,8 @@ export type UnsetAttribute = typeof UnsetAttribute;
 
 // @public (undocumented)
 export function useMaterialFlowLocale(): Readonly<MaterialFlowLocale>;
+
+// @public (undocumented)
+export type VoidType = TypeDecl<"void">;
 
 ```
