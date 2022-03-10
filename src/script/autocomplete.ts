@@ -14,7 +14,7 @@ import {
 import { EditorState } from "@codemirror/state";
 import { ParamInfo, TypeInfo } from "../TypeInfo";
 
-export const autocomplete = (): CompletionSource => context => {
+export const autocomplete = (globals: Iterable<[string, TypeInfo]>): CompletionSource => context => {
     const node: SyntaxNode = syntaxTree(context.state).resolveInner(context.pos, -1);
 
     if (dontCompleteIn.has(node.name)) {
@@ -22,22 +22,26 @@ export const autocomplete = (): CompletionSource => context => {
     }
 
     if (completePropIn.has(node.name) && node.parent?.name === "MemberExpression") {
-        return completeProp(node, context.state);
+        return completeProp(node, context.state, globals);
     }
 
     if (node.name === "VariableName") {
-        return completeRoot(node.parent, node.from, context.state);
+        return completeRoot(node.parent, node.from, context.state, globals);
     }
 
     if (context.explicit) {
-        return completeRoot(node, context.pos, context.state);
+        return completeRoot(node, context.pos, context.state, globals);
     }
 
     return null;
 };
 
 // TODO: Support nested properties!
-const completeProp = (node: SyntaxNode, state: EditorState): CompletionResult | null => {
+const completeProp = (
+    node: SyntaxNode,
+    state: EditorState,
+    globals: Iterable<[string, TypeInfo]>,
+): CompletionResult | null => {
     const path: string[] = [];
     const obj = node.parent?.getChild("Expression");
     if (obj?.name === "VariableName" || obj?.name === "this") {
@@ -46,7 +50,7 @@ const completeProp = (node: SyntaxNode, state: EditorState): CompletionResult | 
     if (path.length === 0) {
         return null;
     }
-    let scope = getScopeFromNode(node, state);
+    let scope = getScopeFromNode(node, state, globals);
     for (const key of path) {
         const type = scope[key];
         if (type?.decl !== "object" || !type.props) {
@@ -63,8 +67,13 @@ const completeProp = (node: SyntaxNode, state: EditorState): CompletionResult | 
     return result;    
 };
 
-const completeRoot = (node: SyntaxNode | null, from: number, state: EditorState): CompletionResult => {
-    const scope = getScopeFromNode(node, state);
+const completeRoot = (
+    node: SyntaxNode | null,
+    from: number,
+    state: EditorState,
+    globals: Iterable<[string, TypeInfo]>,
+): CompletionResult => {
+    const scope = getScopeFromNode(node, state, globals);
     const result: CompletionResult = {
         from,
         options: [
@@ -137,10 +146,16 @@ const formatType = (info: TypeInfo): string => {
     return info.decl;
 };
 
-const getScopeFromNode = (node: SyntaxNode | null, state: EditorState): Record<string, TypeInfo> => {
-    const result = new Map(
-        Object.entries(intrinsicGlobals).map(([key, info]) => [key, TypeInfo.scope("intrinsic", info)])
-    );
+const getScopeFromNode = (
+    node: SyntaxNode | null,
+    state: EditorState,
+    globals: Iterable<[string, TypeInfo]>,
+): Record<string, TypeInfo> => {
+    const result = new Map(globals);
+
+    for (const [key, info] of Object.entries(intrinsicGlobals)) {
+        result.set(key, TypeInfo.scope("intrinsic", info));
+    }
 
     if (node) {
         const root = getRootNode(node);

@@ -8,6 +8,7 @@ import { Theme } from "@material-ui/core";
 import { DefaultFlowPalette } from "scribing-react";
 import clsx from "clsx";
 import { scriptLanguage } from "../script/language";
+import { TypeInfo } from "../TypeInfo";
 
 export interface ScriptEditorProps {
     className?: string;
@@ -16,6 +17,7 @@ export interface ScriptEditorProps {
     onValueChange?: (value: string) => void;
     label?: string;
     maxHeight?: string | number;
+    globals?: Iterable<[string, TypeInfo]>;
 }
 
 export const ScriptEditor: FC<ScriptEditorProps> = props => {
@@ -26,6 +28,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         onValueChange,
         label,
         maxHeight,
+        globals,
     } = props;
     const [value, setValue] = useState(initialValue || "");
     const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
@@ -155,7 +158,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                 extensions: [
                     basicSetup,
                     keymap.of([indentWithTab]),
-                    scriptLanguage(),
+                    scriptLanguage(globals),
                     editorTheme,
                     highlightStyle,
                 ],

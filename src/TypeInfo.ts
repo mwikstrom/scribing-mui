@@ -1,3 +1,5 @@
+import { ScriptFunction } from "scripthost";
+
 /** @public */
 export type TypeInfo = (
     UnknownType |
@@ -152,4 +154,7 @@ export const TypeInfo = Object.freeze({
     props: <K extends string>(type: TypeInfo, ...keys: K[]): Record<K, TypeInfo> => Object.freeze(Object.fromEntries(
         keys.map(key => [key, type])
     )) as Record<K, TypeInfo>,
+    from: (func: ScriptFunction): FunctionType => DECORATED_SCRIPT_FUNCS.get(func) ?? TypeInfo.function(),
 });
+
+const DECORATED_SCRIPT_FUNCS = new WeakMap<ScriptFunction, FunctionType>();

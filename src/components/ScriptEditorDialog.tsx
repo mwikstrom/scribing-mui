@@ -4,7 +4,10 @@ import { mdiFullscreen, mdiFullscreenExit, mdiMessagePlusOutline, mdiMessageText
 import Icon from "@mdi/react";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Script } from "scribing";
+import { ScriptFunction } from "scripthost";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
+import { buildGlobalAssignments, parseScript } from "../script/syntax";
+import { TypeInfo } from "../TypeInfo";
 import { ResponsiveDialog } from "./ResponsiveDialog";
 import { ScriptEditor } from "./ScriptEditor";
 import { ScriptMessageDialog } from "./ScriptMessageDialog";
@@ -16,6 +19,9 @@ export interface ScriptEditorDialogProps extends DialogProps {
     completeLabel?: string;
     initialValue?: Script | null;
     lang?: string;
+    hostFuncs?: Iterable<[string, ScriptFunction]>;
+    otherScripts?: readonly Script[];
+    idempotent?: boolean;
     onComplete?: (script: Script | null) => void;
 }
 
@@ -28,6 +34,9 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         cancelLabel = locale.button_cancel,
         completeLabel = locale.button_apply,
         lang,
+        hostFuncs,
+        otherScripts,
+        idempotent,
         open,
         ...rest
     } = props;
@@ -37,6 +46,38 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     const classes = useStyles();
     const [isFullScreen, setIsFullScreen] = useState<boolean | undefined>();
     const [canToggleFullScreen, setCanTooggleFullScreen] = useState(false);
+    const globals = useMemo<Map<string, TypeInfo>>(() => {
+        const result = new Map<string, TypeInfo>();
+
+        if (hostFuncs) {
+            for (const [key, func] of hostFuncs) {
+                result.set(key, TypeInfo.from(func));
+            }
+        }
+
+        if (otherScripts) {
+            for (const { code } of otherScripts) {
+                const root = parseScript(code);
+                buildGlobalAssignments(root, (from, to) => code.substring(from, to - from), result);
+            }
+        }
+
+        for (const [key, value] of messages) {
+            result.set(key, TypeInfo.stringValue(value));
+        }
+        
+        const thisProps: Record<string, TypeInfo> = {
+            idempotent: typeof idempotent === "boolean" ? TypeInfo.booleanValue(idempotent) : TypeInfo.boolean,
+        };
+
+        if (idempotent) {
+            thisProps.refresh = TypeInfo.number;
+        }
+
+        result.set("this", TypeInfo.object(thisProps));
+
+        return result;
+    }, [messages, hostFuncs, otherScripts, idempotent]);
     
     const onClickComplete = useCallback(() => {
         if (onComplete) {
@@ -126,6 +167,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                                 label={scriptLabel}
                                 maxHeight={`calc(100vh - ${isFullScreen ? 120 : 184}px)`}
                                 autoFocus
+                                globals={globals}
                             />
                         </div>
                         <DialogActions>
