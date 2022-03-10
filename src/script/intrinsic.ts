@@ -1,108 +1,115 @@
 import { TypeInfo } from "./typeinfo";
 
 export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
-    Infinity: { decl: "number" },
-    NaN: { decl: "number" },
-    undefined: { decl: "undefined" },
-    isFinite: {
-        decl: "function",
-        params: [
-            { name: "number", type: { decl: "number" } },
-        ],
-        returnType: { decl: "boolean"},
-    },
-    isNaN: {
-        decl: "function",
-        params: [
-            { name: "number", type: { decl: "number" } },
-        ] ,
-        returnType: { decl: "boolean"},
-    },
-    parseFloat: {
-        decl: "function",
-        params: [
-            { name: "string", type: { decl: "string" } },
-        ],
-        returnType: { decl: "number"},
-    },
-    parseInt: {
-        decl: "function",
-        params: [
-            { name: "string", type: { decl: "string" } },
-            { name: "radix", type: { decl: "number", optional: true } },
-        ],
-        returnType: { decl: "number"},
-    },
-    encodeURI: {
-        decl: "function",
-        params: [
-            { name: "uri", type: { decl: "string" } }
-        ],
-        returnType: { decl: "string"},
-    },
-    encodeURIComponent: {
-        decl: "function",
-        params: [
-            { name: "uriComponent", type: { decl: "string" } }
-        ],
-        returnType: { decl: "string"},
-    },
-    decodeURI: {
-        decl: "function",
-        params: [
-            { name: "encodedURI", type: { decl: "string" } }
-        ],
-        returnType: { decl: "string"},
-    },
-    decodeURIComponent: {
-        decl: "function",
-        params: [
-            { name: "encodedURIComponent", type: { decl: "string" } }
-        ],
-        returnType: { decl: "string"},
-    },
-    Object: { decl: "function" }, // TODO: Declare Object
-    Function: { decl: "function" }, // TODO: Declare Function
-    Boolean: { decl: "function" }, // TODO: Declare Boolean
-    Symbol: { decl: "function" }, // TODO: Declare Symbol
-    Error: { decl: "function" }, // TODO: Declare Error
-    EvalError: { decl: "function" }, // TODO: Declare EvalError
-    RangeError: { decl: "function" }, // TODO: Declare RangeError
-    ReferenceError: { decl: "function" }, // TODO: Declare ReferenceError
-    SyntaxError: { decl: "function" }, // TODO: Declare SyntaxError
-    TypeError: { decl: "function" }, // TODO: Declare TypeError
-    URIError: { decl: "function" }, // TODO: Declare URIError
-    Number: { decl: "function" }, // TODO: Declare Number
-    BigInt: { decl: "function" }, // TODO: Declare BigInt
+    Infinity: TypeInfo.number,
+    NaN: TypeInfo.number,
+    undefined: TypeInfo.undefined,
+    isFinite: TypeInfo.function(
+        [ TypeInfo.param("number", TypeInfo.number) ], 
+        TypeInfo.boolean,
+    ),
+    isNaN: TypeInfo.function(
+        [ TypeInfo.param("number", TypeInfo.number) ], 
+        TypeInfo.boolean,
+    ),
+    parseFloat: TypeInfo.function(
+        [ TypeInfo.param("string", TypeInfo.string) ], 
+        TypeInfo.number,
+    ),
+    parseInt: TypeInfo.function(
+        [ 
+            TypeInfo.param("string", TypeInfo.string),
+            TypeInfo.param("radix", TypeInfo.number, { optional: true }),
+        ], 
+        TypeInfo.number,
+    ),
+    encodeURI: TypeInfo.function(
+        [ TypeInfo.param("uri", TypeInfo.string) ],
+        TypeInfo.string,
+    ),
+    encodeURIComponent: TypeInfo.function(
+        [ TypeInfo.param("uriComponent", TypeInfo.string) ],
+        TypeInfo.string,
+    ),
+    decodeURI: TypeInfo.function(
+        [ TypeInfo.param("encodedURI", TypeInfo.string) ],
+        TypeInfo.string,
+    ),
+    decodeURIComponent: TypeInfo.function(
+        [ TypeInfo.param("encodedURIComponent", TypeInfo.string) ],
+        TypeInfo.string,
+    ),
+    Object: TypeInfo.function(), // TODO: Declare Object
+    Function: TypeInfo.function(), // TODO: Declare Function
+    Boolean: TypeInfo.function(), // TODO: Declare Boolean
+    Symbol: TypeInfo.function(), // TODO: Declare Symbol
+    Error: TypeInfo.function(), // TODO: Declare Error
+    EvalError: TypeInfo.function(), // TODO: Declare EvalError
+    RangeError: TypeInfo.function(), // TODO: Declare RangeError
+    ReferenceError: TypeInfo.function(), // TODO: Declare ReferenceError
+    SyntaxError: TypeInfo.function(), // TODO: Declare SyntaxError
+    TypeError: TypeInfo.function(), // TODO: Declare TypeError
+    URIError: TypeInfo.function(), // TODO: Declare URIError
+    Number: TypeInfo.function(), // TODO: Declare Number
+    BigInt: TypeInfo.function(), // TODO: Declare BigInt
     Math: { decl: "object" }, // TODO: Declare Math
-    Date: { decl: "function" }, // TODO: Declare Date
-    String: { decl: "function" }, // TODO: Declare String
-    RegExp: { decl: "function" }, // TODO: Declare RegExp
-    Array: { decl: "function" }, // TODO: Declare Array
-    Int8Array: { decl: "function" }, // TODO: Declare Int8Array
-    Uint8Array: { decl: "function" }, // TODO: Declare Uint8Array
-    Uint8ClampedArray: { decl: "function" }, // TODO: Declare Uint8ClampedArray
-    Int16Array: { decl: "function" }, // TODO: Declare Int16Array
-    Uint16Array: { decl: "function" }, // TODO: Declare Uint16Array
-    Int32Array: { decl: "function" }, // TODO: Declare Int32Array
-    Uint32Array: { decl: "function" }, // TODO: Declare Uint32Array
-    Float32Array: { decl: "function" }, // TODO: Declare Float32Array
-    Float64Array: { decl: "function" }, // TODO: Declare BigInt64Array
-    BigInt64Array: { decl: "function" }, // TODO: Declare BingInt64Array
-    BigUint64Array: { decl: "function" }, // TODO: Declare BigUint64Array
-    Map: { decl: "function" }, // TODO: Declare Map
-    Set: { decl: "function" }, // TODO: Declare Set
-    WeakMap: { decl: "function" }, // TODO: Declare WeakMap
-    WeakSet: { decl: "function" }, // TODO: Declare WeakSet
-    ArrayBuffer: { decl: "function" }, // TODO: Declare ArrayBuffer
-    DataView: { decl: "function" }, // TODO: Declare DataView
-    JSON: { decl: "object" }, // TODO: Declare JSON
-    Promise: { decl: "function" }, // TODO: Declare Promise
-    delay: {
-        decl: "function",
-        params: [
-            { name: "duration", type: { decl: "number" } },
-        ],
-        returnType: { decl: "promise", resolveType: { decl: "void" } },
-    },
+    Date: TypeInfo.function(), // TODO: Declare Date
+    String: TypeInfo.function(), // TODO: Declare String
+    RegExp: TypeInfo.function(), // TODO: Declare RegExp
+    Array: TypeInfo.function(), // TODO: Declare Array
+    Int8Array: TypeInfo.function(), // TODO: Declare Int8Array
+    Uint8Array: TypeInfo.function(), // TODO: Declare Uint8Array
+    Uint8ClampedArray: TypeInfo.function(), // TODO: Declare Uint8ClampedArray
+    Int16Array: TypeInfo.function(), // TODO: Declare Int16Array
+    Uint16Array: TypeInfo.function(), // TODO: Declare Uint16Array
+    Int32Array: TypeInfo.function(), // TODO: Declare Int32Array
+    Uint32Array: TypeInfo.function(), // TODO: Declare Uint32Array
+    Float32Array: TypeInfo.function(), // TODO: Declare Float32Array
+    Float64Array: TypeInfo.function(), // TODO: Declare BigInt64Array
+    BigInt64Array: TypeInfo.function(), // TODO: Declare BingInt64Array
+    BigUint64Array: TypeInfo.function(), // TODO: Declare BigUint64Array
+    Map: TypeInfo.function(), // TODO: Declare Map
+    Set: TypeInfo.function(), // TODO: Declare Set
+    WeakMap: TypeInfo.function(), // TODO: Declare WeakMap
+    WeakSet: TypeInfo.function(), // TODO: Declare WeakSet
+    ArrayBuffer: TypeInfo.function(), // TODO: Declare ArrayBuffer
+    DataView: TypeInfo.function(), // TODO: Declare DataView
+    JSON: TypeInfo.object({
+        parse: TypeInfo.function(
+            [
+                TypeInfo.param("text", TypeInfo.string),
+                TypeInfo.param("reviver", TypeInfo.function()),
+            ],
+            TypeInfo.unknown,
+        ),
+        stringify: TypeInfo.function(
+            [
+                TypeInfo.param("value", TypeInfo.unknown),
+                TypeInfo.param(
+                    "replacer",
+                    TypeInfo.union(
+                        TypeInfo.function(),
+                        TypeInfo.array(TypeInfo.union(TypeInfo.string, TypeInfo.number)),
+                        TypeInfo.null,
+                    ),
+                    { optional: true },
+                ),
+                TypeInfo.param(
+                    "space",
+                    TypeInfo.union(
+                        TypeInfo.string,
+                        TypeInfo.number,
+                        TypeInfo.null,
+                    ),
+                    { optional: true },
+                ),
+            ],
+            TypeInfo.string,
+        ),
+    }),
+    Promise: TypeInfo.function(), // TODO: Declare Promise
+    delay: TypeInfo.function(
+        [ TypeInfo.param("duration", TypeInfo.number) ],
+        TypeInfo.promise(TypeInfo.void),
+    ),
 });

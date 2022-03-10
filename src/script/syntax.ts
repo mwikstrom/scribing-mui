@@ -19,10 +19,7 @@ export const getDeclarations = (block: SyntaxNode, state: EditorState): Record<s
         if (child.name === "FunctionDeclaration") {
             const key = getVariableName(child, state);
             if (key) {
-                result[key] = {
-                    decl: "function",
-                    params: getFunctionParams(child, state),
-                };
+                result[key] = TypeInfo.function(getFunctionParams(child, state));
             }
         } else if (child.name === "VariableDeclaration") {
             const key = getVariableName(child, state);
@@ -62,11 +59,8 @@ const getVariableType = (decl: SyntaxNode, state: EditorState): TypeInfo => {
     if (eq) {
         const val = decl.childAfter(eq.to);
         if (val?.name === "ArrowFunction") {
-            return {
-                decl: "function",
-                params: getFunctionParams(val, state),
-            };
+            return TypeInfo.function(getFunctionParams(val, state));
         }
     }
-    return { decl: "unknown" };
+    return TypeInfo.unknown;
 };
