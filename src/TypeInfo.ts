@@ -19,6 +19,7 @@ export type TypeInfo = (
 /** @public */
 export interface TypeDecl<T> {
     decl: T;
+    scope?: string;
 }
 
 /** @public */
@@ -37,10 +38,14 @@ export type NullType = TypeDecl<"null">;
 export type BooleanType = TypeDecl<"boolean">;
 
 /** @public */
-export type StringType = TypeDecl<"string">;
+export interface StringType extends TypeDecl<"string"> {
+    value?: string;
+}
 
 /** @public */
-export type NumberType = TypeDecl<"number">;
+export interface NumberType extends TypeDecl<"number"> {
+    value?: number;
+}
 
 /** @public */
 export interface UnionType extends TypeDecl<"union"> {
@@ -92,6 +97,18 @@ export const TypeInfo = Object.freeze({
     boolean: basicType("boolean" as const),
     string: basicType("string" as const),
     number: basicType("number" as const),
+    scope: <T extends TypeInfo>(scope: string, type: T): T & { scope: string } => Object.freeze({
+        ...type,
+        scope,
+    }),
+    stringValue: (value: string): StringType => Object.freeze({
+        decl: "string",
+        value,
+    }),
+    numberValue: (value: number): NumberType => Object.freeze({
+        decl: "number",
+        value,
+    }),
     union: (first: TypeInfo, ...rest: readonly TypeInfo[]): UnionType => Object.freeze({
         decl: "union",
         union: Object.freeze([first, ...rest]),
