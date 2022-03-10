@@ -12,8 +12,9 @@ export const getGlobalAssignments = (node: SyntaxNode, slice: Slicer): Record<st
 };
 
 export const getThisAssignments = (node: SyntaxNode, slice: Slicer): Record<string, TypeInfo> => {
-    const result: Record<string, TypeInfo> = {};
-    return result;
+    const map = new Map<string, TypeInfo>();
+    buildThisAssignments(node, slice, map);
+    return Object.fromEntries(map);
 };
 
 export const getOuterBlocks = (node: SyntaxNode | null): SyntaxNode[] => {
@@ -48,7 +49,7 @@ export const getDeclarations = (block: SyntaxNode, state: EditorState): Record<s
 export type Slicer = (from: number, to: number) => string;
 
 const buildGlobalAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string, TypeInfo>): void => {
-    if (node.name === "AssignmentExpression") {
+    if (node.name === "AssignmentExpression") {        
         const varName = node.getChild("VariableName");
         if (varName) {
             const { from, to } = varName;
@@ -60,6 +61,37 @@ const buildGlobalAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string
         }
     }
 };
+
+const buildThisAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string, TypeInfo>): void => {
+    if (node.name === "AssignmentExpression") {
+        const member = node.getChild("MemberExpression");
+        if (member) {
+            const obj = node.getChild("Expression");
+            const first = obj?.firstChild;
+            if (first?.name === "this") {
+                const dot = first.nextSibling;
+                if (dot?.name === ".") {
+                    const next = dot.nextSibling;
+                    const last = obj?.lastChild;
+                    console.log("last:", last?.name);
+                    console.log("next:", dot?.nextSibling?.name);
+                    if (isSameRange(next, last) && last?.name === "PropertyName") {
+                        map.set(slice(last.from, last.to), TypeInfo.unknown);
+                    }
+                }
+            }
+        }
+    } else {
+        for (let child = node.firstChild; child; child = child.nextSibling) {
+            buildThisAssignments(child, slice, map);
+        }
+    }
+};
+
+const isSameRange = (first: SyntaxNode | null | undefined, second: SyntaxNode | null | undefined): boolean => (
+    first?.from === second?.from &&
+    first?.to === second?.to
+);
 
 const getVariableName = (decl: SyntaxNode, state: EditorState): string | null => {
     const def = decl.getChild("VariableDefinition");
