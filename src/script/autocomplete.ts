@@ -33,7 +33,7 @@ export const autocomplete = (): CompletionSource => context => {
 const completeProp = (node: SyntaxNode, state: EditorState): CompletionResult | null => {
     const path: string[] = [];
     const obj = node.parent?.getChild("Expression");
-    if (obj?.name === "VariableName") {
+    if (obj?.name === "VariableName" || obj?.name === "this") {
         path.unshift(state.sliceDoc(obj.from, obj.to));
     }
     if (path.length === 0) {
