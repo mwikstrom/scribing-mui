@@ -5,7 +5,7 @@ import { intrinsicGlobals } from "./intrinsic";
 import { getSnippetsFromNode } from "./snippets";
 import { getBlocks, getDeclarations } from "./syntax";
 import { EditorState } from "@codemirror/state";
-import { TypeInfo } from "./typeinfo";
+import { ParamInfo, TypeInfo } from "./typeinfo";
 
 export const autocomplete = (): CompletionSource => context => {
     const node: SyntaxNode = syntaxTree(context.state).resolveInner(context.pos, -1);
@@ -73,11 +73,61 @@ const getOptionsFromScope = (scope: Record<string, TypeInfo>): readonly Completi
     if (typeof scope !== "object" || scope === null) {
         return [];
     } else {
-        return Object.entries(scope).map(([label, { decl }]) => ({
-            label,
-            type: decl === "function" ? decl : decl === "object" ? "namespace" : "variable",
-        }));
+        return Object.entries(scope).map(getOptionFromEntry);
     }
+};
+
+const getOptionFromEntry = ([label, info]: [string, TypeInfo]): Completion => {
+    let type = "variable";
+    let detail: string | undefined;
+    if (info.decl === "object") {
+        type = "namespace";
+    } else if (info.decl === "function") {
+        type = "function";
+        if (info.params) {
+            detail = `(${info.params.map(formatParam).join(", ")})`;
+        }
+        if (info.returnType && info.returnType.decl !== "unknown") {
+            detail += ": " + formatType(info.returnType);
+        }
+    } else if (info.decl !== "unknown") {
+        detail = formatType(info);
+    }
+    return { label, type, detail };
+};
+
+const formatParam = (info: ParamInfo, index: number): string => {
+    const { name = `arg${index}`, type, spread, optional } = info;
+    const parts = [name];
+    if (spread) {
+        parts.unshift("...");
+    }
+    if (optional) {
+        parts.push("?");
+    }
+    if (type && type.decl !== "unknown") {
+        parts.push(": ");
+        parts.push(formatType(type));
+    }
+    return parts.join("");
+};
+
+const formatType = (info: TypeInfo): string => {
+    if (info.decl === "promise") {
+        if (info.resolveType && info.resolveType.decl !== "unknown") {
+            return `Promise<${formatType(info.resolveType)}>`;
+        } else {
+            return "Promise";
+        }
+    } else if (info.decl === "array") {
+        const { itemType = TypeInfo.unknown } = info;
+        return `Array<${formatType(itemType)}>`;
+    } else if (info.decl === "tuple") {
+        return `[${info.itemTypes.map(formatType).join(", ")}]`;
+    } else if (info.decl === "union") {
+        return info.union.map(formatType).join("|");
+    }
+    return info.decl;
 };
 
 const getScopeFromNode = (node: SyntaxNode | null, state: EditorState): Record<string, TypeInfo> => {
