@@ -103,4 +103,7 @@ export const TypeInfo = Object.freeze({
         decl: "promise",
         resolveType,
     }),
+    props: <K extends string>(type: TypeInfo, ...keys: K[]): Record<K, TypeInfo> => Object.freeze(Object.fromEntries(
+        keys.map(key => [key, type])
+    )) as Record<K, TypeInfo>,
 });

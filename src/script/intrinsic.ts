@@ -52,7 +52,43 @@ export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
     URIError: TypeInfo.function(), // TODO: Declare URIError
     Number: TypeInfo.function(), // TODO: Declare Number
     BigInt: TypeInfo.function(), // TODO: Declare BigInt
-    Math: { decl: "object" }, // TODO: Declare Math
+    Math: TypeInfo.object({
+        ...TypeInfo.props(
+            TypeInfo.number,
+            "E", "LN10", "LN2", "LOG10E", "PI", "SQRT1_2", "SQRT2"
+        ),
+        ...TypeInfo.props(
+            TypeInfo.function(
+                [TypeInfo.param("x", TypeInfo.number)],
+                TypeInfo.number
+            ),
+            "abs", "acos", "acosh", "asin", "asinh", "atan", "atanh", "cbrt", "ceil", "clz32", "cos", "cosh", "exp",
+            "expm1", "floor", "fround", "log", "log10", "log1p", "log2", "round", "sign", "sin", "sinh", "sqrt", 
+            "tan", "tanh", "trunc",
+        ),
+        ...TypeInfo.props(
+            TypeInfo.function(
+                [TypeInfo.param("x", TypeInfo.number), TypeInfo.param("y", TypeInfo.number)],
+                TypeInfo.number
+            ),
+            "atan2", "imul",
+        ),
+        ...TypeInfo.props(
+            TypeInfo.function(
+                [TypeInfo.param("values", TypeInfo.number, { spread: true })],
+                TypeInfo.number
+            ),
+            "hypot", "max", "min"
+        ),
+        pow: TypeInfo.function(
+            [
+                TypeInfo.param("base", TypeInfo.number),
+                TypeInfo.param("exponent", TypeInfo.number),
+            ],
+            TypeInfo.number,
+        ),
+        random: TypeInfo.function([], TypeInfo.number),
+    }),
     Date: TypeInfo.function(), // TODO: Declare Date
     String: TypeInfo.function(), // TODO: Declare String
     RegExp: TypeInfo.function(), // TODO: Declare RegExp
