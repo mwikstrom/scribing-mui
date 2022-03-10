@@ -1,3 +1,4 @@
+/** @public */
 export type TypeInfo = (
     UnknownType |
     VoidType |
@@ -15,39 +16,59 @@ export type TypeInfo = (
     UnionType
 );
 
+/** @public */
 export interface TypeDecl<T> {
     decl: T;
 }
 
+/** @public */
 export type UnknownType = TypeDecl<"unknown">;
+
+/** @public */
 export type VoidType = TypeDecl<"void">;
+
+/** @public */
 export type UndefinedType = TypeDecl<"undefined">;
+
+/** @public */
 export type NullType = TypeDecl<"null">;
+
+/** @public */
 export type BooleanType = TypeDecl<"boolean">;
+
+/** @public */
 export type StringType = TypeDecl<"string">;
+
+/** @public */
 export type NumberType = TypeDecl<"number">;
 
+/** @public */
 export interface UnionType extends TypeDecl<"union"> {
     union: readonly TypeInfo[];
 }
 
+/** @public */
 export interface ArrayType extends TypeDecl<"array"> {
     itemType?: TypeInfo;
 }
 
+/** @public */
 export interface TupleType extends TypeDecl<"tuple"> {
     itemTypes: readonly TypeInfo[];
 }
 
+/** @public */
 export interface ObjectType extends TypeDecl<"object"> {
     props?: Record<string, TypeInfo>;
 }
 
+/** @public */
 export interface FunctionType extends TypeDecl<"function"> {
     params?: readonly ParamInfo[];
     returnType?: TypeInfo;
 }
 
+/** @public */
 export interface ParamInfo {
     name?: string;
     type?: TypeInfo;
@@ -55,12 +76,14 @@ export interface ParamInfo {
     spread?: boolean;
 }
 
+/** @public */
 export interface PromiseType extends TypeDecl<"promise"> {
     resolveType?: TypeInfo;
 }
 
 const basicType = <K>(decl: K): TypeDecl<K> => Object.freeze({ decl });
 
+/** @public */
 export const TypeInfo = Object.freeze({
     unknown: basicType("unknown" as const),
     void: basicType("void" as const),

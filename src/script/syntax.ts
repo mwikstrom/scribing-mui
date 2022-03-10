@@ -1,15 +1,28 @@
+import { javascriptLanguage } from "@codemirror/lang-javascript";
 import { EditorState } from "@codemirror/state";
 import { SyntaxNode } from "@lezer/common";
-import { ParamInfo, TypeInfo } from "./typeinfo";
+import { ParamInfo, TypeInfo } from "../TypeInfo";
 
-export const getBlocks = (node: SyntaxNode | null): SyntaxNode[] => {
+export const parseScript = (input: string): SyntaxNode => javascriptLanguage.parser.parse(input).topNode;
+
+export const getGlobalAssignments = (node: SyntaxNode): Record<string, TypeInfo> => {
+    const result: Record<string, TypeInfo> = {};
+    return result;
+};
+
+export const getThisAssignments = (node: SyntaxNode): Record<string, TypeInfo> => {
+    const result: Record<string, TypeInfo> = {};
+    return result;
+};
+
+export const getOuterBlocks = (node: SyntaxNode | null): SyntaxNode[] => {
     const blocks: SyntaxNode[] = [];
     while (node) {
         if (node.name === "Block") {
             blocks.push(node);
         }
         node = node.parent;
-    }
+    }    
     return blocks;
 };
 

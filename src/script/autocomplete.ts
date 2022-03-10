@@ -3,9 +3,9 @@ import { SyntaxNode } from "@lezer/common";
 import { Completion, CompletionResult, CompletionSource } from "@codemirror/autocomplete";
 import { intrinsicGlobals } from "./intrinsic";
 import { getSnippetsFromNode } from "./snippets";
-import { getBlocks, getDeclarations } from "./syntax";
+import { getOuterBlocks, getDeclarations } from "./syntax";
 import { EditorState } from "@codemirror/state";
-import { ParamInfo, TypeInfo } from "./typeinfo";
+import { ParamInfo, TypeInfo } from "../TypeInfo";
 
 export const autocomplete = (): CompletionSource => context => {
     const node: SyntaxNode = syntaxTree(context.state).resolveInner(context.pos, -1);
@@ -132,7 +132,7 @@ const formatType = (info: TypeInfo): string => {
 
 const getScopeFromNode = (node: SyntaxNode | null, state: EditorState): Record<string, TypeInfo> => {
     const result = new Map(Object.entries(intrinsicGlobals));
-    for (const block of getBlocks(node).reverse()) {
+    for (const block of getOuterBlocks(node).reverse()) {
         const decl = getDeclarations(block, state);
         for (const [key, info] of Object.entries(decl)) {
             result.set(key, info);

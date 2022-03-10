@@ -1,4 +1,4 @@
-import { TypeInfo } from "./typeinfo";
+import { TypeInfo } from "../TypeInfo";
 
 export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
     Infinity: TypeInfo.number,
