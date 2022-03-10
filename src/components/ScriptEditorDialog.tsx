@@ -4,7 +4,9 @@ import { mdiFullscreen, mdiFullscreenExit, mdiMessagePlusOutline, mdiMessageText
 import Icon from "@mdi/react";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Script } from "scribing";
-import { ScriptFunction } from "scripthost";
+import { FlowEditorController } from "scribing-react";
+import { useOtherScripts } from "../hooks/use-other-scripts";
+import { useScriptHostFuncs } from "../hooks/use-scripthost-funcs";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { buildGlobalAssignments, parseScript } from "../script/syntax";
 import { TypeInfo } from "../TypeInfo";
@@ -19,9 +21,8 @@ export interface ScriptEditorDialogProps extends DialogProps {
     completeLabel?: string;
     initialValue?: Script | null;
     lang?: string;
-    hostFuncs?: Iterable<[string, ScriptFunction]>;
-    otherScripts?: readonly Script[];
     idempotent?: boolean;
+    controller?: FlowEditorController | null;
     onComplete?: (script: Script | null) => void;
 }
 
@@ -34,12 +35,13 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         cancelLabel = locale.button_cancel,
         completeLabel = locale.button_apply,
         lang,
-        hostFuncs,
-        otherScripts,
         idempotent,
+        controller,
         open,
         ...rest
     } = props;
+    const hostFuncs = useScriptHostFuncs();
+    const otherScripts = useOtherScripts(controller);
     const [code, setCode] = useState(initialValue?.code || "");    
     const [messages, setMessages] = useState(() => initialValue?.messages || Object.freeze(new Map<string, string>()));
     const hasMessages = useMemo(() => messages.size > 0, [messages]);
@@ -63,7 +65,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         }
 
         for (const [key, value] of messages) {
-            result.set(key, TypeInfo.stringValue(value));
+            result.set(key, TypeInfo.scope("message", TypeInfo.stringValue(value)));
         }
         
         const thisProps: Record<string, TypeInfo> = {

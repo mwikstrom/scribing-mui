@@ -128,6 +128,8 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
                     onComplete={setRunScript}
                     onClose={closeDialog}
                     scriptLabel={locale.interaction_run_script}
+                    controller={controller}
+                    idempotent={false}
                 />
             )}
             {dialog === "open_url" && (

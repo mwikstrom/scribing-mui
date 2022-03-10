@@ -62,6 +62,8 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
                 onComplete={completeDialog}
                 scriptLabel={locale.label_dynamic_text_script}
                 completeLabel={active ? locale.button_apply : locale.button_insert}
+                controller={controller}
+                idempotent
             />
         </>
     );

@@ -51,7 +51,10 @@ export const BoxSourceButton: FC<BoxSourceButtonProps> = props => {
                 onComplete={completeDialog}
                 scriptLabel={locale.label_data_source}
                 completeLabel={locale.button_apply}
+                controller={controller}
+                idempotent
             />
         </>
     );
 };
+

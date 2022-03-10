@@ -172,7 +172,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
             parent: editorElem,
         });
         return editor;
-    }, [editorElem, editorTheme, highlightStyle]);
+    }, [editorElem, editorTheme, highlightStyle, globals]);
 
     const onClick = useCallback(() => {
         editor?.focus();
