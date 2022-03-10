@@ -14,6 +14,10 @@ export const autocomplete = (): CompletionSource => context => {
         return null;
     }
 
+    if (completePropIn.has(node.name) && node.parent?.name === "MemberExpression") {
+        return completeProp(node, context.state);
+    }
+
     if (node.name === "VariableName") {
         return completeRoot(node.parent, node.from, context.state);
     }
@@ -23,6 +27,33 @@ export const autocomplete = (): CompletionSource => context => {
     }
 
     return null;
+};
+
+// TODO: Support nested properties!
+const completeProp = (node: SyntaxNode, state: EditorState): CompletionResult | null => {
+    const path: string[] = [];
+    const obj = node.parent?.getChild("Expression");
+    if (obj?.name === "VariableName") {
+        path.unshift(state.sliceDoc(obj.from, obj.to));
+    }
+    if (path.length === 0) {
+        return null;
+    }
+    let scope = getScopeFromNode(node, state);
+    for (const key of path) {
+        const type = scope[key];
+        if (type?.decl !== "object" || !type.props) {
+            return null;
+        }
+        scope = type.props;
+    }
+    const from = /^\./.test(node.name) ? node.to : node.from;
+    const result: CompletionResult = {
+        from,
+        options: getOptionsFromScope(scope),
+        span: /^[\w$]*$/,
+    };
+    return result;    
 };
 
 const completeRoot = (node: SyntaxNode | null, from: number, state: EditorState): CompletionResult => {
@@ -59,6 +90,12 @@ const getScopeFromNode = (node: SyntaxNode | null, state: EditorState): Record<s
     }
     return Object.fromEntries(result);
 };
+
+const completePropIn = new Set([
+    "PropertyName",
+    ".",
+    "?."
+]);
 
 const dontCompleteIn = new Set([
     "LineComment",
