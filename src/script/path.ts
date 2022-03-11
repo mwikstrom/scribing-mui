@@ -185,6 +185,9 @@ const selectChild = (parent: TypeInfo | undefined, selection: TypeSelection): Ty
             return parent.resolveType ?? TypeInfo.unknown;
         }
     } else if (select === "member") {
+        if (!selection.member) {
+            return parent;
+        }
         const props = getPropsFromType(parent);
         if (!props) {
             return TypeInfo.unknown;
