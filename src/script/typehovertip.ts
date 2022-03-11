@@ -7,9 +7,9 @@ import { TypeInfo } from "../TypeInfo";
 import { Slicer } from "./syntax";
 import { getTypeSelectionPathFromNode, selectType } from "./path";
 import { getScopeFromNode } from "./scope";
-import { deferRenderInfo, TypeInfoViewProps } from "./info";
+import { deferRenderInfo, TypeInfoViewProps } from "./infoview";
 
-export const syntaxInfoTip = (
+export const typeHoverTip = (
     globals: Iterable<[string, TypeInfo]>, 
     theme: Theme,
 ): Extension => hoverTooltip((view, pos, side) => {

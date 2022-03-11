@@ -5,7 +5,7 @@ import { getSnippetsFromNode } from "./snippets";
 import type { Slicer} from "./syntax";
 import { EditorState } from "@codemirror/state";
 import { TypeInfo } from "../TypeInfo";
-import { getTypeInfoClass, renderInfo } from "./info";
+import { getTypeInfoClass, renderInfo } from "./infoview";
 import { Theme } from "@material-ui/core";
 import { getTypeSelectionPathFromNode, selectScope } from "./path";
 import { getScopeFromNode } from "./scope";
