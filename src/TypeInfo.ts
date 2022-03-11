@@ -14,6 +14,7 @@ export type TypeInfo = (
     ArrayType |
     TupleType |
     FunctionType |
+    ClassType |
     PromiseType |
     UnionType
 );
@@ -76,6 +77,12 @@ export interface ObjectType extends TypeDecl<"object"> {
 export interface FunctionType extends TypeDecl<"function"> {
     params?: readonly ParamInfo[];
     returnType?: TypeInfo;
+}
+
+/** @public */
+export interface ClassType extends TypeDecl<"class"> {
+    ctor: FunctionType;
+    props?: Record<string, TypeInfo>;
 }
 
 /** @public */
@@ -155,6 +162,11 @@ export const TypeInfo = Object.freeze({
     promise: (resolveType?: TypeInfo): PromiseType => Object.freeze({
         decl: "promise",
         resolveType,
+    }),
+    class: (ctor: FunctionType, props?: Record<string, TypeInfo>): ClassType => Object.freeze({
+        decl: "class",
+        ctor,
+        props,
     }),
     props: <K extends string>(type: TypeInfo, ...keys: K[]): Record<K, TypeInfo> => Object.freeze(Object.fromEntries(
         keys.map(key => [key, type])
