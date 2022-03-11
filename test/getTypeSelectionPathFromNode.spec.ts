@@ -1,4 +1,5 @@
-import { getTypeSelectionPathFromNode, parseScript, selectMember, Slicer, TypeSelection } from "../src/script/syntax";
+import {  parseScript, Slicer } from "../src/script/syntax";
+import { getTypeSelectionPathFromNode, selectMember, TypeSelection } from "../src/script/path";
 
 describe("getTypeSelectionPathFromNode", () => {
     it("can find root variable", () => {
