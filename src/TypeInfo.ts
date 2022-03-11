@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { ScriptFunction } from "scripthost";
 
 /** @public */
@@ -86,11 +87,22 @@ export interface ClassType extends TypeDecl<"class"> {
 }
 
 /** @public */
+export interface ParamInfoTipRenderProps {
+    funcType: FunctionType;
+    paramInfo: ParamInfo;
+    paramIndex: number;
+    hasConstantValue: boolean;
+    constantValue: unknown;
+    onApplyConstantValue: (value: unknown) => boolean;
+}
+
+/** @public */
 export interface ParamInfo {
     name?: string;
     type?: TypeInfo;
     optional?: boolean;
     spread?: boolean;
+    renderInfoTip?: (props: ParamInfoTipRenderProps) => ReactNode;
 }
 
 /** @public */

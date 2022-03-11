@@ -3,11 +3,11 @@ import { EditorState, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { SyntaxNode } from "@lezer/common";
 import { Theme } from "@material-ui/core";
-import { TypeInfo } from "../TypeInfo";
-import { Slicer } from "./syntax";
+import { ParamInfo, ParamInfoTipRenderProps, TypeInfo } from "../TypeInfo";
+import { Slicer, tryGetConstant } from "./syntax";
 import { getTypeSelectionPathFromNode, selectType } from "./path";
 import { getScopeFromNode } from "./scope";
-import { deferRenderInfo, TypeInfoViewProps } from "./infoview";
+import { deferRenderFunc } from "./infoview";
 
 export const paramInfoTip = (
     globals: Iterable<[string, TypeInfo]>, 
@@ -47,41 +47,89 @@ function getTooltipForPosition(
     globals: Iterable<[string, TypeInfo]>, 
     theme: Theme,
 ): Tooltip | null {
-    const node: SyntaxNode = syntaxTree(state).resolveInner(pos, -1);
-    const slice: Slicer = (from, to) => state.sliceDoc(from, to);
-    const path = getTypeSelectionPathFromNode(node, slice);
+    let node: SyntaxNode | null = syntaxTree(state).resolveInner(pos, -1);
 
-    if (!path || path.length < 2) {
+    while (node?.parent && node.parent.name !== "ArgList") {
+        node = node.parent;
+    }
+
+    if (!node || node.name === ")") {
         return null;
     }
 
-    const paramSelection = path[path.length - 1];
-    if (paramSelection.select !== "param") {
+    const argList = node?.parent;
+    if (argList?.name !== "ArgList") {
         return null;
     }
 
-    const functionPath = path.slice(0, -1);
-    const rootProps = getScopeFromNode(node, state, globals);
+    const callExpr = argList.parent;
+    if (callExpr?.name !== "CallExpression") {
+        return null;
+    }
+
+    let paramIndex = 0;
+    for (let prev = node.prevSibling; prev && prev.name !== "("; prev = prev.prevSibling) {
+        ++paramIndex;
+    }
+
+    const funcExpr = callExpr.firstChild;
+    if (!funcExpr) {
+        return null;
+    }
+
+    const rootProps = getScopeFromNode(funcExpr, state, globals);
     const rootType = TypeInfo.object(rootProps);
-    const functionType = selectType(rootType, functionPath);
 
-    if (functionType?.decl !== "function") {
+    const slice: Slicer = (from, to) => state.sliceDoc(from, to);
+    const funcPath = getTypeSelectionPathFromNode(funcExpr, slice);
+    if (!funcPath) {
         return null;
     }
 
-    const props: TypeInfoViewProps = {
-        label: "DUMMY!",
-        info: TypeInfo.unknown,
-        pad: true,
-        theme,
+    const funcType = selectType(rootType, funcPath);
+    if (funcType?.decl !== "function" || !funcType.params) {
+        return null;
+    }
+
+    let paramInfo: ParamInfo;
+    if (paramIndex < funcType.params.length) {
+        paramInfo = funcType.params[paramIndex];
+    } else {
+        paramInfo = funcType.params[funcType.params.length - 1];
+        if (!paramInfo.spread) {
+            return null;
+        }
+    }
+
+    const { renderInfoTip } = paramInfo;
+    if (!renderInfoTip) {
+        return null;
+    }
+
+    const onApplyConstantValue = (value: unknown): boolean => {
+        // TODO: IMPLEMENT onApplyConstantValue
+        console.error("TODO: IMPLEMENT onApplyConstantValue: " + value);
+        return false;
     };
 
+    const { success: hasConstantValue, value: constantValue } = tryGetConstant(node, slice);
+    const renderProps: ParamInfoTipRenderProps = {
+        funcType,
+        paramInfo,
+        paramIndex,
+        hasConstantValue,
+        constantValue,
+        onApplyConstantValue,
+    };
+
+    const renderFunc = () => renderInfoTip(renderProps);
     const tooltip: Tooltip = {
-        pos,
+        pos: node.from,
+        end: node.to,
         above: true,
         arrow: true,
         create: () => {
-            const { dom, render: mount } = deferRenderInfo(props);
+            const { dom, render: mount } = deferRenderFunc(renderFunc, theme);
             const view: TooltipView = { dom, mount };
             return view;
         },
