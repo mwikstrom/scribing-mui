@@ -13,7 +13,7 @@ import {
 } from "./syntax";
 import { EditorState } from "@codemirror/state";
 import { TypeInfo } from "../TypeInfo";
-import { renderInfo } from "./info";
+import { getTypeInfoClass, renderInfo } from "./info";
 import { Theme } from "@material-ui/core";
 
 export const autocomplete = (globals: Iterable<[string, TypeInfo]>, theme: Theme): CompletionSource => context => {
@@ -98,13 +98,8 @@ const getOptionsFromScope = (scope: Record<string, TypeInfo>, theme: Theme): rea
 };
 
 const getOptionFromEntry = (label: string, info: TypeInfo, theme: Theme): Completion => {
-    let type = "variable";
-    if (info.decl === "object") {
-        type = "namespace";
-    } else if (info.decl === "function") {
-        type = "function";
-    }
-    return { label, type, info: renderInfo({label, type, info, theme}) };
+    const type = getTypeInfoClass(info);
+    return { label, type, info: renderInfo({label, info, theme}) };
 };
 
 const getScopeFromNode = (

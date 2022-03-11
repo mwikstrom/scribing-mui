@@ -4,7 +4,8 @@ import { syntaxTree } from "@codemirror/language";
 import { SyntaxNode } from "@lezer/common";
 import { Theme } from "@material-ui/core";
 import { TypeInfo } from "../TypeInfo";
-import { getMemberPathFromNode, Slicer } from "./syntax";
+import { Slicer } from "./syntax";
+import { getTypeSelectionPathFromNode } from "./path";
 
 export const syntaxTip = (
     globals: Iterable<[string, TypeInfo]>, 
@@ -45,6 +46,13 @@ function getTooltipForPosition(
     theme: Theme,
 ): Tooltip | null {
     const node: SyntaxNode = syntaxTree(state).resolveInner(pos, -1);
+    const slice: Slicer = (from, to) => state.sliceDoc(from, to);
+    const path = getTypeSelectionPathFromNode(node, slice);
+
+    if (!path || path.length === 0) {
+        return null;
+    }
+
     const tooltip: Tooltip = {
         pos,
         above: true,
@@ -61,16 +69,12 @@ function getTooltipForPosition(
             return view;
         },
     };
+    
     return tooltip;
 }
 
 const getDummyText = (node: SyntaxNode | null, state: EditorState): string => {
     const slice: Slicer = (from, to) => state.sliceDoc(from, to);
-    const path = getMemberPathFromNode(node, slice).join(".");
-    const parts = [];
-    while (node) {
-        parts.unshift(node.name);
-        node = node.parent;
-    }
-    return parts.join(" -> ") + ": " + path;
+    const path = getTypeSelectionPathFromNode(node, slice);
+    return JSON.stringify(path);
 };

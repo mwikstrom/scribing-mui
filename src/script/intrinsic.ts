@@ -39,17 +39,17 @@ export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
         [ TypeInfo.param("encodedURIComponent", TypeInfo.string) ],
         TypeInfo.string,
     ),
-    Object: TypeInfo.function(), // TODO: Declare Object
+    Object: TypeInfo.class(TypeInfo.function()), // TODO: Declare Object
     Function: TypeInfo.function(), // TODO: Declare Function
     Boolean: TypeInfo.function(), // TODO: Declare Boolean
     Symbol: TypeInfo.function(), // TODO: Declare Symbol
-    Error: TypeInfo.function(), // TODO: Declare Error
-    EvalError: TypeInfo.function(), // TODO: Declare EvalError
-    RangeError: TypeInfo.function(), // TODO: Declare RangeError
-    ReferenceError: TypeInfo.function(), // TODO: Declare ReferenceError
-    SyntaxError: TypeInfo.function(), // TODO: Declare SyntaxError
-    TypeError: TypeInfo.function(), // TODO: Declare TypeError
-    URIError: TypeInfo.function(), // TODO: Declare URIError
+    Error: TypeInfo.class(TypeInfo.function()), // TODO: Declare Error
+    EvalError: TypeInfo.class(TypeInfo.function()), // TODO: Declare EvalError
+    RangeError: TypeInfo.class(TypeInfo.function()), // TODO: Declare RangeError
+    ReferenceError: TypeInfo.class(TypeInfo.function()), // TODO: Declare ReferenceError
+    SyntaxError: TypeInfo.class(TypeInfo.function()), // TODO: Declare SyntaxError
+    TypeError: TypeInfo.class(TypeInfo.function()), // TODO: Declare TypeError
+    URIError: TypeInfo.class(TypeInfo.function()), // TODO: Declare URIError
     Number: TypeInfo.function(), // TODO: Declare Number
     BigInt: TypeInfo.function(), // TODO: Declare BigInt
     Math: TypeInfo.object({
@@ -89,27 +89,27 @@ export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
         ),
         random: TypeInfo.function([], TypeInfo.number),
     }),
-    Date: TypeInfo.function(), // TODO: Declare Date
+    Date: TypeInfo.class(TypeInfo.function()), // TODO: Declare Date
     String: TypeInfo.function(), // TODO: Declare String
-    RegExp: TypeInfo.function(), // TODO: Declare RegExp
-    Array: TypeInfo.function(), // TODO: Declare Array
-    Int8Array: TypeInfo.function(), // TODO: Declare Int8Array
-    Uint8Array: TypeInfo.function(), // TODO: Declare Uint8Array
-    Uint8ClampedArray: TypeInfo.function(), // TODO: Declare Uint8ClampedArray
-    Int16Array: TypeInfo.function(), // TODO: Declare Int16Array
-    Uint16Array: TypeInfo.function(), // TODO: Declare Uint16Array
-    Int32Array: TypeInfo.function(), // TODO: Declare Int32Array
-    Uint32Array: TypeInfo.function(), // TODO: Declare Uint32Array
-    Float32Array: TypeInfo.function(), // TODO: Declare Float32Array
-    Float64Array: TypeInfo.function(), // TODO: Declare BigInt64Array
-    BigInt64Array: TypeInfo.function(), // TODO: Declare BingInt64Array
-    BigUint64Array: TypeInfo.function(), // TODO: Declare BigUint64Array
-    Map: TypeInfo.function(), // TODO: Declare Map
-    Set: TypeInfo.function(), // TODO: Declare Set
-    WeakMap: TypeInfo.function(), // TODO: Declare WeakMap
-    WeakSet: TypeInfo.function(), // TODO: Declare WeakSet
-    ArrayBuffer: TypeInfo.function(), // TODO: Declare ArrayBuffer
-    DataView: TypeInfo.function(), // TODO: Declare DataView
+    RegExp: TypeInfo.class(TypeInfo.function()), // TODO: Declare RegExp
+    Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Array
+    Int8Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Int8Array
+    Uint8Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Uint8Array
+    Uint8ClampedArray: TypeInfo.class(TypeInfo.function()), // TODO: Declare Uint8ClampedArray
+    Int16Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Int16Array
+    Uint16Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Uint16Array
+    Int32Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Int32Array
+    Uint32Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Uint32Array
+    Float32Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Float32Array
+    Float64Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare BigInt64Array
+    BigInt64Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare BingInt64Array
+    BigUint64Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare BigUint64Array
+    Map: TypeInfo.class(TypeInfo.function()), // TODO: Declare Map
+    Set: TypeInfo.class(TypeInfo.function()), // TODO: Declare Set
+    WeakMap: TypeInfo.class(TypeInfo.function()), // TODO: Declare WeakMap
+    WeakSet: TypeInfo.class(TypeInfo.function()), // TODO: Declare WeakSet
+    ArrayBuffer: TypeInfo.class(TypeInfo.function()), // TODO: Declare ArrayBuffer
+    DataView: TypeInfo.class(TypeInfo.function()), // TODO: Declare DataView
     JSON: TypeInfo.object({
         parse: TypeInfo.function(
             [
@@ -143,7 +143,7 @@ export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
             TypeInfo.string,
         ),
     }),
-    Promise: TypeInfo.function(), // TODO: Declare Promise
+    Promise: TypeInfo.class(TypeInfo.function()), // TODO: Declare Promise
     delay: TypeInfo.desc(
         "Returns a promise that should be awaited to pause script execution for the specified number of milliseconds",
         TypeInfo.function(

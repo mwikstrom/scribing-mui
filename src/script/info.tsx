@@ -3,6 +3,17 @@ import React, { FC } from "react";
 import ReactDOM from "react-dom";
 import { ParamInfo, TypeInfo } from "../TypeInfo";
 
+export const getTypeInfoClass = (info: TypeInfo): string => {
+    const { decl } = info;
+    if (decl === "function" || decl === "class") {
+        return decl;
+    } else if (decl === "object") {
+        return "namespace";
+    } else {
+        return "variable";
+    }
+};
+
 export const renderInfo = (props: TypeInfoViewProps): () => Node => () => {
     const div = document.createElement("div");
     ReactDOM.render(<TypeInfoView {...props}/>, div);
@@ -11,15 +22,14 @@ export const renderInfo = (props: TypeInfoViewProps): () => Node => () => {
 
 export interface TypeInfoViewProps {
     label: string;
-    type: string;
     info: TypeInfo;
     theme: Theme;
 }
 
 const TypeInfoView = (props: TypeInfoViewProps) => {
-    const { label, type, info, theme } = props;
+    const { label, info, theme } = props;
     const { scope, decl } = info;
-    const overline = [scope, type].filter(Boolean).join(" ");
+    const overline = [scope, getTypeInfoClass(info)].filter(Boolean).join(" ");
     return (
         <MuiThemeProvider theme={theme}>
             <Block><Subtle>{overline}</Subtle></Block>
