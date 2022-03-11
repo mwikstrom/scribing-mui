@@ -105,10 +105,48 @@ export const selectScope = (
 ): Record<string, TypeInfo> => {
     const parent = TypeInfo.object(root);
     const leaf = selectType(parent, path);
-    if (leaf?.decl === "object" || leaf?.decl === "class") {
-        return leaf.props ?? {};
+    const builder = new Map<string, TypeInfo>();
+    if (leaf) {
+        buildScopeFromType(leaf, builder);
+    }
+    return Object.fromEntries(builder);
+};
+
+const buildScopeFromType = (type: TypeInfo, builder: Map<string, TypeInfo>): void => {
+    if (type.decl === "union") {
+        type.union.forEach(item => buildScopeFromType(item, builder));
     } else {
-        return {};
+        const props = getPropsFromType(type);
+        if (props) {
+            for (const [key, value] of Object.entries(props)) {
+                const before = builder.get(key);
+                if (before) {
+                    builder.set(key, TypeInfo.merge(before, value));
+                } else {
+                    builder.set(key, value);
+                }
+            }
+        }
+    }
+};
+
+const getPropsFromType = (type: TypeInfo | undefined): Record<string, TypeInfo> | undefined => {
+    if (type?.decl === "array" || type?.decl === "tuple") {
+        type = intrinsicGlobals.Array.ctor.returnType;
+    } else if (type?.decl === "boolean") {
+        type = intrinsicGlobals.Boolean.ctor.returnType;
+    } else if (type?.decl === "function") {
+        type = intrinsicGlobals.Function.ctor.returnType;
+    } else if (type?.decl === "number") {
+        type = intrinsicGlobals.Number.ctor.returnType;
+    } else if (type?.decl === "promise") {
+        type = intrinsicGlobals.Promise.ctor.returnType;
+    } else if (type?.decl === "string") {
+        type = intrinsicGlobals.String.ctor.returnType;
+    }  
+    
+    if (type?.decl === "object" || type?.decl === "class") {
+        return type.props;
     }
 };
 
@@ -147,26 +185,11 @@ const selectChild = (parent: TypeInfo | undefined, selection: TypeSelection): Ty
             return parent.resolveType ?? TypeInfo.unknown;
         }
     } else if (select === "member") {
-        if (parent.decl === "array" || parent.decl === "tuple") {
-            parent = intrinsicGlobals.Array.ctor.returnType;
-        } else if (parent.decl === "boolean") {
-            parent = intrinsicGlobals.Boolean.ctor.returnType;
-        } else if (parent.decl === "function") {
-            parent = intrinsicGlobals.Function.ctor.returnType;
-        } else if (parent.decl === "number") {
-            parent = intrinsicGlobals.Number.ctor.returnType;
-        } else if (parent.decl === "promise") {
-            parent = intrinsicGlobals.Promise.ctor.returnType;
-        } else if (parent.decl === "string") {
-            parent = intrinsicGlobals.String.ctor.returnType;
-        }
-
-        if (parent?.decl === "object" || parent?.decl === "class") {
-            if (!parent.props) {
-                return TypeInfo.unknown;
-            } else {
-                return parent.props[selection.member] ?? null;
-            }    
+        const props = getPropsFromType(parent);
+        if (!props) {
+            return TypeInfo.unknown;
+        } else {
+            return props[selection.member] ?? null;
         }
     } else if (select === "index") {
         if (parent.decl === "array") {
