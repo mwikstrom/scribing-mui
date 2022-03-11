@@ -88,6 +88,31 @@ export const buildThisAssignments = (node: SyntaxNode, slice: Slicer, map: Map<s
     }
 };
 
+export type Maybe<T> = (
+    { success: true, value: T } |
+    { success: false, value?: never }
+);
+
+export const tryGetConstant = (node: SyntaxNode, slice: Slicer): Maybe<unknown> => {
+    const { name, from, to } = node;
+    if (name === "Number") {
+        const literal = slice(from, to);
+        const value = JSON.parse(literal);
+        return { success: true, value };
+    } else if (name === "String") {
+        let literal = slice(from, to).trim();
+        if (/^'.*'$/.test(literal)) {
+            literal = literal.substring(1, literal.length - 1);
+            literal = literal.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
+            literal = `"${literal}"`;
+        }                
+        const value = JSON.parse(literal);
+        return { success: true, value };
+    } else {
+        return { success: false };
+    }
+};
+
 const isSameRange = (first: SyntaxNode | null | undefined, second: SyntaxNode | null | undefined): boolean => (
     first?.from === second?.from &&
     first?.to === second?.to

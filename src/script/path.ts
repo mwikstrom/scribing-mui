@@ -1,7 +1,7 @@
 import { SyntaxNode } from "@lezer/common";
 import { TypeInfo } from "../TypeInfo";
 import { intrinsicGlobals } from "./intrinsic";
-import type { Slicer } from "./syntax";
+import { Slicer, tryGetConstant } from "./syntax";
 
 export type TypeSelection = (
     MemberSelection |
@@ -62,28 +62,14 @@ export const getTypeSelectionPathFromNode = (
         } else if (name === "[") {
             path.unshift(selectMember(""));
             node = node.prevSibling;
-        } else if (
-            (name === "String" || name === "Number") && 
-            node.prevSibling?.name === "[" &&
-            node.nextSibling?.name === "]"
-        ) {
-            let literal = slice(from, to).trim();
-            if (name === "String") {
-                if (/^'.*'$/.test(literal)) {
-                    literal = literal.substring(1, literal.length - 1);
-                    literal = literal.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
-                    literal = `"${literal}"`;
-                }                
-            }
-            const parsed = JSON.parse(literal);
-            if (typeof parsed === "number") {
-                path.unshift(selectIndex(parsed));
-            } else if (typeof parsed === "string") {
-                path.unshift(selectMember(parsed));
+        } else if (node.prevSibling?.name === "[" && node.nextSibling?.name === "]") {
+            const { value } = tryGetConstant(node, slice);
+            if (typeof value === "string" || typeof value === "number") {
+                path.unshift(selectMemberOrIndex(value));
+                node = node.prevSibling?.prevSibling;
             } else {
                 return null;
             }
-            node = node.prevSibling?.prevSibling;
         } else {            
             return null;
         }
