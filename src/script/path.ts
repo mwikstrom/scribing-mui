@@ -1,4 +1,3 @@
-import { tsParameterProperty } from "@babel/types";
 import { SyntaxNode } from "@lezer/common";
 import { TypeInfo } from "../TypeInfo";
 import { intrinsicGlobals } from "./intrinsic";
