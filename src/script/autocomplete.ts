@@ -15,6 +15,7 @@ import { EditorState } from "@codemirror/state";
 import { TypeInfo } from "../TypeInfo";
 import { getTypeInfoClass, renderInfo } from "./info";
 import { Theme } from "@material-ui/core";
+import { getTypeSelectionPathFromNode, selectScope } from "./path";
 
 export const autocomplete = (globals: Iterable<[string, TypeInfo]>, theme: Theme): CompletionSource => context => {
     const node: SyntaxNode = syntaxTree(context.state).resolveInner(context.pos, -1);
@@ -45,23 +46,21 @@ const completeProp = (
     globals: Iterable<[string, TypeInfo]>,
     theme: Theme,
 ): CompletionResult | null => {
-    const path: string[] = [];
-    const obj = node.parent?.getChild("Expression");
-    if (obj?.name === "VariableName" || obj?.name === "this") {
-        path.unshift(state.sliceDoc(obj.from, obj.to));
-    }
-    if (path.length === 0) {
+    const slice: Slicer = (from, to) => state.sliceDoc(from, to);
+    const path = getTypeSelectionPathFromNode(node, slice);
+
+    if (!path || path.length === 0) {
         return null;
     }
-    let scope = getScopeFromNode(node, state, globals);
-    for (const key of path) {
-        const type = scope[key];
-        if (type?.decl !== "object" || !type.props) {
-            return null;
-        }
-        scope = type.props;
+
+    const root = getScopeFromNode(node, state, globals);
+    const scope = selectScope(root, path);
+
+    if (!scope) {
+        return null;
     }
-    const from = /^\./.test(node.name) ? node.to : node.from;
+
+    const from = /\.$/.test(node.name) ? node.to : node.from;
     const result: CompletionResult = {
         from,
         options: getOptionsFromScope(scope, theme),

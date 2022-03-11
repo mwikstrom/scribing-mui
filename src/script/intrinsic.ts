@@ -1,6 +1,6 @@
 import { TypeInfo } from "../TypeInfo";
 
-export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
+export const intrinsicGlobals = Object.freeze({
     Infinity: TypeInfo.number,
     NaN: TypeInfo.number,
     undefined: TypeInfo.undefined,
@@ -40,9 +40,9 @@ export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
         TypeInfo.string,
     ),
     Object: TypeInfo.class(TypeInfo.function()), // TODO: Declare Object
-    Function: TypeInfo.function(), // TODO: Declare Function
-    Boolean: TypeInfo.function(), // TODO: Declare Boolean
-    Symbol: TypeInfo.function(), // TODO: Declare Symbol
+    Function: TypeInfo.class(TypeInfo.function()), // TODO: Declare Function
+    Boolean: TypeInfo.class(TypeInfo.function()), // TODO: Declare Boolean
+    Symbol: TypeInfo.class(TypeInfo.function()), // TODO: Declare Symbol
     Error: TypeInfo.class(TypeInfo.function()), // TODO: Declare Error
     EvalError: TypeInfo.class(TypeInfo.function()), // TODO: Declare EvalError
     RangeError: TypeInfo.class(TypeInfo.function()), // TODO: Declare RangeError
@@ -50,8 +50,8 @@ export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
     SyntaxError: TypeInfo.class(TypeInfo.function()), // TODO: Declare SyntaxError
     TypeError: TypeInfo.class(TypeInfo.function()), // TODO: Declare TypeError
     URIError: TypeInfo.class(TypeInfo.function()), // TODO: Declare URIError
-    Number: TypeInfo.function(), // TODO: Declare Number
-    BigInt: TypeInfo.function(), // TODO: Declare BigInt
+    Number: TypeInfo.class(TypeInfo.function()), // TODO: Declare Number
+    BigInt: TypeInfo.class(TypeInfo.function()), // TODO: Declare BigInt
     Math: TypeInfo.object({
         ...TypeInfo.props(
             TypeInfo.number,
@@ -90,7 +90,7 @@ export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
         random: TypeInfo.function([], TypeInfo.number),
     }),
     Date: TypeInfo.class(TypeInfo.function()), // TODO: Declare Date
-    String: TypeInfo.function(), // TODO: Declare String
+    String: TypeInfo.class(TypeInfo.function()), // TODO: Declare String
     RegExp: TypeInfo.class(TypeInfo.function()), // TODO: Declare RegExp
     Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Array
     Int8Array: TypeInfo.class(TypeInfo.function()), // TODO: Declare Int8Array
