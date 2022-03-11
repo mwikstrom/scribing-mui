@@ -12,9 +12,11 @@ import {
     buildThisAssignments
 } from "./syntax";
 import { EditorState } from "@codemirror/state";
-import { ParamInfo, TypeInfo } from "../TypeInfo";
+import { TypeInfo } from "../TypeInfo";
+import { renderInfo } from "./info";
+import { Theme } from "@material-ui/core";
 
-export const autocomplete = (globals: Iterable<[string, TypeInfo]>): CompletionSource => context => {
+export const autocomplete = (globals: Iterable<[string, TypeInfo]>, theme: Theme): CompletionSource => context => {
     const node: SyntaxNode = syntaxTree(context.state).resolveInner(context.pos, -1);
 
     if (dontCompleteIn.has(node.name)) {
@@ -22,15 +24,15 @@ export const autocomplete = (globals: Iterable<[string, TypeInfo]>): CompletionS
     }
 
     if (completePropIn.has(node.name) && node.parent?.name === "MemberExpression") {
-        return completeProp(node, context.state, globals);
+        return completeProp(node, context.state, globals, theme);
     }
 
     if (node.name === "VariableName") {
-        return completeRoot(node.parent, node.from, context.state, globals);
+        return completeRoot(node.parent, node.from, context.state, globals, theme);
     }
 
     if (context.explicit) {
-        return completeRoot(node, context.pos, context.state, globals);
+        return completeRoot(node, context.pos, context.state, globals, theme);
     }
 
     return null;
@@ -41,6 +43,7 @@ const completeProp = (
     node: SyntaxNode,
     state: EditorState,
     globals: Iterable<[string, TypeInfo]>,
+    theme: Theme,
 ): CompletionResult | null => {
     const path: string[] = [];
     const obj = node.parent?.getChild("Expression");
@@ -61,7 +64,7 @@ const completeProp = (
     const from = /^\./.test(node.name) ? node.to : node.from;
     const result: CompletionResult = {
         from,
-        options: getOptionsFromScope(scope),
+        options: getOptionsFromScope(scope, theme),
         span: /^[\w$]*$/,
     };
     return result;    
@@ -72,12 +75,13 @@ const completeRoot = (
     from: number,
     state: EditorState,
     globals: Iterable<[string, TypeInfo]>,
+    theme: Theme,
 ): CompletionResult => {
     const scope = getScopeFromNode(node, state, globals);
     const result: CompletionResult = {
         from,
         options: [
-            ...getOptionsFromScope(scope).filter(entry => entry.label !== "this"),
+            ...getOptionsFromScope(scope, theme).filter(entry => entry.label !== "this"),
             ...getSnippetsFromNode(node),
         ],
         span: /^[\w$]*$/,
@@ -85,65 +89,22 @@ const completeRoot = (
     return result;
 };
 
-const getOptionsFromScope = (scope: Record<string, TypeInfo>): readonly Completion[] => {
+const getOptionsFromScope = (scope: Record<string, TypeInfo>, theme: Theme): readonly Completion[] => {
     if (typeof scope !== "object" || scope === null) {
         return [];
     } else {
-        return Object.entries(scope).map(getOptionFromEntry);
+        return Object.entries(scope).map(([label, info]) => getOptionFromEntry(label, info, theme));
     }
 };
 
-const getOptionFromEntry = ([label, info]: [string, TypeInfo]): Completion => {
+const getOptionFromEntry = (label: string, info: TypeInfo, theme: Theme): Completion => {
     let type = "variable";
-    let detail = info.scope;
     if (info.decl === "object") {
         type = "namespace";
     } else if (info.decl === "function") {
         type = "function";
-        if (info.params) {
-            detail = `(${info.params.map(formatParam).join(", ")})`;
-        }
-        if (info.returnType && info.returnType.decl !== "unknown") {
-            detail += ": " + formatType(info.returnType);
-        }
-    } else if (info.decl !== "unknown") {
-        detail = formatType(info);
     }
-    return { label, type, detail };
-};
-
-const formatParam = (info: ParamInfo, index: number): string => {
-    const { name = `arg${index}`, type, spread, optional } = info;
-    const parts = [name];
-    if (spread) {
-        parts.unshift("...");
-    }
-    if (optional) {
-        parts.push("?");
-    }
-    if (type && type.decl !== "unknown") {
-        parts.push(": ");
-        parts.push(formatType(type));
-    }
-    return parts.join("");
-};
-
-const formatType = (info: TypeInfo): string => {
-    if (info.decl === "promise") {
-        if (info.resolveType && info.resolveType.decl !== "unknown") {
-            return `Promise<${formatType(info.resolveType)}>`;
-        } else {
-            return "Promise";
-        }
-    } else if (info.decl === "array") {
-        const { itemType = TypeInfo.unknown } = info;
-        return `Array<${formatType(itemType)}>`;
-    } else if (info.decl === "tuple") {
-        return `[${info.itemTypes.map(formatType).join(", ")}]`;
-    } else if (info.decl === "union") {
-        return info.union.map(formatType).join("|");
-    }
-    return info.decl;
+    return { label, type, info: renderInfo({label, type, info, theme}) };
 };
 
 const getScopeFromNode = (

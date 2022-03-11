@@ -20,6 +20,7 @@ export interface ScriptEditorProps {
     globals?: Iterable<[string, TypeInfo]>;
 }
 
+const EMPTY_GLOBALS: Iterable<[string, TypeInfo]> = Object.freeze([]);
 export const ScriptEditor: FC<ScriptEditorProps> = props => {
     const {
         className,
@@ -28,7 +29,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         onValueChange,
         label,
         maxHeight,
-        globals,
+        globals = EMPTY_GLOBALS,
     } = props;
     const [value, setValue] = useState(initialValue || "");
     const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
@@ -148,6 +149,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         },
     ]), [palette]);
 
+    const theme = useTheme<Theme>();
     const editor = useMemo(() => {
         if (!editorElem) {
             return null;
@@ -158,7 +160,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                 extensions: [
                     basicSetup,
                     keymap.of([indentWithTab]),
-                    scriptLanguage(globals),
+                    scriptLanguage(globals, theme),
                     editorTheme,
                     highlightStyle,
                 ],
@@ -172,7 +174,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
             parent: editorElem,
         });
         return editor;
-    }, [editorElem, editorTheme, highlightStyle, globals]);
+    }, [editorElem, editorTheme, highlightStyle, globals, theme]);
 
     const onClick = useCallback(() => {
         editor?.focus();

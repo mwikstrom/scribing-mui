@@ -93,7 +93,7 @@ const statements: readonly Completion[] = [
     }),
     snip("try {\n\t${}\n} catch (${error}) {\n\t${}\n} finally {\n\t${}\n}", {
         label: "try",
-        detail: "catch + finally",
+        detail: "catch finally",
         type: "keyword"
     }),
     snip("class ${name} {\n\tconstructor(${params}) {\n\t\t${}\n\t}\n}", {

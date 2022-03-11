@@ -114,7 +114,7 @@ export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
         parse: TypeInfo.function(
             [
                 TypeInfo.param("text", TypeInfo.string),
-                TypeInfo.param("reviver", TypeInfo.function()),
+                TypeInfo.param("reviver", TypeInfo.function(), { optional: true }),
             ],
             TypeInfo.unknown,
         ),
