@@ -88,6 +88,60 @@ export const buildThisAssignments = (node: SyntaxNode, slice: Slicer, map: Map<s
     }
 };
 
+export const getTypeInfoFromNode = (node: SyntaxNode): TypeInfo | null => {
+    // TODO: IMPLEMENT ME!
+    return null;
+};
+
+export const getMemberPathFromNode = (node: SyntaxNode | null | undefined, slice: Slicer): readonly string[] => {
+    const path: string[] = [];
+
+    while (node) {
+        const { name, from, to } = node;
+
+        if (name === "this") {
+            path.unshift("this");
+            break;
+        } else if (name === "VariableName") {
+            path.unshift(slice(from, to));
+            break;
+        } else if (name === "PropertyName") {
+            path.unshift(slice(from, to));
+            node = node.prevSibling?.prevSibling;
+        } else if (name === "." || name === "?.") {
+            path.unshift("");
+            node = node.prevSibling;
+        } else if (name === "MemberExpression") {
+            node = node.lastChild;
+        } else if (name === "]") {
+            node = node.prevSibling;
+        } else if (name === "[") {
+            path.unshift("");
+            node = node.prevSibling;
+        } else if (
+            (name === "String" || name === "Number") && 
+            node.prevSibling?.name === "[" &&
+            node.nextSibling?.name === "]"
+        ) {
+            let literal = slice(from, to).trim();
+            if (name === "String") {
+                if (/^'.*'$/.test(literal)) {
+                    literal = literal.substring(1, literal.length - 1);
+                    literal = literal.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
+                    literal = `"${literal}"`;
+                }
+                literal = JSON.parse(literal);
+            }
+            path.unshift(literal);
+            node = node.prevSibling?.prevSibling;
+        } else {            
+            return [];
+        }
+    }
+
+    return path;
+};
+
 const isSameRange = (first: SyntaxNode | null | undefined, second: SyntaxNode | null | undefined): boolean => (
     first?.from === second?.from &&
     first?.to === second?.to
