@@ -22,6 +22,7 @@ export type TypeInfo = (
 export interface TypeDecl<T> {
     decl: T;
     scope?: string;
+    desc?: string;
 }
 
 /** @public */
@@ -105,6 +106,10 @@ export const TypeInfo = Object.freeze({
         ...type,
         scope,
     }),
+    desc: <T extends TypeInfo>(desc: string, type: T): T => Object.freeze({
+        ...type,
+        desc,
+    }), 
     booleanValue: (value: boolean): BooleanType => Object.freeze({
         decl: "boolean",
         value,
@@ -154,11 +159,11 @@ export const TypeInfo = Object.freeze({
     props: <K extends string>(type: TypeInfo, ...keys: K[]): Record<K, TypeInfo> => Object.freeze(Object.fromEntries(
         keys.map(key => [key, type])
     )) as Record<K, TypeInfo>,
-    from: (func: ScriptFunction): FunctionType => DECORATED_SCRIPT_FUNCS.get(func) ?? TypeInfo.function(),
-    decorate: <T extends ScriptFunction>(func: T, params: readonly ParamInfo[], returnType?: TypeInfo): T => {
-        DECORATED_SCRIPT_FUNCS.set(func, TypeInfo.function(params, returnType));
+    from: (func: ScriptFunction): FunctionType => ANNOTATED.get(func) ?? TypeInfo.function(),
+    annotate: <T extends ScriptFunction>(func: T, info: FunctionType): T => {
+        ANNOTATED.set(func, info);
         return func;
     },
 });
 
-const DECORATED_SCRIPT_FUNCS = new WeakMap<ScriptFunction, FunctionType>();
+const ANNOTATED = new WeakMap<ScriptFunction, FunctionType>();

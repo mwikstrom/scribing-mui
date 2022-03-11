@@ -144,8 +144,11 @@ export const intrinsicGlobals: Record<string, TypeInfo> = Object.freeze({
         ),
     }),
     Promise: TypeInfo.function(), // TODO: Declare Promise
-    delay: TypeInfo.function(
-        [ TypeInfo.param("duration", TypeInfo.number) ],
-        TypeInfo.promise(TypeInfo.void),
+    delay: TypeInfo.desc(
+        "Returns a promise that should be awaited to pause script execution for the specified number of milliseconds",
+        TypeInfo.function(
+            [ TypeInfo.param("duration", TypeInfo.number) ],
+            TypeInfo.promise(TypeInfo.void),
+        )
     ),
 });

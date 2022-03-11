@@ -45,6 +45,11 @@ const TypeInfoView = (props: TypeInfoViewProps) => {
                     </>
                 )}
             </Block>
+            {info.desc && (
+                <Box my={2}>
+                    <Typography variant="body2">{info.desc}</Typography>
+                </Box>
+            )}
             {decl === "function" && info.params && info.params.map((param, index) => (
                 <Box key={index} mt={1}>
                     <Block>
