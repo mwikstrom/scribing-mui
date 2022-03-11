@@ -1,21 +1,14 @@
 import { syntaxTree } from "@codemirror/language";
 import { SyntaxNode } from "@lezer/common";
 import { Completion, CompletionResult, CompletionSource } from "@codemirror/autocomplete";
-import { intrinsicGlobals } from "./intrinsic";
 import { getSnippetsFromNode } from "./snippets";
-import {
-    getOuterBlocks,
-    getDeclarations,
-    buildGlobalAssignments,
-    Slicer,
-    getRootNode,
-    buildThisAssignments
-} from "./syntax";
+import type { Slicer} from "./syntax";
 import { EditorState } from "@codemirror/state";
 import { TypeInfo } from "../TypeInfo";
 import { getTypeInfoClass, renderInfo } from "./info";
 import { Theme } from "@material-ui/core";
 import { getTypeSelectionPathFromNode, selectScope } from "./path";
+import { getScopeFromNode } from "./scope";
 
 export const autocomplete = (globals: Iterable<[string, TypeInfo]>, theme: Theme): CompletionSource => context => {
     const node: SyntaxNode = syntaxTree(context.state).resolveInner(context.pos, -1);
@@ -39,7 +32,6 @@ export const autocomplete = (globals: Iterable<[string, TypeInfo]>, theme: Theme
     return null;
 };
 
-// TODO: Support nested properties!
 const completeProp = (
     node: SyntaxNode,
     state: EditorState,
@@ -99,39 +91,6 @@ const getOptionsFromScope = (scope: Record<string, TypeInfo>, theme: Theme): rea
 const getOptionFromEntry = (label: string, info: TypeInfo, theme: Theme): Completion => {
     const type = getTypeInfoClass(info);
     return { label, type, info: renderInfo({label, info, theme}) };
-};
-
-const getScopeFromNode = (
-    node: SyntaxNode | null,
-    state: EditorState,
-    globals: Iterable<[string, TypeInfo]>,
-): Record<string, TypeInfo> => {
-    const result = new Map(globals);
-
-    for (const [key, info] of Object.entries(intrinsicGlobals)) {
-        result.set(key, TypeInfo.scope("intrinsic", info));
-    }
-
-    if (node) {
-        const root = getRootNode(node);
-        const slice: Slicer = (from, to) => state.sliceDoc(from, to);
-        buildGlobalAssignments(root, slice, result);
-
-        const thisInfo = result.get("this");
-        const thisProps = (thisInfo?.decl === "object" && thisInfo.props) || {};
-        const thisMap = new Map(Object.entries(thisProps));
-        buildThisAssignments(root, slice, thisMap);
-        result.set("this", TypeInfo.object(Object.fromEntries(thisMap)));
-
-        for (const block of getOuterBlocks(node).reverse()) {
-            const decl = getDeclarations(block, state);
-            for (const [key, info] of Object.entries(decl)) {
-                result.set(key, TypeInfo.scope("local", info));
-            }
-        }
-    }
-
-    return Object.fromEntries(result);
 };
 
 const completePropIn = new Set([

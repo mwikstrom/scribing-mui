@@ -14,10 +14,16 @@ export const getTypeInfoClass = (info: TypeInfo): string => {
     }
 };
 
-export const renderInfo = (props: TypeInfoViewProps): () => Node => () => {
-    const div = document.createElement("div");
-    ReactDOM.render(<TypeInfoView {...props}/>, div);
-    return div;
+export const renderInfo = (props: TypeInfoViewProps): () => HTMLElement => () => {
+    const { dom, render } = deferRenderInfo(props);
+    render();
+    return dom;
+};
+
+export const deferRenderInfo = (props: TypeInfoViewProps): { dom: HTMLElement, render: () => void } => {
+    const dom = document.createElement("div");
+    const render = () => ReactDOM.render(<TypeInfoView {...props}/>, dom);
+    return { dom, render };
 };
 
 export interface TypeInfoViewProps {

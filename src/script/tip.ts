@@ -5,7 +5,9 @@ import { SyntaxNode } from "@lezer/common";
 import { Theme } from "@material-ui/core";
 import { TypeInfo } from "../TypeInfo";
 import { Slicer } from "./syntax";
-import { getTypeSelectionPathFromNode } from "./path";
+import { getTypeSelectionPathFromNode, selectType } from "./path";
+import { getScopeFromNode } from "./scope";
+import { deferRenderInfo, TypeInfoViewProps } from "./info";
 
 export const syntaxTip = (
     globals: Iterable<[string, TypeInfo]>, 
@@ -53,28 +55,31 @@ function getTooltipForPosition(
         return null;
     }
 
+    const rootProps = getScopeFromNode(node, state, globals);
+    const rootType = TypeInfo.object(rootProps);
+    const info = selectType(rootType, path);
+
+    if (!info) {
+        return null;
+    }
+
+    const props: TypeInfoViewProps = {
+        label: "TODO",
+        info,
+        theme,
+    };
+
     const tooltip: Tooltip = {
         pos,
         above: true,
         strictSide: true,
         arrow: true,
         create: () => {
-            const dom = document.createElement("div");
-            const view: TooltipView = {
-                dom,
-                mount: () => {
-                    dom.textContent = getDummyText(node, state);
-                },
-            };
+            const { dom, render: mount } = deferRenderInfo(props);
+            const view: TooltipView = { dom, mount };
             return view;
         },
     };
-    
+
     return tooltip;
 }
-
-const getDummyText = (node: SyntaxNode | null, state: EditorState): string => {
-    const slice: Slicer = (from, to) => state.sliceDoc(from, to);
-    const path = getTypeSelectionPathFromNode(node, slice);
-    return JSON.stringify(path);
-};
