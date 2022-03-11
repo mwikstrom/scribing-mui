@@ -75,8 +75,6 @@ export const buildThisAssignments = (node: SyntaxNode, slice: Slicer, map: Map<s
                 if (dot?.name === ".") {
                     const next = dot.nextSibling;
                     const last = obj?.lastChild;
-                    console.log("last:", last?.name);
-                    console.log("next:", dot?.nextSibling?.name);
                     if (isSameRange(next, last) && last?.name === "PropertyName") {
                         map.set(slice(last.from, last.to), TypeInfo.unknown);
                     }
