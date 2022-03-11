@@ -93,30 +93,56 @@ export const getTypeInfoFromNode = (node: SyntaxNode): TypeInfo | null => {
     return null;
 };
 
-export const getMemberPathFromNode = (node: SyntaxNode | null | undefined, slice: Slicer): readonly string[] => {
-    const path: string[] = [];
+export type TypeSelection = (
+    MemberSelection |
+    ParamSelection |
+    AwaitSelection |
+    ReturnSelection
+);
+
+export interface TypeSelectionBase<T extends string = string> {
+    select: T;
+}
+
+export interface MemberSelection extends TypeSelectionBase<"member">{
+    member: string;
+}
+
+export interface ParamSelection extends TypeSelectionBase<"param"> {
+    param: number;
+}
+
+export type AwaitSelection = TypeSelectionBase<"await">;
+
+export type ReturnSelection = TypeSelectionBase<"return">;
+
+export const getTypeSelectionPathFromNode = (
+    node: SyntaxNode | null | undefined,
+    slice: Slicer,
+): readonly TypeSelection[] | null => {
+    const path: TypeSelection[] = [];
 
     while (node) {
         const { name, from, to } = node;
 
         if (name === "this") {
-            path.unshift("this");
+            path.unshift(selectMember("this"));
             break;
         } else if (name === "VariableName") {
-            path.unshift(slice(from, to));
+            path.unshift(selectMember(slice(from, to)));
             break;
         } else if (name === "PropertyName") {
-            path.unshift(slice(from, to));
+            path.unshift(selectMember(slice(from, to)));
             node = node.prevSibling?.prevSibling;
         } else if (name === "." || name === "?.") {
-            path.unshift("");
+            path.unshift(selectMember(""));
             node = node.prevSibling;
         } else if (name === "MemberExpression") {
             node = node.lastChild;
         } else if (name === "]") {
             node = node.prevSibling;
         } else if (name === "[") {
-            path.unshift("");
+            path.unshift(selectMember(""));
             node = node.prevSibling;
         } else if (
             (name === "String" || name === "Number") && 
@@ -132,15 +158,20 @@ export const getMemberPathFromNode = (node: SyntaxNode | null | undefined, slice
                 }
                 literal = JSON.parse(literal);
             }
-            path.unshift(literal);
+            path.unshift(selectMember(literal));
             node = node.prevSibling?.prevSibling;
         } else {            
-            return [];
+            return null;
         }
     }
 
     return path;
 };
+
+export const selectMember = (member: string): MemberSelection => Object.freeze({ select: "member", member });
+export const selectParam = (param: number): ParamSelection => Object.freeze({ select: "param", param });
+export const selectAwait: AwaitSelection = Object.freeze({ select: "await"});
+export const selectReturn: ReturnSelection = Object.freeze({ select: "return"});
 
 const isSameRange = (first: SyntaxNode | null | undefined, second: SyntaxNode | null | undefined): boolean => (
     first?.from === second?.from &&
