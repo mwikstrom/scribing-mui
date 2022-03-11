@@ -60,7 +60,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         if (otherScripts) {
             for (const { code } of otherScripts) {
                 const root = parseScript(code);
-                buildGlobalAssignments(root, (from, to) => code.substring(from, to - from), result);
+                buildGlobalAssignments(root, (from, to) => code.substring(from, to), result);
             }
         }
 
