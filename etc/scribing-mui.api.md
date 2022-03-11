@@ -358,6 +358,8 @@ export interface TypeDecl<T> {
     // (undocumented)
     decl: T;
     // (undocumented)
+    desc?: string;
+    // (undocumented)
     scope?: string;
 }
 
@@ -374,6 +376,7 @@ export const TypeInfo: Readonly<{
     string: TypeDecl<"string">;
     number: TypeDecl<"number">;
     scope: <T extends TypeInfo>(scope: string, type: T) => T;
+    desc: <T_1 extends TypeInfo>(desc: string, type: T_1) => T_1;
     booleanValue: (value: boolean) => BooleanType;
     stringValue: (value: string) => StringType;
     numberValue: (value: number) => NumberType;
@@ -386,7 +389,7 @@ export const TypeInfo: Readonly<{
     promise: (resolveType?: TypeInfo | undefined) => PromiseType;
     props: <K extends string>(type: TypeInfo, ...keys: K[]) => Record<K, TypeInfo>;
     from: (func: ScriptFunction) => FunctionType;
-    decorate: <T_1 extends ScriptFunction>(func: T_1, params: readonly ParamInfo[], returnType?: TypeInfo | undefined) => T_1;
+    annotate: <T_2 extends ScriptFunction>(func: T_2, info: FunctionType) => T_2;
 }>;
 
 // @public (undocumented)
