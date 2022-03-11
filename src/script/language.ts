@@ -3,7 +3,7 @@ import { javascriptLanguage } from "@codemirror/lang-javascript";
 import { autocomplete } from "./autocomplete";
 import { TypeInfo } from "../TypeInfo";
 import { Theme } from "@material-ui/core";
-import { syntaxTip } from "./tip";
+import { syntaxInfoTip } from "./infotip";
 
 export const scriptLanguage = (
     globals: Iterable<[string, TypeInfo]>,
@@ -14,6 +14,6 @@ export const scriptLanguage = (
         javascriptLanguage.data.of({
             autocomplete: autocomplete(globals, theme)
         }),
-        syntaxTip(globals, theme),
+        syntaxInfoTip(globals, theme),
     ]
 );
