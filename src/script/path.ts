@@ -94,6 +94,9 @@ export const getTypeSelectionPathFromNode = (
 
 export const selectMember = (member: string): MemberSelection => Object.freeze({ select: "member", member });
 export const selectIndex = (index: number): IndexSelection => Object.freeze({ select: "index", index });
+export const selectMemberOrIndex = (memberOrIndex: string | number): MemberSelection | IndexSelection => (
+    typeof memberOrIndex === "number" ? selectIndex(memberOrIndex) : selectMember(memberOrIndex)
+);
 export const selectParam = (param: number): ParamSelection => Object.freeze({ select: "param", param });
 export const selectAwait: AwaitSelection = Object.freeze({ select: "await"});
 export const selectReturn: ReturnSelection = Object.freeze({ select: "return"});
