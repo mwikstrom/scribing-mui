@@ -8,6 +8,7 @@ import { Slicer, tryGetConstant } from "./syntax";
 import { getTypeSelectionPathFromNode, selectType } from "./path";
 import { getScopeFromNode } from "./scope";
 import { deferRenderFunc } from "./infoview";
+import { EditorView } from "@codemirror/view";
 
 export const paramInfoTip = (
     globals: Iterable<[string, TypeInfo]>, 
@@ -112,44 +113,50 @@ function getTooltipForPosition(
 
     const to = node.to;
     const from = node.name == "(" ? to : node.from;
+    let editor: EditorView | undefined;
+    
+    const onApplyConstantValue = (value: unknown): boolean => {
+        let insert: string | undefined;
+
+        if (typeof value === "string" || typeof value === "number") {
+            insert = JSON.stringify(value);            
+        }
+
+        if (!editor || typeof insert !== "string") {
+            return false;
+        }
+
+        const txn = editor.state.update({
+            changes: [{ from, to, insert }],
+            selection: { anchor: from + insert.length },
+        });
+        
+        editor.dispatch(txn);
+        editor.focus();
+        return true;
+    };
+
+    const onUpdateLayout = () => void(editor && repositionTooltips(editor));
+    const { success: hasConstantValue, value: constantValue } = tryGetConstant(node, slice);
+    const renderProps: ParamInfoTipRenderProps = {
+        funcType,
+        paramInfo,
+        paramIndex,
+        hasConstantValue,
+        constantValue,
+        onApplyConstantValue,
+        onUpdateLayout,
+    };
+
+    const renderFunc = () => renderInfoTip(renderProps);                    
     const tooltip: Tooltip = {
         pos: from,
         end: to,
         above: true,
-        create: editor => {
-            const onApplyConstantValue = (value: unknown): boolean => {
-                let insert: string;
-        
-                if (typeof value === "string" || typeof value === "number") {
-                    insert = JSON.stringify(value);
-                } else {
-                    return false;
-                }
-        
-                const txn = editor.state.update({
-                    changes: [{ from, to, insert }],
-                    selection: { anchor: from + insert.length },
-                });
-                
-                editor.dispatch(txn);
-                editor.focus();
-                return true;
-            };
-        
-            const { success: hasConstantValue, value: constantValue } = tryGetConstant(node, slice);
-            const renderProps: ParamInfoTipRenderProps = {
-                funcType,
-                paramInfo,
-                paramIndex,
-                hasConstantValue,
-                constantValue,
-                onApplyConstantValue,
-                onUpdateLayout: () => repositionTooltips(editor),
-            };
-        
-            const renderFunc = () => renderInfoTip(renderProps);                    
+        create: initial => {
             const { dom, render: mount } = deferRenderFunc(renderFunc, theme);
             const view: TooltipView = { dom, mount };
+            editor = initial;
             return view;
         },
     };
