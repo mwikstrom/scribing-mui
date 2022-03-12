@@ -1,9 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, useCallback, useEffect, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { MuiThemeProvider, Theme } from "@material-ui/core";
+import { Box, Button, MuiThemeProvider, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { ScriptEditor } from "../src/components/ScriptEditor";
 import { useStoryTheme } from "./theme";
+import { createBrowserScriptHost, ScriptHostScope, useScriptHost } from "scripthost-react";
+import { ScriptFunction } from "scripthost";
+import { ParamInfoTipRenderProps, TypeInfo } from "../src/TypeInfo";
 
 interface StoryProps {
     dark?: boolean;
@@ -12,33 +15,80 @@ interface StoryProps {
 const Story: FC<StoryProps> = props => {
     const { dark, ...rest } = props;
     const theme = useStoryTheme(dark);
+    const host = useMemo(() => createBrowserScriptHost({ expose: { myFunc } }), []);
     return (
         <MuiThemeProvider theme={theme}>
-            <Root {...rest}/>
+            <ScriptHostScope host={host}>
+                <Root {...rest}/>
+            </ScriptHostScope>
         </MuiThemeProvider>
     );
 };
 
+const myFunc: ScriptFunction = async () => void(0);
+
+TypeInfo.annotate(myFunc, TypeInfo.function([
+    { renderInfoTip: props => <MyParamInfo {...props}/> },
+]));
+
 const Root: FC<Omit<StoryProps, "dark">> = () => {
     const classes = useStyles();
+    const host = useScriptHost();
+    const globals = useMemo(() => {
+        const result = new Map<string, TypeInfo>();
+        for (const [key, func] of Object.entries(host.funcs)) {
+            if (func) {
+                result.set(key, TypeInfo.from(func));
+            }
+        }
+        return result;
+    }, [host]);
     return (
         <div className={classes.root}>
             <ScriptEditor
                 className={classes.editor}
                 initialValue={SCRIPT_TEXT}
+                globals={globals}
             />
         </div>
     );
 };
 
 const SCRIPT_TEXT = `{
-  console.log("Hello world");
-  const apa = 1 + 2.3;
   // Line comment
+  const message = "Hello world";
+  myFunc(123, "abc", { flag: true });
   const olle = JSON.stringify(apa);
   const func = () => { /* noop */ };
 }
 `;
+
+const MyParamInfo = (props: ParamInfoTipRenderProps) => {
+    const { hasConstantValue, constantValue, onApplyConstantValue, onUpdateLayout } = props;
+    const [ showButton, setShowButton ] = useState(false);
+    const onApplyRandomValue = useCallback(() => {
+        if (onApplyConstantValue) {
+            onApplyConstantValue(Math.floor(Math.random() * 1000));
+        }
+    }, [onApplyConstantValue]);
+    useEffect(() => {
+        const timerId = setTimeout(() => {
+            setShowButton(true);
+            onUpdateLayout();
+        }, 500);
+        return () => clearTimeout(timerId);
+    }, []);
+    return (
+        <Box p={1}>
+            <Typography variant="body1" color={hasConstantValue ? "textPrimary" : "textSecondary"}>
+                {hasConstantValue ? String(constantValue) : "n/a"}
+            </Typography>
+            {showButton && (
+                <Button variant="outlined" color="primary" onClick={onApplyRandomValue}>Set random</Button>
+            )}
+        </Box>
+    );
+};
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {

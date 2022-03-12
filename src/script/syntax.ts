@@ -93,7 +93,10 @@ export type Maybe<T> = (
     { success: false, value?: never }
 );
 
-export const tryGetConstant = (node: SyntaxNode, slice: Slicer): Maybe<unknown> => {
+export const tryGetConstant = (node: SyntaxNode | null, slice: Slicer): Maybe<unknown> => {
+    if (!node) {
+        return { success: false };
+    }
     const { name, from, to } = node;
     if (name === "Number") {
         const literal = slice(from, to);

@@ -1,4 +1,4 @@
-import { Tooltip, TooltipView, showTooltip } from "@codemirror/tooltip";
+import { Tooltip, TooltipView, showTooltip, repositionTooltips } from "@codemirror/tooltip";
 import { EditorState, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { SyntaxNode } from "@lezer/common";
@@ -51,6 +51,10 @@ function getTooltipForPosition(
 
     while (node?.parent && node.parent.name !== "ArgList") {
         node = node.parent;
+    }
+
+    if (node?.name === "(" && node.nextSibling?.name !== ")") {
+        node = node.nextSibling;
     }
 
     if (!node || node.name === ")") {
@@ -106,29 +110,44 @@ function getTooltipForPosition(
         return null;
     }
 
-    const onApplyConstantValue = (value: unknown): boolean => {
-        // TODO: IMPLEMENT onApplyConstantValue
-        console.error("TODO: IMPLEMENT onApplyConstantValue: " + value);
-        return false;
-    };
-
-    const { success: hasConstantValue, value: constantValue } = tryGetConstant(node, slice);
-    const renderProps: ParamInfoTipRenderProps = {
-        funcType,
-        paramInfo,
-        paramIndex,
-        hasConstantValue,
-        constantValue,
-        onApplyConstantValue,
-    };
-
-    const renderFunc = () => renderInfoTip(renderProps);
+    const to = node.to;
+    const from = node.name == "(" ? to : node.from;
     const tooltip: Tooltip = {
-        pos: node.from,
-        end: node.to,
+        pos: from,
+        end: to,
         above: true,
-        arrow: true,
-        create: () => {
+        create: editor => {
+            const onApplyConstantValue = (value: unknown): boolean => {
+                let insert: string;
+        
+                if (typeof value === "string" || typeof value === "number") {
+                    insert = JSON.stringify(value);
+                } else {
+                    return false;
+                }
+        
+                const txn = editor.state.update({
+                    changes: [{ from, to, insert }],
+                    selection: { anchor: from + insert.length },
+                });
+                
+                editor.dispatch(txn);
+                editor.focus();
+                return true;
+            };
+        
+            const { success: hasConstantValue, value: constantValue } = tryGetConstant(node, slice);
+            const renderProps: ParamInfoTipRenderProps = {
+                funcType,
+                paramInfo,
+                paramIndex,
+                hasConstantValue,
+                constantValue,
+                onApplyConstantValue,
+                onUpdateLayout: () => repositionTooltips(editor),
+            };
+        
+            const renderFunc = () => renderInfoTip(renderProps);                    
             const { dom, render: mount } = deferRenderFunc(renderFunc, theme);
             const view: TooltipView = { dom, mount };
             return view;
