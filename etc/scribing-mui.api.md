@@ -32,6 +32,14 @@ export interface BooleanType extends TypeDecl<"boolean"> {
 export type BoxVariantLocaleKey = `box_${BoxVariant}`;
 
 // @public (undocumented)
+export interface ClassType extends TypeDecl<"class"> {
+    // (undocumented)
+    ctor: FunctionType;
+    // (undocumented)
+    props?: Record<string, TypeInfo>;
+}
+
+// @public (undocumented)
 export interface CustomOption<T, U = T> {
     // (undocumented)
     getResult?: (current: T) => U | undefined;
@@ -330,9 +338,29 @@ export interface ParamInfo {
     // (undocumented)
     optional?: boolean;
     // (undocumented)
+    renderInfoTip?: (props: ParamInfoTipRenderProps) => ReactNode;
+    // (undocumented)
     spread?: boolean;
     // (undocumented)
     type?: TypeInfo;
+}
+
+// @public (undocumented)
+export interface ParamInfoTipRenderProps {
+    // (undocumented)
+    constantValue: unknown;
+    // (undocumented)
+    funcType: FunctionType;
+    // (undocumented)
+    hasConstantValue: boolean;
+    // (undocumented)
+    onApplyConstantValue: (value: unknown) => boolean;
+    // (undocumented)
+    onUpdateLayout: () => void;
+    // (undocumented)
+    paramIndex: number;
+    // (undocumented)
+    paramInfo: ParamInfo;
 }
 
 // @public (undocumented)
@@ -364,7 +392,7 @@ export interface TypeDecl<T> {
 }
 
 // @public (undocumented)
-export type TypeInfo = (UnknownType | VoidType | UndefinedType | NullType | BooleanType | NullType | StringType | NumberType | ObjectType | ArrayType | TupleType | FunctionType | PromiseType | UnionType);
+export type TypeInfo = (UnknownType | VoidType | UndefinedType | NullType | BooleanType | NullType | StringType | NumberType | ObjectType | ArrayType | TupleType | FunctionType | ClassType | PromiseType | UnionType);
 
 // @public (undocumented)
 export const TypeInfo: Readonly<{
@@ -387,9 +415,11 @@ export const TypeInfo: Readonly<{
     function: (params?: readonly ParamInfo[] | undefined, returnType?: TypeInfo | undefined) => FunctionType;
     param: (name?: string | undefined, type?: TypeInfo | undefined, options?: Pick<ParamInfo, "optional" | "spread">) => ParamInfo;
     promise: (resolveType?: TypeInfo | undefined) => PromiseType;
+    class: (ctor: FunctionType, props?: Record<string, TypeInfo> | undefined) => ClassType;
     props: <K extends string>(type: TypeInfo, ...keys: K[]) => Record<K, TypeInfo>;
     from: (func: ScriptFunction) => FunctionType;
     annotate: <T_2 extends ScriptFunction>(func: T_2, info: FunctionType) => T_2;
+    merge: (...types: TypeInfo[]) => TypeInfo;
 }>;
 
 // @public (undocumented)

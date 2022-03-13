@@ -28,8 +28,10 @@ TypeInfo: Readonly<{
     function: (params?: readonly ParamInfo[] | undefined, returnType?: TypeInfo | undefined) => FunctionType;
     param: (name?: string | undefined, type?: TypeInfo | undefined, options?: Pick<ParamInfo, "optional" | "spread">) => ParamInfo;
     promise: (resolveType?: TypeInfo | undefined) => PromiseType;
+    class: (ctor: FunctionType, props?: Record<string, TypeInfo> | undefined) => ClassType;
     props: <K extends string>(type: TypeInfo, ...keys: K[]) => Record<K, TypeInfo>;
     from: (func: ScriptFunction) => FunctionType;
     annotate: <T_2 extends ScriptFunction>(func: T_2, info: FunctionType) => T_2;
+    merge: (...types: TypeInfo[]) => TypeInfo;
 }>
 ```
