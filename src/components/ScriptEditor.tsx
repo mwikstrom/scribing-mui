@@ -150,26 +150,10 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
     ]), [palette]);
 
     const [portalArray, setPortalArray] = useState<ReactPortal[]>([]);
+    const [portalArrayChanges, setPortalArrayChanges] = useState<[ReactPortal, boolean][]>([]);
     const mountPortal = (portal: ReactPortal) => {
-        let index: number | null = null;
-        setPortalArray(before => {
-            if (index !== null) {
-                return before;
-            } else {
-                index = before.length;
-                const after = [...before, portal];
-                return after;
-            }
-        });
-        return () => setPortalArray(before => {
-            if (index !== null) {
-                const after = [...before];
-                after.splice(index, 1);
-                return after;
-            } else {
-                return before;
-            }
-        });
+        setPortalArrayChanges(before => [...before, [portal, true]]);
+        return () => setPortalArrayChanges(before => [...before, [portal, false]]);
     };
 
     const editor = useMemo(() => {
@@ -212,7 +196,27 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         if (editor && autoFocus) {
             editor.focus();
         }
-    }, [editor, autoFocus]);    
+    }, [editor, autoFocus]);
+
+    useEffect(() => {
+        const changeArray = [...portalArrayChanges];
+        if (changeArray.length === 0) {
+            return;
+        }
+        setPortalArray(before => {
+            const after = [...before];
+            for (const [portal, active] of changeArray) {
+                const index = after.indexOf(portal);
+                if (active && index < 0) {
+                    after.push(portal);
+                } else if (!active && index >= 0) {
+                    after.splice(index, 1);
+                }
+            }
+            return after;
+        });
+        setPortalArrayChanges(before => before.slice(changeArray.length));
+    }, [portalArrayChanges]);
 
     const rootProps = {
         className: clsx(
