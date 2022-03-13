@@ -2,24 +2,23 @@ import { Tooltip, TooltipView, showTooltip, repositionTooltips } from "@codemirr
 import { EditorState, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { SyntaxNode } from "@lezer/common";
-import { Theme } from "@material-ui/core";
 import { ParamInfo, ParamInfoTipRenderProps, TypeInfo } from "../TypeInfo";
 import { Slicer, tryGetConstant } from "./syntax";
 import { getTypeSelectionPathFromNode, selectType } from "./path";
 import { getScopeFromNode } from "./scope";
-import { deferRenderFunc } from "./infoview";
+import { deferRenderFunc, MountFunc } from "./infoview";
 import { EditorView } from "@codemirror/view";
 
 export const paramInfoTip = (
     globals: Iterable<[string, TypeInfo]>, 
-    theme: Theme,
+    mount: MountFunc,
 ): StateField<readonly Tooltip[]> => StateField.define<readonly Tooltip[]>({
-    create: state => getTooltipsForSelection(state, globals, theme),
+    create: state => getTooltipsForSelection(state, globals, mount),
     update: (array, txn) => {
         if (!txn.docChanged && !txn.selection) {
             return array;
         } else {
-            return getTooltipsForSelection(txn.state, globals, theme);
+            return getTooltipsForSelection(txn.state, globals, mount);
         }
     },
     provide: f => showTooltip.computeN([f], state => state.field(f)),
@@ -28,12 +27,12 @@ export const paramInfoTip = (
 function getTooltipsForSelection(
     state: EditorState,
     globals: Iterable<[string, TypeInfo]>, 
-    theme: Theme,
+    mount: MountFunc,
 ): readonly Tooltip[] {
     const result: Tooltip[] = [];
     for (const range of state.selection.ranges) {
         if (range.empty) {
-            const tip = getTooltipForPosition(state, range.head, globals, theme);
+            const tip = getTooltipForPosition(state, range.head, globals, mount);
             if (tip) {
                 result.push(tip);
             }
@@ -46,7 +45,7 @@ function getTooltipForPosition(
     state: EditorState,
     pos: number,
     globals: Iterable<[string, TypeInfo]>, 
-    theme: Theme,
+    mount: MountFunc,
 ): Tooltip | null {
     let node: SyntaxNode | null = syntaxTree(state).resolveInner(pos, -1);
 
@@ -154,8 +153,8 @@ function getTooltipForPosition(
         end: to,
         above: true,
         create: initial => {
-            const { dom, render: mount } = deferRenderFunc(renderFunc, theme);
-            const view: TooltipView = { dom, mount };
+            const { dom, render } = deferRenderFunc(renderFunc, mount);
+            const view: TooltipView = { dom, mount: render };
             editor = initial;
             return view;
         },

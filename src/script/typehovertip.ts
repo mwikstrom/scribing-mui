@@ -2,16 +2,15 @@ import { Tooltip, TooltipView, hoverTooltip } from "@codemirror/tooltip";
 import { Extension } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { SyntaxNode } from "@lezer/common";
-import { Theme } from "@material-ui/core";
 import { TypeInfo } from "../TypeInfo";
 import { Slicer } from "./syntax";
 import { getTypeSelectionPathFromNode, selectType } from "./path";
 import { getScopeFromNode } from "./scope";
-import { deferRenderInfo, TypeInfoViewProps } from "./infoview";
+import { deferRenderInfo, MountFunc, TypeInfoViewProps } from "./infoview";
 
 export const typeHoverTip = (
     globals: Iterable<[string, TypeInfo]>, 
-    theme: Theme,
+    mount: MountFunc,
 ): Extension => hoverTooltip((view, pos, side) => {
     const { state } = view;
     const node: SyntaxNode = syntaxTree(state).resolveInner(pos, side);
@@ -35,7 +34,7 @@ export const typeHoverTip = (
     const props: TypeInfoViewProps = {
         label,
         info,
-        theme,
+        mount,
         pad: true,
     };
 

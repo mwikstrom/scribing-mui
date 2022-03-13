@@ -1,5 +1,5 @@
-import { Box, MuiThemeProvider, Theme, Typography } from "@material-ui/core";
-import React, { FC, ReactNode } from "react";
+import { Box, Typography } from "@material-ui/core";
+import React, { FC, ReactNode, ReactPortal } from "react";
 import ReactDOM from "react-dom";
 import { ParamInfo, TypeInfo } from "../TypeInfo";
 
@@ -21,36 +21,57 @@ export const renderInfo = (props: TypeInfoViewProps): () => HTMLElement => () =>
 };
 
 export const deferRenderInfo = (props: TypeInfoViewProps): { dom: HTMLElement, render: () => void } => {
-    const { theme, ...other } = props;
+    const { mount, ...other } = props;
     const func = () => <TypeInfoView {...other}/>;
-    return deferRenderFunc(func, theme);
+    return deferRenderFunc(func, mount);
 };
 
-export const deferRenderFunc = (func: () => ReactNode, theme: Theme): { dom: HTMLElement, render: () => void } => {
-    const dom = document.createElement("div");
+export const deferRenderFunc = (
+    func: () => ReactNode,
+    mount: MountFunc,
+): { dom: HTMLElement, render: () => void } => {
+    const dom = document.createElement("div");    
     const render = () => {
-        if (dom.parentElement) {
-            const observer = new MutationObserver(list => list.forEach(m => m.removedNodes.forEach(node => {
-                if (node === dom) {
-                    ReactDOM.unmountComponentAtNode(dom);
-                    observer.disconnect();
-                }
-            })));
-            ReactDOM.render(<MuiThemeProvider theme={theme} children={func()}/>, dom);
-            observer.observe(dom.parentElement, { childList: true });
-        }
+        const portal = ReactDOM.createPortal(func(), dom);
+        const unmount = mount(portal);
+        const observer = new MutationObserver(list => list.forEach(m => m.removedNodes.forEach(node => {
+            if (node === dom) {
+                unmount();
+                observer.disconnect();
+            }
+        })));
+        let attempt = 1;
+        const setup = () => {
+            if (dom.parentElement) {
+                observer.observe(dom.parentElement, { childList: true });
+            } else if (attempt >= 10) {
+                unmount();
+            } else {
+                ++attempt;
+                setTimeout(setup, attempt > 2 ? 50 : 0);
+            }
+        };
+        setup();
     };
     return { dom, render };
 };
 
+export interface UnmountFunc {
+    (): void;
+}
+
+export interface MountFunc {
+    (portal: ReactPortal): UnmountFunc;
+}
+
 export interface TypeInfoViewProps {
     label: string;
     info: TypeInfo;
-    theme: Theme;
     pad?: boolean;
+    mount: MountFunc;
 }
 
-const TypeInfoView = (props: Omit<TypeInfoViewProps, "theme">) => {
+const TypeInfoView = (props: Omit<TypeInfoViewProps, "mount">) => {
     const { label, info, pad } = props;
     const { scope, decl } = info;
     const overline = [scope, getTypeInfoClass(info)].filter(Boolean).join(" ");

@@ -5,12 +5,11 @@ import { getSnippetsFromNode } from "./snippets";
 import type { Slicer} from "./syntax";
 import { EditorState } from "@codemirror/state";
 import { TypeInfo } from "../TypeInfo";
-import { getTypeInfoClass, renderInfo } from "./infoview";
-import { Theme } from "@material-ui/core";
+import { getTypeInfoClass, MountFunc, renderInfo } from "./infoview";
 import { getTypeSelectionPathFromNode, selectScope } from "./path";
 import { getScopeFromNode } from "./scope";
 
-export const autocomplete = (globals: Iterable<[string, TypeInfo]>, theme: Theme): CompletionSource => context => {
+export const autocomplete = (globals: Iterable<[string, TypeInfo]>, mount: MountFunc): CompletionSource => context => {
     const node: SyntaxNode = syntaxTree(context.state).resolveInner(context.pos, -1);
 
     if (dontCompleteIn.has(node.name)) {
@@ -18,15 +17,15 @@ export const autocomplete = (globals: Iterable<[string, TypeInfo]>, theme: Theme
     }
 
     if (completePropIn.has(node.name) && node.parent?.name === "MemberExpression") {
-        return completeProp(node, context.state, globals, theme);
+        return completeProp(node, context.state, globals, mount);
     }
 
     if (node.name === "VariableName") {
-        return completeRoot(node.parent, node.from, context.state, globals, theme);
+        return completeRoot(node.parent, node.from, context.state, globals, mount);
     }
 
     if (context.explicit) {
-        return completeRoot(node, context.pos, context.state, globals, theme);
+        return completeRoot(node, context.pos, context.state, globals, mount);
     }
 
     return null;
@@ -36,7 +35,7 @@ const completeProp = (
     node: SyntaxNode,
     state: EditorState,
     globals: Iterable<[string, TypeInfo]>,
-    theme: Theme,
+    mount: MountFunc,
 ): CompletionResult | null => {
     const slice: Slicer = (from, to) => state.sliceDoc(from, to);
     const path = getTypeSelectionPathFromNode(node, slice);
@@ -55,7 +54,7 @@ const completeProp = (
     const from = /\.$/.test(node.name) ? node.to : node.from;
     const result: CompletionResult = {
         from,
-        options: getOptionsFromScope(scope, theme),
+        options: getOptionsFromScope(scope, mount),
         span: /^[\w$]*$/,
     };
     return result;    
@@ -66,13 +65,13 @@ const completeRoot = (
     from: number,
     state: EditorState,
     globals: Iterable<[string, TypeInfo]>,
-    theme: Theme,
+    mount: MountFunc,
 ): CompletionResult => {
     const scope = getScopeFromNode(node, state, globals);
     const result: CompletionResult = {
         from,
         options: [
-            ...getOptionsFromScope(scope, theme).filter(entry => entry.label !== "this"),
+            ...getOptionsFromScope(scope, mount).filter(entry => entry.label !== "this"),
             ...getSnippetsFromNode(node),
         ],
         span: /^[\w$]*$/,
@@ -80,17 +79,17 @@ const completeRoot = (
     return result;
 };
 
-const getOptionsFromScope = (scope: Record<string, TypeInfo>, theme: Theme): readonly Completion[] => {
+const getOptionsFromScope = (scope: Record<string, TypeInfo>, mount: MountFunc): readonly Completion[] => {
     if (typeof scope !== "object" || scope === null) {
         return [];
     } else {
-        return Object.entries(scope).map(([label, info]) => getOptionFromEntry(label, info, theme));
+        return Object.entries(scope).map(([label, info]) => getOptionFromEntry(label, info, mount));
     }
 };
 
-const getOptionFromEntry = (label: string, info: TypeInfo, theme: Theme): Completion => {
+const getOptionFromEntry = (label: string, info: TypeInfo, mount: MountFunc): Completion => {
     const type = getTypeInfoClass(info);
-    return { label, type, info: renderInfo({label, info, theme}) };
+    return { label, type, info: renderInfo({label, info, mount}) };
 };
 
 const completePropIn = new Set([

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, ReactPortal, useCallback, useEffect, useMemo, useState } from "react";
 import { EditorState, EditorView, basicSetup } from "@codemirror/basic-setup";
 import { indentWithTab } from "@codemirror/commands";
 import { keymap } from "@codemirror/view";
@@ -149,7 +149,29 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         },
     ]), [palette]);
 
-    const theme = useTheme<Theme>();
+    const [portalArray, setPortalArray] = useState<ReactPortal[]>([]);
+    const mountPortal = (portal: ReactPortal) => {
+        let index: number | null = null;
+        setPortalArray(before => {
+            if (index !== null) {
+                return before;
+            } else {
+                index = before.length;
+                const after = [...before, portal];
+                return after;
+            }
+        });
+        return () => setPortalArray(before => {
+            if (index !== null) {
+                const after = [...before];
+                after.splice(index, 1);
+                return after;
+            } else {
+                return before;
+            }
+        });
+    };
+
     const editor = useMemo(() => {
         if (!editorElem) {
             return null;
@@ -160,7 +182,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                 extensions: [
                     basicSetup,
                     keymap.of([indentWithTab]),
-                    scriptLanguage(globals, theme),
+                    scriptLanguage(globals, mountPortal),
                     editorTheme,
                     highlightStyle,
                 ],
@@ -174,7 +196,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
             parent: editorElem,
         });
         return editor;
-    }, [editorElem, editorTheme, highlightStyle, globals, theme]);
+    }, [editorElem, editorTheme, highlightStyle, globals]);
 
     const onClick = useCallback(() => {
         editor?.focus();
@@ -209,6 +231,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                 {label && <legend className={classes.label}>{label}</legend>}
                 <div ref={setEditorElem} className={classes.input} style={{maxHeight}}/>
             </fieldset>
+            {portalArray}
         </>
     );
 };
