@@ -28,7 +28,18 @@ export const deferRenderInfo = (props: TypeInfoViewProps): { dom: HTMLElement, r
 
 export const deferRenderFunc = (func: () => ReactNode, theme: Theme): { dom: HTMLElement, render: () => void } => {
     const dom = document.createElement("div");
-    const render = () => ReactDOM.render(<MuiThemeProvider theme={theme} children={func()}/>, dom);
+    const render = () => {
+        if (dom.parentElement) {
+            const observer = new MutationObserver(list => list.forEach(m => m.removedNodes.forEach(node => {
+                if (node === dom) {
+                    ReactDOM.unmountComponentAtNode(dom);
+                    observer.disconnect();
+                }
+            })));
+            ReactDOM.render(<MuiThemeProvider theme={theme} children={func()}/>, dom);
+            observer.observe(dom.parentElement, { childList: true });
+        }
+    };
     return { dom, render };
 };
 
