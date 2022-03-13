@@ -15,6 +15,7 @@ export const ToolButton: FC<ToolButtonProps> = forwardRef((props, ref) => {
         active,
         primary,
         onMouseDown,
+        disabled,
         title = "",
         ...rest
     } = props;
@@ -30,12 +31,14 @@ export const ToolButton: FC<ToolButtonProps> = forwardRef((props, ref) => {
         className,
         active && classes.active,
         primary && classes.primary,
-    );    
+    );
+    const effectiveTitle = disabled ? "" : title;
     return (
-        <Tooltip arrow interactive placement="bottom" title={title}>
+        <Tooltip arrow interactive placement="bottom" title={effectiveTitle}>
             <Button
                 {...rest}
                 ref={ref}
+                disabled={disabled}
                 className={classNameOverride}
                 onMouseDown={onMouseDownOverride}
             />
