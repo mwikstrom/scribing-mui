@@ -26,7 +26,7 @@ TypeInfo: Readonly<{
     tuple: (...itemTypes: readonly TypeInfo[]) => TupleType;
     object: (props?: Record<string, TypeInfo> | undefined) => ObjectType;
     function: (params?: readonly ParamInfo[] | undefined, returnType?: TypeInfo | undefined) => FunctionType;
-    param: (name?: string | undefined, type?: TypeInfo | undefined, options?: Pick<ParamInfo, "optional" | "spread">) => ParamInfo;
+    param: (name?: string | undefined, type?: TypeInfo | undefined, options?: Omit<ParamInfo, "name" | "type">) => ParamInfo;
     promise: (resolveType?: TypeInfo | undefined) => PromiseType;
     class: (ctor: FunctionType, props?: Record<string, TypeInfo> | undefined) => ClassType;
     props: <K extends string>(type: TypeInfo, ...keys: K[]) => Record<K, TypeInfo>;

@@ -166,7 +166,7 @@ export const TypeInfo = Object.freeze({
     param: (
         name?: string,
         type?: TypeInfo,
-        options: Pick<ParamInfo, "optional" | "spread"> = {}
+        options: Omit<ParamInfo, "name" | "type"> = {}
     ): ParamInfo => Object.freeze({
         name,
         type,
