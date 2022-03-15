@@ -288,6 +288,9 @@ const useStyles = makeStyles((theme: Theme) => {
                     border: "none"
                 },        
             },
+            "& .cm-completionIcon": {
+                boxSizing: "content-box",
+            },
         },
         hasLabel: {},
         label: {

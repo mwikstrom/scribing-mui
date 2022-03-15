@@ -1,6 +1,6 @@
 import React, { FC, useMemo, useCallback, useEffect, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Box, Button, MuiThemeProvider, Theme, Typography } from "@material-ui/core";
+import { Box, Button, CssBaseline, MuiThemeProvider, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { ScriptEditor } from "../src/components/ScriptEditor";
 import { useStoryTheme } from "./theme";
@@ -18,9 +18,11 @@ const Story: FC<StoryProps> = props => {
     const host = useMemo(() => createBrowserScriptHost({ expose: { myFunc } }), []);
     return (
         <MuiThemeProvider theme={theme}>
-            <ScriptHostScope host={host}>
-                <Root {...rest}/>
-            </ScriptHostScope>
+            <CssBaseline>
+                <ScriptHostScope host={host}>
+                    <Root {...rest}/>
+                </ScriptHostScope>
+            </CssBaseline>
         </MuiThemeProvider>
     );
 };
