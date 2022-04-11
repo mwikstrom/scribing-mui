@@ -17,5 +17,6 @@ export const InsertImage: Command = {
         }
     },
     isDisabled: controller => !controller.isCaret() && !controller.isImage(),
+    isActive: controller => controller?.isImage(),
     iconPath: controller => controller?.isImage() ? mdiImageEdit : mdiImagePlus,
 };

@@ -62,6 +62,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_input: string;
     label_output: string;
     label_language: string;
+    label_change_source: string;
+    label_reset_scale: string;
     tip_data_source: string;
     tip_more_tools: string;
     tip_check_in: string;
@@ -84,7 +86,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_table_column_insert_after: string;
     tip_markup: string;
     tip_insert_table: string;
-    tip_image: string;
+    tip_insert_image: string;
+    tip_change_image: string;
     tip_icon: string;
     tip_insert_box: string;
     tip_dynamic_text: string;
@@ -177,6 +180,8 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     label_input: "Input",
     label_output: "Output",
     label_language: "Language",
+    label_change_source: "Change source",
+    label_reset_scale: "Reset scale",
     tip_data_source: "Data source",
     tip_more_tools: "Hide or show additional tools",
     tip_check_in: "Check in",
@@ -199,7 +204,8 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     tip_table_column_insert_after: "Insert table column after",
     tip_markup: "Insert or edit markup",
     tip_insert_table: "Insert table",
-    tip_image: "Insert or change image",
+    tip_insert_image: "Insert image",
+    tip_change_image: "Change image",
     tip_icon: "Insert or change icon",
     tip_insert_box: "Insert box",
     tip_dynamic_text: "Insert or edit dynamic text",

@@ -67,6 +67,7 @@ import { Interaction } from "scribing";
 import { MarkupUpdateInfo, useMaterialFlowLocale } from ".";
 import { BoxSourceButton } from "./tools/BoxSourceButton";
 import { MarkupInfo } from "./MarkupInfo";
+import { EditImageButton } from "./tools/EditImageButton";
 
 /** @public */
 export type EditorSourceState = (
@@ -121,6 +122,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     } = props;
     const isPreview = useMemo(() => controller?.getPreview(), [controller]);
     const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
+    const isImageSelection = useMemo(() => controller?.isImage(), [controller]);
     const isTableSelection = useMemo(() => controller?.isTableSelection(), [controller]);
     const [isExpanded, setExpanded] = useState(false);
     const [toolsRef, setToolsRef] = useState<HTMLElement | null>(null);
@@ -248,7 +250,15 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 )}
                                 <CommandButton {...toolProps} command={InsertBox} title={locale.tip_insert_box}/>
                                 <FlowIconButton {...toolProps} title={locale.tip_icon}/>
-                                <CommandButton {...toolProps} command={InsertImage} title={locale.tip_image}/>
+                                {isImageSelection ? (
+                                    <EditImageButton {...toolProps}/>
+                                ) : (
+                                    <CommandButton
+                                        {...toolProps}
+                                        command={InsertImage}
+                                        title={locale.tip_insert_image}
+                                    />
+                                )}
                                 <InsertTableButton {...toolProps} title={locale.tip_insert_table}/>
                                 <MarkupButton
                                     {...toolProps}
