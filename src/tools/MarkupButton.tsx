@@ -8,6 +8,7 @@ import { getMarkupInfo, MarkupInfo, MarkupUpdateInfo } from "../MarkupInfo";
 import { CustomOption, CustomOptionProvider } from "../FlowEditorToolbar";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { OptionButton } from "../components/OptionButton";
+import { Script } from "scribing";
 
 export interface MarkupButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
@@ -56,7 +57,7 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
                 }
                 if (attr) {
                     for (const [key, value] of attr) {
-                        if (typeof value === "string") {
+                        if (typeof value === "string" || value instanceof Script) {
                             controller.setMarkupAttr(key, value);
                         } else {
                             controller.unsetMarkupAttr(key);
@@ -64,10 +65,10 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
                     }
                 }
             } else if (tag) {
-                const insertAttr = new Map<string, string>();
+                const insertAttr = new Map<string, string | Script>();
                 if (attr) {
                     for (const [key, value] of attr) {
-                        if (typeof value === "string") {
+                        if (typeof value === "string" || value instanceof Script) {
                             insertAttr.set(key, value);
                         }
                     }
