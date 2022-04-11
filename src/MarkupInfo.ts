@@ -1,17 +1,17 @@
-import { EmptyMarkup } from "scribing";
+import { EmptyMarkup, Script } from "scribing";
 import { FlowEditorController } from "scribing-react";
 
 /** @public */
 export interface MarkupInfo {
     tag: string | null;
-    attr: ReadonlyMap<string, string | null> | null;
+    attr: ReadonlyMap<string, string | Script | null> | null;
     empty: boolean | null;
 }
 
 /** @public */
 export interface MarkupUpdateInfo {
     tag?: string;
-    attr?: ReadonlyMap<string, string | null | UnsetAttribute>;
+    attr?: ReadonlyMap<string, string | Script | null | UnsetAttribute>;
     empty?: boolean;
 }
 

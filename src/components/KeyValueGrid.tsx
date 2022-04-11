@@ -1,28 +1,41 @@
-import { Box, Theme, Typography } from "@material-ui/core";
+import { Box, IconButton, Theme, Typography } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
+import { mdiFunctionVariant } from "@mdi/js";
+import Icon from "@mdi/react";
 import { 
     DataGrid,
-    GridCellValue,
     GridColDef,
     GridColumns,
     GridRenderCellParams,
-    GridRowParams
+    GridRowParams,
+    MuiEvent
 } from "@mui/x-data-grid";
-import React, { FC, useMemo } from "react";
+import React, { FC, SyntheticEvent, useMemo, useState } from "react";
+import { Script } from "scribing";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
+import { ScriptEditorDialog } from "./ScriptEditorDialog";
 
 export interface KeyValueGridProps {
-    data: ReadonlyMap<string, string | null>;
-    onSetValue: (key: string, value: string) => void;
+    data: ReadonlyMap<string, string | Script | null>;
+    onSetValue: (key: string, value: string | Script) => void;
     onUnsetValue: (key: string) => void;
     keyLabel: string;
     newKeyLabel: string;
     valueLabel?: string;
+    lang?: string;
 }
 
 export const KeyValueGrid: FC<KeyValueGridProps> = props => {
     const locale = useMaterialFlowLocale();
-    const { data, keyLabel, newKeyLabel, valueLabel = locale.label_value, onSetValue, onUnsetValue } = props;
+    const {
+        data,
+        keyLabel,
+        newKeyLabel,
+        valueLabel = locale.label_value,
+        lang,
+        onSetValue,
+        onUnsetValue,
+    } = props;
     const classes = useStyles();
     const columns = useMemo<GridColumns>(() => {
         const commonProps: Partial<GridColDef> = {
@@ -36,10 +49,10 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
                 field: "key",
                 headerName: keyLabel,
                 renderCell: (params: GridRenderCellParams) => {
-                    const insert = typeof params.id !== "string";
-                    const text = insert ? newKeyLabel : params.value;
+                    const insert = typeof params.id !== "string";                    
+                    const text = insert ? newKeyLabel : String(params.value);
                     const color = insert ? "textSecondary" : "inherit";
-                    return <Cell color={color}>{text}</Cell>;
+                    return <TextCell color={color}>{text}</TextCell>;
                 },
             },
             {
@@ -48,17 +61,54 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
                 headerName: valueLabel,
                 renderCell: (params: GridRenderCellParams) => {
                     const multi = params.value === null;
-                    const text = multi ? locale.label_multiple_values : params.value;
-                    const color = multi ? "textSecondary" : "inherit";
-                    return <Cell color={color}>{text}</Cell>;
+                    const script = params.value instanceof Script;
+                    const color = multi || script ? "textSecondary" : "inherit";
+                    const text = multi ? (
+                        locale.label_multiple_values
+                    ) : script ? (
+                        locale.label_script
+                    ) : String(params.value);
+                    return (
+                        <Box display="flex" flexDirection="row" flex={1}>
+                            <TextCell color={color}>{text}</TextCell>
+                            {(script || multi || params.value === "") && (
+                                <Box flex={0}>
+                                    <IconButton size="small" onClick={() => onEditScript(params)}>
+                                        <Icon size={0.75} path={mdiFunctionVariant}/>
+                                    </IconButton>
+                                </Box>
+                            )}
+                        </Box>
+                    );
                 },
             },
         ];
     }, [keyLabel, newKeyLabel, valueLabel, locale]);
     const rows = useMemo(() => [
-        ...Array.from(data).map(([key, value]) => ({id: key, key, value })),
+        ...Array.from(data).map(([key, value]) => ({
+            id: key,
+            key,
+            value,
+        })),
         { id: 0, key: "", value: "" }
     ], [data]);
+    const [editingScript, setEditingScript] = useState<{key: string, initial: Script | null}|null>(null);
+    const onEditScript = (params: Pick<GridRowParams, "id" | "getValue">) => {
+        const rowId = params.id;
+        const key = params.getValue(rowId, "key");
+        const value = params.getValue(rowId, "value");
+        if (typeof key === "string") {
+            setEditingScript({key, initial: value instanceof Script ? value : null});
+        }
+    };
+    const onRowEditStart = (params: GridRowParams, e: MuiEvent<SyntheticEvent>) => {
+        const rowId = params.id;
+        const value = params.getValue(rowId, "value");
+        if (value instanceof Script) {
+            e.defaultMuiPrevented = true;
+            onEditScript(params);
+        }
+    };
     const onRowEditStop = (params: GridRowParams) => {
         const rowId = params.id;
         const key = params.getValue(rowId, "key");
@@ -71,36 +121,54 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
         }
     };
     return (
-        <DataGrid
-            columns={columns}
-            rows={rows}
-            autoHeight
-            density="compact"
-            disableColumnFilter
-            disableColumnMenu
-            disableColumnSelector
-            disableDensitySelector
-            showColumnRightBorder
-            showCellRightBorder
-            disableVirtualization
-            getRowId={row => row.id}
-            hideFooter
-            editMode="row"
-            onRowEditStop={onRowEditStop}
-            classes={classes}
-        />
+        <>
+            <DataGrid
+                columns={columns}
+                rows={rows}
+                autoHeight
+                density="compact"
+                disableColumnFilter
+                disableColumnMenu
+                disableColumnSelector
+                disableDensitySelector
+                showColumnRightBorder
+                showCellRightBorder
+                disableVirtualization
+                getRowId={row => row.id}
+                hideFooter
+                editMode="row"
+                onRowEditStart={onRowEditStart}
+                onRowEditStop={onRowEditStop}
+                classes={classes}
+            />
+            {editingScript && (
+                <ScriptEditorDialog
+                    open
+                    scriptLabel={editingScript.key}
+                    initialValue={editingScript.initial}
+                    onClose={() => setEditingScript(null)}
+                    lang={lang}
+                    onComplete={value => {
+                        if (value) {
+                            onSetValue(editingScript.key, value);
+                        }
+                        setEditingScript(null);
+                    }}
+                />
+            )}
+        </>
     );
 };
 
-interface CellProps {
-    children: GridCellValue;
+interface TextCellProps {
+    children: string;
     color: "inherit" | "textSecondary";
 }
 
-const Cell: FC<CellProps> = ({children, color}) => {
+const TextCell: FC<TextCellProps> = ({children, color}) => {
     const theme = useTheme<Theme>();
     return (
-        <Box paddingLeft={`${theme.spacing(1) - 1}px`}>
+        <Box paddingLeft={`${theme.spacing(1) - 1}px`} flex={1}>
             <Typography color={color} variant="inherit">{children}</Typography>
         </Box>
     );

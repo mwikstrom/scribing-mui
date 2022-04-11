@@ -4,10 +4,11 @@ import { MuiThemeProvider, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useStoryTheme } from "./theme";
 import { KeyValueGrid } from "../src/components/KeyValueGrid";
+import { Script } from "scribing";
 
 interface StoryProps {
     dark?: boolean;
-    data?: Record<string, string | null>;
+    data?: Record<string, string | Script | null>;
 }
 
 const Story: FC<StoryProps> = props => {
@@ -24,7 +25,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
     const { data: initial } = props;
     const [data, setData] = useState(() => new Map(Object.entries(initial || {})));
     const classes = useStyles();
-    const onSetValue = (key: string, value: string) => setData(
+    const onSetValue = (key: string, value: string | Script) => setData(
         before => new Map([...before, [key, value]])
     );
     const onUnsetValue = (unset: string) => setData(
@@ -72,11 +73,23 @@ Light.args = {};
 export const Dark = Template.bind({});
 Dark.args = { dark: true };
 
-export const Data = Template.bind({});
-Data.args = {
+export const LightData = Template.bind({});
+LightData.args = {
     data: {
         "Normal": "Value",
         "Multiple": null,
+        "Script": Script.fromData("1+2"),
+        "Empty": "",
+    }
+};
+
+export const DarkData = Template.bind({});
+DarkData.args = {
+    dark: true,
+    data: {
+        "Normal": "Value",
+        "Multiple": null,
+        "Script": Script.fromData("1+2"),
         "Empty": "",
     }
 };

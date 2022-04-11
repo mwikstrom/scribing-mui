@@ -9,6 +9,7 @@ import {
     TextField,
 } from "@material-ui/core";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { Script } from "scribing";
 import { MarkupInfo, MarkupUpdateInfo, UnsetAttribute } from "../MarkupInfo";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { KeyValueGrid } from "./KeyValueGrid";
@@ -34,9 +35,9 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
     const [attr, setAttr] = useState(() => initial?.attr || new Map());
     const [insertEmpty, setInsertEmpty] = useState(false);
     const changedAttr = useMemo(() => {
-        const result = new Map<string, string | UnsetAttribute>();
+        const result = new Map<string, string | Script | UnsetAttribute>();
         for (const [key, value] of attr) {
-            if (typeof value === "string") {
+            if (typeof value === "string" || value instanceof Script) {
                 result.set(key, value);
             }
         }
@@ -72,7 +73,7 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
             onClickComplete();
         }
     }, [onClickComplete, canSubmit]);
-    const onSetAttr = useCallback((key: string, value: string) => {
+    const onSetAttr = useCallback((key: string, value: string | Script) => {
         setAttr(before => new Map([...before, [key, value]]));
     }, []);
     const onUnsetAttr = useCallback((unset: string) => {
