@@ -4,10 +4,10 @@ import { mdiFunctionVariant } from "@mdi/js";
 import Icon from "@mdi/react";
 import { 
     DataGrid,
+    GridCellParams,
     GridColDef,
     GridColumns,
     GridRenderCellParams,
-    GridRowParams,
     MuiEvent
 } from "@mui/x-data-grid";
 import React, { FC, SyntheticEvent, useMemo, useState } from "react";
@@ -60,6 +60,8 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
                 field: "value",
                 headerName: valueLabel,
                 renderCell: (params: GridRenderCellParams) => {
+                    const rowId = params.id;
+                    const key = params.getValue(rowId, "key");
                     const multi = params.value === null;
                     const script = params.value instanceof Script;
                     const color = multi || script ? "textSecondary" : "inherit";
@@ -68,7 +70,7 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
                     ) : script ? (
                         locale.label_script
                     ) : String(params.value);
-                    return (
+                    return typeof key === "string" && key && (
                         <Box display="flex" flexDirection="row" flex={1}>
                             <TextCell color={color}>{text}</TextCell>
                             {(script || multi || params.value === "") && (
@@ -93,30 +95,37 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
         { id: 0, key: "", value: "" }
     ], [data]);
     const [editingScript, setEditingScript] = useState<{key: string, initial: Script | null}|null>(null);
-    const onEditScript = (params: Pick<GridRowParams, "id" | "getValue">) => {
+    const onEditScript = (params: Pick<GridCellParams, "id" | "getValue">) => {
         const rowId = params.id;
         const key = params.getValue(rowId, "key");
         const value = params.getValue(rowId, "value");
-        if (typeof key === "string") {
+        if (typeof key === "string" && key) {
             setEditingScript({key, initial: value instanceof Script ? value : null});
         }
     };
-    const onRowEditStart = (params: GridRowParams, e: MuiEvent<SyntheticEvent>) => {
-        const rowId = params.id;
-        const value = params.getValue(rowId, "value");
-        if (value instanceof Script) {
-            e.defaultMuiPrevented = true;
-            onEditScript(params);
+    const onCellEditStart = (params: GridCellParams, e: MuiEvent<SyntheticEvent>) => {
+        if (params.field === "value") {
+            const rowId = params.id;
+            const key = params.getValue(rowId, "key");
+            if (typeof key !== "string" || !key) {
+                e.defaultMuiPrevented = true;
+            } else {
+                const value = params.getValue(rowId, "value");
+                if (value instanceof Script) {
+                    e.defaultMuiPrevented = true;
+                    onEditScript(params);
+                }
+            }
         }
     };
-    const onRowEditStop = (params: GridRowParams) => {
+    const onCellEditStop = (params: GridCellParams) => {
         const rowId = params.id;
         const key = params.getValue(rowId, "key");
         const value = params.getValue(rowId, "value");
         if (typeof rowId === "string" && rowId !== key) {
             onUnsetValue(rowId);
         }
-        if (typeof key === "string" && key && typeof value === "string") {
+        if (typeof key === "string" && key && (typeof value === "string" || value instanceof Script)) {
             onSetValue(key, value);
         }
     };
@@ -136,9 +145,9 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
                 disableVirtualization
                 getRowId={row => row.id}
                 hideFooter
-                editMode="row"
-                onRowEditStart={onRowEditStart}
-                onRowEditStop={onRowEditStop}
+                editMode="cell"
+                onCellEditStart={onCellEditStart}
+                onCellEditStop={onCellEditStop}
                 classes={classes}
             />
             {editingScript && (
