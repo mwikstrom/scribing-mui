@@ -14,6 +14,7 @@ import { Interaction } from 'scribing';
 import { ParagraphVariant } from 'scribing';
 import { ReactNode } from 'react';
 import { ScribingComponents } from 'scribing-react';
+import { Script } from 'scribing';
 import { ScriptFunction } from 'scripthost';
 
 // @public (undocumented)
@@ -110,7 +111,7 @@ export type LocaleItemKey = (ParagraphVariantLocaleKey | FlowColorLocaleKey | Fo
 // @public (undocumented)
 export interface MarkupInfo {
     // (undocumented)
-    attr: ReadonlyMap<string, string | null> | null;
+    attr: ReadonlyMap<string, string | Script | null> | null;
     // (undocumented)
     empty: boolean | null;
     // (undocumented)
@@ -120,7 +121,7 @@ export interface MarkupInfo {
 // @public (undocumented)
 export interface MarkupUpdateInfo {
     // (undocumented)
-    attr?: ReadonlyMap<string, string | null | UnsetAttribute>;
+    attr?: ReadonlyMap<string, string | Script | null | UnsetAttribute>;
     // (undocumented)
     empty?: boolean;
     // (undocumented)
@@ -160,6 +161,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     label_attribute: string;
     // (undocumented)
+    label_change_source: string;
+    // (undocumented)
     label_data_source: string;
     // (undocumented)
     label_dynamic_text_script: string;
@@ -183,6 +186,10 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_output: string;
     // (undocumented)
     label_please_wait: string;
+    // (undocumented)
+    label_reset_scale: string;
+    // (undocumented)
+    label_script: string;
     // (undocumented)
     label_value: string;
     // (undocumented)
@@ -212,6 +219,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     tip_box_interaction: string;
     // (undocumented)
+    tip_change_image: string;
+    // (undocumented)
     tip_check_in: string;
     // (undocumented)
     tip_copy: string;
@@ -228,13 +237,13 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     tip_icon: string;
     // (undocumented)
-    tip_image: string;
-    // (undocumented)
     tip_indent_decrement: string;
     // (undocumented)
     tip_indent_increment: string;
     // (undocumented)
     tip_insert_box: string;
+    // (undocumented)
+    tip_insert_image: string;
     // (undocumented)
     tip_insert_table: string;
     // (undocumented)

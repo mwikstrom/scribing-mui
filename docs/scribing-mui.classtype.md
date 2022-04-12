@@ -10,7 +10,7 @@
 ```typescript
 export interface ClassType extends TypeDecl<"class"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"class"&gt;
+<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)
 
 ## Properties
 

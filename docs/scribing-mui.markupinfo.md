@@ -15,7 +15,7 @@ export interface MarkupInfo
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [attr](./scribing-mui.markupinfo.attr.md) | ReadonlyMap&lt;string, string \| null&gt; \| null |  |
+|  [attr](./scribing-mui.markupinfo.attr.md) | ReadonlyMap&lt;string, string \| Script \| null&gt; \| null |  |
 |  [empty](./scribing-mui.markupinfo.empty.md) | boolean \| null |  |
 |  [tag](./scribing-mui.markupinfo.tag.md) | string \| null |  |
 

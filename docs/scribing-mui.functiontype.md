@@ -10,7 +10,7 @@
 ```typescript
 export interface FunctionType extends TypeDecl<"function"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"function"&gt;
+<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)
 
 ## Properties
 
