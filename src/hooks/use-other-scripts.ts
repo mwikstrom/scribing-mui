@@ -1,5 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import { DynamicText, FlowBox, FlowNode, FlowNodeVisitor, InlineNode, RunScript, Script } from "scribing";
+import { 
+    DynamicText, 
+    EmptyMarkup, 
+    FlowBox, 
+    FlowNode, 
+    FlowNodeVisitor, 
+    InlineNode, 
+    RunScript, 
+    Script, 
+    StartMarkup
+} from "scribing";
 import { FlowEditorController, FlowEditorState } from "scribing-react";
 
 // NOTE: The idea for this hook is that it should return all scripts in the flow document except
@@ -56,5 +66,23 @@ class ScriptExtractor extends FlowNodeVisitor {
             }
         }
         return super.visitNode(node);
+    }
+
+    visitEmptyMarkup(node: EmptyMarkup): FlowNode {
+        this.visitMarkupAttr(node.attr);
+        return super.visitEmptyMarkup(node);
+    }
+
+    visitStartMarkup(node: StartMarkup): FlowNode {
+        this.visitMarkupAttr(node.attr);
+        return super.visitStartMarkup(node);
+    }
+
+    visitMarkupAttr(attr: ReadonlyMap<string, unknown>): void {
+        for (const [, value] of attr) {
+            if (value instanceof Script) {
+                this.result.push(value);
+            }
+        }
     }
 }
