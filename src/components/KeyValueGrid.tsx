@@ -12,11 +12,13 @@ import {
 } from "@mui/x-data-grid";
 import React, { FC, SyntheticEvent, useMemo, useState } from "react";
 import { Script } from "scribing";
+import { FlowEditorController } from "scribing-react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ScriptEditorDialog } from "../ScriptEditorDialog";
 
 export interface KeyValueGridProps {
     data: ReadonlyMap<string, string | Script | null>;
+    controller?: FlowEditorController | null;
     onSetValue: (key: string, value: string | Script) => void;
     onUnsetValue: (key: string) => void;
     keyLabel: string;
@@ -29,10 +31,11 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
     const locale = useMaterialFlowLocale();
     const {
         data,
+        controller,
         keyLabel,
         newKeyLabel,
         valueLabel = locale.label_value,
-        lang,
+        lang = controller?.getTextStyle().lang,
         onSetValue,
         onUnsetValue,
     } = props;
@@ -157,6 +160,7 @@ export const KeyValueGrid: FC<KeyValueGridProps> = props => {
                     initialValue={editingScript.initial}
                     onClose={() => setEditingScript(null)}
                     lang={lang}
+                    controller={controller}
                     onComplete={value => {
                         if (value) {
                             onSetValue(editingScript.key, value);
