@@ -132,7 +132,7 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
                 <MarkupDialog
                     open
                     current={current}
-                    canInsertEmpty={!current && controller?.isCaret()}
+                    controller={controller}
                     onClose={closeDialog}
                     onComplete={completeDialog}
                 />
