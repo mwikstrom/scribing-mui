@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Script } from "scribing";
+import { FlowEditorController } from "scribing-react";
 import { MarkupInfo, MarkupUpdateInfo, UnsetAttribute } from "../MarkupInfo";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { KeyValueGrid } from "./KeyValueGrid";
@@ -18,6 +19,7 @@ import { ResponsiveDialog } from "./ResponsiveDialog";
 export interface MarkupDialogProps extends Omit<DialogProps, "onClose"> {
     current: MarkupInfo | null;
     canInsertEmpty?: boolean;
+    controller?: FlowEditorController | null;
     onComplete?: (update: MarkupUpdateInfo) => void;
     onClose?: () => void;
 }
@@ -26,7 +28,8 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
     const locale = useMaterialFlowLocale();
     const {
         current: initial,
-        canInsertEmpty,
+        controller,
+        canInsertEmpty = !initial && controller?.isCaret(),
         onComplete,
         ...dialogProps
     } = props;
@@ -104,6 +107,7 @@ export const MarkupDialog: FC<MarkupDialogProps> = props => {
                         <Box pt={2}>
                             <KeyValueGrid
                                 data={attr}
+                                controller={controller}
                                 keyLabel={locale.label_attribute}
                                 newKeyLabel={locale.label_new_attribute}
                                 onSetValue={onSetAttr}
