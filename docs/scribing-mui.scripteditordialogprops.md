@@ -16,6 +16,7 @@ export interface ScriptEditorDialogProps extends DialogProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [additionalGlobals?](./scribing-mui.scripteditordialogprops.additionalglobals.md) | Iterable&lt;\[string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\]&gt; | <i>(Optional)</i> |
 |  [cancelLabel?](./scribing-mui.scripteditordialogprops.cancellabel.md) | string | <i>(Optional)</i> |
 |  [completeLabel?](./scribing-mui.scripteditordialogprops.completelabel.md) | string | <i>(Optional)</i> |
 |  [controller?](./scribing-mui.scripteditordialogprops.controller.md) | FlowEditorController \| null | <i>(Optional)</i> |

@@ -385,6 +385,8 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps>;
 // @public (undocumented)
 export interface ScriptEditorDialogProps extends DialogProps {
     // (undocumented)
+    additionalGlobals?: Iterable<[string, TypeInfo]>;
+    // (undocumented)
     cancelLabel?: string;
     // (undocumented)
     completeLabel?: string;

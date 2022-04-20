@@ -25,6 +25,7 @@ export interface ScriptEditorDialogProps extends DialogProps {
     idempotent?: boolean;
     controller?: FlowEditorController | null;
     onComplete?: (script: Script | null) => void;
+    additionalGlobals?: Iterable<[string, TypeInfo]>;
 }
 
 /** @public */
@@ -40,6 +41,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         idempotent,
         controller,
         open,
+        additionalGlobals,
         ...rest
     } = props;
     const hostFuncs = useScriptHostFuncs();
@@ -80,8 +82,14 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
 
         result.set("this", TypeInfo.object(thisProps));
 
+        if (additionalGlobals) {
+            for (const [key, info] of additionalGlobals) {
+                result.set(key, info);
+            }
+        }
+
         return result;
-    }, [messages, hostFuncs, otherScripts, idempotent]);
+    }, [messages, hostFuncs, otherScripts, idempotent, additionalGlobals]);
     
     const onClickComplete = useCallback(() => {
         if (onComplete) {
