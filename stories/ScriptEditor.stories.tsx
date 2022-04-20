@@ -2,7 +2,7 @@ import React, { FC, useMemo, useCallback, useEffect, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Box, Button, CssBaseline, MuiThemeProvider, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { ScriptEditor } from "../src/ScriptEditor";
+import { ScriptEditor } from "../src/components/ScriptEditor";
 import { useStoryTheme } from "./theme";
 import { createBrowserScriptHost, ScriptHostScope, useScriptHost } from "scripthost-react";
 import { ScriptFunction } from "scripthost";

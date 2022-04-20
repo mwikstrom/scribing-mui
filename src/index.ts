@@ -9,6 +9,5 @@ export * from "./MaterialFlowLocale";
 export * from "./MaterialScribingComponents";
 export * from "./MarkupInfo";
 export * from "./FlowEditorToolbar";
-export * from "./ScriptEditor";
 export * from "./ScriptEditorDialog";
 export * from "./TypeInfo";

@@ -7,8 +7,8 @@ import { makeStyles, useTheme } from "@material-ui/styles";
 import { Theme } from "@material-ui/core";
 import { DefaultFlowPalette } from "scribing-react";
 import clsx from "clsx";
-import { scriptLanguage } from "./script/language";
-import { TypeInfo } from "./TypeInfo";
+import { scriptLanguage } from "../script/language";
+import { TypeInfo } from "../TypeInfo";
 
 /** @public */
 export interface ScriptEditorProps {

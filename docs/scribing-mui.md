@@ -33,7 +33,6 @@ Material-UI components for collaborative rich text editing
 |  [ParamInfoTipRenderProps](./scribing-mui.paraminfotiprenderprops.md) |  |
 |  [PromiseType](./scribing-mui.promisetype.md) |  |
 |  [ScriptEditorDialogProps](./scribing-mui.scripteditordialogprops.md) |  |
-|  [ScriptEditorProps](./scribing-mui.scripteditorprops.md) |  |
 |  [StringType](./scribing-mui.stringtype.md) |  |
 |  [TupleType](./scribing-mui.tupletype.md) |  |
 |  [TypeDecl](./scribing-mui.typedecl.md) |  |
@@ -49,7 +48,6 @@ Material-UI components for collaborative rich text editing
 |  [MaterialFlowPalette](./scribing-mui.materialflowpalette.md) |  |
 |  [MaterialFlowTypography](./scribing-mui.materialflowtypography.md) |  |
 |  [MaterialScribingComponents](./scribing-mui.materialscribingcomponents.md) |  |
-|  [ScriptEditor](./scribing-mui.scripteditor.md) |  |
 |  [ScriptEditorDialog](./scribing-mui.scripteditordialog.md) |  |
 |  [TypeInfo](./scribing-mui.typeinfo.md) |  |
 |  [UnsetAttribute](./scribing-mui.unsetattribute.md) |  |
