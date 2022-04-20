@@ -5,6 +5,7 @@
 ```ts
 
 import { BoxVariant } from 'scribing';
+import { DialogProps } from '@material-ui/core';
 import { FC } from 'react';
 import { FlowColor } from 'scribing';
 import { FlowEditorController } from 'scribing-react';
@@ -376,6 +377,50 @@ export interface ParamInfoTipRenderProps {
 export interface PromiseType extends TypeDecl<"promise"> {
     // (undocumented)
     resolveType?: TypeInfo;
+}
+
+// @public (undocumented)
+export const ScriptEditor: FC<ScriptEditorProps>;
+
+// @public (undocumented)
+export const ScriptEditorDialog: FC<ScriptEditorDialogProps>;
+
+// @public (undocumented)
+export interface ScriptEditorDialogProps extends DialogProps {
+    // (undocumented)
+    cancelLabel?: string;
+    // (undocumented)
+    completeLabel?: string;
+    // (undocumented)
+    controller?: FlowEditorController | null;
+    // (undocumented)
+    idempotent?: boolean;
+    // (undocumented)
+    initialValue?: Script | null;
+    // (undocumented)
+    lang?: string;
+    // (undocumented)
+    onComplete?: (script: Script | null) => void;
+    // (undocumented)
+    scriptLabel?: string;
+}
+
+// @public (undocumented)
+export interface ScriptEditorProps {
+    // (undocumented)
+    autoFocus?: boolean;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    globals?: Iterable<[string, TypeInfo]>;
+    // (undocumented)
+    initialValue?: string;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
+    maxHeight?: string | number;
+    // (undocumented)
+    onValueChange?: (value: string) => void;
 }
 
 // @public (undocumented)

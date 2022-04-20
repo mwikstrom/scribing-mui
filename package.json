@@ -10,7 +10,8 @@
   "scripts": {
     "prebuild": "rimraf temp lib && npm run lint && tsc",
     "build": "rollup -c",
-    "postbuild": "npm test && api-extractor run --local && api-documenter markdown --input temp --output docs",
+    "postbuild": "npm test && npm run mui-fixup && api-extractor run --local && api-documenter markdown --input temp --output docs",
+    "mui-fixup": "node ./etc/fix-mui-partial-package.js",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix",
     "test": "jest",

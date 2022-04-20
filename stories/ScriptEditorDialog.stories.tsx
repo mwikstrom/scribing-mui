@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { MuiThemeProvider, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useStoryTheme } from "./theme";
-import { ScriptEditorDialog } from "../src/components/ScriptEditorDialog";
+import { ScriptEditorDialog } from "../src/ScriptEditorDialog";
 
 interface StoryProps {
     dark?: boolean;

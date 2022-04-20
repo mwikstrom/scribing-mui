@@ -6,7 +6,7 @@ import { FlowEditorController } from "scribing-react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButtonProps } from "../components/ToolButton";
 import { OptionButton } from "../components/OptionButton";
-import { ScriptEditorDialog } from "../components/ScriptEditorDialog";
+import { ScriptEditorDialog } from "../ScriptEditorDialog";
 import { TextFieldDialog } from "../components/TextFieldDialog";
 import { CustomOption, CustomOptionProvider } from "../FlowEditorToolbar";
 

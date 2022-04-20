@@ -2,7 +2,7 @@ import { mdiFunctionVariant } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { FlowEditorController } from "scribing-react";
-import { ScriptEditorDialog } from "../components/ScriptEditorDialog";
+import { ScriptEditorDialog } from "../ScriptEditorDialog";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButton, ToolButtonProps } from "../components/ToolButton";
 import { Script } from "scribing";

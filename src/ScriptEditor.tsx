@@ -7,9 +7,10 @@ import { makeStyles, useTheme } from "@material-ui/styles";
 import { Theme } from "@material-ui/core";
 import { DefaultFlowPalette } from "scribing-react";
 import clsx from "clsx";
-import { scriptLanguage } from "../script/language";
-import { TypeInfo } from "../TypeInfo";
+import { scriptLanguage } from "./script/language";
+import { TypeInfo } from "./TypeInfo";
 
+/** @public */
 export interface ScriptEditorProps {
     className?: string;
     initialValue?: string;
@@ -21,6 +22,8 @@ export interface ScriptEditorProps {
 }
 
 const EMPTY_GLOBALS: Iterable<[string, TypeInfo]> = Object.freeze([]);
+
+/** @public */
 export const ScriptEditor: FC<ScriptEditorProps> = props => {
     const {
         className,

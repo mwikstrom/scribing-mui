@@ -13,7 +13,7 @@ import {
 import React, { FC, SyntheticEvent, useMemo, useState } from "react";
 import { Script } from "scribing";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
-import { ScriptEditorDialog } from "./ScriptEditorDialog";
+import { ScriptEditorDialog } from "../ScriptEditorDialog";
 
 export interface KeyValueGridProps {
     data: ReadonlyMap<string, string | Script | null>;

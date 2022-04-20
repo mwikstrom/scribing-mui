@@ -5,16 +5,17 @@ import Icon from "@mdi/react";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Script } from "scribing";
 import { FlowEditorController } from "scribing-react";
-import { useOtherScripts } from "../hooks/use-other-scripts";
-import { useScriptHostFuncs } from "../hooks/use-scripthost-funcs";
-import { useMaterialFlowLocale } from "../MaterialFlowLocale";
-import { buildGlobalAssignments, parseScript } from "../script/syntax";
-import { TypeInfo } from "../TypeInfo";
-import { ResponsiveDialog } from "./ResponsiveDialog";
+import { useOtherScripts } from "./hooks/use-other-scripts";
+import { useScriptHostFuncs } from "./hooks/use-scripthost-funcs";
+import { useMaterialFlowLocale } from "./MaterialFlowLocale";
+import { buildGlobalAssignments, parseScript } from "./script/syntax";
+import { TypeInfo } from "./TypeInfo";
+import { ResponsiveDialog } from "./components/ResponsiveDialog";
 import { ScriptEditor } from "./ScriptEditor";
-import { ScriptMessageDialog } from "./ScriptMessageDialog";
-import { ScriptMessageListDialog } from "./ScriptMessageListDialog";
+import { ScriptMessageDialog } from "./components/ScriptMessageDialog";
+import { ScriptMessageListDialog } from "./components/ScriptMessageListDialog";
 
+/** @public */
 export interface ScriptEditorDialogProps extends DialogProps {
     scriptLabel?: string;
     cancelLabel?: string;
@@ -26,6 +27,7 @@ export interface ScriptEditorDialogProps extends DialogProps {
     onComplete?: (script: Script | null) => void;
 }
 
+/** @public */
 export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     const locale = useMaterialFlowLocale();
     const {
