@@ -42,6 +42,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         controller,
         open,
         additionalGlobals,
+        maxWidth = "md",
         ...rest
     } = props;
     const hostFuncs = useScriptHostFuncs();
@@ -164,7 +165,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                 BackdropProps={{
                     transitionDuration: disableBackdropTransition ? 0 : undefined
                 }}
-                maxWidth="md"
+                maxWidth={maxWidth}
                 fullWidth
                 fullScreen={isFullScreen}
                 onFullScreen={onFullScreen}
