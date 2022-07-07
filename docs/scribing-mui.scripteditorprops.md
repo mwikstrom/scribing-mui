@@ -22,4 +22,5 @@ export interface ScriptEditorProps
 |  [label?](./scribing-mui.scripteditorprops.label.md) | string | <i>(Optional)</i> |
 |  [maxHeight?](./scribing-mui.scripteditorprops.maxheight.md) | string \| number | <i>(Optional)</i> |
 |  [onValueChange?](./scribing-mui.scripteditorprops.onvaluechange.md) | (value: string) =&gt; void | <i>(Optional)</i> |
+|  [readOnly?](./scribing-mui.scripteditorprops.readonly.md) | boolean | <i>(Optional)</i> |
 

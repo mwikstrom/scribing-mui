@@ -423,6 +423,8 @@ export interface ScriptEditorProps {
     maxHeight?: string | number;
     // (undocumented)
     onValueChange?: (value: string) => void;
+    // (undocumented)
+    readOnly?: boolean;
 }
 
 // @public (undocumented)

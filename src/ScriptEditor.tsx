@@ -2,6 +2,7 @@ import React, { FC, ReactPortal, useCallback, useEffect, useMemo, useState } fro
 import { EditorState, EditorView, basicSetup } from "@codemirror/basic-setup";
 import { indentWithTab } from "@codemirror/commands";
 import { keymap } from "@codemirror/view";
+import { Compartment } from "@codemirror/state";
 import { HighlightStyle, tags as t } from "@codemirror/highlight";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { Theme } from "@material-ui/core";
@@ -19,6 +20,7 @@ export interface ScriptEditorProps {
     label?: string;
     maxHeight?: string | number;
     globals?: Iterable<[string, TypeInfo]>;
+    readOnly?: boolean;
 }
 
 const EMPTY_GLOBALS: Iterable<[string, TypeInfo]> = Object.freeze([]);
@@ -33,6 +35,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         label,
         maxHeight,
         globals = EMPTY_GLOBALS,
+        readOnly,
     } = props;
     const [value, setValue] = useState(initialValue || "");
     const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
@@ -172,6 +175,7 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
                     scriptLanguage(globals, mountPortal),
                     editorTheme,
                     highlightStyle,
+                    ReadOnlyCompartment.of(EditorState.readOnly.of(false)),
                 ],
             }),
             dispatch: transaction => {
@@ -196,10 +200,20 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
     }, [editor]);
     
     useEffect(() => {
-        if (editor && autoFocus) {
+        if (editor && autoFocus && !readOnly) {
             editor.focus();
         }
-    }, [editor, autoFocus]);
+    }, [editor, autoFocus, readOnly]);
+
+    useEffect(() => {
+        if (editor) {
+            editor.dispatch({
+                effects: [
+                    ReadOnlyCompartment.reconfigure(EditorState.readOnly.of(Boolean(readOnly))),
+                ],
+            });            
+        }
+    }, [readOnly, editor]);
 
     useEffect(() => {
         const changeArray = [...portalArrayChanges];
@@ -242,6 +256,8 @@ export const ScriptEditor: FC<ScriptEditorProps> = props => {
         </>
     );
 };
+
+const ReadOnlyCompartment = new Compartment();
 
 const useStyles = makeStyles((theme: Theme) => {
     const borderColor = theme.palette.type === "light" ? "rgba(0, 0, 0, 0.23)" : "rgba(255, 255, 255, 0.23)";    

@@ -2,13 +2,13 @@ import React, { FC, useMemo, useCallback, useEffect, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Box, Button, CssBaseline, MuiThemeProvider, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { ScriptEditor } from "../src/ScriptEditor";
+import { ScriptEditor, ScriptEditorProps } from "../src/ScriptEditor";
 import { useStoryTheme } from "./theme";
 import { createBrowserScriptHost, ScriptHostScope, useScriptHost } from "scripthost-react";
 import { ScriptFunction } from "scripthost";
 import { ParamInfoTipRenderProps, TypeInfo } from "../src/TypeInfo";
 
-interface StoryProps {
+interface StoryProps extends Omit<ScriptEditorProps, "className" | "initialValue" | "globals"> {
     dark?: boolean;
 }
 
@@ -33,7 +33,7 @@ TypeInfo.annotate(myFunc, TypeInfo.function([
     { renderInfoTip: props => <MyParamInfo {...props}/> },
 ]));
 
-const Root: FC<Omit<StoryProps, "dark">> = () => {
+const Root: FC<Omit<StoryProps, "dark">> = props => {
     const classes = useStyles();
     const host = useScriptHost();
     const globals = useMemo(() => {
@@ -48,6 +48,7 @@ const Root: FC<Omit<StoryProps, "dark">> = () => {
     return (
         <div className={classes.root}>
             <ScriptEditor
+                {...props}
                 className={classes.editor}
                 initialValue={SCRIPT_TEXT}
                 globals={globals}
@@ -121,3 +122,9 @@ Light.args = {};
 
 export const Dark = Template.bind({});
 Dark.args = { dark: true };
+
+export const LightReadOnly = Template.bind({});
+LightReadOnly.args = { readOnly: true, autoFocus: true };
+
+export const DarkReadOnly = Template.bind({});
+DarkReadOnly.args = { dark: true, readOnly: true, autoFocus: true };
