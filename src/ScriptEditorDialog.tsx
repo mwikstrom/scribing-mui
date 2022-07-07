@@ -11,7 +11,7 @@ import { useMaterialFlowLocale } from "./MaterialFlowLocale";
 import { buildGlobalAssignments, parseScript } from "./script/syntax";
 import { TypeInfo } from "./TypeInfo";
 import { ResponsiveDialog } from "./components/ResponsiveDialog";
-import { ScriptEditor } from "./components/ScriptEditor";
+import { ScriptEditor } from "./ScriptEditor";
 import { ScriptMessageDialog } from "./components/ScriptMessageDialog";
 import { ScriptMessageListDialog } from "./components/ScriptMessageListDialog";
 
