@@ -23,6 +23,9 @@ export const BoxSourceButton: FC<BoxSourceButtonProps> = props => {
             controller?.formatBox("source", script);
         }
     }, [controller, closeDialog]);
+    const saveScript = useCallback((value: Script) => {
+        controller?.formatBox("source", value);
+    }, [controller]);
     const disabled = useMemo(() => {
         if (!controller || frozen) {
             return true;
@@ -49,6 +52,7 @@ export const BoxSourceButton: FC<BoxSourceButtonProps> = props => {
                 lang={lang}
                 onClose={closeDialog}
                 onComplete={completeDialog}
+                onSave={saveScript}
                 scriptLabel={locale.label_data_source}
                 completeLabel={locale.button_apply}
                 controller={controller}

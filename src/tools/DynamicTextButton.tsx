@@ -30,6 +30,11 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
             }
         }
     }, [controller, closeDialog]);
+    const saveScript = useCallback((value: Script) => {
+        if (controller && !controller.isCaret()) {
+            controller.setDynamicTextExpression(value);
+        }
+    }, [controller]);
     const disabled = useMemo(() => {
         if (!controller || frozen) {
             return true;
@@ -60,6 +65,7 @@ export const DynamicTextButton: FC<DynamicTextButtonProps> = props => {
                 lang={lang}
                 onClose={closeDialog}
                 onComplete={completeDialog}
+                onSave={saveScript}
                 scriptLabel={locale.label_dynamic_text_script}
                 completeLabel={active ? locale.button_apply : locale.button_insert}
                 controller={controller}

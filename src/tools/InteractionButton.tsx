@@ -99,6 +99,10 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
         setDialog(null);
     }, [controller]);
 
+    const saveRunScript = useCallback((value: Script) => {
+        controller?.setInteraction(new RunScript({ script: value }));
+    }, [controller]);
+
     const setOpenUrl = useCallback((value: string | null) => {
         if (value !== null) {
             controller?.setInteraction(new OpenUrl({ url: value }));
@@ -126,6 +130,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
                     initialValue={interaction instanceof RunScript ? interaction.script : null}
                     lang={lang}
                     onComplete={setRunScript}
+                    onSave={saveRunScript}
                     onClose={closeDialog}
                     scriptLabel={locale.interaction_run_script}
                     controller={controller}
