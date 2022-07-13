@@ -105,7 +105,25 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         }
     }, [onComplete]);
     
-    const didChange = code !== (initialValue?.code || "");
+    const didChange = useMemo(() => {
+        if (!initialValue) {
+            return !!code || messages.size > 0;
+        } else if (code !== initialValue.code) {
+            return true;
+        } else if (messages === initialValue.messages) {
+            return false;
+        } else if (messages.size !== initialValue.messages.size) {
+            return true;
+        } else {
+            for (const [key, value] of messages) {
+                const before = initialValue.messages.get(key);
+                if (value !== before) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }, [code, messages, initialValue]);
 
     const onClose = useCallback<Required<DialogProps>["onClose"]>((...args) => {
         if (onCloseOuter && !didChange) {
