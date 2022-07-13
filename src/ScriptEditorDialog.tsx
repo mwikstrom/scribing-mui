@@ -25,6 +25,7 @@ export interface ScriptEditorDialogProps extends DialogProps {
     idempotent?: boolean;
     controller?: FlowEditorController | null;
     onComplete?: (script: Script | null) => void;
+    onSave?: (script: Script) => void;
     additionalGlobals?: Iterable<[string, TypeInfo]>;
 }
 
@@ -33,6 +34,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     const locale = useMaterialFlowLocale();
     const {
         onComplete,
+        onSave,
         initialValue = null,
         scriptLabel,
         cancelLabel = locale.button_cancel,
@@ -162,6 +164,24 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         }
     }, []);
 
+    const [innerRef, setInnerRef] = useState<HTMLElement | null>(null);
+    const keyHandler = useCallback((e: KeyboardEvent) => {
+        if (e.ctrlKey && e.key === "s" && !e.shiftKey && !e.altKey) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (didChange && onSave) {
+                onSave(new Script({code, messages}));
+            }
+        }
+    }, [didChange, onSave, code, messages]);
+
+    useEffect(() => {
+        if (innerRef) {
+            innerRef.addEventListener("keydown", keyHandler);
+            return () => innerRef.removeEventListener("keydown", keyHandler);
+        }
+    }, [innerRef, keyHandler]);
+
     const [disableBackdropTransition, setDiableBackdropTransition] = useState(false);
 
     useEffect(() => {
@@ -188,8 +208,9 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                 onClose={onClose}
                 disableEscapeKeyDown={didChange}
                 hideBackdrop={editMessage !== false}
+                innerRef={setInnerRef}
                 BackdropProps={{
-                    transitionDuration: disableBackdropTransition ? 0 : undefined
+                    transitionDuration: disableBackdropTransition ? 0 : undefined,
                 }}
                 maxWidth={maxWidth}
                 fullWidth

@@ -41,6 +41,7 @@ const Root: FC<Omit<StoryProps, "dark">> = () => {
                     open={open}
                     onClose={toggle}
                     onComplete={complete}
+                    onSave={setValue}
                     initialValue={value}
                     scriptLabel="Script code"
                 />
