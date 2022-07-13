@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { MuiThemeProvider, Theme } from "@material-ui/core";
+import { Box, Button, MuiThemeProvider, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useStoryTheme } from "./theme";
 import { ScriptEditorDialog } from "../src/ScriptEditorDialog";
+import { Script } from "scribing";
 
 interface StoryProps {
     dark?: boolean;
@@ -21,9 +22,29 @@ const Story: FC<StoryProps> = props => {
 
 const Root: FC<Omit<StoryProps, "dark">> = () => {
     const classes = useStyles();
+    const [open, setOpen] = useState(true);
+    const [value, setValue] = useState<Script | null>(null);
+    const toggle = useCallback(() => setOpen(before => !before), []);
+    const complete = useCallback((result: Script | null) => {
+        if (result) {
+            setValue(result);
+        }
+        setOpen(false);
+    }, []);
     return (
         <div className={classes.root}>
-            <ScriptEditorDialog open scriptLabel="Script code"/>
+            <Box p={2}>
+                <Button disabled={open} onClick={toggle}>Open dialog</Button>
+            </Box>
+            {open && (
+                <ScriptEditorDialog
+                    open={open}
+                    onClose={toggle}
+                    onComplete={complete}
+                    initialValue={value}
+                    scriptLabel="Script code"
+                />
+            )}
         </div>
     );
 };

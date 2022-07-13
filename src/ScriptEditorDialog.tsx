@@ -43,6 +43,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         open,
         additionalGlobals,
         maxWidth = "md",
+        onClose: onCloseOuter,
         ...rest
     } = props;
     const hostFuncs = useScriptHostFuncs();
@@ -105,6 +106,12 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     }, [onComplete]);
     
     const didChange = code !== (initialValue?.code || "");
+
+    const onClose = useCallback<Required<DialogProps>["onClose"]>((...args) => {
+        if (onCloseOuter && !didChange) {
+            onCloseOuter(...args);
+        }
+    }, [onCloseOuter, didChange]);
     
     const onFullScreen = useCallback((value: boolean, implied: boolean) => {
         if (implied) {
@@ -160,6 +167,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
             <ResponsiveDialog 
                 {...rest}
                 scroll="paper"
+                onClose={onClose}
                 disableEscapeKeyDown={didChange}
                 hideBackdrop={editMessage !== false}
                 BackdropProps={{
