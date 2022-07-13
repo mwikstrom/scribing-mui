@@ -24,5 +24,6 @@ export interface ScriptEditorDialogProps extends DialogProps
 |  [initialValue?](./scribing-mui.scripteditordialogprops.initialvalue.md) |  | Script \| null | <i>(Optional)</i> |
 |  [lang?](./scribing-mui.scripteditordialogprops.lang.md) |  | string | <i>(Optional)</i> |
 |  [onComplete?](./scribing-mui.scripteditordialogprops.oncomplete.md) |  | (script: Script \| null) =&gt; void | <i>(Optional)</i> |
+|  [onSave?](./scribing-mui.scripteditordialogprops.onsave.md) |  | (script: Script) =&gt; void | <i>(Optional)</i> |
 |  [scriptLabel?](./scribing-mui.scripteditordialogprops.scriptlabel.md) |  | string | <i>(Optional)</i> |
 

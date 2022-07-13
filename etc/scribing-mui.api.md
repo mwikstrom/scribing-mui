@@ -404,6 +404,8 @@ export interface ScriptEditorDialogProps extends DialogProps {
     // (undocumented)
     onComplete?: (script: Script | null) => void;
     // (undocumented)
+    onSave?: (script: Script) => void;
+    // (undocumented)
     scriptLabel?: string;
 }
 
