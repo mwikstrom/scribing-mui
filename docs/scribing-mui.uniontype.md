@@ -14,7 +14,7 @@ export interface UnionType extends TypeDecl<"union">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [union](./scribing-mui.uniontype.union.md) | readonly [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\[\] |  |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [union](./scribing-mui.uniontype.union.md) |  | readonly [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\[\] |  |
 

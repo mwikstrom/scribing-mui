@@ -14,7 +14,7 @@ export interface BooleanType extends TypeDecl<"boolean">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [value?](./scribing-mui.booleantype.value.md) | boolean | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [value?](./scribing-mui.booleantype.value.md) |  | boolean | <i>(Optional)</i> |
 

@@ -125,11 +125,11 @@ export const TypeInfo = Object.freeze({
     scope: <T extends TypeInfo>(scope: string, type: T): T => Object.freeze({
         ...type,
         scope,
-    }),
+    }) as unknown as T,
     desc: <T extends TypeInfo>(desc: string, type: T): T => Object.freeze({
         ...type,
         desc,
-    }), 
+    }) as unknown as T, 
     booleanValue: (value: boolean): BooleanType => Object.freeze({
         decl: "boolean",
         value,

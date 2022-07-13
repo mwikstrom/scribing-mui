@@ -13,9 +13,9 @@ export interface MarkupUpdateInfo
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [attr?](./scribing-mui.markupupdateinfo.attr.md) | ReadonlyMap&lt;string, string \| Script \| null \| [UnsetAttribute](./scribing-mui.unsetattribute.md)<!-- -->&gt; | <i>(Optional)</i> |
-|  [empty?](./scribing-mui.markupupdateinfo.empty.md) | boolean | <i>(Optional)</i> |
-|  [tag?](./scribing-mui.markupupdateinfo.tag.md) | string | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [attr?](./scribing-mui.markupupdateinfo.attr.md) |  | ReadonlyMap&lt;string, string \| Script \| null \| [UnsetAttribute](./scribing-mui.unsetattribute.md)<!-- -->&gt; | <i>(Optional)</i> |
+|  [empty?](./scribing-mui.markupupdateinfo.empty.md) |  | boolean | <i>(Optional)</i> |
+|  [tag?](./scribing-mui.markupupdateinfo.tag.md) |  | string | <i>(Optional)</i> |
 

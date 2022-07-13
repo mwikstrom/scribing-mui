@@ -14,8 +14,8 @@ export interface ClassType extends TypeDecl<"class">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [ctor](./scribing-mui.classtype.ctor.md) | [FunctionType](./scribing-mui.functiontype.md) |  |
-|  [props?](./scribing-mui.classtype.props.md) | Record&lt;string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->&gt; | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [ctor](./scribing-mui.classtype.ctor.md) |  | [FunctionType](./scribing-mui.functiontype.md) |  |
+|  [props?](./scribing-mui.classtype.props.md) |  | Record&lt;string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->&gt; | <i>(Optional)</i> |
 

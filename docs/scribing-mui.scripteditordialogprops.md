@@ -14,15 +14,15 @@ export interface ScriptEditorDialogProps extends DialogProps
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [additionalGlobals?](./scribing-mui.scripteditordialogprops.additionalglobals.md) | Iterable&lt;\[string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\]&gt; | <i>(Optional)</i> |
-|  [cancelLabel?](./scribing-mui.scripteditordialogprops.cancellabel.md) | string | <i>(Optional)</i> |
-|  [completeLabel?](./scribing-mui.scripteditordialogprops.completelabel.md) | string | <i>(Optional)</i> |
-|  [controller?](./scribing-mui.scripteditordialogprops.controller.md) | FlowEditorController \| null | <i>(Optional)</i> |
-|  [idempotent?](./scribing-mui.scripteditordialogprops.idempotent.md) | boolean | <i>(Optional)</i> |
-|  [initialValue?](./scribing-mui.scripteditordialogprops.initialvalue.md) | Script \| null | <i>(Optional)</i> |
-|  [lang?](./scribing-mui.scripteditordialogprops.lang.md) | string | <i>(Optional)</i> |
-|  [onComplete?](./scribing-mui.scripteditordialogprops.oncomplete.md) | (script: Script \| null) =&gt; void | <i>(Optional)</i> |
-|  [scriptLabel?](./scribing-mui.scripteditordialogprops.scriptlabel.md) | string | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [additionalGlobals?](./scribing-mui.scripteditordialogprops.additionalglobals.md) |  | Iterable&lt;\[string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\]&gt; | <i>(Optional)</i> |
+|  [cancelLabel?](./scribing-mui.scripteditordialogprops.cancellabel.md) |  | string | <i>(Optional)</i> |
+|  [completeLabel?](./scribing-mui.scripteditordialogprops.completelabel.md) |  | string | <i>(Optional)</i> |
+|  [controller?](./scribing-mui.scripteditordialogprops.controller.md) |  | FlowEditorController \| null | <i>(Optional)</i> |
+|  [idempotent?](./scribing-mui.scripteditordialogprops.idempotent.md) |  | boolean | <i>(Optional)</i> |
+|  [initialValue?](./scribing-mui.scripteditordialogprops.initialvalue.md) |  | Script \| null | <i>(Optional)</i> |
+|  [lang?](./scribing-mui.scripteditordialogprops.lang.md) |  | string | <i>(Optional)</i> |
+|  [onComplete?](./scribing-mui.scripteditordialogprops.oncomplete.md) |  | (script: Script \| null) =&gt; void | <i>(Optional)</i> |
+|  [scriptLabel?](./scribing-mui.scripteditordialogprops.scriptlabel.md) |  | string | <i>(Optional)</i> |
 

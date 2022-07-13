@@ -13,9 +13,9 @@ export interface MarkupInfo
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [attr](./scribing-mui.markupinfo.attr.md) | ReadonlyMap&lt;string, string \| Script \| null&gt; \| null |  |
-|  [empty](./scribing-mui.markupinfo.empty.md) | boolean \| null |  |
-|  [tag](./scribing-mui.markupinfo.tag.md) | string \| null |  |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [attr](./scribing-mui.markupinfo.attr.md) |  | ReadonlyMap&lt;string, string \| Script \| null&gt; \| null |  |
+|  [empty](./scribing-mui.markupinfo.empty.md) |  | boolean \| null |  |
+|  [tag](./scribing-mui.markupinfo.tag.md) |  | string \| null |  |
 

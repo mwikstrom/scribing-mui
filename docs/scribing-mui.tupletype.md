@@ -14,7 +14,7 @@ export interface TupleType extends TypeDecl<"tuple">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [itemTypes](./scribing-mui.tupletype.itemtypes.md) | readonly [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\[\] |  |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [itemTypes](./scribing-mui.tupletype.itemtypes.md) |  | readonly [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\[\] |  |
 

@@ -14,7 +14,7 @@ export interface PromiseType extends TypeDecl<"promise">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [resolveType?](./scribing-mui.promisetype.resolvetype.md) | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [resolveType?](./scribing-mui.promisetype.resolvetype.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
 

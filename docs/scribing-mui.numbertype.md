@@ -14,7 +14,7 @@ export interface NumberType extends TypeDecl<"number">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [value?](./scribing-mui.numbertype.value.md) | number | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [value?](./scribing-mui.numbertype.value.md) |  | number | <i>(Optional)</i> |
 

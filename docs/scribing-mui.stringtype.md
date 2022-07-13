@@ -14,7 +14,7 @@ export interface StringType extends TypeDecl<"string">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [value?](./scribing-mui.stringtype.value.md) | string | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [value?](./scribing-mui.stringtype.value.md) |  | string | <i>(Optional)</i> |
 

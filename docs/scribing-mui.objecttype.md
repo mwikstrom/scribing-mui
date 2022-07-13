@@ -14,7 +14,7 @@ export interface ObjectType extends TypeDecl<"object">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [props?](./scribing-mui.objecttype.props.md) | Record&lt;string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->&gt; | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [props?](./scribing-mui.objecttype.props.md) |  | Record&lt;string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->&gt; | <i>(Optional)</i> |
 

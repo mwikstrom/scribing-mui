@@ -13,11 +13,11 @@ export interface ParamInfo
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [name?](./scribing-mui.paraminfo.name.md) | string | <i>(Optional)</i> |
-|  [optional?](./scribing-mui.paraminfo.optional.md) | boolean | <i>(Optional)</i> |
-|  [renderInfoTip?](./scribing-mui.paraminfo.renderinfotip.md) | (props: [ParamInfoTipRenderProps](./scribing-mui.paraminfotiprenderprops.md)<!-- -->) =&gt; ReactNode | <i>(Optional)</i> |
-|  [spread?](./scribing-mui.paraminfo.spread.md) | boolean | <i>(Optional)</i> |
-|  [type?](./scribing-mui.paraminfo.type.md) | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [name?](./scribing-mui.paraminfo.name.md) |  | string | <i>(Optional)</i> |
+|  [optional?](./scribing-mui.paraminfo.optional.md) |  | boolean | <i>(Optional)</i> |
+|  [renderInfoTip?](./scribing-mui.paraminfo.renderinfotip.md) |  | (props: [ParamInfoTipRenderProps](./scribing-mui.paraminfotiprenderprops.md)<!-- -->) =&gt; ReactNode | <i>(Optional)</i> |
+|  [spread?](./scribing-mui.paraminfo.spread.md) |  | boolean | <i>(Optional)</i> |
+|  [type?](./scribing-mui.paraminfo.type.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
 

@@ -13,13 +13,13 @@ export interface ParamInfoTipRenderProps
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [constantValue](./scribing-mui.paraminfotiprenderprops.constantvalue.md) | unknown |  |
-|  [funcType](./scribing-mui.paraminfotiprenderprops.functype.md) | [FunctionType](./scribing-mui.functiontype.md) |  |
-|  [hasConstantValue](./scribing-mui.paraminfotiprenderprops.hasconstantvalue.md) | boolean |  |
-|  [onApplyConstantValue](./scribing-mui.paraminfotiprenderprops.onapplyconstantvalue.md) | (value: unknown) =&gt; boolean |  |
-|  [onUpdateLayout](./scribing-mui.paraminfotiprenderprops.onupdatelayout.md) | () =&gt; void |  |
-|  [paramIndex](./scribing-mui.paraminfotiprenderprops.paramindex.md) | number |  |
-|  [paramInfo](./scribing-mui.paraminfotiprenderprops.paraminfo.md) | [ParamInfo](./scribing-mui.paraminfo.md) |  |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [constantValue](./scribing-mui.paraminfotiprenderprops.constantvalue.md) |  | unknown |  |
+|  [funcType](./scribing-mui.paraminfotiprenderprops.functype.md) |  | [FunctionType](./scribing-mui.functiontype.md) |  |
+|  [hasConstantValue](./scribing-mui.paraminfotiprenderprops.hasconstantvalue.md) |  | boolean |  |
+|  [onApplyConstantValue](./scribing-mui.paraminfotiprenderprops.onapplyconstantvalue.md) |  | (value: unknown) =&gt; boolean |  |
+|  [onUpdateLayout](./scribing-mui.paraminfotiprenderprops.onupdatelayout.md) |  | () =&gt; void |  |
+|  [paramIndex](./scribing-mui.paraminfotiprenderprops.paramindex.md) |  | number |  |
+|  [paramInfo](./scribing-mui.paraminfotiprenderprops.paraminfo.md) |  | [ParamInfo](./scribing-mui.paraminfo.md) |  |
 

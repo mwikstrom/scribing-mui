@@ -14,8 +14,8 @@ export interface FunctionType extends TypeDecl<"function">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [params?](./scribing-mui.functiontype.params.md) | readonly [ParamInfo](./scribing-mui.paraminfo.md)<!-- -->\[\] | <i>(Optional)</i> |
-|  [returnType?](./scribing-mui.functiontype.returntype.md) | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [params?](./scribing-mui.functiontype.params.md) |  | readonly [ParamInfo](./scribing-mui.paraminfo.md)<!-- -->\[\] | <i>(Optional)</i> |
+|  [returnType?](./scribing-mui.functiontype.returntype.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
 

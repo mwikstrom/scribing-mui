@@ -14,7 +14,7 @@ export interface ArrayType extends TypeDecl<"array">
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [itemType?](./scribing-mui.arraytype.itemtype.md) | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [itemType?](./scribing-mui.arraytype.itemtype.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
 

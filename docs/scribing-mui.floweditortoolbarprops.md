@@ -13,15 +13,15 @@ export interface FlowEditorToolbarProps
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [className?](./scribing-mui.floweditortoolbarprops.classname.md) | string | <i>(Optional)</i> |
-|  [controller?](./scribing-mui.floweditortoolbarprops.controller.md) | FlowEditorController \| null | <i>(Optional)</i> |
-|  [frozen?](./scribing-mui.floweditortoolbarprops.frozen.md) | boolean | <i>(Optional)</i> |
-|  [getCustomInteractionOptions?](./scribing-mui.floweditortoolbarprops.getcustominteractionoptions.md) | [CustomOptionProvider](./scribing-mui.customoptionprovider.md)<!-- -->&lt;Interaction \| null&gt; | <i>(Optional)</i> |
-|  [getCustomMarkupOptions?](./scribing-mui.floweditortoolbarprops.getcustommarkupoptions.md) | [CustomOptionProvider](./scribing-mui.customoptionprovider.md)<!-- -->&lt;[MarkupInfo](./scribing-mui.markupinfo.md) \| null, [MarkupUpdateInfo](./scribing-mui.markupupdateinfo.md)<!-- -->&gt; | <i>(Optional)</i> |
-|  [onCheckIn?](./scribing-mui.floweditortoolbarprops.oncheckin.md) | () =&gt; void | <i>(Optional)</i> |
-|  [onCheckOut?](./scribing-mui.floweditortoolbarprops.oncheckout.md) | () =&gt; void | <i>(Optional)</i> |
-|  [onReset?](./scribing-mui.floweditortoolbarprops.onreset.md) | () =&gt; void | <i>(Optional)</i> |
-|  [source?](./scribing-mui.floweditortoolbarprops.source.md) | [EditorSourceState](./scribing-mui.editorsourcestate.md) | <i>(Optional)</i> |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [className?](./scribing-mui.floweditortoolbarprops.classname.md) |  | string | <i>(Optional)</i> |
+|  [controller?](./scribing-mui.floweditortoolbarprops.controller.md) |  | FlowEditorController \| null | <i>(Optional)</i> |
+|  [frozen?](./scribing-mui.floweditortoolbarprops.frozen.md) |  | boolean | <i>(Optional)</i> |
+|  [getCustomInteractionOptions?](./scribing-mui.floweditortoolbarprops.getcustominteractionoptions.md) |  | [CustomOptionProvider](./scribing-mui.customoptionprovider.md)<!-- -->&lt;Interaction \| null&gt; | <i>(Optional)</i> |
+|  [getCustomMarkupOptions?](./scribing-mui.floweditortoolbarprops.getcustommarkupoptions.md) |  | [CustomOptionProvider](./scribing-mui.customoptionprovider.md)<!-- -->&lt;[MarkupInfo](./scribing-mui.markupinfo.md) \| null, [MarkupUpdateInfo](./scribing-mui.markupupdateinfo.md)<!-- -->&gt; | <i>(Optional)</i> |
+|  [onCheckIn?](./scribing-mui.floweditortoolbarprops.oncheckin.md) |  | () =&gt; void | <i>(Optional)</i> |
+|  [onCheckOut?](./scribing-mui.floweditortoolbarprops.oncheckout.md) |  | () =&gt; void | <i>(Optional)</i> |
+|  [onReset?](./scribing-mui.floweditortoolbarprops.onreset.md) |  | () =&gt; void | <i>(Optional)</i> |
+|  [source?](./scribing-mui.floweditortoolbarprops.source.md) |  | [EditorSourceState](./scribing-mui.editorsourcestate.md) | <i>(Optional)</i> |
 

@@ -13,8 +13,8 @@ export interface MaterialFlowLocaleProps
 
 ## Properties
 
-|  Property | Type | Description |
-|  --- | --- | --- |
-|  [children](./scribing-mui.materialflowlocaleprops.children.md) | ReactNode |  |
-|  [locale](./scribing-mui.materialflowlocaleprops.locale.md) | Partial&lt;[MaterialFlowLocale](./scribing-mui.materialflowlocale.md)<!-- -->&gt; |  |
+|  Property | Modifiers | Type | Description |
+|  --- | --- | --- | --- |
+|  [children](./scribing-mui.materialflowlocaleprops.children.md) |  | ReactNode |  |
+|  [locale](./scribing-mui.materialflowlocaleprops.locale.md) |  | Partial&lt;[MaterialFlowLocale](./scribing-mui.materialflowlocale.md)<!-- -->&gt; |  |
 
