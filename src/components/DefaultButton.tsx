@@ -156,6 +156,12 @@ const decorateColorStyle = (style: Record<string, unknown>, palette: Theme["pale
         },
         "&.MuiButton-contained": {
             backgroundColor: palette.action.disabledBackground,
+            "& .ScribingFlowIcon-root": {
+                color: palette.action.disabled,
+            },            
+        },
+        "& .ScribingFlowIcon-root": {
+            color: palette.action.disabled,
         },
     }
 });
@@ -178,6 +184,9 @@ const makeColorStyleCore = (color: PickedColor, palette: Theme["palette"]) => ({
         color: color.contrastText,
         "&:hover": {
             backgroundColor: color.dark,
-        }
+        },
+        "& .ScribingFlowIcon-root": {
+            color: color.contrastText,
+        },
     },
 });

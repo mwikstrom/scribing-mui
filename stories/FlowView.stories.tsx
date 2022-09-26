@@ -65,8 +65,10 @@ export default {
     component: Story,
 } as ComponentMeta<typeof Story>;
 
+const icon = { icon: "@mdi/power" };
+
 const btn = (text: string, variant: BoxVariant = "outlined", color: FlowColor = "default") => ({
-    box: [text],
+    box: [icon, " " + text],
     style: {
         variant,
         color,
@@ -75,7 +77,7 @@ const btn = (text: string, variant: BoxVariant = "outlined", color: FlowColor = 
 });
 
 const disabled = (text: string, variant: BoxVariant = "outlined", color: FlowColor = "default") => ({
-    box: [text],
+    box: [icon, " " + text],
     style: {
         variant,
         color,

@@ -1,3 +1,7 @@
+## 1.2.1 - 2022-09-26
+
+- Fix color of icon inside button
+
 ## 1.2.0 - 2022-07-13
 
 - Prevent accidental close of script editor dialog
