@@ -17,15 +17,19 @@ export const BoxSourceButton: FC<BoxSourceButtonProps> = props => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const openDialog = useCallback(() => setDialogOpen(true), []);
     const closeDialog = useCallback(() => setDialogOpen(false), []);    
+    const saveScript = useCallback((value: Script) => {
+        if (/^\s*(?:\{\s*\}\s*)?$/.test(value.code) && value.messages.size === 0) {
+            controller?.formatBox("source", null);
+        } else {
+            controller?.formatBox("source", value);
+        }
+    }, [controller]);
     const completeDialog = useCallback((script: Script | null) => {
         closeDialog();
         if (script !== null) {
-            controller?.formatBox("source", script);
+            saveScript(script);
         }
-    }, [controller, closeDialog]);
-    const saveScript = useCallback((value: Script) => {
-        controller?.formatBox("source", value);
-    }, [controller]);
+    }, [closeDialog, saveScript]);
     const disabled = useMemo(() => {
         if (!controller || frozen) {
             return true;

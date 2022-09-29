@@ -1,3 +1,7 @@
+## 1.2.2 - 2022-09-29
+
+- Fix: Unset box data source when empty
+
 ## 1.2.1 - 2022-09-26
 
 - Fix color of icon inside button
