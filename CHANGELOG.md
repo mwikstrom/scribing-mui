@@ -1,3 +1,7 @@
+## 1.3.0 - 2022-11-28
+
+- New feature: Apply changes from custom option dialog without closing it
+
 ## 1.2.2 - 2022-09-29
 
 - Fix: Unset box data source when empty

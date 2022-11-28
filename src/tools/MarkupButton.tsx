@@ -141,7 +141,7 @@ export const MarkupButton: FC<MarkupButtonProps> = props => {
                 typeof dialog === "object" && 
                 dialog !== null && 
                 typeof dialog.renderDialog === "function" && 
-                dialog.renderDialog(current, completeDialog)
+                dialog.renderDialog(current, completeDialog, applyUpdate)
             }
         </>
     );

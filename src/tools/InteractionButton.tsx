@@ -85,12 +85,16 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
 
     const closeDialog = useCallback(() => setDialog(null), []);
 
-    const setInteraction = useCallback((value: Interaction | null | undefined) => {
-        if (value !== undefined) {
-            controller?.setInteraction(value);
-        }
-        setDialog(null);
+    const applyDialog = useCallback((value: Interaction | null) => {
+        controller?.setInteraction(value);
     }, [controller]);
+
+    const completeDialog = useCallback((value: Interaction | null | undefined) => {
+        if (value !== undefined) {
+            applyDialog(value);
+        }
+        closeDialog();
+    }, [applyDialog, closeDialog]);
 
     const setRunScript = useCallback((value: Script | null) => {
         if (value !== null) {
@@ -152,7 +156,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
                 typeof dialog === "object" && 
                 dialog !== null && 
                 typeof dialog.renderDialog === "function" && 
-                dialog.renderDialog(interaction || null, setInteraction)
+                dialog.renderDialog(interaction || null, completeDialog, applyDialog)
             }
         </>
     );

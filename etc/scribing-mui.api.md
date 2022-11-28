@@ -50,7 +50,7 @@ export interface CustomOption<T, U = T> {
     // (undocumented)
     label: string;
     // (undocumented)
-    renderDialog?: (current: T, onClose: (result: U | undefined) => void) => ReactNode;
+    renderDialog?: (current: T, onClose: (result: U | undefined) => void, onApply: (update: U) => void) => ReactNode;
     // (undocumented)
     selected: boolean;
 }

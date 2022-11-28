@@ -102,7 +102,11 @@ export interface CustomOption<T, U = T> {
     label: string;
     selected: boolean;
     getResult?: (current: T) => U | undefined;
-    renderDialog?: (current: T, onClose: (result: U | undefined) => void) => ReactNode;
+    renderDialog?: (
+        current: T,
+        onClose: (result: U | undefined) => void,
+        onApply: (update: U) => void,
+    ) => ReactNode;
 }
 
 // TODO: FIX CUT/COPY/PASTE

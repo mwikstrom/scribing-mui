@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-renderDialog?: (current: T, onClose: (result: U | undefined) => void) => ReactNode;
+renderDialog?: (current: T, onClose: (result: U | undefined) => void, onApply: (update: U) => void) => ReactNode;
 ```

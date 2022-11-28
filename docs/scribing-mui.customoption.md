@@ -18,6 +18,6 @@ export interface CustomOption<T, U = T>
 |  [getResult?](./scribing-mui.customoption.getresult.md) |  | (current: T) =&gt; U \| undefined | <i>(Optional)</i> |
 |  [key](./scribing-mui.customoption.key.md) |  | string |  |
 |  [label](./scribing-mui.customoption.label.md) |  | string |  |
-|  [renderDialog?](./scribing-mui.customoption.renderdialog.md) |  | (current: T, onClose: (result: U \| undefined) =&gt; void) =&gt; ReactNode | <i>(Optional)</i> |
+|  [renderDialog?](./scribing-mui.customoption.renderdialog.md) |  | (current: T, onClose: (result: U \| undefined) =&gt; void, onApply: (update: U) =&gt; void) =&gt; ReactNode | <i>(Optional)</i> |
 |  [selected](./scribing-mui.customoption.selected.md) |  | boolean |  |
 
