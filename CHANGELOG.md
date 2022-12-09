@@ -1,3 +1,7 @@
+## 1.4.0 - 2022-12-09
+
+- New feature: `<CodeEditor>`
+
 ## 1.3.0 - 2022-11-28
 
 - New feature: Apply changes from custom option dialog without closing it

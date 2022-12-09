@@ -20,6 +20,7 @@ Material-UI components for collaborative rich text editing
 |  [ArrayType](./scribing-mui.arraytype.md) |  |
 |  [BooleanType](./scribing-mui.booleantype.md) |  |
 |  [ClassType](./scribing-mui.classtype.md) |  |
+|  [CodeEditorProps](./scribing-mui.codeeditorprops.md) |  |
 |  [CustomOption](./scribing-mui.customoption.md) |  |
 |  [FlowEditorToolbarProps](./scribing-mui.floweditortoolbarprops.md) |  |
 |  [FunctionType](./scribing-mui.functiontype.md) |  |
@@ -43,6 +44,7 @@ Material-UI components for collaborative rich text editing
 
 |  Variable | Description |
 |  --- | --- |
+|  [CodeEditor](./scribing-mui.codeeditor.md) |  |
 |  [DefaultMaterialFlowLocale](./scribing-mui.defaultmaterialflowlocale.md) |  |
 |  [FlowEditorToolbar](./scribing-mui.floweditortoolbar.md) |  |
 |  [MaterialFlowLocale](./scribing-mui.materialflowlocale.md) |  |

@@ -12,6 +12,7 @@ import { FlowEditorController } from 'scribing-react';
 import { FlowLocale } from 'scribing-react';
 import { FontFamily } from 'scribing';
 import { Interaction } from 'scribing';
+import { LanguageSupport } from '@codemirror/language';
 import { ParagraphVariant } from 'scribing';
 import { ReactNode } from 'react';
 import { ScribingComponents } from 'scribing-react';
@@ -39,6 +40,31 @@ export interface ClassType extends TypeDecl<"class"> {
     ctor: FunctionType;
     // (undocumented)
     props?: Record<string, TypeInfo>;
+}
+
+// @public (undocumented)
+export const CodeEditor: FC<CodeEditorProps>;
+
+// @public (undocumented)
+export interface CodeEditorProps {
+    // (undocumented)
+    autoFocus?: boolean;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    initialValue?: string;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
+    language?: LanguageSupport;
+    // (undocumented)
+    maxHeight?: string | number;
+    // (undocumented)
+    onValueChange?: (value: string) => void;
+    // (undocumented)
+    parse?: (value: string) => Error | null | void;
+    // (undocumented)
+    readOnly?: boolean;
 }
 
 // @public (undocumented)
@@ -410,23 +436,9 @@ export interface ScriptEditorDialogProps extends DialogProps {
 }
 
 // @public (undocumented)
-export interface ScriptEditorProps {
-    // (undocumented)
-    autoFocus?: boolean;
-    // (undocumented)
-    className?: string;
+export interface ScriptEditorProps extends Omit<CodeEditorProps, "parse" | "language"> {
     // (undocumented)
     globals?: Iterable<[string, TypeInfo]>;
-    // (undocumented)
-    initialValue?: string;
-    // (undocumented)
-    label?: string;
-    // (undocumented)
-    maxHeight?: string | number;
-    // (undocumented)
-    onValueChange?: (value: string) => void;
-    // (undocumented)
-    readOnly?: boolean;
 }
 
 // @public (undocumented)

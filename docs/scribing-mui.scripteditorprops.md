@@ -8,19 +8,13 @@
 <b>Signature:</b>
 
 ```typescript
-export interface ScriptEditorProps 
+export interface ScriptEditorProps extends Omit<CodeEditorProps, "parse" | "language"> 
 ```
+<b>Extends:</b> Omit&lt;[CodeEditorProps](./scribing-mui.codeeditorprops.md)
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [autoFocus?](./scribing-mui.scripteditorprops.autofocus.md) |  | boolean | <i>(Optional)</i> |
-|  [className?](./scribing-mui.scripteditorprops.classname.md) |  | string | <i>(Optional)</i> |
 |  [globals?](./scribing-mui.scripteditorprops.globals.md) |  | Iterable&lt;\[string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\]&gt; | <i>(Optional)</i> |
-|  [initialValue?](./scribing-mui.scripteditorprops.initialvalue.md) |  | string | <i>(Optional)</i> |
-|  [label?](./scribing-mui.scripteditorprops.label.md) |  | string | <i>(Optional)</i> |
-|  [maxHeight?](./scribing-mui.scripteditorprops.maxheight.md) |  | string \| number | <i>(Optional)</i> |
-|  [onValueChange?](./scribing-mui.scripteditorprops.onvaluechange.md) |  | (value: string) =&gt; void | <i>(Optional)</i> |
-|  [readOnly?](./scribing-mui.scripteditorprops.readonly.md) |  | boolean | <i>(Optional)</i> |
 

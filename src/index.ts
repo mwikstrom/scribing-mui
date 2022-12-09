@@ -10,5 +10,6 @@ export * from "./MaterialScribingComponents";
 export * from "./MarkupInfo";
 export * from "./FlowEditorToolbar";
 export * from "./TypeInfo";
+export * from "./CodeEditor";
 export * from "./ScriptEditor";
 export * from "./ScriptEditorDialog";
