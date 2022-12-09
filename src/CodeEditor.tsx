@@ -17,6 +17,7 @@ export interface CodeEditorProps {
     autoFocus?: boolean;
     onValueChange?: (value: string) => void;
     label?: string;
+    minHeight?: string | number;
     maxHeight?: string | number;
     readOnly?: boolean;
     parse?: (value: string) => Error | null | void;
@@ -31,6 +32,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         autoFocus,
         onValueChange,
         label,
+        minHeight,
         maxHeight,
         readOnly,
         parse,
@@ -226,7 +228,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     return (
         <fieldset {...rootProps}>
             {label && <legend className={classes.label}>{label}</legend>}
-            <div ref={setEditorElem} className={classes.input} style={{maxHeight}}/>
+            <div ref={setEditorElem} className={classes.input} style={{minHeight, maxHeight}}/>
         </fieldset>
     );
 };

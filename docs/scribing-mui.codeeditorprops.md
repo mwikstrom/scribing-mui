@@ -21,6 +21,7 @@ export interface CodeEditorProps
 |  [label?](./scribing-mui.codeeditorprops.label.md) |  | string | <i>(Optional)</i> |
 |  [language?](./scribing-mui.codeeditorprops.language.md) |  | LanguageSupport | <i>(Optional)</i> |
 |  [maxHeight?](./scribing-mui.codeeditorprops.maxheight.md) |  | string \| number | <i>(Optional)</i> |
+|  [minHeight?](./scribing-mui.codeeditorprops.minheight.md) |  | string \| number | <i>(Optional)</i> |
 |  [onValueChange?](./scribing-mui.codeeditorprops.onvaluechange.md) |  | (value: string) =&gt; void | <i>(Optional)</i> |
 |  [parse?](./scribing-mui.codeeditorprops.parse.md) |  | (value: string) =&gt; Error \| null \| void | <i>(Optional)</i> |
 |  [readOnly?](./scribing-mui.codeeditorprops.readonly.md) |  | boolean | <i>(Optional)</i> |

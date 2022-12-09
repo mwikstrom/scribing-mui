@@ -1,3 +1,7 @@
+## 1.4.1 - 2022-12-09
+
+- Add missing style prop `minHeight` to `CodeEditorProps`
+
 ## 1.4.0 - 2022-12-09
 
 - New feature: `<CodeEditor>`

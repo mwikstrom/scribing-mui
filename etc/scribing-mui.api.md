@@ -60,6 +60,8 @@ export interface CodeEditorProps {
     // (undocumented)
     maxHeight?: string | number;
     // (undocumented)
+    minHeight?: string | number;
+    // (undocumented)
     onValueChange?: (value: string) => void;
     // (undocumented)
     parse?: (value: string) => Error | null | void;
