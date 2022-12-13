@@ -8,7 +8,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type UnknownType = TypeDecl<"unknown">;
+export type UnknownType = TypeDecl<"unknown">;
 ```
 <b>References:</b> [TypeDecl](./scribing-mui.typedecl.md)
 

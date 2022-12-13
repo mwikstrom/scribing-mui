@@ -8,5 +8,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type FlowColorLocaleKey = `color_${FlowColor}`;
+export type FlowColorLocaleKey = `color_${FlowColor}`;
 ```

@@ -8,5 +8,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type FontFamilyLocaleKey = `font_family_${FontFamily}`;
+export type FontFamilyLocaleKey = `font_family_${FontFamily}`;
 ```

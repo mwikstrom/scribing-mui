@@ -8,7 +8,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type VoidType = TypeDecl<"void">;
+export type VoidType = TypeDecl<"void">;
 ```
 <b>References:</b> [TypeDecl](./scribing-mui.typedecl.md)
 

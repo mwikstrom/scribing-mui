@@ -10,7 +10,7 @@
 ```typescript
 export interface ArrayType extends TypeDecl<"array"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)
+<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"array"&gt;
 
 ## Properties
 

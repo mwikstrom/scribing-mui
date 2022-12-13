@@ -8,5 +8,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type BoxVariantLocaleKey = `box_${BoxVariant}`;
+export type BoxVariantLocaleKey = `box_${BoxVariant}`;
 ```

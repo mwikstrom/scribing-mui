@@ -10,7 +10,7 @@
 ```typescript
 export interface NumberType extends TypeDecl<"number"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)
+<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"number"&gt;
 
 ## Properties
 

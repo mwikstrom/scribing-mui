@@ -8,7 +8,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type LocaleItemKey = (ParagraphVariantLocaleKey | FlowColorLocaleKey | FontFamilyLocaleKey | BoxVariantLocaleKey);
+export type LocaleItemKey = (ParagraphVariantLocaleKey | FlowColorLocaleKey | FontFamilyLocaleKey | BoxVariantLocaleKey);
 ```
 <b>References:</b> [ParagraphVariantLocaleKey](./scribing-mui.paragraphvariantlocalekey.md)<!-- -->, [FlowColorLocaleKey](./scribing-mui.flowcolorlocalekey.md)<!-- -->, [FontFamilyLocaleKey](./scribing-mui.fontfamilylocalekey.md)<!-- -->, [BoxVariantLocaleKey](./scribing-mui.boxvariantlocalekey.md)
 

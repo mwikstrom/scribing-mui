@@ -10,7 +10,7 @@
 ```typescript
 export interface ObjectType extends TypeDecl<"object"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)
+<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"object"&gt;
 
 ## Properties
 

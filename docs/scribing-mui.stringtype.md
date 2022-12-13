@@ -10,7 +10,7 @@
 ```typescript
 export interface StringType extends TypeDecl<"string"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)
+<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"string"&gt;
 
 ## Properties
 

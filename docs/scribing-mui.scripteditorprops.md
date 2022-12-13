@@ -10,7 +10,7 @@
 ```typescript
 export interface ScriptEditorProps extends Omit<CodeEditorProps, "parse" | "language"> 
 ```
-<b>Extends:</b> Omit&lt;[CodeEditorProps](./scribing-mui.codeeditorprops.md)
+<b>Extends:</b> Omit&lt;[CodeEditorProps](./scribing-mui.codeeditorprops.md)<!-- -->, "parse" \| "language"&gt;
 
 ## Properties
 

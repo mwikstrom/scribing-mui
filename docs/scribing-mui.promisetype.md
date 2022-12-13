@@ -10,7 +10,7 @@
 ```typescript
 export interface PromiseType extends TypeDecl<"promise"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)
+<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"promise"&gt;
 
 ## Properties
 

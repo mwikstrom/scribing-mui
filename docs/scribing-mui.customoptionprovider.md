@@ -8,7 +8,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type CustomOptionProvider<T, U = T> = (current: T) => readonly CustomOption<T, U>[];
+export type CustomOptionProvider<T, U = T> = (current: T) => readonly CustomOption<T, U>[];
 ```
 <b>References:</b> [CustomOption](./scribing-mui.customoption.md)
 

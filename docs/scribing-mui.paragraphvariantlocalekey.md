@@ -8,5 +8,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type ParagraphVariantLocaleKey = `paragraph_${ParagraphVariant}`;
+export type ParagraphVariantLocaleKey = `paragraph_${ParagraphVariant}`;
 ```

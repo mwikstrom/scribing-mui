@@ -10,7 +10,7 @@
 ```typescript
 export interface BooleanType extends TypeDecl<"boolean"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)
+<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"boolean"&gt;
 
 ## Properties
 
