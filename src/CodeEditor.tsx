@@ -240,6 +240,7 @@ const useStyles = makeStyles((theme: Theme) => {
     return {
         root: {
             display: "flex",
+            minInlineSize: "auto",
             flexDirection: "column",
             borderRadius: theme.shape.borderRadius,
             borderStyle: "solid",
