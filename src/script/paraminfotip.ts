@@ -1,4 +1,4 @@
-import { Tooltip, TooltipView, showTooltip, repositionTooltips } from "@codemirror/tooltip";
+import { Tooltip, TooltipView, showTooltip, repositionTooltips } from "@codemirror/view";
 import { EditorState, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { SyntaxNode } from "@lezer/common";

@@ -1,3 +1,7 @@
+## 1.5.0 - 2022-12-13
+
+- Upgrade Codemirror to 6.x
+
 ## 1.4.2 - 2022-12-12
 
 - Fix: Code editor `minInlineSize: auto`

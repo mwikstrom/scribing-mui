@@ -55,7 +55,7 @@ const completeProp = (
     const result: CompletionResult = {
         from,
         options: getOptionsFromScope(scope, mount),
-        span: /^[\w$]*$/,
+        validFor: /^[\w$]*$/,
     };
     return result;    
 };
@@ -74,7 +74,7 @@ const completeRoot = (
             ...getOptionsFromScope(scope, mount).filter(entry => entry.label !== "this"),
             ...getSnippetsFromNode(node),
         ],
-        span: /^[\w$]*$/,
+        validFor: /^[\w$]*$/,
     };
     return result;
 };

@@ -1,9 +1,10 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { EditorState, EditorView, basicSetup } from "@codemirror/basic-setup";
+import { EditorView, basicSetup } from "codemirror";
 import { indentWithTab } from "@codemirror/commands";
 import { keymap } from "@codemirror/view";
-import { Compartment, Extension } from "@codemirror/state";
-import { HighlightStyle, tags as t } from "@codemirror/highlight";
+import { Compartment, EditorState, Extension } from "@codemirror/state";
+import { syntaxHighlighting, HighlightStyle } from "@codemirror/language";
+import { tags as t } from "@lezer/highlight";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { Theme } from "@material-ui/core";
 import { DefaultFlowPalette } from "scribing-react";
@@ -164,7 +165,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
             basicSetup,
             keymap.of([indentWithTab]),
             editorTheme,
-            highlightStyle,
+            syntaxHighlighting(highlightStyle),
             ReadOnlyCompartment.of(EditorState.readOnly.of(false)),
         ];
 
