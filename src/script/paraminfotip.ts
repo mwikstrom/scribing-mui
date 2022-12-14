@@ -100,7 +100,7 @@ function getTooltipForPosition(
         paramInfo = funcType.params[paramIndex];
     } else {
         paramInfo = funcType.params[funcType.params.length - 1];
-        if (!paramInfo.spread) {
+        if (!paramInfo?.spread) {
             return null;
         }
     }

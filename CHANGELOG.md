@@ -1,3 +1,7 @@
+## 1.5.1 - 2022-12-14
+
+- Fix: Exception was thrown when getting param info tip for function without parameters
+
 ## 1.5.0 - 2022-12-13
 
 - Upgrade Codemirror to 6.x
