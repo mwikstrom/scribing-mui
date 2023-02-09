@@ -48,11 +48,18 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         if (/^\s*$/.test(value)  || !parse) {
             return null;
         }
+        let result: unknown;
         try {
-            parse(value);
+            result = parse(value);
+        } catch (caught) {
+            result = caught;
+        }
+        if (result instanceof Error) {
+            return result;
+        } else if (result !== undefined && result !== null) {
+            return new Error(String(result));
+        } else {
             return null;
-        } catch (err) {
-            return err instanceof Error ? err : new Error(String(err));
         }
     }, [value, parse]);
 
