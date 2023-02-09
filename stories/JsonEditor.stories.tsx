@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { CssBaseline, MuiThemeProvider, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
@@ -8,6 +8,7 @@ import { useStoryTheme } from "./theme";
 
 interface StoryProps extends Omit<CodeEditorProps, "className" | "initialValue" | "globals"> {
     dark?: boolean;
+    illegalWords?: readonly string[];
 }
 
 const Story: FC<StoryProps> = props => {
@@ -23,13 +24,34 @@ const Story: FC<StoryProps> = props => {
 };
 
 const Root: FC<Omit<StoryProps, "dark">> = props => {
+    const { illegalWords, ...otherProps } = props;
     const classes = useStyles();
     const language = useMemo(json, []);
+    const parse = useCallback<Required<CodeEditorProps>["parse"]>((input, report) => {
+        if (illegalWords) {
+            for (let i = 0; i < illegalWords.length; ++i) {
+                const word = illegalWords[i];
+                let pos = 0;
+                while (pos >= 0) {
+                    pos = input.indexOf(word, pos);
+                    if (pos >= 0) {
+                        report({
+                            from: pos,
+                            to: pos += word.length,
+                            severity: (["error", "warning", "info"] as const)[i % 4],
+                            message: `The word "${word}" is not allowed`
+                        });
+                    }
+                }
+            }
+        }
+        JSON.parse(input);
+    }, [illegalWords]);
     return (
         <div className={classes.root}>
             <CodeEditor
-                {...props}
-                parse={JSON.parse}
+                {...otherProps}
+                parse={parse}
                 language={language}
                 className={classes.editor}
                 initialValue={INITIAL_VALUE}
@@ -77,6 +99,9 @@ Light.args = {};
 
 export const Dark = Template.bind({});
 Dark.args = { dark: true };
+
+export const DarkIllegalWords = Template.bind({});
+DarkIllegalWords.args = { dark: true, illegalWords: ["foo", "bar", "fubar!"] };
 
 export const LightReadOnly = Template.bind({});
 LightReadOnly.args = { readOnly: true, autoFocus: true };

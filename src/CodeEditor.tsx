@@ -10,6 +10,7 @@ import { Theme } from "@material-ui/core";
 import { DefaultFlowPalette } from "scribing-react";
 import { LanguageSupport } from "@codemirror/language";
 import clsx from "clsx";
+import { Diagnostic, linter, LintSource } from "@codemirror/lint";
 
 /** @public */
 export interface CodeEditorProps {
@@ -21,7 +22,8 @@ export interface CodeEditorProps {
     minHeight?: string | number;
     maxHeight?: string | number;
     readOnly?: boolean;
-    parse?: (value: string) => Error | null | void;
+    parse?: (value: string, report: (diagnostic: Diagnostic) => void) => Error | unknown;
+    parseDelay?: number;
     language?: LanguageSupport;
 }
 
@@ -37,32 +39,32 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         maxHeight,
         readOnly,
         parse,
+        parseDelay = 300,
         language,
     } = props;
     const [value, setValue] = useState(initialValue || "");
     const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
     const { palette } = useTheme<Theme>();
     const classes = useStyles();
+    const [parseFailed, setParseFailed] = useState(false);
 
-    const error = useMemo(() => {
-        if (/^\s*$/.test(value)  || !parse) {
-            return null;
-        }
-        try {
-            const result = parse(value);
-            if (result instanceof Error) {
-                return result;
-            } else {
-                return null;
-            }
-        } catch (caught) {
-            if (caught instanceof Error) {
-                return caught;
-            } else {
-                return new Error(String(caught));
+    const lintSource = useCallback<LintSource>(view => {
+        const text = view.state.doc.sliceString(0);
+        const diagnostics: Diagnostic[] = [];
+
+        if (/^\s*$/.test(text) || !parse) {
+            setParseFailed(false);
+        } else {
+            try {
+                const output = parse(text, item => diagnostics.push(item));
+                setParseFailed(output instanceof Error);
+            } catch (caught) {
+                setParseFailed(true);
             }
         }
-    }, [value, parse]);
+
+        return diagnostics;
+    }, [parse]);
 
     useEffect(() => {
         if (onValueChange) {
@@ -175,6 +177,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
             editorTheme,
             syntaxHighlighting(highlightStyle),
             ReadOnlyCompartment.of(EditorState.readOnly.of(false)),
+            linter(lintSource, { delay: parseDelay }),
         ];
 
         if (language) {
@@ -195,7 +198,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
             parent: editorElem,
         });
         return editor;
-    }, [editorElem, editorTheme, highlightStyle, language]);
+    }, [editorElem, editorTheme, highlightStyle, language, lintSource, parseDelay]);
 
     const onClick = useCallback(() => {
         editor?.focus();
@@ -228,7 +231,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
             className,
             classes.root,
             label && classes.hasLabel,
-            error && classes.error,
+            parseFailed && classes.error,
             multiline && classes.multiline,
         ),
         onClick,        
