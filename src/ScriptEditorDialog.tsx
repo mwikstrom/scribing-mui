@@ -225,7 +225,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                                 initialValue={initialValue?.code || ""}
                                 onValueChange={setCode}
                                 label={didChange ? `${scriptLabel} ●` : scriptLabel}
-                                maxHeight={`calc(100vh - ${isFullScreen ? 120 : 184}px)`}
+                                maxHeight={`calc(100vh - ${isFullScreen === false ? 184 : 120}px)`}
                                 autoFocus
                                 globals={globals}
                             />

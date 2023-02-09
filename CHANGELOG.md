@@ -1,6 +1,7 @@
 ## 1.6.0 - 2023-02-09
 
 - Overflow-y is now `auto` instead of `scroll`
+- Fix fullscreen overflow scrolling in script editor dialog
 
 ## 1.5.1 - 2022-12-14
 
