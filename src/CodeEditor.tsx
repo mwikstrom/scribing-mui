@@ -275,7 +275,7 @@ const useStyles = makeStyles((theme: Theme) => {
             },
             "&$multiline $input": {
                 padding: 0,
-                overflowY: "scroll",
+                overflowY: "auto",
                 "& .cm-activeLine": {
                     backgroundColor: theme.palette.action.hover,
                 },
