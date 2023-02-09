@@ -4,7 +4,9 @@
 - Fix: Fullscreen overflow scrolling in script editor dialog
 - Fix: Handle result from `parse` callback in code editor
 - New feature: Report lint diagnostics from `parse` callback
+- New feature: Diff view
 - New peer dependency: `@codemirror/lint`
+- New peer dependency: `diff-match-patch`
 
 ## 1.5.1 - 2022-12-14
 

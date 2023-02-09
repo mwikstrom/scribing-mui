@@ -6,7 +6,7 @@ import { CodeEditor, CodeEditorProps } from "../src/CodeEditor";
 import { json } from "@codemirror/lang-json";
 import { useStoryTheme } from "./theme";
 
-interface StoryProps extends Omit<CodeEditorProps, "className" | "initialValue" | "globals"> {
+interface StoryProps extends Omit<CodeEditorProps, "className"> {
     dark?: boolean;
     illegalWords?: readonly string[];
 }
@@ -24,7 +24,7 @@ const Story: FC<StoryProps> = props => {
 };
 
 const Root: FC<Omit<StoryProps, "dark">> = props => {
-    const { illegalWords, ...otherProps } = props;
+    const { illegalWords, initialValue = INITIAL_VALUE, ...otherProps } = props;
     const classes = useStyles();
     const language = useMemo(json, []);
     const parse = useCallback<Required<CodeEditorProps>["parse"]>((input, report) => {
@@ -54,7 +54,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
                 parse={parse}
                 language={language}
                 className={classes.editor}
-                initialValue={INITIAL_VALUE}
+                initialValue={initialValue}
             />
         </div>
     );
@@ -67,6 +67,30 @@ const INITIAL_VALUE = `{
         "array": [1, 2, 3],
         "ok": true
     }
+}
+`;
+
+const MY_VALUE = `{
+    "foo": "bar",
+    "bar": 123,
+    "removed": "yes",
+    "nested": {
+        "array": [1, 2, 3],
+        "ok": true
+    }
+}
+`;
+
+const THEIR_VALUE = `{
+    "foo": "Bar",
+    "baz": 12.34,        
+    "nested": {
+        "deep: {
+            "array": [1, 2, 3],
+            "ok": true
+        }
+    },
+    "new": null
 }
 `;
 
@@ -102,6 +126,15 @@ Dark.args = { dark: true };
 
 export const DarkIllegalWords = Template.bind({});
 DarkIllegalWords.args = { dark: true, illegalWords: ["foo", "bar", "fubar!"] };
+
+export const DarkDiff = Template.bind({});
+DarkDiff.args = {
+    dark: true,
+    initialValue: MY_VALUE,
+    theirValue: THEIR_VALUE,
+    label: "Authored",
+    theirLabel: "Imported"
+};
 
 export const LightReadOnly = Template.bind({});
 LightReadOnly.args = { readOnly: true, autoFocus: true };

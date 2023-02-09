@@ -11,14 +11,17 @@ import { DefaultFlowPalette } from "scribing-react";
 import { LanguageSupport } from "@codemirror/language";
 import clsx from "clsx";
 import { Diagnostic, linter, LintSource } from "@codemirror/lint";
+import { diff_match_patch } from "diff-match-patch";
 
 /** @public */
 export interface CodeEditorProps {
     className?: string;
     initialValue?: string;
+    theirValue?: string;
     autoFocus?: boolean;
     onValueChange?: (value: string) => void;
     label?: string;
+    theirLabel?: string;
     minHeight?: string | number;
     maxHeight?: string | number;
     readOnly?: boolean;
@@ -32,9 +35,11 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     const {
         className,
         initialValue,
+        theirValue,
         autoFocus,
         onValueChange,
         label,
+        theirLabel,
         minHeight,
         maxHeight,
         readOnly,
@@ -44,6 +49,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     } = props;
     const [value, setValue] = useState(initialValue || "");
     const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
+    const [diffElem, setDiffElem] = useState<HTMLElement | null>(null);
     const { palette } = useTheme<Theme>();
     const classes = useStyles();
     const [parseFailed, setParseFailed] = useState(false);
@@ -66,11 +72,12 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         return diagnostics;
     }, [parse]);
 
-    useEffect(() => {
-        if (onValueChange) {
-            onValueChange(value);
+    const diffEngine = useMemo(() => new diff_match_patch(), []);
+    const diffArray = useMemo(() => {
+        if (theirValue !== undefined) {
+            return diffEngine.diff_main(value, theirValue);
         }
-    }, [onValueChange, value]);
+    },[diffEngine, value, theirValue]);
 
     const multiline = useMemo(() => value.indexOf("\n") >= 0, [value]);
     const editorTheme = useMemo(() => EditorView.theme({
@@ -167,7 +174,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         },
     ]), [palette]);
 
-    const editor = useMemo(() => {
+    const editorView = useMemo(() => {
         if (!editorElem) {
             return null;
         }
@@ -184,7 +191,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
             extensions.push(language);
         }
 
-        const editor = new EditorView({
+        const view = new EditorView({
             state: EditorState.create({
                 doc: value,
                 extensions,
@@ -193,55 +200,121 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                 if (transaction.docChanged) {
                     setValue(transaction.newDoc.sliceString(0));
                 }
-                editor.update([transaction]);
+                view.update([transaction]);
             },
             parent: editorElem,
         });
-        return editor;
+        return view;
     }, [editorElem, editorTheme, highlightStyle, language, lintSource, parseDelay]);
 
-    const onClick = useCallback(() => {
-        editor?.focus();
-    }, [editor]);
+    const diffView = useMemo(() => {
+        if (!diffElem) {
+            return null;
+        }
+        const extensions: Extension[] = [
+            basicSetup,
+            editorTheme,
+            syntaxHighlighting(highlightStyle),
+            ReadOnlyCompartment.of(EditorState.readOnly.of(true)),
+        ];
+
+        if (language) {
+            extensions.push(language);
+        }
+
+        const view = new EditorView({
+            state: EditorState.create({
+                doc: theirValue,
+                extensions,
+            }),
+            dispatch: transaction => {
+                if (transaction.docChanged) {
+                    setValue(transaction.newDoc.sliceString(0));
+                }
+                view.update([transaction]);
+            },
+            parent: diffElem,
+        });
+        return view;
+    }, [diffElem, editorTheme, highlightStyle, language]);
+
+    const onClickEditor = useCallback(() => {
+        editorView?.focus();
+    }, [editorView]);
+
+    const onClickDiff = useCallback(() => {
+        diffView?.focus();
+    }, [diffView]);
 
     useEffect(() => {
-        if (editor) {
-            return editor.destroy.bind(editor);
+        if (onValueChange) {
+            onValueChange(value);
         }
-    }, [editor]);
+    }, [onValueChange, value]);
+
+    useEffect(() => {
+        if (editorView) {
+            return editorView.destroy.bind(editorView);
+        }
+    }, [editorView]);
+
+    useEffect(() => {
+        if (diffView) {
+            return diffView.destroy.bind(diffView);
+        }
+    }, [diffView]);
     
     useEffect(() => {
-        if (editor && autoFocus && !readOnly) {
-            editor.focus();
+        if (editorView && autoFocus && !readOnly) {
+            editorView.focus();
         }
-    }, [editor, autoFocus, readOnly]);
+    }, [editorView, autoFocus, readOnly]);
 
     useEffect(() => {
-        if (editor) {
-            editor.dispatch({
+        if (editorView) {
+            editorView.dispatch({
                 effects: [
                     ReadOnlyCompartment.reconfigure(EditorState.readOnly.of(Boolean(readOnly))),
                 ],
             });            
         }
-    }, [readOnly, editor]);
+    }, [readOnly, editorView]);
 
-    const rootProps = {
-        className: clsx(
-            className,
-            classes.root,
-            label && classes.hasLabel,
-            parseFailed && classes.error,
-            multiline && classes.multiline,
-        ),
-        onClick,        
-    };    
+    const hasDiff = !!diffArray;
+
+    const rootClass = clsx(
+        className,
+        classes.root,
+        parseFailed && classes.error,
+    );
+        
+    const editorClass = clsx(
+        classes.view,
+        hasDiff && classes.diffMine,
+        label && classes.hasLabel,
+        multiline && classes.multiline,
+    );
+
+    const diffClass = clsx(
+        classes.view,
+        hasDiff && classes.diffTheirs,
+        theirLabel && classes.hasLabel,
+        multiline && classes.multiline,
+    );
 
     return (
-        <fieldset {...rootProps}>
-            {label && <legend className={classes.label}>{label}</legend>}
-            <div ref={setEditorElem} className={classes.input} style={{minHeight, maxHeight}}/>
-        </fieldset>
+        <div className={rootClass}>
+            <fieldset className={editorClass} onClick={onClickEditor}>
+                {label && <legend className={classes.label}>{label}</legend>}
+                <div ref={setEditorElem} className={classes.input} style={{minHeight, maxHeight}} />
+            </fieldset>
+            {hasDiff && (
+                <fieldset className={diffClass} onClick={onClickDiff}>
+                    {theirLabel && <legend className={classes.label}>{theirLabel}</legend>}
+                    <div ref={setDiffElem} className={classes.input} style={{minHeight, maxHeight}} />
+                </fieldset>
+            )}
+        </div>
     );
 };
 
@@ -252,6 +325,11 @@ const useStyles = makeStyles((theme: Theme) => {
     return {
         root: {
             display: "flex",
+            flexDirection: "row",
+        },
+        view: {
+            display: "flex",
+            flex: 1,
             minInlineSize: "auto",
             flexDirection: "column",
             borderRadius: theme.shape.borderRadius,
@@ -261,6 +339,20 @@ const useStyles = makeStyles((theme: Theme) => {
             borderColor,
             padding: 1,
             cursor: "text",
+            "&$diffMine": {
+                borderTopRightRadius: 0,
+                borderBottomRightRadius: 0,
+                "&:not(:hover)": {
+                    borderRightColor: "transparent",
+                },
+            },
+            "&$diffTheirs": {
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+                "&:not(:hover)": {
+                    borderLeftColor: "transparent",
+                },
+            },
             "&$hasLabel": {
                 paddingTop: 0,
             },
@@ -300,6 +392,8 @@ const useStyles = makeStyles((theme: Theme) => {
                 boxSizing: "content-box",
             },
         },
+        diffMine: {},
+        diffTheirs: {},
         hasLabel: {},
         label: {
             marginLeft: theme.spacing(1),
