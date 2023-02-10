@@ -337,11 +337,13 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                         theirEffects.push(addLineDiff.of({ pos: theirPos, op: 2 }));
                         for (const [op, text] of diff) {
                             if (op === -1) {
-                                editorEffects.push(addInlineDiff.of({
-                                    from: editorPos,
-                                    to: editorPos + text.length,
-                                    op,
-                                }));
+                                if (!/^\s+$/.test(text)) {
+                                    editorEffects.push(addInlineDiff.of({
+                                        from: editorPos,
+                                        to: editorPos + text.length,
+                                        op,
+                                    }));
+                                }
                                 editorPos += text.length;
                             } else if (op === 0) {
                                 theirChanges.push({
@@ -355,11 +357,13 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                                     from: 0,
                                     insert: text,
                                 });
-                                theirEffects.push(addInlineDiff.of({
-                                    from: theirPos,
-                                    to: theirPos + text.length,
-                                    op: op
-                                }));
+                                if (!/^\s+$/.test(text)) {
+                                    theirEffects.push(addInlineDiff.of({
+                                        from: theirPos,
+                                        to: theirPos + text.length,
+                                        op: op
+                                    }));
+                                }
                                 theirPos += text.length;
                             } else if (op === 2) {
                                 editorEffects.push(addInlineDiff.of({
