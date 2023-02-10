@@ -331,8 +331,8 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                                 if (op !== 0) {
                                     effects.push(addInlineDiff.of({ from: pos, to: pos + text.length, mode: op}));
                                 }
+                                pos += text.length;
                             }
-                            pos += text.length;
                         }
                     }
                 }

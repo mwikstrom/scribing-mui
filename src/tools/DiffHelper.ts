@@ -28,13 +28,23 @@ export const getDiff = (oldText: string, newText: string): LineDiff[] => {
     const newLines = splitLines(newText);
     const oldLineTokens = buildLineTokens(oldLines, lineTokenMap);
     const newLineTokens = buildLineTokens(newLines, lineTokenMap);
-    const tokenLineMap = new Map(Array.from(lineTokenMap).map(([str, token]) => [token, str]));
     const diffArray = getEngine().diff_main(oldLineTokens, newLineTokens);
+    getEngine().diff_cleanupSemanticLossless(diffArray);
+    let oldPos = 0;
+    let newPos = 0;
     const result: LineDiff[] = [];
 
     const emitSimple = (op: 0 | 1 | -1, tokens: string) => {
         for (let i = 0; i < tokens.length; ++i) {
-            const line = tokenLineMap.get(tokens[i]) || "";
+            let line: string;
+            if (op < 0) {
+                line = oldLines[oldPos++];
+            } else if (op > 0) {
+                line = newLines[newPos++];
+            } else {
+                line = newLines[newPos++];
+                ++oldPos;
+            }
             result.push([op, line]);
         }
     };
@@ -42,11 +52,11 @@ export const getDiff = (oldText: string, newText: string): LineDiff[] => {
     const emitRemoved = (tokens: string) => emitSimple(-1, tokens);
     const emitInserted = (tokens: string) => emitSimple(1, tokens);
     const emitUnchanged = (tokens: string) => emitSimple(0, tokens);
-    const emitChanged = (oldToken: string, newToken: string) => {
-        const oldLine = tokenLineMap.get(oldToken) || "";
-        const newLine = tokenLineMap.get(newToken) || "";
-        const inlineDiff = getInlineDiff(oldLine, newLine);
-        result.push(inlineDiff);
+    const emitChanged = (tokens: string) => {
+        for (let i = 0; i < tokens.length; ++i) {
+            const inlineDiff = getInlineDiff(oldLines[oldPos++], newLines[newPos++]);
+            result.push(inlineDiff);
+        }
     };
 
     processDiff({
@@ -75,7 +85,7 @@ const splitLines = (text: string): string[] => {
 };
 
 const buildLineTokens = (lines: readonly string[], map: Map<string, string>): string => 
-    lines.map(str => {
+    lines.map(str => str.trim()).map(str => {
         let token = map.get(str);
         if (!token) {
             token = String.fromCodePoint(map.size);
@@ -95,7 +105,7 @@ const getInlineDiff = (oldText: string, newText: string): InlineDiff[] => {
         emitRemoved: str => emit(-1, str),
         emitInserted: str => emit(1, str),
         emitUnchanged: str => emit(0, str),
-        emitChanged: (_, newStr) => emit(2, newStr),
+        emitChanged: str => emit(2, str),
     });
     
     return result;
@@ -105,7 +115,7 @@ interface ProcessDiffProps {
     input: readonly Diff[];
     emitRemoved(str: string): void;
     emitInserted(str: string): void;
-    emitChanged(oldStr: string, newStr: string): void;
+    emitChanged(str: string): void;
     emitUnchanged(str: string): void;
 }
 
@@ -124,8 +134,8 @@ const processDiff = (props: ProcessDiffProps) => {
             emitUnchanged(tokens);
         } else if (op === 1) {
             const changed = tokens.substring(0, pending.length);
-            for (let i = 0; i < changed.length; ++i) {
-                emitChanged(pending[i], changed[i]);
+            if (changed) {
+                emitChanged(changed);
             }
             if (tokens.length > changed.length) {
                 emitInserted(tokens.substring(changed.length));
