@@ -2,16 +2,18 @@ import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { EditorView, basicSetup } from "codemirror";
 import { indentWithTab } from "@codemirror/commands";
 import { keymap } from "@codemirror/view";
-import { Compartment, EditorState, Extension } from "@codemirror/state";
+import { ChangeSpec, Compartment, EditorState, Extension, StateEffect } from "@codemirror/state";
 import { syntaxHighlighting, HighlightStyle } from "@codemirror/language";
 import { tags as t } from "@lezer/highlight";
 import { makeStyles, useTheme } from "@material-ui/styles";
-import { Theme } from "@material-ui/core";
+import { alpha, Theme } from "@material-ui/core";
 import { DefaultFlowPalette } from "scribing-react";
 import { LanguageSupport } from "@codemirror/language";
 import clsx from "clsx";
 import { Diagnostic, linter, LintSource } from "@codemirror/lint";
-import { diff_match_patch } from "diff-match-patch";
+import { getDiff } from "./tools/DiffHelper";
+import { addLineDiff, lineDiffField } from "./LineDiffDecoration";
+import { addInlineDiff, inlineDiffField } from "./InlineDiffDecoration";
 
 /** @public */
 export interface CodeEditorProps {
@@ -27,6 +29,7 @@ export interface CodeEditorProps {
     readOnly?: boolean;
     parse?: (value: string, report: (diagnostic: Diagnostic) => void) => Error | unknown;
     parseDelay?: number;
+    diffDelay?: number;
     language?: LanguageSupport;
 }
 
@@ -45,6 +48,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         readOnly,
         parse,
         parseDelay = 300,
+        diffDelay = parseDelay,
         language,
     } = props;
     const [value, setValue] = useState(initialValue || "");
@@ -72,13 +76,6 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         return diagnostics;
     }, [parse]);
 
-    const diffEngine = useMemo(() => new diff_match_patch(), []);
-    const diffArray = useMemo(() => {
-        if (theirValue !== undefined) {
-            return diffEngine.diff_main(value, theirValue);
-        }
-    },[diffEngine, value, theirValue]);
-
     const multiline = useMemo(() => value.indexOf("\n") >= 0, [value]);
     const editorTheme = useMemo(() => EditorView.theme({
         "&": {
@@ -99,6 +96,33 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         },
         ".cm-activeLineGutter": {
             backgroundColor: palette.action.hover,
+        },
+        ".cmd-linediff-insert": {
+            backgroundColor: alpha(palette.success.dark, 0.1),
+            "&.cm-activeLine": {
+                backgroundColor: alpha(palette.success.light, 0.1),
+            }
+        },
+        ".cmd-linediff-remove": {
+            backgroundColor: alpha(palette.error.dark, 0.1),
+            "&.cm-activeLine": {
+                backgroundColor: alpha(palette.error.light, 0.1),
+            }
+        },
+        ".cmd-linediff-change": {
+            backgroundColor: alpha(palette.warning.dark, 0.1),
+            "&.cm-activeLine": {
+                backgroundColor: alpha(palette.warning.light, 0.1),
+            }
+        },
+        ".cmd-textdiff-insert": {
+            backgroundColor: alpha(palette.success.main, 0.2),
+        },
+        ".cmd-textdiff-remove": {
+            backgroundColor: alpha(palette.error.main, 0.2),
+        },
+        ".cmd-textdiff-change": {
+            backgroundColor: alpha(palette.warning.main, 0.2),
         },
         ".cm-gutters": {
             display: "none",
@@ -216,6 +240,8 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
             editorTheme,
             syntaxHighlighting(highlightStyle),
             ReadOnlyCompartment.of(EditorState.readOnly.of(true)),
+            lineDiffField,
+            inlineDiffField,
         ];
 
         if (language) {
@@ -227,12 +253,6 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                 doc: theirValue,
                 extensions,
             }),
-            dispatch: transaction => {
-                if (transaction.docChanged) {
-                    setValue(transaction.newDoc.sliceString(0));
-                }
-                view.update([transaction]);
-            },
             parent: diffElem,
         });
         return view;
@@ -280,7 +300,49 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         }
     }, [readOnly, editorView]);
 
-    const hasDiff = !!diffArray;
+    useEffect(() => {
+        if (theirValue !== undefined && diffView) {
+            const timerId = setTimeout(() => {
+                const diffArray = getDiff(value, theirValue);
+                const effects: StateEffect<unknown>[] = [];
+                const changes: ChangeSpec[] = [
+                    { from: 0, to: diffView.state.sliceDoc(0).length },
+                ];
+                let pos = 0;
+                for (const diff of diffArray) {
+                    if (typeof diff[0] === "number") {
+                        const [op, text] = diff;
+                        changes.push({
+                            from: 0,
+                            insert: text,
+                        });
+                        if (typeof op === "number" && op !== 0) {
+                            effects.push(addLineDiff.of({ pos, mode: op }));
+                        }
+                        pos += text.length;
+                    } else {
+                        effects.push(addLineDiff.of({ pos, mode: 2 }));
+                        for (const [op, text] of diff) {
+                            if (op >= 0) {
+                                changes.push({
+                                    from: 0,
+                                    insert: text,
+                                });
+                                if (op !== 0) {
+                                    effects.push(addInlineDiff.of({ from: pos, to: pos + text.length, mode: op}));
+                                }
+                            }
+                            pos += text.length;
+                        }
+                    }
+                }
+                diffView.dispatch({ changes, effects });
+            }, diffDelay);
+            return () => clearTimeout(timerId);
+        }
+    }, [value, theirValue, diffView, diffDelay]);
+
+    const hasDiff = theirValue !== undefined;
 
     const rootClass = clsx(
         className,
@@ -379,7 +441,7 @@ const useStyles = makeStyles((theme: Theme) => {
             "&$multiline $input": {
                 padding: 0,
                 overflowY: "auto",
-                "& .cm-activeLine": {
+                "& .cm-activeLine:not(.cmd-linediff)": {
                     backgroundColor: theme.palette.action.hover,
                 },
                 "& .cm-gutters": {
