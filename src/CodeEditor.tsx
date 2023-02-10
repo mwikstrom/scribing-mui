@@ -383,7 +383,6 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                     }
                 }
                 theirView.dispatch({ changes: theirChanges, effects: theirEffects });
-                console.log(editorEffects);
                 if (editorView?.state.sliceDoc(0) === value) {
                     editorView.dispatch({ effects: editorEffects });
                 }
