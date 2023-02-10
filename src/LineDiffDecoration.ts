@@ -4,7 +4,7 @@ import { Decoration, DecorationSet, EditorView } from "@codemirror/view";
 /** @internal */
 export interface LineDiffProps {
     pos: number;
-    mode: -1 | 1 | 2;
+    op: -1 | 1 | 2;
 }
 
 /** @internal */
@@ -13,14 +13,21 @@ export const addLineDiff = StateEffect.define<LineDiffProps>({
 });
 
 /** @internal */
+export const clearLineDiff = StateEffect.define<void>();
+
+/** @internal */
 export const lineDiffField = StateField.define<DecorationSet>({
     create: () => Decoration.none,
     update: (before, txn) => {
         let after = before.map(txn.changes);
         for (const e of txn.effects) {
-            if (e.is(addLineDiff)) {
-                const { pos, mode } = e.value;
-                const mark = lineDiffMark(mode);
+            if (e.is(clearLineDiff)) {
+                after = after.update({
+                    filter: () => false,
+                });
+            } else if (e.is(addLineDiff)) {
+                const { pos, op } = e.value;
+                const mark = lineDiffMark(op);
                 if (mark) {
                     after = after.update({
                         add: [mark.range(pos, pos)]
@@ -33,12 +40,12 @@ export const lineDiffField = StateField.define<DecorationSet>({
     provide: f => EditorView.decorations.from(f),
 });
 
-const lineDiffMark = (mode: LineDiffProps["mode"]): Decoration | undefined => {
-    if (mode === -1) {
+const lineDiffMark = (op: LineDiffProps["op"]): Decoration | undefined => {
+    if (op === -1) {
         return removeLineMark;
-    } else if (mode === 1) {
+    } else if (op === 1) {
         return insertLineMark;
-    } else if (mode === 2) {
+    } else if (op === 2) {
         return changeLineMark;
     }
 };

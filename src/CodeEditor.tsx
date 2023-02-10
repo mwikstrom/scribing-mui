@@ -12,8 +12,8 @@ import { LanguageSupport } from "@codemirror/language";
 import clsx from "clsx";
 import { Diagnostic, linter, LintSource } from "@codemirror/lint";
 import { getDiff } from "./tools/DiffHelper";
-import { addLineDiff, lineDiffField } from "./LineDiffDecoration";
-import { addInlineDiff, inlineDiffField } from "./InlineDiffDecoration";
+import { addLineDiff, clearLineDiff, lineDiffField } from "./LineDiffDecoration";
+import { addInlineDiff, clearInlineDiff, inlineDiffField } from "./InlineDiffDecoration";
 
 /** @public */
 export interface CodeEditorProps {
@@ -53,7 +53,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     } = props;
     const [value, setValue] = useState(initialValue || "");
     const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
-    const [diffElem, setDiffElem] = useState<HTMLElement | null>(null);
+    const [theirElem, setTheirElem] = useState<HTMLElement | null>(null);
     const { palette } = useTheme<Theme>();
     const classes = useStyles();
     const [parseFailed, setParseFailed] = useState(false);
@@ -209,6 +209,8 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
             syntaxHighlighting(highlightStyle),
             ReadOnlyCompartment.of(EditorState.readOnly.of(false)),
             linter(lintSource, { delay: parseDelay }),
+            lineDiffField,
+            inlineDiffField,
         ];
 
         if (language) {
@@ -231,8 +233,8 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         return view;
     }, [editorElem, editorTheme, highlightStyle, language, lintSource, parseDelay]);
 
-    const diffView = useMemo(() => {
-        if (!diffElem) {
+    const theirView = useMemo(() => {
+        if (!theirElem) {
             return null;
         }
         const extensions: Extension[] = [
@@ -253,18 +255,18 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                 doc: theirValue,
                 extensions,
             }),
-            parent: diffElem,
+            parent: theirElem,
         });
         return view;
-    }, [diffElem, editorTheme, highlightStyle, language]);
+    }, [theirElem, editorTheme, highlightStyle, language]);
 
     const onClickEditor = useCallback(() => {
         editorView?.focus();
     }, [editorView]);
 
-    const onClickDiff = useCallback(() => {
-        diffView?.focus();
-    }, [diffView]);
+    const onClickTheir = useCallback(() => {
+        theirView?.focus();
+    }, [theirView]);
 
     useEffect(() => {
         if (onValueChange) {
@@ -279,10 +281,10 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     }, [editorView]);
 
     useEffect(() => {
-        if (diffView) {
-            return diffView.destroy.bind(diffView);
+        if (theirView) {
+            return theirView.destroy.bind(theirView);
         }
-    }, [diffView]);
+    }, [theirView]);
     
     useEffect(() => {
         if (editorView && autoFocus && !readOnly) {
@@ -301,46 +303,94 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     }, [readOnly, editorView]);
 
     useEffect(() => {
-        if (theirValue !== undefined && diffView) {
+        if (theirValue !== undefined && theirView) {
             const timerId = setTimeout(() => {
                 const diffArray = getDiff(value, theirValue);
-                const effects: StateEffect<unknown>[] = [];
-                const changes: ChangeSpec[] = [
-                    { from: 0, to: diffView.state.sliceDoc(0).length },
-                ];
-                let pos = 0;
+                const theirEffects: StateEffect<unknown>[] = [];
+                const editorEffects: StateEffect<unknown>[] = [clearLineDiff.of(), clearInlineDiff.of()];
+                const theirChanges: ChangeSpec[] = [{ from: 0, to: theirView.state.sliceDoc(0).length }];
+                let editorPos = 0;
+                let theirPos = 0;
                 for (const diff of diffArray) {
                     if (typeof diff[0] === "number") {
                         const [op, text] = diff;
-                        changes.push({
-                            from: 0,
-                            insert: text,
-                        });
-                        if (typeof op === "number" && op !== 0) {
-                            effects.push(addLineDiff.of({ pos, mode: op }));
+                        if (op === -1) {
+                            editorEffects.push(addLineDiff.of({ pos: editorPos, op }));
+                            editorPos += text.length;
+                        } else if (op === 0) {
+                            theirChanges.push({
+                                from: 0,
+                                insert: text,
+                            });
+                            theirPos += text.length;
+                            editorPos += text.length;
+                        } else if (op === 1) {
+                            theirEffects.push(addLineDiff.of({ pos: theirPos, op }));
+                            theirChanges.push({
+                                from: 0,
+                                insert: text,
+                            });
+                            theirPos += text.length;
                         }
-                        pos += text.length;
                     } else {
-                        effects.push(addLineDiff.of({ pos, mode: 2 }));
+                        editorEffects.push(addLineDiff.of({ pos: editorPos, op: 2 }));
+                        theirEffects.push(addLineDiff.of({ pos: theirPos, op: 2 }));
                         for (const [op, text] of diff) {
-                            if (op >= 0) {
-                                changes.push({
+                            if (op === -1) {
+                                editorEffects.push(addInlineDiff.of({
+                                    from: editorPos,
+                                    to: editorPos + text.length,
+                                    op,
+                                }));
+                                editorPos += text.length;
+                            } else if (op === 0) {
+                                theirChanges.push({
                                     from: 0,
                                     insert: text,
                                 });
-                                if (op !== 0) {
-                                    effects.push(addInlineDiff.of({ from: pos, to: pos + text.length, mode: op}));
-                                }
-                                pos += text.length;
+                                theirPos += text.length;
+                                editorPos += text.length;
+                            } else if (op === 1) {
+                                theirChanges.push({
+                                    from: 0,
+                                    insert: text,
+                                });
+                                theirEffects.push(addInlineDiff.of({
+                                    from: theirPos,
+                                    to: theirPos + text.length,
+                                    op: op
+                                }));
+                                theirPos += text.length;
+                            } else if (op === 2) {
+                                editorEffects.push(addInlineDiff.of({
+                                    from: editorPos,
+                                    to: editorPos + text.length,
+                                    op,
+                                }));
+                                theirEffects.push(addInlineDiff.of({
+                                    from: theirPos,
+                                    to: theirPos + text.length,
+                                    op: op
+                                }));
+                                theirChanges.push({
+                                    from: 0,
+                                    insert: text,
+                                });
+                                theirPos += text.length;
+                                editorPos += text.length;
                             }
                         }
                     }
                 }
-                diffView.dispatch({ changes, effects });
+                theirView.dispatch({ changes: theirChanges, effects: theirEffects });
+                console.log(editorEffects);
+                if (editorView?.state.sliceDoc(0) === value) {
+                    editorView.dispatch({ effects: editorEffects });
+                }
             }, diffDelay);
             return () => clearTimeout(timerId);
         }
-    }, [value, theirValue, diffView, diffDelay]);
+    }, [value, theirValue, theirView, diffDelay]);
 
     const hasDiff = theirValue !== undefined;
 
@@ -352,12 +402,12 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         
     const editorClass = clsx(
         classes.view,
-        hasDiff && classes.diffMine,
+        hasDiff && classes.diffEditor,
         label && classes.hasLabel,
         multiline && classes.multiline,
     );
 
-    const diffClass = clsx(
+    const theirClass = clsx(
         classes.view,
         hasDiff && classes.diffTheirs,
         theirLabel && classes.hasLabel,
@@ -371,9 +421,9 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                 <div ref={setEditorElem} className={classes.input} style={{minHeight, maxHeight}} />
             </fieldset>
             {hasDiff && (
-                <fieldset className={diffClass} onClick={onClickDiff}>
+                <fieldset className={theirClass} onClick={onClickTheir}>
                     {theirLabel && <legend className={classes.label}>{theirLabel}</legend>}
-                    <div ref={setDiffElem} className={classes.input} style={{minHeight, maxHeight}} />
+                    <div ref={setTheirElem} className={classes.input} style={{minHeight, maxHeight}} />
                 </fieldset>
             )}
         </div>
@@ -401,7 +451,7 @@ const useStyles = makeStyles((theme: Theme) => {
             borderColor,
             padding: 1,
             cursor: "text",
-            "&$diffMine": {
+            "&$diffEditor": {
                 borderTopRightRadius: 0,
                 borderBottomRightRadius: 0,
                 "&:not(:hover)": {
@@ -454,7 +504,7 @@ const useStyles = makeStyles((theme: Theme) => {
                 boxSizing: "content-box",
             },
         },
-        diffMine: {},
+        diffEditor: {},
         diffTheirs: {},
         hasLabel: {},
         label: {
