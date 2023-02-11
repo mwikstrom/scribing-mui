@@ -393,7 +393,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
             }, diffDelay);
             return () => clearTimeout(timerId);
         }
-    }, [value, theirValue, theirView, diffDelay]);
+    }, [value, theirValue, theirView, editorView, diffDelay]);
 
     const hasDiff = theirValue !== undefined;
 
