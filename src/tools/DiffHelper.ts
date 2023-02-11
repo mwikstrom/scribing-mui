@@ -70,6 +70,30 @@ export const getDiff = (oldText: string, newText: string): LineDiff[] => {
     return result;
 };
 
+/** @internal */
+export const isIgnorableWs = (array: readonly InlineDiff[], index: number): boolean =>
+    isWsOnly(array, index) && (isAllWsBefore(array, index) || isAllWsAfter(array, index));
+
+const isAllWsBefore = (array: readonly InlineDiff[], index: number): boolean => {
+    for (let i = index - 1; i >= 0; --i) {
+        if (!isWsOnly(array, i)) {
+            return false;
+        }
+    }
+    return true;
+};
+
+const isAllWsAfter = (array: readonly InlineDiff[], index: number): boolean => {
+    for (let i = index + 1; i < array.length; ++i) {
+        if (!isWsOnly(array, i)) {
+            return false;
+        }
+    }
+    return true;
+};
+
+const isWsOnly = (array: readonly InlineDiff[], index: number): boolean => /^\s*$/.test(array[index][1]);
+
 const splitLines = (text: string): string[] => {
     const normalized = text.replace(/(\r\n|[\n\v\f\r\x85\u2028\u2029])/g, "\n");
     const lines = normalized.split("\n");

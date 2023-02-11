@@ -10,7 +10,7 @@ import { Theme } from "@material-ui/core";
 import { LanguageSupport } from "@codemirror/language";
 import clsx from "clsx";
 import { Diagnostic, linter, LintSource } from "@codemirror/lint";
-import { getDiff } from "./tools/DiffHelper";
+import { getDiff, isIgnorableWs } from "./tools/DiffHelper";
 import { addLineDiff, clearLineDiff, lineDiffField } from "./LineDiffDecoration";
 import { addInlineDiff, clearInlineDiff, inlineDiffField } from "./InlineDiffDecoration";
 import { createCodeEditorViewTheme } from "./CodeEditorViewTheme";
@@ -286,9 +286,11 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                     } else {
                         editorEffects.push(addLineDiff.of({ pos: editorPos, op: 2 }));
                         theirEffects.push(addLineDiff.of({ pos: theirPos, op: 2 }));
-                        for (const [op, text] of diff) {
+                        for (let i = 0; i < diff.length; ++i) {
+                            const [op, text] = diff[i];
+                            const ignorableWs = isIgnorableWs(diff, i);
                             if (op === -1) {
-                                if (!/^\s+$/.test(text)) {
+                                if (!ignorableWs) {
                                     editorEffects.push(addInlineDiff.of({
                                         from: editorPos,
                                         to: editorPos + text.length,
@@ -308,7 +310,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                                     from: 0,
                                     insert: text,
                                 });
-                                if (!/^\s+$/.test(text)) {
+                                if (!ignorableWs) {
                                     theirEffects.push(addInlineDiff.of({
                                         from: theirPos,
                                         to: theirPos + text.length,
