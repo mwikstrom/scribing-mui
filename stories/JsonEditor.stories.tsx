@@ -136,6 +136,14 @@ DarkDiff.args = {
     theirLabel: "Imported"
 };
 
+export const LightDiff = Template.bind({});
+LightDiff.args = {
+    initialValue: MY_VALUE,
+    theirValue: THEIR_VALUE,
+    label: "Authored",
+    theirLabel: "Imported"
+};
+
 export const LightReadOnly = Template.bind({});
 LightReadOnly.args = { readOnly: true, autoFocus: true };
 

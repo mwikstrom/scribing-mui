@@ -5,15 +5,16 @@ import { keymap } from "@codemirror/view";
 import { ChangeSpec, Compartment, EditorState, Extension, StateEffect } from "@codemirror/state";
 import { syntaxHighlighting, HighlightStyle } from "@codemirror/language";
 import { tags as t } from "@lezer/highlight";
-import { makeStyles, useTheme } from "@material-ui/styles";
-import { alpha, Theme } from "@material-ui/core";
-import { DefaultFlowPalette } from "scribing-react";
+import { useTheme } from "@material-ui/styles";
+import { Theme } from "@material-ui/core";
 import { LanguageSupport } from "@codemirror/language";
 import clsx from "clsx";
 import { Diagnostic, linter, LintSource } from "@codemirror/lint";
 import { getDiff } from "./tools/DiffHelper";
 import { addLineDiff, clearLineDiff, lineDiffField } from "./LineDiffDecoration";
 import { addInlineDiff, clearInlineDiff, inlineDiffField } from "./InlineDiffDecoration";
+import { createCodeEditorViewTheme } from "./CodeEditorViewTheme";
+import { useCodeEditorStyles } from "./CodeEditorStyles";
 
 /** @public */
 export interface CodeEditorProps {
@@ -55,7 +56,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     const [editorElem, setEditorElem] = useState<HTMLElement | null>(null);
     const [theirElem, setTheirElem] = useState<HTMLElement | null>(null);
     const { palette } = useTheme<Theme>();
-    const classes = useStyles();
+    const classes = useCodeEditorStyles();
     const [parseFailed, setParseFailed] = useState(false);
 
     const lintSource = useCallback<LintSource>(view => {
@@ -77,57 +78,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     }, [parse]);
 
     const multiline = useMemo(() => value.indexOf("\n") >= 0, [value]);
-    const editorTheme = useMemo(() => EditorView.theme({
-        "&": {
-            color: palette.text.primary,
-        },
-        ".cm-content": {
-            caretColor: palette.text.primary
-        },
-        "&.cm-focused .cm-cursor": {
-            borderLeftColor: palette.text.primary
-        },
-        "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection": {
-            backgroundColor: DefaultFlowPalette.selection,
-            color: DefaultFlowPalette.selectionText,
-        },
-        ".cm-activeLine": {
-            backgroundColor: "transparent",
-        },
-        ".cm-activeLineGutter": {
-            backgroundColor: palette.action.hover,
-        },
-        ".cmd-linediff-insert": {
-            backgroundColor: alpha(palette.success.dark, 0.1),
-            "&.cm-activeLine": {
-                backgroundColor: alpha(palette.success.light, 0.1),
-            }
-        },
-        ".cmd-linediff-remove": {
-            backgroundColor: alpha(palette.error.dark, 0.1),
-            "&.cm-activeLine": {
-                backgroundColor: alpha(palette.error.light, 0.1),
-            }
-        },
-        ".cmd-linediff-change": {
-            backgroundColor: alpha(palette.warning.dark, 0.1),
-            "&.cm-activeLine": {
-                backgroundColor: alpha(palette.warning.light, 0.1),
-            }
-        },
-        ".cmd-textdiff-insert": {
-            backgroundColor: alpha(palette.success.main, 0.2),
-        },
-        ".cmd-textdiff-remove": {
-            backgroundColor: alpha(palette.error.main, 0.2),
-        },
-        ".cmd-textdiff-change": {
-            backgroundColor: alpha(palette.warning.main, 0.2),
-        },
-        ".cm-gutters": {
-            display: "none",
-        },
-    }, {dark: palette.type === "dark"}), [palette]);
+    const editorTheme = useMemo(() => createCodeEditorViewTheme(palette), [palette]);
 
     const highlightStyle = useMemo(() => HighlightStyle.define([
         {
@@ -434,99 +385,3 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
 };
 
 const ReadOnlyCompartment = new Compartment();
-
-const useStyles = makeStyles((theme: Theme) => {
-    const borderColor = theme.palette.type === "light" ? "rgba(0, 0, 0, 0.23)" : "rgba(255, 255, 255, 0.23)";    
-    return {
-        root: {
-            display: "flex",
-            flexDirection: "row",
-        },
-        view: {
-            display: "flex",
-            flex: 1,
-            minInlineSize: "auto",
-            flexDirection: "column",
-            borderRadius: theme.shape.borderRadius,
-            borderStyle: "solid",
-            borderWidth: 1,            
-            margin: 0,
-            borderColor,
-            padding: 1,
-            cursor: "text",
-            "&$diffEditor": {
-                borderTopRightRadius: 0,
-                borderBottomRightRadius: 0,
-                "&:not(:hover)": {
-                    borderRightColor: "transparent",
-                },
-            },
-            "&$diffTheirs": {
-                borderTopLeftRadius: 0,
-                borderBottomLeftRadius: 0,
-                "&:not(:hover)": {
-                    borderLeftColor: "transparent",
-                },
-            },
-            "&$hasLabel": {
-                paddingTop: 0,
-            },
-            "&:hover": {
-                borderColor: theme.palette.text.primary,
-            },
-            "&:focus-within": {
-                borderColor: theme.palette.primary.main,
-                borderWidth: 2,
-                padding: 0,
-                "&>$label": {
-                    color: theme.palette.primary.main,
-                },
-            },
-            "&$error, &$error:focus-within": {
-                borderColor: theme.palette.error.main,
-                "&>$label": {
-                    color: theme.palette.error.main,
-                },
-            },
-            "& $input .cm-editor": {
-                outline: "none",
-            },
-            "&$multiline $input": {
-                padding: 0,
-                overflowY: "auto",
-                "& .cm-activeLine:not(.cmd-linediff)": {
-                    backgroundColor: theme.palette.action.hover,
-                },
-                "& .cm-gutters": {
-                    display: "flex",
-                    color: theme.palette.text.secondary,
-                    border: "none"
-                },        
-            },
-            "& .cm-completionIcon": {
-                boxSizing: "content-box",
-            },
-        },
-        diffEditor: {},
-        diffTheirs: {},
-        hasLabel: {},
-        label: {
-            marginLeft: theme.spacing(1),
-            paddingLeft: theme.spacing(0.75),
-            paddingRight: theme.spacing(0.75),
-            color: theme.palette.text.secondary,
-            userSelect: "none",
-            ...theme.typography.caption,
-        },
-        error: {},
-        input: {
-            paddingTop: theme.spacing(0.5),
-            paddingBottom: theme.spacing(0.5),
-            paddingLeft: theme.spacing(1),
-            paddingRight: theme.spacing(1),
-            flex: 1,
-            overflow: "hidden",
-        },
-        multiline: {},
-    };
-});
