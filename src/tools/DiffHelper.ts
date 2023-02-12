@@ -34,24 +34,31 @@ export const getDiff = (oldText: string, newText: string): LineDiff[] => {
     let newPos = 0;
     const result: LineDiff[] = [];
 
-    const emitSimple = (op: 0 | 1 | -1, tokens: string) => {
+    const emitRemoved = (tokens: string) => {
         for (let i = 0; i < tokens.length; ++i) {
-            let line: string;
-            if (op < 0) {
-                line = oldLines[oldPos++];
-            } else if (op > 0) {
-                line = newLines[newPos++];
-            } else {
-                line = newLines[newPos++];
-                ++oldPos;
-            }
-            result.push([op, line]);
+            result.push([-1, oldLines[oldPos++]]);
         }
     };
 
-    const emitRemoved = (tokens: string) => emitSimple(-1, tokens);
-    const emitInserted = (tokens: string) => emitSimple(1, tokens);
-    const emitUnchanged = (tokens: string) => emitSimple(0, tokens);
+    const emitInserted = (tokens: string) => {
+        for (let i = 0; i < tokens.length; ++i) {
+            result.push([1, newLines[newPos++]]);
+        }
+    };
+
+    const emitUnchanged = (tokens: string) => {
+        for (let i = 0; i < tokens.length; ++i) {
+            const oldLine = oldLines[oldPos++];
+            const newLine = newLines[newPos++];
+            if (oldLine === newLine) {
+                result.push([0, newLine]);
+            } else {
+                const inlineDiff = getInlineDiff(oldLine, newLine);
+                result.push(inlineDiff);
+            }
+        }
+    };
+
     const emitChanged = (tokens: string) => {
         for (let i = 0; i < tokens.length; ++i) {
             const inlineDiff = getInlineDiff(oldLines[oldPos++], newLines[newPos++]);
