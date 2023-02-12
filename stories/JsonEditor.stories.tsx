@@ -85,7 +85,7 @@ const THEIR_VALUE = `{
     "foo": "Bar",
     "baz": 12.34,        
     "nested": {
-        "deep: {
+        "deep": {
             "array": [1, 2, 3],
             "ok": true
         }
