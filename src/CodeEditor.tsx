@@ -364,7 +364,6 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     const rootClass = clsx(
         className,
         classes.root,
-        parseFailed && classes.error,
     );
         
     const editorClass = clsx(
@@ -372,6 +371,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         hasDiff && classes.diffEditor,
         label && classes.hasLabel,
         multiline && classes.multiline,
+        parseFailed && classes.error,
     );
 
     const theirClass = clsx(

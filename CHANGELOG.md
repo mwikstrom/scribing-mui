@@ -1,3 +1,7 @@
+## 1.6.1 - 2023-02-12
+
+- Fix: Error border not displayed
+
 ## 1.6.0 - 2023-02-12
 
 - Overflow-y is now `auto` instead of `scroll`
