@@ -374,15 +374,15 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     );
 
     return (
-        <div className={rootClass}>
+        <div className={rootClass} style={{minHeight, maxHeight}}>
             <fieldset className={editorClass} onClick={onClickEditor}>
                 {label && <legend className={classes.label}>{label}</legend>}
-                <div ref={setEditorElem} className={classes.input} style={{minHeight, maxHeight}} />
+                <div ref={setEditorElem} className={classes.input} />
             </fieldset>
             {hasDiff && (
                 <fieldset className={theirClass} onClick={onClickTheir}>
                     {theirLabel && <legend className={classes.label}>{theirLabel}</legend>}
-                    <div ref={setTheirElem} className={classes.input} style={{minHeight, maxHeight}} />
+                    <div ref={setTheirElem} className={classes.input} />
                 </fieldset>
             )}
         </div>

@@ -136,6 +136,16 @@ DarkDiff.args = {
     theirLabel: "Imported"
 };
 
+export const DarkDiffMaxHeight = Template.bind({});
+DarkDiffMaxHeight.args = {
+    dark: true,
+    initialValue: MY_VALUE,
+    theirValue: THEIR_VALUE,
+    label: "Authored",
+    theirLabel: "Imported",
+    maxHeight: 200,
+};
+
 export const LightDiff = Template.bind({});
 LightDiff.args = {
     initialValue: MY_VALUE,

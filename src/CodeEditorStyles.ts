@@ -24,16 +24,10 @@ export const useCodeEditorStyles = makeStyles((theme: Theme) => {
             "&$diffEditor": {
                 borderTopRightRadius: 0,
                 borderBottomRightRadius: 0,
-                "&:not(:hover)": {
-                    borderRightColor: "transparent",
-                },
             },
             "&$diffTheirs": {
                 borderTopLeftRadius: 0,
                 borderBottomLeftRadius: 0,
-                "&:not(:hover)": {
-                    borderLeftColor: "transparent",
-                },
             },
             "&$hasLabel": {
                 paddingTop: 0,
