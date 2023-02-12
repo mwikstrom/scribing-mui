@@ -17,12 +17,16 @@ export interface CodeEditorProps
 |  --- | --- | --- | --- |
 |  [autoFocus?](./scribing-mui.codeeditorprops.autofocus.md) |  | boolean | <i>(Optional)</i> |
 |  [className?](./scribing-mui.codeeditorprops.classname.md) |  | string | <i>(Optional)</i> |
+|  [diffDelay?](./scribing-mui.codeeditorprops.diffdelay.md) |  | number | <i>(Optional)</i> |
 |  [initialValue?](./scribing-mui.codeeditorprops.initialvalue.md) |  | string | <i>(Optional)</i> |
 |  [label?](./scribing-mui.codeeditorprops.label.md) |  | string | <i>(Optional)</i> |
 |  [language?](./scribing-mui.codeeditorprops.language.md) |  | LanguageSupport | <i>(Optional)</i> |
 |  [maxHeight?](./scribing-mui.codeeditorprops.maxheight.md) |  | string \| number | <i>(Optional)</i> |
 |  [minHeight?](./scribing-mui.codeeditorprops.minheight.md) |  | string \| number | <i>(Optional)</i> |
 |  [onValueChange?](./scribing-mui.codeeditorprops.onvaluechange.md) |  | (value: string) =&gt; void | <i>(Optional)</i> |
-|  [parse?](./scribing-mui.codeeditorprops.parse.md) |  | (value: string) =&gt; Error \| null \| void | <i>(Optional)</i> |
+|  [parse?](./scribing-mui.codeeditorprops.parse.md) |  | (value: string, decorate: (annotation: [CodeEditorParseAnnotation](./scribing-mui.codeeditorparseannotation.md)<!-- -->) =&gt; void) =&gt; Error \| unknown | <i>(Optional)</i> |
+|  [parseDelay?](./scribing-mui.codeeditorprops.parsedelay.md) |  | number | <i>(Optional)</i> |
 |  [readOnly?](./scribing-mui.codeeditorprops.readonly.md) |  | boolean | <i>(Optional)</i> |
+|  [theirLabel?](./scribing-mui.codeeditorprops.theirlabel.md) |  | string | <i>(Optional)</i> |
+|  [theirValue?](./scribing-mui.codeeditorprops.theirvalue.md) |  | string | <i>(Optional)</i> |
 

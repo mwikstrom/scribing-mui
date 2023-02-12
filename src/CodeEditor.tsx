@@ -28,10 +28,18 @@ export interface CodeEditorProps {
     minHeight?: string | number;
     maxHeight?: string | number;
     readOnly?: boolean;
-    parse?: (value: string, report: (diagnostic: Diagnostic) => void) => Error | unknown;
+    parse?: (value: string, decorate: (annotation: CodeEditorParseAnnotation) => void) => Error | unknown;
     parseDelay?: number;
     diffDelay?: number;
     language?: LanguageSupport;
+}
+
+/** @public */
+export interface CodeEditorParseAnnotation {
+    from: number;
+    to: number;
+    message: string;
+    severity: "error" | "warning" | "info";
 }
 
 /** @public */

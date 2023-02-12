@@ -27,7 +27,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
     const { illegalWords, initialValue = INITIAL_VALUE, ...otherProps } = props;
     const classes = useStyles();
     const language = useMemo(json, []);
-    const parse = useCallback<Required<CodeEditorProps>["parse"]>((input, report) => {
+    const parse = useCallback<Required<CodeEditorProps>["parse"]>((input, decorate) => {
         if (illegalWords) {
             for (let i = 0; i < illegalWords.length; ++i) {
                 const word = illegalWords[i];
@@ -35,7 +35,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
                 while (pos >= 0) {
                     pos = input.indexOf(word, pos);
                     if (pos >= 0) {
-                        report({
+                        decorate({
                             from: pos,
                             to: pos += word.length,
                             severity: (["error", "warning", "info"] as const)[i % 4],

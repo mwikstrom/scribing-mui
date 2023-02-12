@@ -46,11 +46,25 @@ export interface ClassType extends TypeDecl<"class"> {
 export const CodeEditor: FC<CodeEditorProps>;
 
 // @public (undocumented)
+export interface CodeEditorParseAnnotation {
+    // (undocumented)
+    from: number;
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    severity: "error" | "warning" | "info";
+    // (undocumented)
+    to: number;
+}
+
+// @public (undocumented)
 export interface CodeEditorProps {
     // (undocumented)
     autoFocus?: boolean;
     // (undocumented)
     className?: string;
+    // (undocumented)
+    diffDelay?: number;
     // (undocumented)
     initialValue?: string;
     // (undocumented)
@@ -64,9 +78,15 @@ export interface CodeEditorProps {
     // (undocumented)
     onValueChange?: (value: string) => void;
     // (undocumented)
-    parse?: (value: string) => Error | null | void;
+    parse?: (value: string, decorate: (annotation: CodeEditorParseAnnotation) => void) => Error | unknown;
+    // (undocumented)
+    parseDelay?: number;
     // (undocumented)
     readOnly?: boolean;
+    // (undocumented)
+    theirLabel?: string;
+    // (undocumented)
+    theirValue?: string;
 }
 
 // @public (undocumented)

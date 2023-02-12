@@ -1,10 +1,10 @@
-## 1.6.0 - 2023-02-09
+## 1.6.0 - 2023-02-12
 
 - Overflow-y is now `auto` instead of `scroll`
 - Fix: Fullscreen overflow scrolling in script editor dialog
 - Fix: Handle result from `parse` callback in code editor
-- New feature: Report lint diagnostics from `parse` callback
-- New feature: Diff view
+- New feature: Decorate source with annotations from `parse` callback
+- New feature: JSON diff view
 - New peer dependency: `@codemirror/lint`
 - New peer dependency: `diff-match-patch`
 

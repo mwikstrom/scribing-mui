@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-parse?: (value: string) => Error | null | void;
+parse?: (value: string, decorate: (annotation: CodeEditorParseAnnotation) => void) => Error | unknown;
 ```
