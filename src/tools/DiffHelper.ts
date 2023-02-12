@@ -31,45 +31,54 @@ export const getDiff = (oldText: string, newText: string): LineDiff[] => {
     const newLines = splitLines(newText);
     const oldLineTokens = buildLineTokens(oldLines, lineTokenMap);
     const newLineTokens = buildLineTokens(newLines, lineTokenMap);
-    const diffArray = getEngine().diff_main(oldLineTokens, newLineTokens);
-    getEngine().diff_cleanupSemanticLossless(diffArray);
+    const engine = getEngine();
+    const diffArray = engine.diff_main(oldLineTokens, newLineTokens);
     let oldPos = 0;
     let newPos = 0;
     const result: LineDiff[] = [];
 
-    const emitRemoved = (tokens: string) => {
-        for (let i = 0; i < tokens.length; ++i) {
-            result.push([-1, oldLines[oldPos++]]);
-        }
-    };
-
-    const emitInserted = (tokens: string) => {
-        for (let i = 0; i < tokens.length; ++i) {
-            result.push([1, newLines[newPos++]]);
-        }
-    };
-
-    const emitUnchanged = (tokens: string) => {
-        for (let i = 0; i < tokens.length; ++i) {
-            const oldLine = oldLines[oldPos++];
-            const newLine = newLines[newPos++];
-            result.push([0, oldLine, newLine]);
-        }
-    };
-
-    const emitChanged = (tokens: string) => {
-        for (let i = 0; i < tokens.length; ++i) {
-            const inlineDiff = getInlineDiff(oldLines[oldPos++], newLines[newPos++]);
-            result.push(inlineDiff);
-        }
-    };
-
     processDiff({
         input: diffArray,
-        emitRemoved,
-        emitInserted,
-        emitUnchanged,
-        emitChanged,
+        emitUnchanged: tokens => {
+            for (let i = 0; i < tokens.length; ++i) {
+                const oldLine = oldLines[oldPos++];
+                const newLine = newLines[newPos++];
+                result.push([0, oldLine, newLine]);
+            }
+        },
+        emitChanged: (removedTokens, insertedTokens) => {
+            const removedLines: string[] = [];
+            const insertedLines: string[] = [];
+            const affectedCount = Math.max(removedTokens.length, insertedTokens.length);
+            for (let i = 0; i < affectedCount; ++i) {
+                if (i < removedTokens.length) {
+                    removedLines.push(oldLines[oldPos++]);
+                }
+                if (i < insertedTokens.length) {
+                    insertedLines.push(newLines[newPos++]);
+                }
+            }
+            while (insertedLines.length > 0) {
+                const newText = insertedLines.shift() as string;
+                let best: { diff: readonly Diff[]; score: number; index: number } | undefined;
+                for (let index = 0; index < removedLines.length; ++index) {
+                    const oldText = removedLines[index];
+                    const diff = engine.diff_main(oldText, newText) || [];
+                    const score = 1 - (engine.diff_levenshtein(diff) / Math.max(oldText.length, newText.length));
+                    if (!best || score > best.score) {
+                        best = { diff, score, index};
+                    }
+                }
+                if (best && best.score > 0.5) {
+                    removedLines.splice(0, best.index).forEach(line => result.push([-1, line]));
+                    removedLines.shift();
+                    result.push(getInlineDiff(best.diff));
+                } else {
+                    result.push([1, newText]);
+                }
+            }
+            removedLines.forEach(line => result.push([-1, line]));
+        },
     });
     
     return result;
@@ -123,18 +132,25 @@ const buildLineTokens = (lines: readonly string[], map: Map<string, string>): st
         return token;
     }).join(""); 
 
-const getInlineDiff = (oldText: string, newText: string): InlineDiff[] => {
+const getInlineDiff = (diffArray: readonly Diff[]): InlineDiff[] => {
     const result: InlineDiff[] = [];
-    const diffArray = getEngine().diff_main(oldText, newText) || [];
-
     const emit = (op: -1 | 0 | 1 | 2, str: string) => result.push([op, str]);
 
     processDiff({
         input: diffArray,
-        emitRemoved: str => emit(-1, str),
-        emitInserted: str => emit(1, str),
-        emitUnchanged: str => emit(0, str),
-        emitChanged: str => emit(2, str),
+        emitUnchanged: chars => emit(0, chars),
+        emitChanged: (removed, inserted) => {
+            const changed = inserted.substring(0, removed.length);
+            if (removed.length > changed.length) {
+                emit(-1, removed.substring(0, removed.length - changed.length));
+            }
+            if (changed.length > 0) {
+                emit(2, changed);
+            }
+            if (inserted.length > changed.length) {
+                emit(1, inserted.substring(changed.length));
+            }
+        },
     });
     
     return result;
@@ -142,42 +158,33 @@ const getInlineDiff = (oldText: string, newText: string): InlineDiff[] => {
 
 interface ProcessDiffProps {
     input: readonly Diff[];
-    emitRemoved(str: string): void;
-    emitInserted(str: string): void;
-    emitChanged(str: string): void;
-    emitUnchanged(str: string): void;
+    emitChanged(removed: string, inserted: string): void;
+    emitUnchanged(text: string): void;
 }
 
 const processDiff = (props: ProcessDiffProps) => {
-    const { input, emitRemoved, emitInserted, emitChanged, emitUnchanged } = props;
-    let pending = "";
+    const { input, emitChanged, emitUnchanged } = props;
+    let pendingRemoval = "";
+    let pendingInsertion = "";
 
-    for (const [op, tokens] of input) {
+    for (const [op, chars] of input) {
         if (op === -1) {
-            pending += tokens;
+            pendingRemoval += chars;
         } else if (op === 0) {
-            if (pending) {
-                emitRemoved(pending);
-                pending = "";
+            if (pendingRemoval || pendingInsertion) {
+                emitChanged(pendingRemoval, pendingInsertion);
+                pendingRemoval = "";
+                pendingInsertion = "";
             }
-            emitUnchanged(tokens);
+            emitUnchanged(chars);
         } else if (op === 1) {
-            const changed = tokens.substring(0, pending.length);
-            if (changed) {
-                emitChanged(changed);
-            }
-            if (tokens.length > changed.length) {
-                emitInserted(tokens.substring(changed.length));
-            } else if (pending.length > changed.length) {
-                emitRemoved(pending.substring(changed.length));
-            }
-            pending = "";            
+            pendingInsertion += chars;
         }
     }
 
-    if (pending) {
-        emitRemoved(pending);
-    } 
+    if (pendingRemoval || pendingInsertion) {
+        emitChanged(pendingRemoval, pendingInsertion);
+    }
 };
 
 const getEngine = (): diff_match_patch => {
