@@ -262,6 +262,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                 const theirChanges: ChangeSpec[] = [{ from: 0, to: theirView.state.sliceDoc(0).length }];
                 let editorPos = 0;
                 let theirPos = 0;
+                // TODO: Perhaps it would be cool to have "ghost blocks" for removed lines?
                 for (const diff of diffArray) {
                     if (typeof diff[0] === "number") {
                         const [op, text] = diff;

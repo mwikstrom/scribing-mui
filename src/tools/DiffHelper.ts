@@ -24,6 +24,9 @@ export type KeepTextDiff = [0, string];
 /** @internal */
 export type ChangeTextDiff = [2, string];
 
+// TODO: getDiff should be improved to accept an inline tokenizer. This should be used to tokenizing JSON so that
+// it doesn't report changes across or inside JSON tokens, but instead only diff on token level.
+
 /** @internal */
 export const getDiff = (oldText: string, newText: string): LineDiff[] => {
     const lineTokenMap = new Map<string, string>();    
