@@ -1,10 +1,10 @@
 import { Diff, diff_match_patch } from "diff-match-patch";
 
 /** @internal */
-export type LineDiff = KeepDiff | InsertDiff | RemoveDiff | ChangedLineDiff;
+export type LineDiff = KeepLineDiff | InsertDiff | RemoveDiff | ChangedLineDiff;
 
 /** @internal */
-export type KeepDiff = [0, string];
+export type KeepLineDiff = [0, string, string];
 
 /** @internal */
 export type InsertDiff = [1, string];
@@ -16,7 +16,10 @@ export type RemoveDiff = [-1, string];
 export type ChangedLineDiff = InlineDiff[];
 
 /** @internal */
-export type InlineDiff = KeepDiff | InsertDiff | RemoveDiff | ChangeTextDiff;
+export type InlineDiff = KeepTextDiff | InsertDiff | RemoveDiff | ChangeTextDiff;
+
+/** @internal */
+export type KeepTextDiff = [0, string];
 
 /** @internal */
 export type ChangeTextDiff = [2, string];
@@ -50,12 +53,7 @@ export const getDiff = (oldText: string, newText: string): LineDiff[] => {
         for (let i = 0; i < tokens.length; ++i) {
             const oldLine = oldLines[oldPos++];
             const newLine = newLines[newPos++];
-            if (oldLine === newLine) {
-                result.push([0, newLine]);
-            } else {
-                const inlineDiff = getInlineDiff(oldLine, newLine);
-                result.push(inlineDiff);
-            }
+            result.push([0, oldLine, newLine]);
         }
     };
 

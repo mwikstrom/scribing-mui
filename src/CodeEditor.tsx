@@ -269,12 +269,14 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
                             editorEffects.push(addLineDiff.of({ pos: editorPos, op }));
                             editorPos += text.length;
                         } else if (op === 0) {
+                            const oldText = text;
+                            const newText = diff[2];
                             theirChanges.push({
                                 from: 0,
-                                insert: text,
+                                insert: newText,
                             });
-                            theirPos += text.length;
-                            editorPos += text.length;
+                            theirPos += newText.length;
+                            editorPos += oldText.length;
                         } else if (op === 1) {
                             theirEffects.push(addLineDiff.of({ pos: theirPos, op }));
                             theirChanges.push({
