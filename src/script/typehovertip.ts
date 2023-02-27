@@ -30,9 +30,12 @@ export const typeHoverTip = (
     }
 
     const lastSelection = path.slice(-1)[0];
-    const label = lastSelection.select === "member" ? lastSelection.member : "";
+    if (lastSelection.select !== "member") {
+        return null;
+    }
+
     const props: TypeInfoViewProps = {
-        label,
+        label: lastSelection.member,
         info,
         mount,
         pad: true,
