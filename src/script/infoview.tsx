@@ -1,13 +1,13 @@
-import { Box, Container, Typography } from "@material-ui/core";
+import { Box, Container, Divider, Typography } from "@material-ui/core";
 import React, { FC, ReactNode, ReactPortal } from "react";
 import ReactDOM from "react-dom";
 import { ParamInfo, TypeInfo } from "../TypeInfo";
 
-export const getTypeInfoClass = (info: TypeInfo): string => {
+export const getTypeInfoClass = (info: TypeInfo, local?: boolean): string => {
     const { decl } = info;
     if (decl === "function" || decl === "class") {
         return decl;
-    } else if (decl === "object") {
+    } else if (decl === "object" && !local) {
         return "namespace";
     } else {
         return "variable";
@@ -74,64 +74,94 @@ export interface TypeInfoViewProps {
 const TypeInfoView = (props: Omit<TypeInfoViewProps, "mount">) => {
     const { label, info, pad } = props;
     const { scope, decl } = info;
-    const overline = [scope, getTypeInfoClass(info)].filter(Boolean).join(" ");
+    const overline = [scope, getTypeInfoClass(info, scope === "local")].filter(Boolean).join(" ");
     return (
         <Container maxWidth="sm" disableGutters>
             <Box p={pad ? 1 : 0}>
                 <Block><Subtle>{overline}</Subtle></Block>
-                <Block>
-                    <PrimaryAccent>{label}</PrimaryAccent>
-                    {decl === "function" ? (
-                        <>
-                            <Separator>(</Separator>
-                            {info.params ? info.params.map((param, index) => (
-                                <ParamName key={index} param={param} index={index}/>
-                            )) : <Separator>&hellip;</Separator>}
-                            <Separator>)</Separator>
-                        </>
-                    ) : (decl === "string" || decl === "boolean" || decl === "number") && info.value !== undefined ? (
-                        <>
-                            <Separator> = </Separator>
-                            <Normal>{info.value}</Normal>
-                        </>
-                    ) : info.decl !== "unknown" && (
-                        <>
-                            <Separator>: </Separator>
-                            <InlineType info={info}/>
-                        </>
-                    )}
-                </Block>
-                {info.desc && (
-                    <Box my={2}>
-                        <Typography variant="body2">{info.desc}</Typography>
-                    </Box>
-                )}
-                {decl === "function" && info.params && info.params.map((param, index) => (
-                    <Box key={index} mt={1}>
-                        <Block>
-                            {param.optional && <Subtle>optional </Subtle>}
-                            {param.spread && <Subtle>rest </Subtle>}
-                            <Subtle>param </Subtle>
-                            <SecondaryAccent>{getParamName({param, index})}</SecondaryAccent>
-                            {param.type && param.type.decl !== "unknown" && (
-                                <>
-                                    <Separator>: </Separator>
-                                    <InlineType info={param.type}/>
-                                </>
-                            )}
-                        </Block>
-                    </Box>
-                ))}
-                {decl === "function" && info.returnType && (
-                    <Box mt={1}>
-                        <Block>
-                            <Subtle>returns </Subtle>
-                            <InlineType info={info.returnType}/>
-                        </Block>
-                    </Box>
-                )}
+                {decl === "union" ? info.union.map((item, index) => (
+                    <React.Fragment key={index}>
+                        {index > 0 && (
+                            <Box my={2}><Divider /></Box>
+                        )}
+                        <TypeInfoViewBody label={label} info={item} />   
+                    </React.Fragment>
+                )) : <TypeInfoViewBody label={label} info={info} />}
             </Box>
         </Container>
+    );
+};
+
+const TypeInfoViewBody = (props: Pick<TypeInfoViewProps, "label" | "info">) => {
+    const { label, info } = props;
+    const { decl } = info;
+    return (
+        <>
+            <Block>
+                <PrimaryAccent>{label}</PrimaryAccent>
+                {decl === "function" ? (
+                    <>
+                        <Separator>(</Separator>
+                        {info.params ? info.params.map((param, index) => (
+                            <ParamName key={index} param={param} index={index}/>
+                        )) : <Separator>&hellip;</Separator>}
+                        <Separator>)</Separator>
+                    </>
+                ) : (decl === "string" || decl === "boolean" || decl === "number") && info.value !== undefined ? (
+                    <>
+                        <Separator> = </Separator>
+                        <Normal>{info.value}</Normal>
+                    </>
+                ) : (
+                    <>
+                        <Separator>: </Separator>
+                        <InlineType info={info}/>
+                    </>
+                )}
+            </Block>
+            {info.desc && (
+                <Box my={2}>
+                    <Typography variant="body2">{info.desc}</Typography>
+                </Box>
+            )}
+            {decl === "object" && info.props && Object.entries(info.props).map(([key, prop]) => (
+                <Box key={key} mt={1}>
+                    <Block>
+                        <Subtle>property </Subtle>
+                        <SecondaryAccent>{key}</SecondaryAccent>
+                        <Separator>: </Separator>
+                        <InlineType info={prop}/>
+                        {prop.desc && (
+                            <Box pl={2}><Subtle>{prop.desc}</Subtle></Box>
+                        )}
+                    </Block>
+                </Box>
+            ))}
+            {decl === "function" && info.params && info.params.map((param, index) => (
+                <Box key={index} mt={1}>
+                    <Block>
+                        {param.optional && <Subtle>optional </Subtle>}
+                        {param.spread && <Subtle>rest </Subtle>}
+                        <Subtle>param </Subtle>
+                        <SecondaryAccent>{getParamName({param, index})}</SecondaryAccent>
+                        {param.type && param.type.decl !== "unknown" && (
+                            <>
+                                <Separator>: </Separator>
+                                <InlineType info={param.type}/>
+                            </>
+                        )}
+                    </Block>
+                </Box>
+            ))}
+            {decl === "function" && info.returnType && (
+                <Box mt={1}>
+                    <Block>
+                        <Subtle>returns </Subtle>
+                        <InlineType info={info.returnType}/>
+                    </Block>
+                </Box>
+            )}
+        </>
     );
 };
 

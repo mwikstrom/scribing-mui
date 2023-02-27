@@ -35,10 +35,10 @@ TypeInfo.annotate(
         [ { renderInfoTip: props => <MyParamInfo {...props}/> }, ],
         TypeInfo.promise(TypeInfo.ident("MyObj", TypeInfo.desc("My fine object", TypeInfo.object({
             propA: TypeInfo.string,
-            propB: TypeInfo.object({
-                foo: TypeInfo.number,
+            propB: TypeInfo.union(TypeInfo.object({
+                foo: TypeInfo.desc("The number of cool things", TypeInfo.number),
                 bar: TypeInfo.array(TypeInfo.object({ bool: TypeInfo.boolean })),
-            })
+            }), TypeInfo.undefined),
         }))))
     )
 );

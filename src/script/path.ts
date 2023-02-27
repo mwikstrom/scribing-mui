@@ -177,12 +177,17 @@ export const selectType = (type: TypeInfo | null, path: readonly TypeSelection[]
 };
 
 const selectChild = (parent: TypeInfo | undefined, selection: TypeSelection): TypeInfo | null => {
+    const { select } = selection;
+    
     if (!parent) {
         return null;
     }
 
     if (parent.decl === "union") {
-        const children = parent.union.map(item => selectChild(item, selection)).filter(Boolean) as TypeInfo[];
+        const children = parent.union
+            .filter(item => select !== "member" || item.decl !== "undefined")
+            .map(item => selectChild(item, selection))
+            .filter(Boolean) as TypeInfo[];
         if (children.length === 0) {
             return null;
         }
@@ -197,8 +202,6 @@ const selectChild = (parent: TypeInfo | undefined, selection: TypeSelection): Ty
         return null;
     }
 
-    const { select } = selection;
-
     if (select === "await") {
         if (parent.decl === "promise") {
             return parent.resolveType ?? TypeInfo.unknown;
@@ -208,10 +211,12 @@ const selectChild = (parent: TypeInfo | undefined, selection: TypeSelection): Ty
             return parent;
         }
         const props = getPropsFromType(parent);
-        if (!props) {
-            return TypeInfo.unknown;
+        if (props) {
+            return props[selection.member] ?? TypeInfo.undefined;
+        } else if (parent.decl === "undefined") {
+            return TypeInfo.undefined;
         } else {
-            return props[selection.member] ?? null;
+            return TypeInfo.unknown;
         }
     } else if (select === "index") {
         if (parent.decl === "array") {
