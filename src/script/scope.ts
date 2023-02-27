@@ -34,7 +34,7 @@ export const getScopeFromNode = (
         result.set("this", TypeInfo.object(Object.fromEntries(thisMap)));
 
         for (const block of getOuterBlocks(node).reverse()) {
-            const decl = getDeclarations(block, state);
+            const decl = getDeclarations(block, state, result);
             for (const [key, info] of Object.entries(decl)) {
                 result.set(key, TypeInfo.scope("local", info));
             }

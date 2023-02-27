@@ -44,9 +44,11 @@ export const getTypeSelectionPathFromNode = (
     slice: Slicer,
 ): readonly TypeSelection[] | null => {
     const path: TypeSelection[] = [];
+    const guard = new Set<SyntaxNode>();
 
-    while (node) {
+    while (node && !guard.has(node)) {
         const { name, from, to } = node;
+        guard.add(node);
 
         if (name === "this") {
             path.unshift(selectMember("this"));
@@ -90,6 +92,12 @@ export const getTypeSelectionPathFromNode = (
         } else if (name === "null") {
             path.unshift(selectPrimitive(TypeInfo.null));
             break;
+        } else if (name === "CallExpression") {
+            path.unshift(selectReturn);
+            node = node.firstChild;
+        } else if (name === "UnaryExpression" && node.firstChild?.name === "await") {
+            path.unshift(selectAwait);
+            node = node.firstChild.nextSibling;
         } else {
             return null;
         }

@@ -2,6 +2,7 @@ import { javascriptLanguage } from "@codemirror/lang-javascript";
 import { EditorState } from "@codemirror/state";
 import { SyntaxNode } from "@lezer/common";
 import { ParamInfo, TypeInfo } from "../TypeInfo";
+import { getTypeSelectionPathFromNode, selectType } from "./path";
 
 export const parseScript = (input: string): SyntaxNode => javascriptLanguage.parser.parse(input).topNode;
 
@@ -28,7 +29,11 @@ export const getOuterBlocks = (node: SyntaxNode | null): SyntaxNode[] => {
     return blocks;
 };
 
-export const getDeclarations = (block: SyntaxNode, state: EditorState): Record<string, TypeInfo> => {
+export const getDeclarations = (
+    block: SyntaxNode,
+    state: EditorState,
+    scope: ReadonlyMap<string, TypeInfo>
+): Record<string, TypeInfo> => {
     const result: Record<string, TypeInfo> = {};
     for (let child = block.firstChild; child; child = child.nextSibling) {
         if (child.name === "FunctionDeclaration") {
@@ -39,7 +44,8 @@ export const getDeclarations = (block: SyntaxNode, state: EditorState): Record<s
         } else if (child.name === "VariableDeclaration") {
             const key = getVariableName(child, state);
             if (key) {
-                result[key] = getVariableType(child, state);
+                const currentScope = TypeInfo.object({ ...result, ...Object.fromEntries(scope.entries()) });
+                result[key] = getVariableType(child, state, currentScope);
             }
         }
     }
@@ -144,12 +150,20 @@ const getFunctionParams = (decl: SyntaxNode, state: EditorState): readonly Param
     }
 };
 
-const getVariableType = (decl: SyntaxNode, state: EditorState): TypeInfo => {
+const getVariableType = (decl: SyntaxNode, state: EditorState, scope: TypeInfo): TypeInfo => {
     const eq = decl.getChild("Equals");
     if (eq) {
         const val = decl.childAfter(eq.to);
         if (val?.name === "ArrowFunction") {
             return TypeInfo.function(getFunctionParams(val, state));
+        } else if (val) {
+            const path = getTypeSelectionPathFromNode(val, state.sliceDoc.bind(state));
+            if (path) {
+                const selected = selectType(scope, path);
+                if (selected) {
+                    return selected;
+                }
+            }
         }
     }
     return TypeInfo.unknown;
