@@ -12,7 +12,8 @@ export const useCodeEditorStyles = makeStyles((theme: Theme) => {
         view: {
             display: "flex",
             flex: 1,
-            minInlineSize: "auto",
+            minWidth: "auto",
+            maxWidth: "100%",
             flexDirection: "column",
             borderRadius: theme.shape.borderRadius,
             borderStyle: "solid",
@@ -21,6 +22,9 @@ export const useCodeEditorStyles = makeStyles((theme: Theme) => {
             borderColor,
             padding: 1,
             cursor: "text",
+            "&$diff": {
+                maxWidth: "50%",
+            },
             "&$diffEditor": {
                 borderTopRightRadius: 0,
                 borderBottomRightRadius: 0,
@@ -52,9 +56,11 @@ export const useCodeEditorStyles = makeStyles((theme: Theme) => {
             "& $input .cm-editor": {
                 outline: "none",
             },
+            "& $input .cm-scroller": {
+                overflow: "visible",
+            },
             "&$multiline $input": {
                 padding: 0,
-                overflowY: "auto",
                 "& .cm-activeLine:not(.cmd-linediff)": {
                     backgroundColor: theme.palette.action.hover,
                 },
@@ -68,6 +74,7 @@ export const useCodeEditorStyles = makeStyles((theme: Theme) => {
                 boxSizing: "content-box",
             },
         },
+        diff: {},
         diffEditor: {},
         diffTheirs: {},
         hasLabel: {},
@@ -86,7 +93,7 @@ export const useCodeEditorStyles = makeStyles((theme: Theme) => {
             paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
             flex: 1,
-            overflow: "hidden",
+            overflow: "auto",
         },
         multiline: {},
     };

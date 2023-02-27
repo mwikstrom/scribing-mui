@@ -368,6 +368,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         
     const editorClass = clsx(
         classes.view,
+        hasDiff && classes.diff,
         hasDiff && classes.diffEditor,
         label && classes.hasLabel,
         multiline && classes.multiline,
@@ -376,6 +377,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
 
     const theirClass = clsx(
         classes.view,
+        hasDiff && classes.diff,
         hasDiff && classes.diffTheirs,
         theirLabel && classes.hasLabel,
         multiline && classes.multiline,

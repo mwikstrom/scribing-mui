@@ -70,6 +70,19 @@ const INITIAL_VALUE = `{
 }
 `;
 
+const OVERFLOW_VALUE = `{
+    "foo": "bar",
+    "bar": 123,
+    "nested": {
+        "array": [1, 2, 3],
+        "ok": true
+    },
+    "long": "${"long line ".repeat(100)}",
+    "extra": [
+        ${new Array(100).fill(1).map((_, index) => `"extra line #${index + 1}"`).join(",\n        ")}    
+    ]
+}`;
+
 const MY_VALUE = `{
     "foo": "bar",
     "bar": 123,
@@ -136,15 +149,18 @@ DarkDiff.args = {
     theirLabel: "Imported"
 };
 
-export const DarkDiffMaxHeight = Template.bind({});
-DarkDiffMaxHeight.args = {
+export const DarkDiffOverflow = Template.bind({});
+DarkDiffOverflow.args = {
     dark: true,
-    initialValue: MY_VALUE,
+    initialValue: OVERFLOW_VALUE,
     theirValue: THEIR_VALUE,
     label: "Authored",
     theirLabel: "Imported",
-    maxHeight: 200,
+    maxHeight: "100%",
 };
+
+export const LightOverflow = Template.bind({});
+LightOverflow.args = { initialValue: OVERFLOW_VALUE, maxHeight: "100%" };
 
 export const LightDiff = Template.bind({});
 LightDiff.args = {

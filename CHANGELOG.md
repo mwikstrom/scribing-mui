@@ -1,3 +1,7 @@
+## 1.6.2 - 2023-02-27
+
+- Fix: Overflow scrolling
+
 ## 1.6.1 - 2023-02-12
 
 - Fix: Error border not displayed
