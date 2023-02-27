@@ -9,7 +9,8 @@ export type TypeSelection = (
     ParamSelection |
     AwaitSelection |
     ReturnSelection |
-    NewSelection
+    NewSelection |
+    PrimitiveSelection
 );
 
 export interface TypeSelectionBase<T extends string = string> {
@@ -34,6 +35,10 @@ export type ReturnSelection = TypeSelectionBase<"return">;
 
 export type NewSelection = TypeSelectionBase<"new">;
 
+export interface PrimitiveSelection extends TypeSelectionBase<"primitive"> {
+    primitive: TypeInfo;
+}
+
 export const getTypeSelectionPathFromNode = (
     node: SyntaxNode | null | undefined,
     slice: Slicer,
@@ -47,6 +52,9 @@ export const getTypeSelectionPathFromNode = (
             path.unshift(selectMember("this"));
             break;
         } else if (name === "VariableName") {
+            path.unshift(selectMember(slice(from, to)));
+            break;
+        } else if (name === "VariableDefinition") {
             path.unshift(selectMember(slice(from, to)));
             break;
         } else if (name === "PropertyName") {
@@ -70,7 +78,19 @@ export const getTypeSelectionPathFromNode = (
             } else {
                 return null;
             }
-        } else {            
+        } else if (name === "String") {
+            path.unshift(selectPrimitive(TypeInfo.string));
+            break;
+        } else if (name === "Number") {
+            path.unshift(selectPrimitive(TypeInfo.number));
+            break;
+        } else if (name === "BooleanLiteral") {
+            path.unshift(selectPrimitive(TypeInfo.boolean));
+            break;
+        } else if (name === "null") {
+            path.unshift(selectPrimitive(TypeInfo.null));
+            break;
+        } else {
             return null;
         }
     }
@@ -87,6 +107,8 @@ export const selectParam = (param: number): ParamSelection => Object.freeze({ se
 export const selectAwait: AwaitSelection = Object.freeze({ select: "await"});
 export const selectReturn: ReturnSelection = Object.freeze({ select: "return"});
 export const selectNew: NewSelection = Object.freeze({ select: "new"});
+export const selectPrimitive = (primitive: TypeInfo): PrimitiveSelection => 
+    Object.freeze({ select: "primitive", primitive });
 
 export const selectScope = (
     root: Record<string, TypeInfo>,
@@ -219,6 +241,8 @@ const selectChild = (parent: TypeInfo | undefined, selection: TypeSelection): Ty
                 }
             }
         }
+    } else if (select === "primitive") {
+        return selection.primitive;
     }
 
     return null;
