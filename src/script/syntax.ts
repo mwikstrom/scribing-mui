@@ -56,6 +56,8 @@ export type Slicer = (from: number, to: number) => string;
 
 export const getRootNode = (node: SyntaxNode): SyntaxNode => node.parent ? getRootNode(node.parent) : node;
 
+// TODO: Add syntax support for deconstructing assignments
+
 export const buildGlobalAssignments = (node: SyntaxNode, slice: Slicer, map: Map<string, TypeInfo>): void => {
     if (node.name === "AssignmentExpression") {        
         const varName = node.getChild("VariableName");
