@@ -141,7 +141,7 @@ interface InlineTypeProps {
 
 const InlineType = (props: InlineTypeProps) => {
     const { info } = props;
-    const { decl } = info;
+    const { decl, ident } = info;
     if (decl === "promise") {
         const label = <Normal>Promise</Normal>;
         if (info.resolveType) {
@@ -196,6 +196,8 @@ const InlineType = (props: InlineTypeProps) => {
                 <Separator>)</Separator>
             </>
         );
+    } else if (ident) {
+        return <PrimaryAccent>{ident}</PrimaryAccent>;
     } else {
         return <Normal>{decl}</Normal>;
     }

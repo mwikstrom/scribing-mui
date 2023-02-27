@@ -29,9 +29,19 @@ const Story: FC<StoryProps> = props => {
 
 const myFunc: ScriptFunction = async () => void(0);
 
-TypeInfo.annotate(myFunc, TypeInfo.function([
-    { renderInfoTip: props => <MyParamInfo {...props}/> },
-]));
+TypeInfo.annotate(
+    myFunc,
+    TypeInfo.function(
+        [ { renderInfoTip: props => <MyParamInfo {...props}/> }, ],
+        TypeInfo.promise(TypeInfo.ident("MyObj", TypeInfo.desc("My fine object", TypeInfo.object({
+            propA: TypeInfo.string,
+            propB: TypeInfo.object({
+                foo: TypeInfo.number,
+                bar: TypeInfo.array(TypeInfo.object({ bool: TypeInfo.boolean })),
+            })
+        }))))
+    )
+);
 
 const Root: FC<Omit<StoryProps, "dark">> = props => {
     const classes = useStyles();
@@ -60,9 +70,11 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
 const SCRIPT_TEXT = `{
   // Line comment
   const message = "Hello world";
-  myFunc(123, "abc", { flag: true });
+  const obj = await myFunc(123, "abc", { flag: true });
   const olle = JSON.stringify(apa);
   const func = () => { /* noop */ };
+  const { propA, propB: B } = obj;
+  const b = obj.propB;
 }
 `;
 

@@ -25,6 +25,7 @@ export interface TypeDecl<T> {
     decl: T;
     scope?: string;
     desc?: string;
+    ident?: string;
 }
 
 /** @public */
@@ -129,6 +130,10 @@ export const TypeInfo = Object.freeze({
     desc: <T extends TypeInfo>(desc: string, type: T): T => Object.freeze({
         ...type,
         desc,
+    }) as unknown as T, 
+    ident: <T extends TypeInfo>(ident: string, type: T): T => Object.freeze({
+        ...type,
+        ident,
     }) as unknown as T, 
     booleanValue: (value: boolean): BooleanType => Object.freeze({
         decl: "boolean",

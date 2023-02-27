@@ -1,6 +1,7 @@
 ## 1.7.0 - 2023-02-27
 
 - Tab key can now be used to accept current completion
+- Named type information `TypeInfo.ident`
 
 ## 1.6.2 - 2023-02-27
 
