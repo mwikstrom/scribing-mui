@@ -15,6 +15,7 @@ export interface ParamInfo
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [desc?](./scribing-mui.paraminfo.desc.md) |  | string | <i>(Optional)</i> |
 |  [name?](./scribing-mui.paraminfo.name.md) |  | string | <i>(Optional)</i> |
 |  [optional?](./scribing-mui.paraminfo.optional.md) |  | boolean | <i>(Optional)</i> |
 |  [renderInfoTip?](./scribing-mui.paraminfo.renderinfotip.md) |  | (props: [ParamInfoTipRenderProps](./scribing-mui.paraminfotiprenderprops.md)<!-- -->) =&gt; ReactNode | <i>(Optional)</i> |

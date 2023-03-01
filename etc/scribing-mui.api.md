@@ -394,6 +394,8 @@ export type ParagraphVariantLocaleKey = `paragraph_${ParagraphVariant}`;
 // @public (undocumented)
 export interface ParamInfo {
     // (undocumented)
+    desc?: string;
+    // (undocumented)
     name?: string;
     // (undocumented)
     optional?: boolean;
@@ -406,21 +408,31 @@ export interface ParamInfo {
 }
 
 // @public (undocumented)
-export interface ParamInfoTipRenderProps {
-    // (undocumented)
-    constantValue: unknown;
+export interface ParamInfoTipRenderProps extends ParamInfoValueProps {
     // (undocumented)
     funcType: FunctionType;
     // (undocumented)
-    hasConstantValue: boolean;
-    // (undocumented)
     onApplyConstantValue: (value: unknown) => boolean;
+    // (undocumented)
+    onApplyVariableName: (value: string) => boolean;
     // (undocumented)
     onUpdateLayout: () => void;
     // (undocumented)
     paramIndex: number;
     // (undocumented)
     paramInfo: ParamInfo;
+    // (undocumented)
+    paramsBefore: ParamInfoValueProps[];
+}
+
+// @public (undocumented)
+export interface ParamInfoValueProps {
+    // (undocumented)
+    constantValue: unknown;
+    // (undocumented)
+    hasConstantValue: boolean;
+    // (undocumented)
+    variableName: string | null;
 }
 
 // @public (undocumented)
