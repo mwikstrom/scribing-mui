@@ -32,7 +32,11 @@ const myFunc: ScriptFunction = async () => void(0);
 TypeInfo.annotate(
     myFunc,
     TypeInfo.function(
-        [ { renderInfoTip: props => <MyParamInfo {...props}/> }, ],
+        [ 
+            { renderInfoTip: props => <MyParamInfo {...props}/> },
+            { renderInfoTip: props => <MyParamInfo {...props}/> },
+            { renderInfoTip: props => <MyParamInfo {...props}/> },
+        ],
         TypeInfo.promise(TypeInfo.ident("MyObj", TypeInfo.desc("My fine object", TypeInfo.object({
             propA: TypeInfo.string,
             propB: TypeInfo.union(TypeInfo.object({
@@ -83,6 +87,8 @@ const MyParamInfo = (props: ParamInfoTipRenderProps) => {
         hasConstantValue,
         constantValue,
         variableName,
+        paramIndex,
+        paramsBefore,
         onApplyConstantValue,
         onApplyVariableName,
         onUpdateLayout
@@ -107,6 +113,7 @@ const MyParamInfo = (props: ParamInfoTipRenderProps) => {
     }, []);
     return (
         <Box p={1}>
+            <Typography>Parameter index: {paramIndex}</Typography>
             <Typography variant="body1" color={hasConstantValue || variableName ? "textPrimary" : "textSecondary"}>
                 {hasConstantValue ? String(constantValue) : variableName || "n/a"}
             </Typography>
@@ -114,6 +121,16 @@ const MyParamInfo = (props: ParamInfoTipRenderProps) => {
                 <>
                     <Button variant="outlined" color="primary" onClick={onApplyRandomValue}>Set random value</Button>
                     <Button variant="outlined" color="primary" onClick={onApplyRandomName}>Set random name</Button>
+                </>
+            )}
+            {paramsBefore.length > 0 && (
+                <>
+                    <Typography>Before:</Typography>
+                    {paramsBefore.map(before => (
+                        <Typography variant="body1">
+                            {before.hasConstantValue ? String(before.constantValue) : before.variableName || "n/a"}
+                        </Typography>    
+                    ))}
                 </>
             )}
         </Box>

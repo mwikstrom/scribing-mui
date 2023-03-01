@@ -2,7 +2,7 @@ import { Tooltip, TooltipView, showTooltip, repositionTooltips } from "@codemirr
 import { EditorState, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { SyntaxNode } from "@lezer/common";
-import { ParamInfo, ParamInfoTipRenderProps, TypeInfo } from "../TypeInfo";
+import { ParamInfo, ParamInfoTipRenderProps, ParamInfoValueProps, TypeInfo } from "../TypeInfo";
 import { isValidJavaScriptVariableName, Slicer, tryGetConstant, tryGetVariableName } from "./syntax";
 import { getTypeSelectionPathFromNode, selectType } from "./path";
 import { getScopeFromNode } from "./scope";
@@ -53,7 +53,7 @@ function getTooltipForPosition(
         node = node.parent;
     }
 
-    if (node?.name === "(" && node.nextSibling?.name !== ")") {
+    if ((node?.name === "(" || node?.name === ",") && node.nextSibling?.name !== ")") {
         node = node.nextSibling;
     }
 
@@ -71,9 +71,12 @@ function getTooltipForPosition(
         return null;
     }
 
-    let paramIndex = 0;
+    const slice: Slicer = (from, to) => state.sliceDoc(from, to);
+    const paramsBefore: ParamInfoValueProps[] = [];
     for (let prev = node.prevSibling; prev && prev.name !== "("; prev = prev.prevSibling) {
-        ++paramIndex;
+        if (prev.name !== ",") {
+            paramsBefore.push(getParamInfoValueProps(prev, slice));
+        }
     }
 
     const funcExpr = callExpr.firstChild;
@@ -84,7 +87,6 @@ function getTooltipForPosition(
     const rootProps = getScopeFromNode(funcExpr, state, globals);
     const rootType = TypeInfo.object(rootProps);
 
-    const slice: Slicer = (from, to) => state.sliceDoc(from, to);
     const funcPath = getTypeSelectionPathFromNode(funcExpr, slice);
     if (!funcPath) {
         return null;
@@ -96,6 +98,7 @@ function getTooltipForPosition(
     }
 
     let paramInfo: ParamInfo;
+    const paramIndex = paramsBefore.length;
     if (paramIndex < funcType.params.length) {
         paramInfo = funcType.params[paramIndex];
     } else {
@@ -151,18 +154,15 @@ function getTooltipForPosition(
     };
 
     const onUpdateLayout = () => void(editor && repositionTooltips(editor));
-    const { success: hasConstantValue, value: constantValue } = tryGetConstant(node, slice);
-    const variableName = tryGetVariableName(node, slice);
     const renderProps: ParamInfoTipRenderProps = {
         funcType,
         paramInfo,
+        paramsBefore,
         paramIndex,
-        hasConstantValue,
-        constantValue,
-        variableName,
         onApplyConstantValue,
         onApplyVariableName,
         onUpdateLayout,
+        ...getParamInfoValueProps(node, slice),
     };
 
     const renderFunc = () => renderInfoTip(renderProps);                    
@@ -180,3 +180,9 @@ function getTooltipForPosition(
 
     return tooltip;
 }
+
+const getParamInfoValueProps = (node: SyntaxNode | null, slice: Slicer): ParamInfoValueProps => {
+    const { success: hasConstantValue, value: constantValue } = tryGetConstant(node, slice);
+    const variableName = tryGetVariableName(node, slice);
+    return { hasConstantValue, constantValue, variableName };
+};

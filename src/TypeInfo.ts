@@ -88,16 +88,21 @@ export interface ClassType extends TypeDecl<"class"> {
 }
 
 /** @public */
-export interface ParamInfoTipRenderProps {
+export interface ParamInfoTipRenderProps extends ParamInfoValueProps {
     funcType: FunctionType;
     paramInfo: ParamInfo;
     paramIndex: number;
-    hasConstantValue: boolean;
-    constantValue: unknown;
-    variableName: string | null;
+    paramsBefore: ParamInfoValueProps[];
     onApplyConstantValue: (value: unknown) => boolean;
     onApplyVariableName: (value: string) => boolean;
     onUpdateLayout: () => void;
+}
+
+/** @public */
+export interface ParamInfoValueProps {
+    hasConstantValue: boolean;
+    constantValue: unknown;
+    variableName: string | null;    
 }
 
 /** @public */
