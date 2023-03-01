@@ -33,9 +33,9 @@ TypeInfo.annotate(
     myFunc,
     TypeInfo.function(
         [ 
+            { renderInfoTip: props => <MyParamInfo {...props}/>, desc: "The first param" },
             { renderInfoTip: props => <MyParamInfo {...props}/> },
-            { renderInfoTip: props => <MyParamInfo {...props}/> },
-            { renderInfoTip: props => <MyParamInfo {...props}/> },
+            { renderInfoTip: props => <MyParamInfo {...props}/>, desc: "The third param" },
         ],
         TypeInfo.promise(TypeInfo.ident("MyObj", TypeInfo.desc("My fine object", TypeInfo.object({
             propA: TypeInfo.string,

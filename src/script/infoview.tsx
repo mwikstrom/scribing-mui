@@ -150,6 +150,9 @@ const TypeInfoViewBody = (props: Pick<TypeInfoViewProps, "label" | "info">) => {
                                 <InlineType info={param.type}/>
                             </>
                         )}
+                        {param.desc && (
+                            <Box pl={2}><Subtle>{param.desc}</Subtle></Box>
+                        )}
                     </Block>
                 </Box>
             ))}

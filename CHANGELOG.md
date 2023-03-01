@@ -2,6 +2,7 @@
 
 - Support variable names in parameter info tip
 - Access to preceding parameter values in parameter info tip
+- Description in arameter type info
 
 ## 1.8.0 - 2023-03-01
 

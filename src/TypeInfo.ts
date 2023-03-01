@@ -108,6 +108,7 @@ export interface ParamInfoValueProps {
 /** @public */
 export interface ParamInfo {
     name?: string;
+    desc?: string;
     type?: TypeInfo;
     optional?: boolean;
     spread?: boolean;
