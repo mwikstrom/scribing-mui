@@ -55,6 +55,10 @@ export const createCodeEditorViewTheme = (palette: Palette): Extension => Editor
     ".cm-gutters": {
         display: "none",
     },
+    ".cm-tooltip.cm-completionInfo": {
+        overflow: "auto",
+        maxHeight: "calc(min(500px, 90vh))",
+    }
 }, {dark: palette.type === "dark"});
 
 const getDiffColor = (

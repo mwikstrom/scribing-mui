@@ -18,6 +18,7 @@ TypeInfo: Readonly<{
     number: TypeDecl<"number">;
     scope: <T extends TypeInfo>(scope: string, type: T) => T;
     desc: <T_1 extends TypeInfo>(desc: string, type: T_1) => T_1;
+    ident: <T_2 extends TypeInfo>(ident: string, type: T_2) => T_2;
     booleanValue: (value: boolean) => BooleanType;
     stringValue: (value: string) => StringType;
     numberValue: (value: number) => NumberType;
@@ -31,7 +32,7 @@ TypeInfo: Readonly<{
     class: (ctor: FunctionType, props?: Record<string, TypeInfo>) => ClassType;
     props: <K extends string>(type: TypeInfo, ...keys: K[]) => Record<K, TypeInfo>;
     from: (func: ScriptFunction) => FunctionType;
-    annotate: <T_2 extends ScriptFunction>(func: T_2, info: FunctionType) => T_2;
+    annotate: <T_3 extends ScriptFunction>(func: T_3, info: FunctionType) => T_3;
     merge: (...types: TypeInfo[]) => TypeInfo;
 }>
 ```

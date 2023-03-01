@@ -17,5 +17,6 @@ export interface TypeDecl<T>
 |  --- | --- | --- | --- |
 |  [decl](./scribing-mui.typedecl.decl.md) |  | T |  |
 |  [desc?](./scribing-mui.typedecl.desc.md) |  | string | <i>(Optional)</i> |
+|  [ident?](./scribing-mui.typedecl.ident.md) |  | string | <i>(Optional)</i> |
 |  [scope?](./scribing-mui.typedecl.scope.md) |  | string | <i>(Optional)</i> |
 
