@@ -140,3 +140,6 @@ LightReadOnly.args = { readOnly: true, autoFocus: true };
 
 export const DarkReadOnly = Template.bind({});
 DarkReadOnly.args = { dark: true, readOnly: true, autoFocus: true };
+
+export const LightIntialCaretPosition = Template.bind({});
+LightIntialCaretPosition.args = { initialPosition: 39 };

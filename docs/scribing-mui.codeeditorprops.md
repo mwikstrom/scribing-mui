@@ -18,6 +18,7 @@ export interface CodeEditorProps
 |  [autoFocus?](./scribing-mui.codeeditorprops.autofocus.md) |  | boolean | <i>(Optional)</i> |
 |  [className?](./scribing-mui.codeeditorprops.classname.md) |  | string | <i>(Optional)</i> |
 |  [diffDelay?](./scribing-mui.codeeditorprops.diffdelay.md) |  | number | <i>(Optional)</i> |
+|  [initialPosition?](./scribing-mui.codeeditorprops.initialposition.md) |  | number | <i>(Optional)</i> |
 |  [initialValue?](./scribing-mui.codeeditorprops.initialvalue.md) |  | string | <i>(Optional)</i> |
 |  [label?](./scribing-mui.codeeditorprops.label.md) |  | string | <i>(Optional)</i> |
 |  [language?](./scribing-mui.codeeditorprops.language.md) |  | LanguageSupport | <i>(Optional)</i> |

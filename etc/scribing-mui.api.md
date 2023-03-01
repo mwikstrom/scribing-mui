@@ -66,6 +66,8 @@ export interface CodeEditorProps {
     // (undocumented)
     diffDelay?: number;
     // (undocumented)
+    initialPosition?: number;
+    // (undocumented)
     initialValue?: string;
     // (undocumented)
     label?: string;

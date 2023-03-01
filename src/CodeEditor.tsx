@@ -20,6 +20,7 @@ import { useCodeEditorStyles } from "./CodeEditorStyles";
 export interface CodeEditorProps {
     className?: string;
     initialValue?: string;
+    initialPosition?: number;
     theirValue?: string;
     autoFocus?: boolean;
     onValueChange?: (value: string) => void;
@@ -47,8 +48,9 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     const {
         className,
         initialValue,
+        initialPosition,
         theirValue,
-        autoFocus,
+        autoFocus = typeof initialPosition === "number",
         onValueChange,
         label,
         theirLabel,
@@ -248,8 +250,16 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     useEffect(() => {
         if (editorView && autoFocus && !readOnly) {
             editorView.focus();
+            if (initialPosition) {
+                editorView.dispatch({
+                    selection: {
+                        anchor: initialPosition,
+                        head: initialPosition,
+                    }
+                });
+            }
         }
-    }, [editorView, autoFocus, readOnly]);
+    }, [editorView, autoFocus, readOnly, initialPosition]);
 
     useEffect(() => {
         if (editorView) {

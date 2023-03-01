@@ -1,3 +1,8 @@
+## 1.8.0 - 2023-03-01
+
+- Autocompletion info view has now a bounded max height with scrolling
+- Initial caret position
+
 ## 1.7.0 - 2023-02-27
 
 - Tab key can now be used to accept current completion
