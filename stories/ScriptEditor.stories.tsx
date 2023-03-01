@@ -79,11 +79,23 @@ const SCRIPT_TEXT = `{
 `;
 
 const MyParamInfo = (props: ParamInfoTipRenderProps) => {
-    const { hasConstantValue, constantValue, onApplyConstantValue, onUpdateLayout } = props;
+    const {
+        hasConstantValue,
+        constantValue,
+        variableName,
+        onApplyConstantValue,
+        onApplyVariableName,
+        onUpdateLayout
+    } = props;
     const [ showButton, setShowButton ] = useState(false);
     const onApplyRandomValue = useCallback(() => {
         if (onApplyConstantValue) {
             onApplyConstantValue(Math.floor(Math.random() * 1000));
+        }
+    }, [onApplyConstantValue]);
+    const onApplyRandomName = useCallback(() => {
+        if (onApplyVariableName) {
+            onApplyVariableName(`VAR_${Math.floor(Math.random() * 1000)}`);
         }
     }, [onApplyConstantValue]);
     useEffect(() => {
@@ -95,11 +107,14 @@ const MyParamInfo = (props: ParamInfoTipRenderProps) => {
     }, []);
     return (
         <Box p={1}>
-            <Typography variant="body1" color={hasConstantValue ? "textPrimary" : "textSecondary"}>
-                {hasConstantValue ? String(constantValue) : "n/a"}
+            <Typography variant="body1" color={hasConstantValue || variableName ? "textPrimary" : "textSecondary"}>
+                {hasConstantValue ? String(constantValue) : variableName || "n/a"}
             </Typography>
             {showButton && (
-                <Button variant="outlined" color="primary" onClick={onApplyRandomValue}>Set random</Button>
+                <>
+                    <Button variant="outlined" color="primary" onClick={onApplyRandomValue}>Set random value</Button>
+                    <Button variant="outlined" color="primary" onClick={onApplyRandomName}>Set random name</Button>
+                </>
             )}
         </Box>
     );

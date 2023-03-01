@@ -3,7 +3,7 @@ import { EditorState, StateField } from "@codemirror/state";
 import { syntaxTree } from "@codemirror/language";
 import { SyntaxNode } from "@lezer/common";
 import { ParamInfo, ParamInfoTipRenderProps, TypeInfo } from "../TypeInfo";
-import { Slicer, tryGetConstant } from "./syntax";
+import { isValidJavaScriptVariableName, Slicer, tryGetConstant, tryGetVariableName } from "./syntax";
 import { getTypeSelectionPathFromNode, selectType } from "./path";
 import { getScopeFromNode } from "./scope";
 import { deferRenderFunc, MountFunc } from "./infoview";
@@ -135,15 +135,33 @@ function getTooltipForPosition(
         return true;
     };
 
+    const onApplyVariableName = (value: string): boolean => {
+        if (!editor || !isValidJavaScriptVariableName(value)) {
+            return false;
+        }
+
+        const txn = editor.state.update({
+            changes: [{ from, to, insert: value }],
+            selection: { anchor: from + value.length },
+        });
+        
+        editor.dispatch(txn);
+        editor.focus();
+        return true;
+    };
+
     const onUpdateLayout = () => void(editor && repositionTooltips(editor));
     const { success: hasConstantValue, value: constantValue } = tryGetConstant(node, slice);
+    const variableName = tryGetVariableName(node, slice);
     const renderProps: ParamInfoTipRenderProps = {
         funcType,
         paramInfo,
         paramIndex,
         hasConstantValue,
         constantValue,
+        variableName,
         onApplyConstantValue,
+        onApplyVariableName,
         onUpdateLayout,
     };
 

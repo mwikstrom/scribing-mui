@@ -94,7 +94,9 @@ export interface ParamInfoTipRenderProps {
     paramIndex: number;
     hasConstantValue: boolean;
     constantValue: unknown;
+    variableName: string | null;
     onApplyConstantValue: (value: unknown) => boolean;
+    onApplyVariableName: (value: string) => boolean;
     onUpdateLayout: () => void;
 }
 

@@ -2,6 +2,7 @@
 
 - Autocompletion info view has now a bounded max height with scrolling
 - Initial caret position
+- Support variable names in parameter info tip
 
 ## 1.7.0 - 2023-02-27
 

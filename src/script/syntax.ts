@@ -124,6 +124,21 @@ export const tryGetConstant = (node: SyntaxNode | null, slice: Slicer): Maybe<un
     }
 };
 
+export const tryGetVariableName = (node: SyntaxNode | null, slice: Slicer): string | null => {
+    if (node) {
+        const { name, from, to } = node;
+        if (name === "VariableName") {
+            return slice(from, to);
+        }
+    }
+    return null;
+};
+
+export const isValidJavaScriptVariableName = (value: unknown): boolean => 
+    typeof value === "string" &&
+    JAVASCRIPT_IDENTIFIER_PATTERN.test(value) &&
+    !JAVASCRIPT_KEYWORDS.has(value);
+
 const isSameRange = (first: SyntaxNode | null | undefined, second: SyntaxNode | null | undefined): boolean => (
     first?.from === second?.from &&
     first?.to === second?.to
@@ -170,3 +185,13 @@ const getVariableType = (decl: SyntaxNode, state: EditorState, scope: TypeInfo):
     }
     return TypeInfo.unknown;
 };
+
+// Note: This patterns doesn't cover everything - but it's good enough for now :-)
+const JAVASCRIPT_IDENTIFIER_PATTERN = /^[$_\p{L}\p{Nl}][$_\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}]*$/u;
+
+const JAVASCRIPT_KEYWORDS = new Set([
+    "do", "if", "in", "for", "let", "new", "try", "var", "case", "else", "enum", "eval", "false", "null", "this", 
+    "true", "void", "with", "break", "catch", "class", "const", "super", "throw", "while", "yield", "delete", 
+    "export", "import", "public", "return", "static", "switch", "typeof", "default", "extends", "finally", "package",
+    "private", "continue", "debugger", "function", "arguments", "interface", "protected", "implements", "instanceof"
+]);
