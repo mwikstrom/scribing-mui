@@ -1,3 +1,7 @@
+## 1.9.1 - 2023-03-02
+
+- Fix: Ordering of preceding parameters in parameter info tip
+
 ## 1.9.0 - 2023-03-01
 
 - Support variable names in parameter info tip

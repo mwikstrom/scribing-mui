@@ -75,7 +75,7 @@ function getTooltipForPosition(
     const paramsBefore: ParamInfoValueProps[] = [];
     for (let prev = node.prevSibling; prev && prev.name !== "("; prev = prev.prevSibling) {
         if (prev.name !== ",") {
-            paramsBefore.push(getParamInfoValueProps(prev, slice));
+            paramsBefore.unshift(getParamInfoValueProps(prev, slice));
         }
     }
 
