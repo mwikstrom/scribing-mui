@@ -30,7 +30,8 @@ export const deferRenderFunc = (
     func: () => ReactNode,
     mount: MountFunc,
 ): { dom: HTMLElement, render: () => void } => {
-    const dom = document.createElement("div");    
+    const dom = document.createElement("div");
+    dom.className = "cm-paraminfo";    
     const render = () => {
         const portal = ReactDOM.createPortal(func(), dom);
         const unmount = mount(portal);
