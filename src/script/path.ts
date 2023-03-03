@@ -95,7 +95,7 @@ export const getTypeSelectionPathFromNode = (
         } else if (name === "CallExpression") {
             path.unshift(selectReturn);
             node = node.firstChild;
-        } else if (name === "UnaryExpression" && node.firstChild?.name === "await") {
+        } else if ((name === "UnaryExpression" || name === "AwaitExpression") && node.firstChild?.name === "await") {
             path.unshift(selectAwait);
             node = node.firstChild.nextSibling;
         } else {

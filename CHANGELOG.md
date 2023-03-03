@@ -1,3 +1,7 @@
+## 1.9.3 - 2023-03-03
+
+- Handle AwaitExpression
+
 ## 1.9.2 - 2023-03-03
 
 - Param info tip style fixes
