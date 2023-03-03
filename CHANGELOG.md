@@ -1,3 +1,7 @@
+## 1.9.2 - 2023-03-03
+
+- Param info tip style fixes
+
 ## 1.9.1 - 2023-03-02
 
 - Fix: Ordering of preceding parameters in parameter info tip
