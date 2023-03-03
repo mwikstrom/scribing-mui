@@ -64,6 +64,9 @@ export const createCodeEditorViewTheme = (palette: Palette): Extension => Editor
         maxHeight: "calc(min(500px, 50vh))",
         zIndex: 1500,
     },
+    "&:not(.cm-focused) .cm-tooltip.cm-paraminfo": {
+        display: "none"
+    },
 }, {dark: palette.type === "dark"});
 
 const getDiffColor = (
