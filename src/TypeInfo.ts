@@ -11,6 +11,7 @@ export type TypeInfo = (
     NullType |
     StringType |
     NumberType |
+    BigIntType |
     ObjectType |
     ArrayType |
     TupleType |
@@ -52,6 +53,11 @@ export interface StringType extends TypeDecl<"string"> {
 
 /** @public */
 export interface NumberType extends TypeDecl<"number"> {
+    value?: number;
+}
+
+/** @public */
+export interface BigIntType extends TypeDecl<"bigint"> {
     value?: number;
 }
 

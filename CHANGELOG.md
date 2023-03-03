@@ -1,3 +1,7 @@
+## 1.9.5 - 2023-03-03
+
+- Declare BigIntType
+
 ## 1.9.4 - 2023-03-03
 
 - Declare bigint

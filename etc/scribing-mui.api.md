@@ -26,6 +26,12 @@ export interface ArrayType extends TypeDecl<"array"> {
 }
 
 // @public (undocumented)
+export interface BigIntType extends TypeDecl<"bigint"> {
+    // (undocumented)
+    value?: number;
+}
+
+// @public (undocumented)
 export interface BooleanType extends TypeDecl<"boolean"> {
     // (undocumented)
     value?: boolean;
@@ -502,7 +508,7 @@ export interface TypeDecl<T> {
 }
 
 // @public (undocumented)
-export type TypeInfo = (UnknownType | VoidType | UndefinedType | NullType | BooleanType | NullType | StringType | NumberType | ObjectType | ArrayType | TupleType | FunctionType | ClassType | PromiseType | UnionType);
+export type TypeInfo = (UnknownType | VoidType | UndefinedType | NullType | BooleanType | NullType | StringType | NumberType | BigIntType | ObjectType | ArrayType | TupleType | FunctionType | ClassType | PromiseType | UnionType);
 
 // @public (undocumented)
 export const TypeInfo: Readonly<{

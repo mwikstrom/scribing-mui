@@ -18,6 +18,7 @@ Material-UI components for collaborative rich text editing
 |  Interface | Description |
 |  --- | --- |
 |  [ArrayType](./scribing-mui.arraytype.md) |  |
+|  [BigIntType](./scribing-mui.biginttype.md) |  |
 |  [BooleanType](./scribing-mui.booleantype.md) |  |
 |  [ClassType](./scribing-mui.classtype.md) |  |
 |  [CodeEditorParseAnnotation](./scribing-mui.codeeditorparseannotation.md) |  |
