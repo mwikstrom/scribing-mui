@@ -1,3 +1,8 @@
+## 1.9.4 - 2023-03-03
+
+- Declare bigint
+- Fix display of union with undefined
+
 ## 1.9.3 - 2023-03-03
 
 - Handle AwaitExpression

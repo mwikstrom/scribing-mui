@@ -16,6 +16,7 @@ TypeInfo: Readonly<{
     boolean: TypeDecl<"boolean">;
     string: TypeDecl<"string">;
     number: TypeDecl<"number">;
+    bigint: TypeDecl<"bigint">;
     scope: <T extends TypeInfo>(scope: string, type: T) => T;
     desc: <T_1 extends TypeInfo>(desc: string, type: T_1) => T_1;
     ident: <T_2 extends TypeInfo>(ident: string, type: T_2) => T_2;

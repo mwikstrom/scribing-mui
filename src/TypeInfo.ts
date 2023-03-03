@@ -131,6 +131,7 @@ export const TypeInfo = Object.freeze({
     boolean: basicType("boolean" as const),
     string: basicType("string" as const),
     number: basicType("number" as const),
+    bigint: basicType("bigint" as const),
     scope: <T extends TypeInfo>(scope: string, type: T): T => Object.freeze({
         ...type,
         scope,

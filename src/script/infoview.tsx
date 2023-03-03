@@ -76,11 +76,15 @@ const TypeInfoView = (props: Omit<TypeInfoViewProps, "mount">) => {
     const { label, info, pad } = props;
     const { scope, decl } = info;
     const overline = [scope, getTypeInfoClass(info, scope === "local")].filter(Boolean).join(" ");
+    const displayAsUnion = decl === "union" && (
+        info.union.length !== 2 || 
+        !info.union.some(t => t.decl === "undefined")
+    );
     return (
         <Container maxWidth="sm" disableGutters>
             <Box p={pad ? 1 : 0}>
                 <Block><Subtle>{overline}</Subtle></Block>
-                {decl === "union" ? info.union.map((item, index) => (
+                {displayAsUnion ? info.union.map((item, index) => (
                     <React.Fragment key={index}>
                         {index > 0 && (
                             <Box my={2}><Divider /></Box>
