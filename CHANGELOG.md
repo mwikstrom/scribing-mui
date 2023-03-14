@@ -1,3 +1,7 @@
+## 1.11.0 - 2023-03-14
+
+- Image zoom box
+
 ## 1.10.0 - 2023-03-14
 
 - Image scale dialog
