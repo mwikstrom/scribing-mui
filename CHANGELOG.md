@@ -1,3 +1,7 @@
+## 1.10.0 - 2023-03-14
+
+- Image scale dialog
+
 ## 1.9.5 - 2023-03-03
 
 - Declare BigIntType

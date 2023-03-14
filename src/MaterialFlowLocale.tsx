@@ -65,6 +65,10 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_language: string;
     label_change_source: string;
     label_reset_scale: string;
+    label_edit_scale: string;
+    label_image_scale: string;
+    label_image_width: string;
+    label_image_height: string;
     tip_data_source: string;
     tip_more_tools: string;
     tip_check_in: string;
@@ -184,6 +188,10 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     label_language: "Language",
     label_change_source: "Change source",
     label_reset_scale: "Reset scale",
+    label_edit_scale: "Edit scale",
+    label_image_scale: "Scale (%)",
+    label_image_width: "Width (px)",
+    label_image_height: "Height (px)",
     tip_data_source: "Data source",
     tip_more_tools: "Hide or show additional tools",
     tip_check_in: "Check in",

@@ -224,6 +224,14 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     label_dynamic_text_script: string;
     // (undocumented)
+    label_edit_scale: string;
+    // (undocumented)
+    label_image_height: string;
+    // (undocumented)
+    label_image_scale: string;
+    // (undocumented)
+    label_image_width: string;
+    // (undocumented)
     label_input: string;
     // (undocumented)
     label_insert_empty_element: string;
