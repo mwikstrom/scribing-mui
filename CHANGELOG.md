@@ -1,3 +1,7 @@
+## 1.11.1 - 2023-03-15
+
+- Fix incorrect text align tip label
+
 ## 1.11.0 - 2023-03-14
 
 - Image zoom box
