@@ -186,14 +186,25 @@ LightImageZoom.args = {
 };
 
 export const DarkImageZoom = Template.bind({});
-DarkImageZoom.args = {
+DarkImageZoom.args = { ...LightImageZoom.args, dark: true };
+
+export const LightTable = Template.bind({});
+LightTable.args = {
     content: FlowContent.fromJsonValue([
-        "before",
-        { break: "para" },
-        { image: { url: "https://cdn.dforigo.com/images/ogard-space-3200x1600.png", width: 3200, height: 1600 } },
-        { break: "para" },
-        "after",
-        { break: "para" },
+        {
+            table: {
+                "A1": ["Product", { break: "para" }],
+                "B1": ["Quantity", { break: "para" }],
+                "A2": ["Crap", { break: "para" }],
+                "B2": ["12", { break: "para" }],
+                "A3": ["Junk", { break: "para" }],
+                "B3": ["34", { break: "para" }],
+                "default": [{ break: "para" }],
+            },
+            style: { head: 1 },
+        }
     ]),
-    dark: true
 };
+
+export const DarkTable = Template.bind({});
+DarkTable.args = { ...LightTable.args, dark: true };
