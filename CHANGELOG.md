@@ -2,6 +2,7 @@
 
 - Use grab/grabbing cursor in image zoom box
 - Make image zoom box stand out
+- Edit image icon
 
 ## 1.11.1 - 2023-03-15
 

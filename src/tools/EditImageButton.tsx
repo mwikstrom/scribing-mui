@@ -3,7 +3,7 @@ import { FlowEditorController } from "scribing-react";
 import { ToolButtonProps } from "../components/ToolButton";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import Icon from "@mdi/react";
-import { mdiImagePlus } from "@mdi/js";
+import { mdiImageEdit, mdiImagePlus } from "@mdi/js";
 import { MenuItem } from "@material-ui/core";
 import { MenuButton } from "../components/MenuButton";
 import { InsertImage } from "../commands/InsertImage";
@@ -47,7 +47,7 @@ export const EditImageButton: FC<EditImageButtonProps> = props => {
                 disabled={disabled}
                 active={active}
                 title={active ? locale.tip_change_image : locale.tip_insert_image}
-                children={<Icon size={1} path={mdiImagePlus}/>}
+                children={<Icon size={1} path={active ? mdiImageEdit : mdiImagePlus}/>}
                 menu={(
                     <>
                         <MenuItem onClick={onChangeSource}>{locale.label_change_source}&hellip;</MenuItem>
