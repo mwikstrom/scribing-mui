@@ -1,4 +1,4 @@
-import { IconButton, Modal, Theme } from "@material-ui/core";
+import { alpha, IconButton, Modal, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -113,6 +113,11 @@ const useStyles = makeStyles((theme: Theme) => ({
         position: "absolute",
         top: theme.spacing(1),
         right: theme.spacing(1),
+        backgroundColor: alpha(theme.palette.background.default, 0.5),
+        color: theme.palette.text.primary,
+        "&:hover": {
+            backgroundColor: alpha(theme.palette.background.default, 0.75),
+        },
     }
 }));
 

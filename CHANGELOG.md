@@ -1,6 +1,7 @@
 ## 1.11.2 - 2023-03-16
 
 - Use grab/grabbing cursor in image zoom box
+- Make image zoom box stand out
 
 ## 1.11.1 - 2023-03-15
 

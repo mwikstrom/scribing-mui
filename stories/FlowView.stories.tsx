@@ -173,6 +173,18 @@ LightButtons.args = { content: ButtonsContent };
 export const DarkButtons = Template.bind({});
 DarkButtons.args = { content: ButtonsContent, dark: true };
 
+export const LightImageZoom = Template.bind({});
+LightImageZoom.args = {
+    content: FlowContent.fromJsonValue([
+        "before",
+        { break: "para" },
+        { image: { url: "https://cdn.dforigo.com/images/ogard-space-3200x1600.png", width: 3200, height: 1600 } },
+        { break: "para" },
+        "after",
+        { break: "para" },
+    ]),
+};
+
 export const DarkImageZoom = Template.bind({});
 DarkImageZoom.args = {
     content: FlowContent.fromJsonValue([
