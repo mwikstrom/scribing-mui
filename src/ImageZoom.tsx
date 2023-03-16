@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
 import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import clsx from "clsx";
 import { ScribingImageZoomProps } from "scribing-react";
 
 // TODO: Keep center point when zooming in
@@ -73,7 +74,7 @@ export const ImageZoom = (props: ScribingImageZoomProps): JSX.Element => {
         <Modal open onClose={onClose}>
             <div className={classes.root} onWheel={onWheel} ref={setRoot}>
                 <img
-                    className={classes.imageElement}
+                    className={clsx(classes.imageElement, dragOrigin && classes.dragging)}
                     src={sourceUrl}
                     style={{ transform }}
                     onMouseDown={onMouseDown}
@@ -101,9 +102,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
     },
     imageElement: {
-        cursor: "move",
+        cursor: "grab",
         userSelect: "none",
+        "&$dragging": {
+            cursor: "grabbing",
+        },
     },
+    dragging: {},
     closeButton: {
         position: "absolute",
         top: theme.spacing(1),

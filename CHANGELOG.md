@@ -1,3 +1,7 @@
+## 1.11.2 - 2023-03-16
+
+- Use grab/grabbing cursor in image zoom box
+
 ## 1.11.1 - 2023-03-15
 
 - Fix incorrect text align tip label
