@@ -4,7 +4,7 @@
 
 ## ParamInfoTipRenderProps.onApplyConstantValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 onApplyConstantValue: (value: unknown) => boolean;

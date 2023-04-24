@@ -4,7 +4,7 @@
 
 ## UnionType.union property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 union: readonly TypeInfo[];

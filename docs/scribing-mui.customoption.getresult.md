@@ -4,7 +4,7 @@
 
 ## CustomOption.getResult property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getResult?: (current: T) => U | undefined;

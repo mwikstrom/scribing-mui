@@ -5,7 +5,7 @@
 ## DefaultMaterialFlowLocale variable
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale>

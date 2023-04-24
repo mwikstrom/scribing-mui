@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_toggle\_fullscreen property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_toggle_fullscreen: string;

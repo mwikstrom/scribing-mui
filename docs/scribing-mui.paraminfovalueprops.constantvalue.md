@@ -4,7 +4,7 @@
 
 ## ParamInfoValueProps.constantValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 constantValue: unknown;

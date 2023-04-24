@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_message\_id property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_message_id: string;

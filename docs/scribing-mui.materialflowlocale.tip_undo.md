@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_undo property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_undo: string;

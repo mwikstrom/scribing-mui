@@ -5,16 +5,16 @@
 ## PromiseType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface PromiseType extends TypeDecl<"promise"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"promise"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"promise"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [resolveType?](./scribing-mui.promisetype.resolvetype.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
+|  [resolveType?](./scribing-mui.promisetype.resolvetype.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | _(Optional)_ |
 

@@ -4,7 +4,7 @@
 
 ## FlowEditorToolbarProps.onReset property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 onReset?: () => void;

@@ -5,7 +5,7 @@
 ## ScriptEditorDialog variable
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 ScriptEditorDialog: FC<ScriptEditorDialogProps>

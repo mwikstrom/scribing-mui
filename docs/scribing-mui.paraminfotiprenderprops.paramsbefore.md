@@ -4,7 +4,7 @@
 
 ## ParamInfoTipRenderProps.paramsBefore property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 paramsBefore: ParamInfoValueProps[];

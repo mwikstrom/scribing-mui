@@ -5,17 +5,17 @@
 ## ClassType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface ClassType extends TypeDecl<"class"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"class"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"class"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [ctor](./scribing-mui.classtype.ctor.md) |  | [FunctionType](./scribing-mui.functiontype.md) |  |
-|  [props?](./scribing-mui.classtype.props.md) |  | Record&lt;string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->&gt; | <i>(Optional)</i> |
+|  [props?](./scribing-mui.classtype.props.md) |  | Record&lt;string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->&gt; | _(Optional)_ |
 

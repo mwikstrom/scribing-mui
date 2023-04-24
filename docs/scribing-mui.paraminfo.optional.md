@@ -4,7 +4,7 @@
 
 ## ParamInfo.optional property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 optional?: boolean;

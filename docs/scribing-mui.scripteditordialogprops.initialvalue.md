@@ -4,7 +4,7 @@
 
 ## ScriptEditorDialogProps.initialValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 initialValue?: Script | null;

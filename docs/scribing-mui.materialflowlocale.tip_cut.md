@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_cut property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_cut: string;

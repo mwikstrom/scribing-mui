@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_change\_source property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_change_source: string;

@@ -4,7 +4,7 @@
 
 ## FlowEditorToolbarProps.onCheckIn property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 onCheckIn?: () => void;

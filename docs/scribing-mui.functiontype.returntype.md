@@ -4,7 +4,7 @@
 
 ## FunctionType.returnType property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 returnType?: TypeInfo;

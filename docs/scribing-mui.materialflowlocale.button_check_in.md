@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.button\_check\_in property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 button_check_in: string;

@@ -5,17 +5,17 @@
 ## FunctionType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface FunctionType extends TypeDecl<"function"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"function"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"function"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [params?](./scribing-mui.functiontype.params.md) |  | readonly [ParamInfo](./scribing-mui.paraminfo.md)<!-- -->\[\] | <i>(Optional)</i> |
-|  [returnType?](./scribing-mui.functiontype.returntype.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
+|  [params?](./scribing-mui.functiontype.params.md) |  | readonly [ParamInfo](./scribing-mui.paraminfo.md)<!-- -->\[\] | _(Optional)_ |
+|  [returnType?](./scribing-mui.functiontype.returntype.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | _(Optional)_ |
 

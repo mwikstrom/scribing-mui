@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_font\_family property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_font_family: string;

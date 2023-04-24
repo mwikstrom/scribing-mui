@@ -4,7 +4,7 @@
 
 ## ParamInfoTipRenderProps.onUpdateLayout property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 onUpdateLayout: () => void;

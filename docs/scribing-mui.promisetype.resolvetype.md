@@ -4,7 +4,7 @@
 
 ## PromiseType.resolveType property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 resolveType?: TypeInfo;

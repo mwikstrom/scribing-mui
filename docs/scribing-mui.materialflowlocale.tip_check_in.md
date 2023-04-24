@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_check\_in property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_check_in: string;

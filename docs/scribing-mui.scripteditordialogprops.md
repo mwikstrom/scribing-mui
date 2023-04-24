@@ -5,25 +5,25 @@
 ## ScriptEditorDialogProps interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface ScriptEditorDialogProps extends DialogProps 
 ```
-<b>Extends:</b> DialogProps
+**Extends:** DialogProps
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [additionalGlobals?](./scribing-mui.scripteditordialogprops.additionalglobals.md) |  | Iterable&lt;\[string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\]&gt; | <i>(Optional)</i> |
-|  [cancelLabel?](./scribing-mui.scripteditordialogprops.cancellabel.md) |  | string | <i>(Optional)</i> |
-|  [completeLabel?](./scribing-mui.scripteditordialogprops.completelabel.md) |  | string | <i>(Optional)</i> |
-|  [controller?](./scribing-mui.scripteditordialogprops.controller.md) |  | FlowEditorController \| null | <i>(Optional)</i> |
-|  [idempotent?](./scribing-mui.scripteditordialogprops.idempotent.md) |  | boolean | <i>(Optional)</i> |
-|  [initialValue?](./scribing-mui.scripteditordialogprops.initialvalue.md) |  | Script \| null | <i>(Optional)</i> |
-|  [lang?](./scribing-mui.scripteditordialogprops.lang.md) |  | string | <i>(Optional)</i> |
-|  [onComplete?](./scribing-mui.scripteditordialogprops.oncomplete.md) |  | (script: Script \| null) =&gt; void | <i>(Optional)</i> |
-|  [onSave?](./scribing-mui.scripteditordialogprops.onsave.md) |  | (script: Script) =&gt; void | <i>(Optional)</i> |
-|  [scriptLabel?](./scribing-mui.scripteditordialogprops.scriptlabel.md) |  | string | <i>(Optional)</i> |
+|  [additionalGlobals?](./scribing-mui.scripteditordialogprops.additionalglobals.md) |  | Iterable&lt;\[string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\]&gt; | _(Optional)_ |
+|  [cancelLabel?](./scribing-mui.scripteditordialogprops.cancellabel.md) |  | string | _(Optional)_ |
+|  [completeLabel?](./scribing-mui.scripteditordialogprops.completelabel.md) |  | string | _(Optional)_ |
+|  [controller?](./scribing-mui.scripteditordialogprops.controller.md) |  | FlowEditorController \| null | _(Optional)_ |
+|  [idempotent?](./scribing-mui.scripteditordialogprops.idempotent.md) |  | boolean | _(Optional)_ |
+|  [initialValue?](./scribing-mui.scripteditordialogprops.initialvalue.md) |  | Script \| null | _(Optional)_ |
+|  [lang?](./scribing-mui.scripteditordialogprops.lang.md) |  | string | _(Optional)_ |
+|  [onComplete?](./scribing-mui.scripteditordialogprops.oncomplete.md) |  | (script: Script \| null) =&gt; void | _(Optional)_ |
+|  [onSave?](./scribing-mui.scripteditordialogprops.onsave.md) |  | (script: Script) =&gt; void | _(Optional)_ |
+|  [scriptLabel?](./scribing-mui.scripteditordialogprops.scriptlabel.md) |  | string | _(Optional)_ |
 

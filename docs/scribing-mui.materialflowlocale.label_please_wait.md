@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_please\_wait property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_please_wait: string;

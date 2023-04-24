@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_all\_categories property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_all_categories: string;

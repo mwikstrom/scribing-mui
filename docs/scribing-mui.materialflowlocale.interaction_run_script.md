@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.interaction\_run\_script property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 interaction_run_script: string;

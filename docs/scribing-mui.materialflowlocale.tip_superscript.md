@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_superscript property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_superscript: string;

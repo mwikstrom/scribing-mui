@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.parse property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 parse?: (value: string, decorate: (annotation: CodeEditorParseAnnotation) => void) => Error | unknown;

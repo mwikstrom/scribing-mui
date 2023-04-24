@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.maxHeight property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 maxHeight?: string | number;

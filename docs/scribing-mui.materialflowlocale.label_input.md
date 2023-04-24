@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_input property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_input: string;

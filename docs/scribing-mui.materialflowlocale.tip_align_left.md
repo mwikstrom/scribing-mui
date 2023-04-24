@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_align\_left property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_align_left: string;

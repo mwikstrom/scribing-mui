@@ -5,16 +5,16 @@
 ## BigIntType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface BigIntType extends TypeDecl<"bigint"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"bigint"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"bigint"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [value?](./scribing-mui.biginttype.value.md) |  | number | <i>(Optional)</i> |
+|  [value?](./scribing-mui.biginttype.value.md) |  | number | _(Optional)_ |
 

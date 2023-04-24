@@ -5,10 +5,10 @@
 ## VoidType type
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export type VoidType = TypeDecl<"void">;
 ```
-<b>References:</b> [TypeDecl](./scribing-mui.typedecl.md)
+**References:** [TypeDecl](./scribing-mui.typedecl.md)
 

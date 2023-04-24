@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_dynamic\_text property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_dynamic_text: string;

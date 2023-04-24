@@ -4,7 +4,7 @@
 
 ## ParamInfoValueProps.variableName property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 variableName: string | null;

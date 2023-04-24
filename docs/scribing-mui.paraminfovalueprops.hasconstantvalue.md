@@ -4,7 +4,7 @@
 
 ## ParamInfoValueProps.hasConstantValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 hasConstantValue: boolean;

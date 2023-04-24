@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.message\_connection\_broken property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 message_connection_broken: string;

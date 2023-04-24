@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_edit\_scale property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_edit_scale: string;

@@ -5,7 +5,7 @@
 ## ScriptEditor variable
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 ScriptEditor: FC<ScriptEditorProps>

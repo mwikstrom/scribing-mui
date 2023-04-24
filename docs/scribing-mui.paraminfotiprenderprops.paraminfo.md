@@ -4,7 +4,7 @@
 
 ## ParamInfoTipRenderProps.paramInfo property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 paramInfo: ParamInfo;

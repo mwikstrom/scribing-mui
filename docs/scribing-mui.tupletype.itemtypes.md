@@ -4,7 +4,7 @@
 
 ## TupleType.itemTypes property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 itemTypes: readonly TypeInfo[];

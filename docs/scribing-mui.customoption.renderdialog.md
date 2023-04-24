@@ -4,7 +4,7 @@
 
 ## CustomOption.renderDialog property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 renderDialog?: (current: T, onClose: (result: U | undefined) => void, onApply: (update: U) => void) => ReactNode;

@@ -135,7 +135,7 @@ export interface FlowEditorToolbarProps {
     // (undocumented)
     frozen?: boolean;
     // (undocumented)
-    getCustomInteractionOptions?: CustomOptionProvider<Interaction | null>;
+    getCustomInteractionOptions?: CustomOptionProvider<Interaction | null, InteractionOptionResult>;
     // (undocumented)
     getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
     // (undocumented)
@@ -160,7 +160,21 @@ export interface FunctionType extends TypeDecl<"function"> {
 }
 
 // @public (undocumented)
+export const getInteractionUpdateInfo: (result: InteractionOptionResult) => InteractionUpdateInfo;
+
+// @public (undocumented)
 export function getMarkupInfo(controller: FlowEditorController | null | undefined): MarkupInfo | null;
+
+// @public (undocumented)
+export type InteractionOptionResult = Interaction | InteractionUpdateInfo | null;
+
+// @public (undocumented)
+export interface InteractionUpdateInfo {
+    // (undocumented)
+    defaultText?: string;
+    // (undocumented)
+    interaction: Interaction | null;
+}
 
 // @public (undocumented)
 export type LocaleItemKey = (ParagraphVariantLocaleKey | FlowColorLocaleKey | FontFamilyLocaleKey | BoxVariantLocaleKey);

@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_data\_source property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_data_source: string;

@@ -5,7 +5,7 @@
 ## MaterialFlowLocale variable
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 MaterialFlowLocale: FC<MaterialFlowLocaleProps>

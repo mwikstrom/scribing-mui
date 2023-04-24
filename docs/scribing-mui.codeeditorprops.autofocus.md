@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.autoFocus property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 autoFocus?: boolean;

@@ -4,7 +4,7 @@
 
 ## ParamInfo.spread property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 spread?: boolean;

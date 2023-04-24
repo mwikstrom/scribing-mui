@@ -4,7 +4,7 @@
 
 ## CodeEditorParseAnnotation.from property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 from: number;

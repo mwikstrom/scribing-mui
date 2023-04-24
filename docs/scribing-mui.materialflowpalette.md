@@ -5,7 +5,7 @@
 ## MaterialFlowPalette variable
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 MaterialFlowPalette: FC

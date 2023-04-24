@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_table\_split\_cell property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_table_split_cell: string;

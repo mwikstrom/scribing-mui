@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.theirValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 theirValue?: string;

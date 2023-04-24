@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_align\_justify property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_align_justify: string;

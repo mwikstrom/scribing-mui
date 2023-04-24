@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_multiple\_values property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_multiple_values: string;

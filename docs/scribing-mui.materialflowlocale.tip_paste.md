@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_paste property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_paste: string;

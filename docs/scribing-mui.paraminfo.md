@@ -5,7 +5,7 @@
 ## ParamInfo interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface ParamInfo 
@@ -15,10 +15,10 @@ export interface ParamInfo
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [desc?](./scribing-mui.paraminfo.desc.md) |  | string | <i>(Optional)</i> |
-|  [name?](./scribing-mui.paraminfo.name.md) |  | string | <i>(Optional)</i> |
-|  [optional?](./scribing-mui.paraminfo.optional.md) |  | boolean | <i>(Optional)</i> |
-|  [renderInfoTip?](./scribing-mui.paraminfo.renderinfotip.md) |  | (props: [ParamInfoTipRenderProps](./scribing-mui.paraminfotiprenderprops.md)<!-- -->) =&gt; ReactNode | <i>(Optional)</i> |
-|  [spread?](./scribing-mui.paraminfo.spread.md) |  | boolean | <i>(Optional)</i> |
-|  [type?](./scribing-mui.paraminfo.type.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
+|  [desc?](./scribing-mui.paraminfo.desc.md) |  | string | _(Optional)_ |
+|  [name?](./scribing-mui.paraminfo.name.md) |  | string | _(Optional)_ |
+|  [optional?](./scribing-mui.paraminfo.optional.md) |  | boolean | _(Optional)_ |
+|  [renderInfoTip?](./scribing-mui.paraminfo.renderinfotip.md) |  | (props: [ParamInfoTipRenderProps](./scribing-mui.paraminfotiprenderprops.md)<!-- -->) =&gt; ReactNode | _(Optional)_ |
+|  [spread?](./scribing-mui.paraminfo.spread.md) |  | boolean | _(Optional)_ |
+|  [type?](./scribing-mui.paraminfo.type.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | _(Optional)_ |
 

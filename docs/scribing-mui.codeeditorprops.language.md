@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.language property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 language?: LanguageSupport;

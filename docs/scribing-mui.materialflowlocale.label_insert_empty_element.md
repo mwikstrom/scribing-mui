@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_insert\_empty\_element property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_insert_empty_element: string;

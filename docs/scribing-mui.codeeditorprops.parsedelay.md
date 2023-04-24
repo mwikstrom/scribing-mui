@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.parseDelay property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 parseDelay?: number;

@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_box\_interaction property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_box_interaction: string;

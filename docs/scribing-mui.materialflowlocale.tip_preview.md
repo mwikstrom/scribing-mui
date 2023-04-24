@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_preview property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_preview: string;

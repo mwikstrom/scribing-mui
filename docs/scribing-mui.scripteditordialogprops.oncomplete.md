@@ -4,7 +4,7 @@
 
 ## ScriptEditorDialogProps.onComplete property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 onComplete?: (script: Script | null) => void;

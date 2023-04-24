@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_list\_ordered property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_list_ordered: string;

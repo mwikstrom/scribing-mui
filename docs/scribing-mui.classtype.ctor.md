@@ -4,7 +4,7 @@
 
 ## ClassType.ctor property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 ctor: FunctionType;

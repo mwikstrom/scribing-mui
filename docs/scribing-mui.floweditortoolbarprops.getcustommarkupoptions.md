@@ -4,7 +4,7 @@
 
 ## FlowEditorToolbarProps.getCustomMarkupOptions property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;

@@ -4,7 +4,7 @@
 
 ## ScriptEditorDialogProps.scriptLabel property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 scriptLabel?: string;

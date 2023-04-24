@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.button\_close property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 button_close: string;

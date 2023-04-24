@@ -4,7 +4,7 @@
 
 ## MarkupInfo.attr property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 attr: ReadonlyMap<string, string | Script | null> | null;

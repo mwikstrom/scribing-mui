@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tab\_material\_design\_icons property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tab_material_design_icons: string;

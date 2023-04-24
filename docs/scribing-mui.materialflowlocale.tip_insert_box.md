@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_insert\_box property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_insert_box: string;

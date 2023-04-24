@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_subscript property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_subscript: string;

@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_icon property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_icon: string;

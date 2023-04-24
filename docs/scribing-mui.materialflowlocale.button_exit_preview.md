@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.button\_exit\_preview property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 button_exit_preview: string;

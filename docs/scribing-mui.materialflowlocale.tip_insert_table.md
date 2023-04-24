@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_insert\_table property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_insert_table: string;

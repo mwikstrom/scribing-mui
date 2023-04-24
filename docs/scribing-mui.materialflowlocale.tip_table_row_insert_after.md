@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_table\_row\_insert\_after property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_table_row_insert_after: string;

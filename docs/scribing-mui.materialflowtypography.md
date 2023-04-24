@@ -5,7 +5,7 @@
 ## MaterialFlowTypography variable
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 MaterialFlowTypography: FC

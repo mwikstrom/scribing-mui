@@ -4,7 +4,7 @@
 
 ## ArrayType.itemType property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 itemType?: TypeInfo;

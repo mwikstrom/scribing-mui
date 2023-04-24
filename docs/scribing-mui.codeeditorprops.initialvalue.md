@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.initialValue property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 initialValue?: string;

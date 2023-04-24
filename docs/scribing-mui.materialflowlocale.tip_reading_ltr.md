@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_reading\_ltr property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_reading_ltr: string;

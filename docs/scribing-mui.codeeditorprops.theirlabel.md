@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.theirLabel property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 theirLabel?: string;

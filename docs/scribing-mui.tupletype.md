@@ -5,12 +5,12 @@
 ## TupleType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface TupleType extends TypeDecl<"tuple"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"tuple"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"tuple"&gt;
 
 ## Properties
 

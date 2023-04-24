@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.button\_check\_out property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 button_check_out: string;

@@ -5,16 +5,16 @@
 ## ScriptEditorProps interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface ScriptEditorProps extends Omit<CodeEditorProps, "parse" | "language"> 
 ```
-<b>Extends:</b> Omit&lt;[CodeEditorProps](./scribing-mui.codeeditorprops.md)<!-- -->, "parse" \| "language"&gt;
+**Extends:** Omit&lt;[CodeEditorProps](./scribing-mui.codeeditorprops.md)<!-- -->, "parse" \| "language"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [globals?](./scribing-mui.scripteditorprops.globals.md) |  | Iterable&lt;\[string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\]&gt; | <i>(Optional)</i> |
+|  [globals?](./scribing-mui.scripteditorprops.globals.md) |  | Iterable&lt;\[string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->\]&gt; | _(Optional)_ |
 

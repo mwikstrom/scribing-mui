@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.interaction\_open\_url property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 interaction_open_url: string;

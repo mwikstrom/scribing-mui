@@ -4,7 +4,7 @@
 
 ## ParamInfoTipRenderProps.paramIndex property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 paramIndex: number;

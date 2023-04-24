@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_table\_merge\_cells property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_table_merge_cells: string;

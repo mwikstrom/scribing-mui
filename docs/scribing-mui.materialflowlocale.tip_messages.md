@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_messages property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_messages: string;

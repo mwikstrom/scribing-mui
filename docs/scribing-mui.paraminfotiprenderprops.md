@@ -5,12 +5,12 @@
 ## ParamInfoTipRenderProps interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface ParamInfoTipRenderProps extends ParamInfoValueProps 
 ```
-<b>Extends:</b> [ParamInfoValueProps](./scribing-mui.paraminfovalueprops.md)
+**Extends:** [ParamInfoValueProps](./scribing-mui.paraminfovalueprops.md)
 
 ## Properties
 

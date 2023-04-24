@@ -4,7 +4,7 @@
 
 ## TypeDecl.ident property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 ident?: string;

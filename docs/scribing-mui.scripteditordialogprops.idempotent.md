@@ -4,7 +4,7 @@
 
 ## ScriptEditorDialogProps.idempotent property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 idempotent?: boolean;

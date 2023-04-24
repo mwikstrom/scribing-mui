@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_more\_tools property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_more_tools: string;

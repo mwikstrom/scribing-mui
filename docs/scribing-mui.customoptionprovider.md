@@ -5,10 +5,10 @@
 ## CustomOptionProvider type
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export type CustomOptionProvider<T, U = T> = (current: T) => readonly CustomOption<T, U>[];
 ```
-<b>References:</b> [CustomOption](./scribing-mui.customoption.md)
+**References:** [CustomOption](./scribing-mui.customoption.md)
 

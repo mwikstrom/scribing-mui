@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.button\_reset property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 button_reset: string;

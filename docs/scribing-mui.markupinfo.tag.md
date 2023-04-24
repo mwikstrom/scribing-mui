@@ -4,7 +4,7 @@
 
 ## MarkupInfo.tag property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tag: string | null;

@@ -4,7 +4,7 @@
 
 ## FlowEditorToolbarProps.controller property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 controller?: FlowEditorController | null;

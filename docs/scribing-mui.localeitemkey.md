@@ -5,10 +5,10 @@
 ## LocaleItemKey type
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export type LocaleItemKey = (ParagraphVariantLocaleKey | FlowColorLocaleKey | FontFamilyLocaleKey | BoxVariantLocaleKey);
 ```
-<b>References:</b> [ParagraphVariantLocaleKey](./scribing-mui.paragraphvariantlocalekey.md)<!-- -->, [FlowColorLocaleKey](./scribing-mui.flowcolorlocalekey.md)<!-- -->, [FontFamilyLocaleKey](./scribing-mui.fontfamilylocalekey.md)<!-- -->, [BoxVariantLocaleKey](./scribing-mui.boxvariantlocalekey.md)
+**References:** [ParagraphVariantLocaleKey](./scribing-mui.paragraphvariantlocalekey.md)<!-- -->, [FlowColorLocaleKey](./scribing-mui.flowcolorlocalekey.md)<!-- -->, [FontFamilyLocaleKey](./scribing-mui.fontfamilylocalekey.md)<!-- -->, [BoxVariantLocaleKey](./scribing-mui.boxvariantlocalekey.md)
 

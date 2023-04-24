@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_italic property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_italic: string;

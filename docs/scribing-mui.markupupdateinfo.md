@@ -5,7 +5,7 @@
 ## MarkupUpdateInfo interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface MarkupUpdateInfo 
@@ -15,7 +15,7 @@ export interface MarkupUpdateInfo
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [attr?](./scribing-mui.markupupdateinfo.attr.md) |  | ReadonlyMap&lt;string, string \| Script \| null \| [UnsetAttribute](./scribing-mui.unsetattribute.md)<!-- -->&gt; | <i>(Optional)</i> |
-|  [empty?](./scribing-mui.markupupdateinfo.empty.md) |  | boolean | <i>(Optional)</i> |
-|  [tag?](./scribing-mui.markupupdateinfo.tag.md) |  | string | <i>(Optional)</i> |
+|  [attr?](./scribing-mui.markupupdateinfo.attr.md) |  | ReadonlyMap&lt;string, string \| Script \| null \| [UnsetAttribute](./scribing-mui.unsetattribute.md)<!-- -->&gt; | _(Optional)_ |
+|  [empty?](./scribing-mui.markupupdateinfo.empty.md) |  | boolean | _(Optional)_ |
+|  [tag?](./scribing-mui.markupupdateinfo.tag.md) |  | string | _(Optional)_ |
 

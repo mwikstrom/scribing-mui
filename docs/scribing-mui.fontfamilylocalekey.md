@@ -5,7 +5,7 @@
 ## FontFamilyLocaleKey type
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export type FontFamilyLocaleKey = `font_family_${FontFamily}`;

@@ -5,7 +5,7 @@
 ## MaterialScribingComponents variable
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 MaterialScribingComponents: FC<Partial<ScribingComponents>>

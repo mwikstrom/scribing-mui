@@ -4,7 +4,7 @@
 
 ## ParamInfoTipRenderProps.onApplyVariableName property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 onApplyVariableName: (value: string) => boolean;

@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocaleProps.locale property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 locale: Partial<MaterialFlowLocale>;

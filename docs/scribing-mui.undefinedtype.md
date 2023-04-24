@@ -5,10 +5,10 @@
 ## UndefinedType type
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export type UndefinedType = TypeDecl<"undefined">;
 ```
-<b>References:</b> [TypeDecl](./scribing-mui.typedecl.md)
+**References:** [TypeDecl](./scribing-mui.typedecl.md)
 

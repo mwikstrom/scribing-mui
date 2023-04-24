@@ -4,7 +4,7 @@
 
 ## ScriptEditorDialogProps.additionalGlobals property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 additionalGlobals?: Iterable<[string, TypeInfo]>;

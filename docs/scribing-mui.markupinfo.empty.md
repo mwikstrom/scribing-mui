@@ -4,7 +4,7 @@
 
 ## MarkupInfo.empty property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 empty: boolean | null;

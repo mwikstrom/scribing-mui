@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.readOnly property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 readOnly?: boolean;

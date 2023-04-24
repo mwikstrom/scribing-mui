@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_list\_unordered property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_list_unordered: string;

@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_table\_row\_remove property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_table_row_remove: string;

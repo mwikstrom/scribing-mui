@@ -4,7 +4,7 @@
 
 ## ScriptEditorProps.globals property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 globals?: Iterable<[string, TypeInfo]>;

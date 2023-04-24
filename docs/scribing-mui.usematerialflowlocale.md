@@ -5,12 +5,12 @@
 ## useMaterialFlowLocale() function
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare function useMaterialFlowLocale(): Readonly<MaterialFlowLocale>;
 ```
-<b>Returns:</b>
+**Returns:**
 
 Readonly&lt;[MaterialFlowLocale](./scribing-mui.materialflowlocale.md)<!-- -->&gt;
 

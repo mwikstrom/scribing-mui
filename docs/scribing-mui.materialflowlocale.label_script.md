@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_script property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_script: string;

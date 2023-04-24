@@ -5,7 +5,7 @@
 ## TypeDecl interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface TypeDecl<T> 
@@ -16,7 +16,7 @@ export interface TypeDecl<T>
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [decl](./scribing-mui.typedecl.decl.md) |  | T |  |
-|  [desc?](./scribing-mui.typedecl.desc.md) |  | string | <i>(Optional)</i> |
-|  [ident?](./scribing-mui.typedecl.ident.md) |  | string | <i>(Optional)</i> |
-|  [scope?](./scribing-mui.typedecl.scope.md) |  | string | <i>(Optional)</i> |
+|  [desc?](./scribing-mui.typedecl.desc.md) |  | string | _(Optional)_ |
+|  [ident?](./scribing-mui.typedecl.ident.md) |  | string | _(Optional)_ |
+|  [scope?](./scribing-mui.typedecl.scope.md) |  | string | _(Optional)_ |
 

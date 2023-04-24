@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.button\_insert property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 button_insert: string;

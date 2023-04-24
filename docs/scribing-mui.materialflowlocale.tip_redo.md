@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_redo property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_redo: string;

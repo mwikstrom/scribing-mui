@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_underline property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_underline: string;

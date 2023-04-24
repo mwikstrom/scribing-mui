@@ -5,7 +5,7 @@
 ## FlowEditorToolbar variable
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 FlowEditorToolbar: FC<FlowEditorToolbarProps>

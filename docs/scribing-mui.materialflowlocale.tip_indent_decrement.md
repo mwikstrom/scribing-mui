@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_indent\_decrement property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_indent_decrement: string;

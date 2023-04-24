@@ -4,7 +4,7 @@
 
 ## BooleanType.value property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 value?: boolean;

@@ -5,16 +5,16 @@
 ## ArrayType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface ArrayType extends TypeDecl<"array"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"array"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"array"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [itemType?](./scribing-mui.arraytype.itemtype.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | <i>(Optional)</i> |
+|  [itemType?](./scribing-mui.arraytype.itemtype.md) |  | [TypeInfo](./scribing-mui.typeinfo.md) | _(Optional)_ |
 

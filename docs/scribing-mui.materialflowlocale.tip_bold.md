@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_bold property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_bold: string;

@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_markup property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_markup: string;

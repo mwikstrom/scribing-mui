@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tab\_predefined\_icons property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tab_predefined_icons: string;

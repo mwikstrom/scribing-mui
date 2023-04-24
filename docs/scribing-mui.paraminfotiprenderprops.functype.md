@@ -4,7 +4,7 @@
 
 ## ParamInfoTipRenderProps.funcType property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 funcType: FunctionType;

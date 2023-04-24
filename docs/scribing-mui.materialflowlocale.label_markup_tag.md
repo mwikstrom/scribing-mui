@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_markup\_tag property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_markup_tag: string;

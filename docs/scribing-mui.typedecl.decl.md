@@ -4,7 +4,7 @@
 
 ## TypeDecl.decl property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 decl: T;

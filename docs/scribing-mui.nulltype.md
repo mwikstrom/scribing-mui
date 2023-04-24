@@ -5,10 +5,10 @@
 ## NullType type
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export type NullType = TypeDecl<"null">;
 ```
-<b>References:</b> [TypeDecl](./scribing-mui.typedecl.md)
+**References:** [TypeDecl](./scribing-mui.typedecl.md)
 

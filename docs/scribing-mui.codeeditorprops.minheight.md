@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.minHeight property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 minHeight?: string | number;

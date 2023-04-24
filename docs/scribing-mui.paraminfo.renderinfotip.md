@@ -4,7 +4,7 @@
 
 ## ParamInfo.renderInfoTip property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 renderInfoTip?: (props: ParamInfoTipRenderProps) => ReactNode;

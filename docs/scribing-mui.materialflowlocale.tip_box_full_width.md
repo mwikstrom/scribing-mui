@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_box\_full\_width property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_box_full_width: string;

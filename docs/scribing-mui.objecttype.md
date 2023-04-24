@@ -5,16 +5,16 @@
 ## ObjectType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface ObjectType extends TypeDecl<"object"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"object"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"object"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [props?](./scribing-mui.objecttype.props.md) |  | Record&lt;string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->&gt; | <i>(Optional)</i> |
+|  [props?](./scribing-mui.objecttype.props.md) |  | Record&lt;string, [TypeInfo](./scribing-mui.typeinfo.md)<!-- -->&gt; | _(Optional)_ |
 

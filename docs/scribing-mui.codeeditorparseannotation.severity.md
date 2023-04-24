@@ -4,7 +4,7 @@
 
 ## CodeEditorParseAnnotation.severity property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 severity: "error" | "warning" | "info";

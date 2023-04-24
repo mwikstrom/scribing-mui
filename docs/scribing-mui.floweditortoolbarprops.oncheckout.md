@@ -4,7 +4,7 @@
 
 ## FlowEditorToolbarProps.onCheckOut property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 onCheckOut?: () => void;

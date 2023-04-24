@@ -5,16 +5,16 @@
 ## NumberType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface NumberType extends TypeDecl<"number"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"number"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"number"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [value?](./scribing-mui.numbertype.value.md) |  | number | <i>(Optional)</i> |
+|  [value?](./scribing-mui.numbertype.value.md) |  | number | _(Optional)_ |
 

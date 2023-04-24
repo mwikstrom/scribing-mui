@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.markup\_advanced property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 markup_advanced: string;

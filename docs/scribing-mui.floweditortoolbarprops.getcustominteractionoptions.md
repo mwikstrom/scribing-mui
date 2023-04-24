@@ -4,8 +4,8 @@
 
 ## FlowEditorToolbarProps.getCustomInteractionOptions property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
-getCustomInteractionOptions?: CustomOptionProvider<Interaction | null>;
+getCustomInteractionOptions?: CustomOptionProvider<Interaction | null, InteractionOptionResult>;
 ```

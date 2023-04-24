@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.onValueChange property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 onValueChange?: (value: string) => void;

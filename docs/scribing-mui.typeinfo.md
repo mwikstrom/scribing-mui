@@ -5,7 +5,7 @@
 ## TypeInfo variable
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 TypeInfo: Readonly<{

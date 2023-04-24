@@ -26,6 +26,7 @@ Material-UI components for collaborative rich text editing
 |  [CustomOption](./scribing-mui.customoption.md) |  |
 |  [FlowEditorToolbarProps](./scribing-mui.floweditortoolbarprops.md) |  |
 |  [FunctionType](./scribing-mui.functiontype.md) |  |
+|  [InteractionUpdateInfo](./scribing-mui.interactionupdateinfo.md) |  |
 |  [MarkupInfo](./scribing-mui.markupinfo.md) |  |
 |  [MarkupUpdateInfo](./scribing-mui.markupupdateinfo.md) |  |
 |  [MaterialFlowLocale](./scribing-mui.materialflowlocale.md) |  |
@@ -50,6 +51,7 @@ Material-UI components for collaborative rich text editing
 |  [CodeEditor](./scribing-mui.codeeditor.md) |  |
 |  [DefaultMaterialFlowLocale](./scribing-mui.defaultmaterialflowlocale.md) |  |
 |  [FlowEditorToolbar](./scribing-mui.floweditortoolbar.md) |  |
+|  [getInteractionUpdateInfo](./scribing-mui.getinteractionupdateinfo.md) |  |
 |  [MaterialFlowLocale](./scribing-mui.materialflowlocale.md) |  |
 |  [MaterialFlowPalette](./scribing-mui.materialflowpalette.md) |  |
 |  [MaterialFlowTypography](./scribing-mui.materialflowtypography.md) |  |
@@ -68,6 +70,7 @@ Material-UI components for collaborative rich text editing
 |  [EditorSourceState](./scribing-mui.editorsourcestate.md) |  |
 |  [FlowColorLocaleKey](./scribing-mui.flowcolorlocalekey.md) |  |
 |  [FontFamilyLocaleKey](./scribing-mui.fontfamilylocalekey.md) |  |
+|  [InteractionOptionResult](./scribing-mui.interactionoptionresult.md) |  |
 |  [LocaleItemKey](./scribing-mui.localeitemkey.md) |  |
 |  [NullType](./scribing-mui.nulltype.md) |  |
 |  [ParagraphVariantLocaleKey](./scribing-mui.paragraphvariantlocalekey.md) |  |

@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.button\_test property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 button_test: string;

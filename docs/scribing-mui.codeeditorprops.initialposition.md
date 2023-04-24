@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.initialPosition property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 initialPosition?: number;

@@ -5,16 +5,16 @@
 ## StringType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface StringType extends TypeDecl<"string"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"string"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"string"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [value?](./scribing-mui.stringtype.value.md) |  | string | <i>(Optional)</i> |
+|  [value?](./scribing-mui.stringtype.value.md) |  | string | _(Optional)_ |
 

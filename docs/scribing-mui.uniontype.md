@@ -5,12 +5,12 @@
 ## UnionType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface UnionType extends TypeDecl<"union"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"union"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"union"&gt;
 
 ## Properties
 

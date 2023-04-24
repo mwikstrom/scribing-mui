@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_image\_scale property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_image_scale: string;

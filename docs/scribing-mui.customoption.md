@@ -5,7 +5,7 @@
 ## CustomOption interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface CustomOption<T, U = T> 
@@ -15,9 +15,9 @@ export interface CustomOption<T, U = T>
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [getResult?](./scribing-mui.customoption.getresult.md) |  | (current: T) =&gt; U \| undefined | <i>(Optional)</i> |
+|  [getResult?](./scribing-mui.customoption.getresult.md) |  | (current: T) =&gt; U \| undefined | _(Optional)_ |
 |  [key](./scribing-mui.customoption.key.md) |  | string |  |
 |  [label](./scribing-mui.customoption.label.md) |  | string |  |
-|  [renderDialog?](./scribing-mui.customoption.renderdialog.md) |  | (current: T, onClose: (result: U \| undefined) =&gt; void, onApply: (update: U) =&gt; void) =&gt; ReactNode | <i>(Optional)</i> |
+|  [renderDialog?](./scribing-mui.customoption.renderdialog.md) |  | (current: T, onClose: (result: U \| undefined) =&gt; void, onApply: (update: U) =&gt; void) =&gt; ReactNode | _(Optional)_ |
 |  [selected](./scribing-mui.customoption.selected.md) |  | boolean |  |
 

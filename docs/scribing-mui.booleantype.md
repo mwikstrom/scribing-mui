@@ -5,16 +5,16 @@
 ## BooleanType interface
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface BooleanType extends TypeDecl<"boolean"> 
 ```
-<b>Extends:</b> [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"boolean"&gt;
+**Extends:** [TypeDecl](./scribing-mui.typedecl.md)<!-- -->&lt;"boolean"&gt;
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [value?](./scribing-mui.booleantype.value.md) |  | boolean | <i>(Optional)</i> |
+|  [value?](./scribing-mui.booleantype.value.md) |  | boolean | _(Optional)_ |
 

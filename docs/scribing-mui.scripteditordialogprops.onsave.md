@@ -4,7 +4,7 @@
 
 ## ScriptEditorDialogProps.onSave property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 onSave?: (script: Script) => void;

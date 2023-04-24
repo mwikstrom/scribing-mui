@@ -5,7 +5,7 @@
 ## getMarkupInfo() function
 
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare function getMarkupInfo(controller: FlowEditorController | null | undefined): MarkupInfo | null;
@@ -17,7 +17,7 @@ export declare function getMarkupInfo(controller: FlowEditorController | null | 
 |  --- | --- | --- |
 |  controller | FlowEditorController \| null \| undefined |  |
 
-<b>Returns:</b>
+**Returns:**
 
 [MarkupInfo](./scribing-mui.markupinfo.md) \| null
 

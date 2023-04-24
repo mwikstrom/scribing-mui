@@ -4,7 +4,7 @@
 
 ## CodeEditorProps.diffDelay property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 diffDelay?: number;

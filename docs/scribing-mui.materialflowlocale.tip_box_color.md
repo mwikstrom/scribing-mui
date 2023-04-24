@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_box\_color property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_box_color: string;

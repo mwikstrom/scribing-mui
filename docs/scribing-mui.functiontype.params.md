@@ -4,7 +4,7 @@
 
 ## FunctionType.params property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 params?: readonly ParamInfo[];

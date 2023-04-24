@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.interaction\_none property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 interaction_none: string;

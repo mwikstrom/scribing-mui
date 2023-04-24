@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_formatting\_marks property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_formatting_marks: string;

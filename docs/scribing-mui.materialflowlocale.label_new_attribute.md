@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.label\_new\_attribute property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 label_new_attribute: string;

@@ -4,7 +4,7 @@
 
 ## MaterialFlowLocale.tip\_change\_image property
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 tip_change_image: string;
