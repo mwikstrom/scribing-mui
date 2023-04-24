@@ -1,3 +1,7 @@
+## 1.12.0 - 2023-04-24
+
+- Support default text when inserting link interaction
+
 ## 1.11.2 - 2023-03-16
 
 - Use grab/grabbing cursor in image zoom box

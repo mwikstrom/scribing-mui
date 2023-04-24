@@ -1,7 +1,7 @@
 import { mdiGestureTapButton } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import React, { FC, useCallback, useMemo, useState } from "react";
-import { Interaction, OpenUrl, RunScript, Script } from "scribing";
+import { FlowContent, Interaction, OpenUrl, RunScript, Script, TextRun, TextStyle } from "scribing";
 import { FlowEditorController } from "scribing-react";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ToolButtonProps } from "../components/ToolButton";
@@ -9,11 +9,12 @@ import { OptionButton } from "../components/OptionButton";
 import { ScriptEditorDialog } from "../ScriptEditorDialog";
 import { TextFieldDialog } from "../components/TextFieldDialog";
 import { CustomOption, CustomOptionProvider } from "../FlowEditorToolbar";
+import { InteractionOptionResult, getInteractionUpdateInfo } from "../InteractionOptionResult";
 
 export interface InteractionButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
     frozen?: boolean;
-    getCustomInteractionOptions?: CustomOptionProvider<Interaction | null>;
+    getCustomInteractionOptions?: CustomOptionProvider<Interaction | null, InteractionOptionResult>;
 }
 
 export const InteractionButton: FC<InteractionButtonProps> = props => {
@@ -21,7 +22,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
     const locale = useMaterialFlowLocale();
     const interaction = useMemo<Interaction | null | undefined>(() => controller?.getInteraction(), [controller]);
 
-    const customOptions = useMemo<readonly CustomOption<Interaction | null>[]>(() => {
+    const customOptions = useMemo<readonly CustomOption<Interaction | null, InteractionOptionResult>[]>(() => {
         if (getCustomInteractionOptions) {
             return getCustomInteractionOptions(interaction || null);
         } else {
@@ -85,13 +86,22 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
 
     const closeDialog = useCallback(() => setDialog(null), []);
 
-    const applyDialog = useCallback((value: Interaction | null) => {
-        controller?.setInteraction(value);
+    const applyDialog = useCallback((result: InteractionOptionResult | null) => {
+        const { interaction, defaultText } = getInteractionUpdateInfo(result);
+        if (defaultText && controller?.isCaret() && !controller?.getLink()) {
+            controller.insertContent(
+                FlowContent.fromData([
+                    TextRun.fromData({ text: defaultText, style: new TextStyle({ link: interaction }) })
+                ])
+            );
+        } else {
+            controller?.setInteraction(interaction);
+        }
     }, [controller]);
 
-    const completeDialog = useCallback((value: Interaction | null | undefined) => {
-        if (value !== undefined) {
-            applyDialog(value);
+    const completeDialog = useCallback((result: InteractionOptionResult | undefined) => {
+        if (result !== undefined) {
+            applyDialog(result);
         }
         closeDialog();
     }, [applyDialog, closeDialog]);
@@ -162,7 +172,7 @@ export const InteractionButton: FC<InteractionButtonProps> = props => {
     );
 };
 
-type InteractionOption = DefaultInteractionOption | CustomOption<Interaction | null>;
+type InteractionOption = DefaultInteractionOption | CustomOption<Interaction | null, InteractionOptionResult>;
 
 type DefaultInteractionOption = (typeof DEFAULT_INTERACTION_OPTIONS)[number];
 

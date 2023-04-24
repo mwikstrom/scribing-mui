@@ -19,6 +19,7 @@ import { useStoryTheme } from "./theme";
 import { MaterialFlowTypography } from "../src/MaterialFlowTypography";
 import { MarkupInfo, MarkupUpdateInfo } from "../src/MarkupInfo";
 import { MaterialScribingComponents } from "../src/MaterialScribingComponents";
+import { InteractionOptionResult } from "../src";
 
 interface StoryProps {
     dark?: boolean;
@@ -49,7 +50,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
     const onCheckOut = useCallback(() => transitionSource("checked-out"), []);
     const frozen = useMemo(() => source === "busy" || source === "checked-in", [source]);    
     const getCustomInteractionOptions = useCallback((interaction: Interaction | null) => {
-        const openTopic: CustomOption<Interaction | null> = {
+        const openTopic: CustomOption<Interaction | null, InteractionOptionResult> = {
             key: "open_topic",
             label: "Open topic",
             selected: interaction instanceof OpenUrl && /^[a-zA-Z0-9-]+$/.test(interaction.url),
@@ -96,12 +97,20 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
 
 interface OpenTopicDialogProps {
     interaction: Interaction | null;
-    onClose: (interaction?: Interaction | null) => void;
+    onClose: (interaction?: InteractionOptionResult) => void;
 }
 
 const OpenTopicDialog = (props: OpenTopicDialogProps) => {
     const { interaction, onClose } = props;
     const [url, setUrl] = useState(() => interaction instanceof OpenUrl ? interaction.url : "");
+    const onOk = useCallback(() => {
+        const interaction = new OpenUrl({ url });
+        if (url === "foo") {
+            onClose({ interaction, defaultText: "FOOBAR" });
+        } else {
+            onClose(interaction);
+        }
+    }, [onClose, url]);
     return (
         <Dialog open onClose={() => onClose()}>
             <DialogTitle>Open topic</DialogTitle>
@@ -110,7 +119,7 @@ const OpenTopicDialog = (props: OpenTopicDialogProps) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => onClose()}>Cancel</Button>
-                <Button onClick={() => onClose(new OpenUrl({ url }))}>OK</Button>
+                <Button onClick={onOk}>OK</Button>
             </DialogActions>
         </Dialog>
     );

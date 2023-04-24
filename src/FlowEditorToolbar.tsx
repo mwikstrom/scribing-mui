@@ -68,6 +68,7 @@ import { MarkupUpdateInfo, useMaterialFlowLocale } from ".";
 import { BoxSourceButton } from "./tools/BoxSourceButton";
 import { MarkupInfo } from "./MarkupInfo";
 import { EditImageButton } from "./tools/EditImageButton";
+import { InteractionOptionResult } from "./InteractionOptionResult";
 
 /** @public */
 export type EditorSourceState = (
@@ -87,7 +88,7 @@ export interface FlowEditorToolbarProps {
     onCheckIn?: () => void;
     onCheckOut?: () => void;
     onReset?: () => void;
-    getCustomInteractionOptions?: CustomOptionProvider<Interaction | null>;
+    getCustomInteractionOptions?: CustomOptionProvider<Interaction | null, InteractionOptionResult>;
     getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
 }
 

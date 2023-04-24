@@ -8,6 +8,7 @@ export * from "./MaterialFlowTypography";
 export * from "./MaterialFlowLocale";
 export * from "./MaterialScribingComponents";
 export * from "./MarkupInfo";
+export * from "./InteractionOptionResult";
 export * from "./FlowEditorToolbar";
 export * from "./TypeInfo";
 export * from "./CodeEditor";
