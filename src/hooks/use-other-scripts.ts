@@ -1,15 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { 
-    DynamicText, 
-    EmptyMarkup, 
-    FlowBox, 
-    FlowNode, 
-    FlowNodeVisitor, 
-    InlineNode, 
-    RunScript, 
-    Script, 
-    StartMarkup
-} from "scribing";
+import { FlowNodeVisitor, Script} from "scribing";
 import { FlowEditorController, FlowEditorState } from "scribing-react";
 
 // NOTE: The idea for this hook is that it should return all scripts in the flow document except
@@ -41,48 +31,8 @@ function useAllScripts(state: FlowEditorState | null | undefined): Script[] {
 class ScriptExtractor extends FlowNodeVisitor {
     public readonly result: Script[] = [];
 
-    visitBox(node: FlowBox): FlowNode {
-        const { style: { source, interaction } } = node;
-        if (source) {
-            this.result.push(source);
-        }
-        if (interaction instanceof RunScript) {
-            this.result.push(interaction.script);
-        }
-        return super.visitBox(node);
-    }
-
-    visitDynamicText(node: DynamicText): FlowNode {
-        const { expression } = node;
-        this.result.push(expression);
-        return super.visitDynamicText(node);
-    }
-
-    visitNode(node: FlowNode): FlowNode {
-        if (node instanceof InlineNode) {
-            const { style: { link } } = node;
-            if (link instanceof RunScript) {
-                this.result.push(link.script);
-            }
-        }
-        return super.visitNode(node);
-    }
-
-    visitEmptyMarkup(node: EmptyMarkup): FlowNode {
-        this.visitMarkupAttr(node.attr);
-        return super.visitEmptyMarkup(node);
-    }
-
-    visitStartMarkup(node: StartMarkup): FlowNode {
-        this.visitMarkupAttr(node.attr);
-        return super.visitStartMarkup(node);
-    }
-
-    visitMarkupAttr(attr: ReadonlyMap<string, unknown>): void {
-        for (const [, value] of attr) {
-            if (value instanceof Script) {
-                this.result.push(value);
-            }
-        }
+    visitScript(script: Script): Script {
+        this.result.push(script);
+        return super.visitScript(script);
     }
 }
