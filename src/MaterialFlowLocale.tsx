@@ -54,6 +54,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_multiple_values: string;
     label_script: string;
     label_insert_empty_element: string;
+    label_insert_from_file: string;
+    label_insert_from_media_library: string;
     label_attribute: string;
     label_new_attribute: string;
     label_value: string;
@@ -177,6 +179,8 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     label_multiple_values: "(Multiple values)",
     label_script: "(Script)",
     label_insert_empty_element: "Insert empty element",
+    label_insert_from_file: "Insert from file",
+    label_insert_from_media_library: "Insert from media library",
     label_attribute: "Attribute",
     label_new_attribute: "Type a new attribute here",
     label_value: "Value",

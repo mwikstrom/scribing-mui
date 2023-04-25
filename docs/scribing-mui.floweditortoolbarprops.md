@@ -23,5 +23,6 @@ export interface FlowEditorToolbarProps
 |  [onCheckIn?](./scribing-mui.floweditortoolbarprops.oncheckin.md) |  | () =&gt; void | _(Optional)_ |
 |  [onCheckOut?](./scribing-mui.floweditortoolbarprops.oncheckout.md) |  | () =&gt; void | _(Optional)_ |
 |  [onReset?](./scribing-mui.floweditortoolbarprops.onreset.md) |  | () =&gt; void | _(Optional)_ |
+|  [renderImageSelector?](./scribing-mui.floweditortoolbarprops.renderimageselector.md) |  | (callback: (sourceUrl: string \| null) =&gt; void) =&gt; ReactNode | _(Optional)_ |
 |  [source?](./scribing-mui.floweditortoolbarprops.source.md) |  | [EditorSourceState](./scribing-mui.editorsourcestate.md) | _(Optional)_ |
 

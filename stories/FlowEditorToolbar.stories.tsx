@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useMemo, useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { CustomOption, EditorSourceState, FlowEditorToolbar } from "../src/FlowEditorToolbar";
+import { CustomOption, EditorSourceState, FlowEditorToolbar, FlowEditorToolbarProps } from "../src/FlowEditorToolbar";
 import { 
     Button, 
     Dialog, 
@@ -24,6 +24,7 @@ import { InteractionOptionResult } from "../src";
 interface StoryProps {
     dark?: boolean;
     broken?: boolean;
+    renderImageSelector?: FlowEditorToolbarProps["renderImageSelector"];
 }
 
 const Story: FC<StoryProps> = props => {
@@ -37,7 +38,7 @@ const Story: FC<StoryProps> = props => {
 };
 
 const Root: FC<Omit<StoryProps, "dark">> = props => {
-    const { broken } = props;
+    const { broken, renderImageSelector } = props;
     const [controller, setController] = useState<FlowEditorController | null>(null);
     const classes = useStyles();
     const [source, setSource] = useState<EditorSourceState>(broken ? "broken" : "checked-out");
@@ -81,6 +82,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
                             onCheckOut={onCheckOut}
                             getCustomInteractionOptions={getCustomInteractionOptions}
                             getCustomMarkupOptions={getCustomMarkupOptions}
+                            renderImageSelector={renderImageSelector}
                         />
                         <FlowEditor
                             className={classes.editor}
@@ -190,3 +192,15 @@ LightBroken.args = { broken: true };
 
 export const DarkBroken = Template.bind({});
 DarkBroken.args = { broken: true, dark: true };
+
+export const DarkWithImageSelector = Template.bind({});
+DarkWithImageSelector.args = {
+    dark: true,
+    renderImageSelector: callback => (
+        <Dialog open onClose={() => callback(null)}>
+            <DialogActions>
+                <Button onClick={() => callback("fake-url")}>Insert fake</Button>
+            </DialogActions>
+        </Dialog>
+    ),
+};

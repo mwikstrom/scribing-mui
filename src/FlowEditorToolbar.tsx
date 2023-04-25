@@ -69,6 +69,7 @@ import { BoxSourceButton } from "./tools/BoxSourceButton";
 import { MarkupInfo } from "./MarkupInfo";
 import { EditImageButton } from "./tools/EditImageButton";
 import { InteractionOptionResult } from "./InteractionOptionResult";
+import { InsertImageButton } from "./tools/InsertImageButton";
 
 /** @public */
 export type EditorSourceState = (
@@ -90,6 +91,7 @@ export interface FlowEditorToolbarProps {
     onReset?: () => void;
     getCustomInteractionOptions?: CustomOptionProvider<Interaction | null, InteractionOptionResult>;
     getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
+    renderImageSelector?: (callback: (sourceUrl: string | null) => void) => ReactNode;
 }
 
 /** @public */
@@ -124,6 +126,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
         onReset,
         getCustomInteractionOptions,
         getCustomMarkupOptions,
+        renderImageSelector,
     } = props;
     const isPreview = useMemo(() => controller?.getPreview(), [controller]);
     const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
@@ -257,6 +260,8 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 <FlowIconButton {...toolProps} title={locale.tip_icon}/>
                                 {isImageSelection ? (
                                     <EditImageButton {...toolProps}/>
+                                ) : renderImageSelector ? (
+                                    <InsertImageButton {...toolProps} renderImageSelector={renderImageSelector} />
                                 ) : (
                                     <CommandButton
                                         {...toolProps}

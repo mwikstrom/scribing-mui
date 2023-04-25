@@ -145,6 +145,8 @@ export interface FlowEditorToolbarProps {
     // (undocumented)
     onReset?: () => void;
     // (undocumented)
+    renderImageSelector?: (callback: (sourceUrl: string | null) => void) => ReactNode;
+    // (undocumented)
     source?: EditorSourceState;
 }
 
@@ -249,6 +251,10 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     label_input: string;
     // (undocumented)
     label_insert_empty_element: string;
+    // (undocumented)
+    label_insert_from_file: string;
+    // (undocumented)
+    label_insert_from_media_library: string;
     // (undocumented)
     label_language: string;
     // (undocumented)

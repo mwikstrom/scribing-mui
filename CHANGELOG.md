@@ -1,3 +1,7 @@
+## 1.13.0 - 2023-04-24
+
+- Insert image from media library (custom selector)
+
 ## 1.12.0 - 2023-04-24
 
 - Support default text when inserting link interaction
