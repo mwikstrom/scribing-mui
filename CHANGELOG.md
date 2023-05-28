@@ -1,3 +1,7 @@
+## 1.14.1 - 2023-05-28
+
+- Fix: Inserting constant `RegExp`
+
 ## 1.14.0 - 2023-05-28
 
 - Support `RegExp` constant values

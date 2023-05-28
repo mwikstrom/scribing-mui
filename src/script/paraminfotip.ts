@@ -122,6 +122,8 @@ function getTooltipForPosition(
 
         if (typeof value === "string" || typeof value === "number") {
             insert = JSON.stringify(value);            
+        } else if (value instanceof RegExp) {
+            insert = String(value);
         }
 
         if (!editor || typeof insert !== "string") {
