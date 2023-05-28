@@ -1,3 +1,7 @@
+## 1.14.0 - 2023-05-28
+
+- Support `RegExp` constant values
+
 ## 1.13.1 - 2023-04-25
 
 - Use the new `visitScript` method in `FlowNodeVisitor`

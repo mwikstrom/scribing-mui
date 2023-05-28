@@ -119,6 +119,16 @@ export const tryGetConstant = (node: SyntaxNode | null, slice: Slicer): Maybe<un
         }                
         const value = JSON.parse(literal);
         return { success: true, value };
+    } else if (name === "RegExp") {
+        const literal = slice(from, to).trim();
+        const match = /^\/([^/]+)\/([dgimsuy]*)?$/.exec(literal);
+        if (match) {
+            const [, pattern, flags] = match;
+            const value = new RegExp(pattern, flags);
+            return { success: true, value };
+        } else {
+            return { success: false };
+        }
     } else {
         return { success: false };
     }
