@@ -208,6 +208,15 @@ const InlineType = (props: InlineTypeProps) => {
         } else {
             return label;
         }
+    } else if (decl === "partial") {
+        return (
+            <>
+                <Normal>Partial</Normal>
+                <Separator>&lt;</Separator>
+                <InlineType info={info.fullType}/>
+                <Separator>&gt;</Separator>
+            </>
+        );
     } else if (decl === "tuple") {
         return (
             <>

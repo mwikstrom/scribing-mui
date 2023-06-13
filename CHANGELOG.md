@@ -1,3 +1,7 @@
+## 1.15.1 - 2023-06-13
+
+- Fix: Render partial type info
+
 ## 1.15.0 - 2023-06-13
 
 - Support partial type info
