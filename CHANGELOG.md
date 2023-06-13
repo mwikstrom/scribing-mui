@@ -1,3 +1,7 @@
+## 1.15.0 - 2023-06-13
+
+- Support partial type info
+
 ## 1.14.1 - 2023-05-28
 
 - Fix: Inserting constant `RegExp`

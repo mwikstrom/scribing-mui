@@ -18,7 +18,8 @@ export type TypeInfo = (
     FunctionType |
     ClassType |
     PromiseType |
-    UnionType
+    UnionType |
+    PartialType
 );
 
 /** @public */
@@ -69,6 +70,11 @@ export interface UnionType extends TypeDecl<"union"> {
 /** @public */
 export interface ArrayType extends TypeDecl<"array"> {
     itemType?: TypeInfo;
+}
+
+/** @public */
+export interface PartialType extends TypeDecl<"partial"> {
+    fullType: TypeInfo;
 }
 
 /** @public */
@@ -169,6 +175,10 @@ export const TypeInfo = Object.freeze({
     array: (itemType?: TypeInfo): ArrayType => Object.freeze({
         decl: "array",
         itemType,
+    }),
+    partial: (fullType: TypeInfo): PartialType => Object.freeze({
+        decl: "partial",
+        fullType,
     }),
     tuple: (...itemTypes: readonly TypeInfo[]): TupleType => Object.freeze({
         decl: "tuple",

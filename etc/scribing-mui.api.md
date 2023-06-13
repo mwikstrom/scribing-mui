@@ -470,6 +470,12 @@ export interface ParamInfoValueProps {
 }
 
 // @public (undocumented)
+export interface PartialType extends TypeDecl<"partial"> {
+    // (undocumented)
+    fullType: TypeInfo;
+}
+
+// @public (undocumented)
 export interface PromiseType extends TypeDecl<"promise"> {
     // (undocumented)
     resolveType?: TypeInfo;
@@ -536,7 +542,7 @@ export interface TypeDecl<T> {
 }
 
 // @public (undocumented)
-export type TypeInfo = (UnknownType | VoidType | UndefinedType | NullType | BooleanType | NullType | StringType | NumberType | BigIntType | ObjectType | ArrayType | TupleType | FunctionType | ClassType | PromiseType | UnionType);
+export type TypeInfo = (UnknownType | VoidType | UndefinedType | NullType | BooleanType | NullType | StringType | NumberType | BigIntType | ObjectType | ArrayType | TupleType | FunctionType | ClassType | PromiseType | UnionType | PartialType);
 
 // @public (undocumented)
 export const TypeInfo: Readonly<{
@@ -556,6 +562,7 @@ export const TypeInfo: Readonly<{
     numberValue: (value: number) => NumberType;
     union: (first: TypeInfo, ...rest: readonly TypeInfo[]) => UnionType;
     array: (itemType?: TypeInfo) => ArrayType;
+    partial: (fullType: TypeInfo) => PartialType;
     tuple: (...itemTypes: readonly TypeInfo[]) => TupleType;
     object: (props?: Record<string, TypeInfo>) => ObjectType;
     function: (params?: readonly ParamInfo[], returnType?: TypeInfo) => FunctionType;

@@ -36,6 +36,7 @@ Material-UI components for collaborative rich text editing
 |  [ParamInfo](./scribing-mui.paraminfo.md) |  |
 |  [ParamInfoTipRenderProps](./scribing-mui.paraminfotiprenderprops.md) |  |
 |  [ParamInfoValueProps](./scribing-mui.paraminfovalueprops.md) |  |
+|  [PartialType](./scribing-mui.partialtype.md) |  |
 |  [PromiseType](./scribing-mui.promisetype.md) |  |
 |  [ScriptEditorDialogProps](./scribing-mui.scripteditordialogprops.md) |  |
 |  [ScriptEditorProps](./scribing-mui.scripteditorprops.md) |  |

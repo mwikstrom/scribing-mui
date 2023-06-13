@@ -25,6 +25,7 @@ TypeInfo: Readonly<{
     numberValue: (value: number) => NumberType;
     union: (first: TypeInfo, ...rest: readonly TypeInfo[]) => UnionType;
     array: (itemType?: TypeInfo) => ArrayType;
+    partial: (fullType: TypeInfo) => PartialType;
     tuple: (...itemTypes: readonly TypeInfo[]) => TupleType;
     object: (props?: Record<string, TypeInfo>) => ObjectType;
     function: (params?: readonly ParamInfo[], returnType?: TypeInfo) => FunctionType;

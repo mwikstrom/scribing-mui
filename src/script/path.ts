@@ -183,7 +183,13 @@ const selectChild = (parent: TypeInfo | undefined, selection: TypeSelection): Ty
         return null;
     }
 
-    if (parent.decl === "union") {
+    if (parent.decl === "partial") {
+        let child = selectChild(parent.fullType, selection);
+        if (child) {
+            child = TypeInfo.merge(child, TypeInfo.undefined);
+        }
+        return child;
+    } else if (parent.decl === "union") {
         const children = parent.union
             .filter(item => select !== "member" || item.decl !== "undefined")
             .map(item => selectChild(item, selection))
