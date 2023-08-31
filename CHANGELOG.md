@@ -1,3 +1,7 @@
+## 1.16.0 - 2023-08-31
+
+- New prop `onBlur`
+
 ## 1.15.1 - 2023-06-13
 
 - Fix: Render partial type info

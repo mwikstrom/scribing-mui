@@ -24,6 +24,7 @@ export interface CodeEditorProps {
     theirValue?: string;
     autoFocus?: boolean;
     onValueChange?: (value: string) => void;
+    onBlur?: () => void;
     label?: string;
     theirLabel?: string;
     minHeight?: string | number;
@@ -52,6 +53,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         theirValue,
         autoFocus = typeof initialPosition === "number",
         onValueChange,
+        onBlur,
         label,
         theirLabel,
         minHeight,
@@ -397,7 +399,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         <div className={rootClass} style={{minHeight, maxHeight}}>
             <fieldset className={editorClass} onClick={onClickEditor}>
                 {label && <legend className={classes.label}>{label}</legend>}
-                <div ref={setEditorElem} className={classes.input} />
+                <div ref={setEditorElem} className={classes.input} onBlur={onBlur} />
             </fieldset>
             {hasDiff && (
                 <fieldset className={theirClass} onClick={onClickTheir}>

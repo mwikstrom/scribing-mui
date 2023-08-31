@@ -84,6 +84,8 @@ export interface CodeEditorProps {
     // (undocumented)
     minHeight?: string | number;
     // (undocumented)
+    onBlur?: () => void;
+    // (undocumented)
     onValueChange?: (value: string) => void;
     // (undocumented)
     parse?: (value: string, decorate: (annotation: CodeEditorParseAnnotation) => void) => Error | unknown;
