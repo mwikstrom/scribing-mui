@@ -5,7 +5,7 @@ import { TypeInfo } from "../TypeInfo";
 import { typeHoverTip  } from "./typehovertip";
 import { paramInfoTip } from "./paraminfotip";
 import { MountFunc } from "./infoview";
-import { KeyBinding, keymap } from "@codemirror/view";
+import { Command as ViewCommand, KeyBinding, keymap } from "@codemirror/view";
 import { acceptCompletion } from "@codemirror/autocomplete";
 import { Prec } from "@codemirror/state";
 
@@ -26,5 +26,6 @@ export const scriptLanguage = (
 
 const completeWithTab: KeyBinding = {
     key: "Tab",
-    run: acceptCompletion,
+    // TODO: Remove this type casting hack when possible
+    run: acceptCompletion as unknown as ViewCommand,
 };
