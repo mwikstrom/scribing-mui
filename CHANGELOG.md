@@ -3,6 +3,7 @@
 - Upgrade deps
 - Pin `@codemirror/view` to version `6.17.1` to remedy the infotip overflow issue
   https://github.com/codemirror/dev/issues/1262
+- Pin `@types/diff-match-patch` to version `1.0.32`` to fix typing error
 
 ## 1.16.0 - 2023-08-31
 
