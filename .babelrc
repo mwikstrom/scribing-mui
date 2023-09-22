@@ -4,10 +4,6 @@
         "@babel/preset-react"
     ],
     "plugins": [
-        "@babel/plugin-proposal-numeric-separator",
-        ["@babel/plugin-proposal-decorators", {
-            "decoratorsBeforeExport": true
-        }],
         ["@babel/plugin-transform-runtime", {
             "regenerator": true
         }]
