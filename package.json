@@ -90,7 +90,7 @@
     "@codemirror/language": "^6.9.1",
     "@codemirror/lint": "^6.1.0",
     "@codemirror/state": "^6.2.1",
-    "@codemirror/view": "6.17.1",
+    "@codemirror/view": "^6.20.1",
     "@lezer/highlight": "^1.1.6",
     "@material-ui/core": "4.x",
     "@material-ui/styles": "4.x",

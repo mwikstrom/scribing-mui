@@ -1,3 +1,7 @@
+## 1.16.3 - 2023-09-22
+
+- The infotip overflow issue was resolved by the Codemirror team and we're able to use the latest version of `@codemirror/view`
+
 ## 1.16.2 - 2023-09-22
 
 - Pin `@types/diff-match-patch` to version `1.0.32`` to fix typing error
