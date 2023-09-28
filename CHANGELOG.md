@@ -1,3 +1,7 @@
+## 1.16.5 - 2023-09-28
+
+- Enforce focused code editor selection background
+
 ## 1.16.4 - 2023-09-28
 
 - Fix code editor selection background
