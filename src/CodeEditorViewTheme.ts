@@ -15,7 +15,11 @@ export const createCodeEditorViewTheme = (palette: Palette): Extension => Editor
     "&.cm-focused .cm-cursor": {
         borderLeftColor: palette.text.primary
     },
-    "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection": {
+    ".cm-selectionBackground, .cm-content ::selection": {
+        backgroundColor: DefaultFlowPalette.inactiveSelection,
+        color: DefaultFlowPalette.inactiveSelectionText,
+    },
+    "&.cm-focused .cm-selectionBackground, &.cm-focused .cm-content ::selection": {
         backgroundColor: DefaultFlowPalette.selection,
         color: DefaultFlowPalette.selectionText,
     },

@@ -1,3 +1,7 @@
+## 1.16.4 - 2023-09-28
+
+- Fix code editor selection background
+
 ## 1.16.3 - 2023-09-22
 
 - The infotip overflow issue was resolved by the Codemirror team and we're able to use the latest version of `@codemirror/view`
