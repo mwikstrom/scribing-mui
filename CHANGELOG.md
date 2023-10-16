@@ -1,3 +1,7 @@
+## 1.16.6 - 2023-10-16
+
+- Fix: Parse hexadecimal number literal
+
 ## 1.16.5 - 2023-09-28
 
 - Enforce focused code editor selection background

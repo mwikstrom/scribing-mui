@@ -105,33 +105,18 @@ export const tryGetConstant = (node: SyntaxNode | null, slice: Slicer): Maybe<un
     if (!node) {
         return { success: false };
     }
-    const { name, from, to } = node;
-    if (name === "Number") {
-        const literal = slice(from, to);
-        const value = JSON.parse(literal);
-        return { success: true, value };
-    } else if (name === "String") {
-        let literal = slice(from, to).trim();
-        if (/^'.*'$/.test(literal)) {
-            literal = literal.substring(1, literal.length - 1);
-            literal = literal.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
-            literal = `"${literal}"`;
-        }                
-        const value = JSON.parse(literal);
-        return { success: true, value };
-    } else if (name === "RegExp") {
-        const literal = slice(from, to).trim();
-        const match = /^\/([^/]+)\/([dgimsuy]*)?$/.exec(literal);
-        if (match) {
-            const [, pattern, flags] = match;
-            const value = new RegExp(pattern, flags);
-            return { success: true, value };
-        } else {
-            return { success: false };
-        }
-    } else {
-        return { success: false };
+
+    const parser = ConstantParserMap[node.name];
+
+    if (parser) {
+        try {
+            return parser(node, slice);
+        } catch (ignored) {
+            // fall through
+        }            
     }
+
+    return { success: false };
 };
 
 export const tryGetVariableName = (node: SyntaxNode | null, slice: Slicer): string | null => {
@@ -194,6 +179,47 @@ const getVariableType = (decl: SyntaxNode, state: EditorState, scope: TypeInfo):
         }
     }
     return TypeInfo.unknown;
+};
+
+type ConstantParser = (node: SyntaxNode, slice: Slicer) => Maybe<unknown>;
+
+const ConstantParserMap: Partial<Record<string, ConstantParser>> = {
+    Number: ({from, to}, slice) => {
+        const literal = slice(from, to);
+        const value = Number(literal);
+        if (Number.isNaN(value)) {
+            return { success: false };
+        } else {
+            return { success: true, value };
+        }
+    },
+
+    String: ({from, to}, slice) => {
+        const literal = normalizeStringQuotes(slice(from, to).trim());
+        const value = JSON.parse(literal);
+        return { success: true, value };
+    },
+
+    RegExp: ({from, to}, slice) => {
+        const literal = slice(from, to).trim();
+        const match = /^\/([^/]+)\/([dgimsuy]*)?$/.exec(literal);
+        if (match) {
+            const [, pattern, flags] = match;
+            const value = new RegExp(pattern, flags);
+            return { success: true, value };
+        } else {
+            return { success: false };
+        }
+    },
+};
+
+const normalizeStringQuotes = (literal: string): string => {
+    if (/^'.*'$/.test(literal)) {
+        literal = literal.substring(1, literal.length - 1);
+        literal = literal.replace(/\\"/g, "\"").replace(/"/g, "\\\"");
+        literal = `"${literal}"`;
+    }
+    return literal;
 };
 
 // Note: This patterns doesn't cover everything - but it's good enough for now :-)
