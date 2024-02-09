@@ -1,3 +1,7 @@
+## 1.16.7 - 2024-02-09
+
+- Fix: Default button MUI class name mapping (supporting nested theme provider)
+
 ## 1.16.6 - 2023-10-16
 
 - Fix: Parse hexadecimal number literal

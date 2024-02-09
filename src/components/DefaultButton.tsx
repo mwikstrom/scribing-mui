@@ -47,10 +47,10 @@ export const DefaultButton = forwardRef<HTMLElement, ScribingButtonProps>((props
                 color={undefined}
                 fullWidth={!inline}
                 className={clsx(
-                    classes.root,
                     error && classes.interactionFailed,
                     classes[`${boxColor || "default"}Color`],
                 )}
+                classes={classes}
                 startIcon={<Icon size={1} path={mdiAlert}/>}
                 children={(
                     <>
@@ -88,14 +88,14 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginTop: theme.spacing(0.5),
         marginBottom: theme.spacing(0.5),
         transition: theme.transitions.create(["color", "background-color", "border-color"]),
-        "& .MuiButton-startIcon": {
+        "& $startIcon": {
             transition: theme.transitions.create(["width", "margin-left", "margin-right", "opacity"]),
             width: 0,
             marginLeft: 0,
             marginRight: 0,
             opacity: 0,
         },
-        "&$interactionFailed .MuiButton-startIcon": {
+        "&$interactionFailed $startIcon": {
             width: theme.spacing(3),
             marginLeft: theme.spacing(-0.5),
             marginRight: theme.spacing(1),
@@ -110,10 +110,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         "&$defaultColor": decorateColorStyle({}, theme.palette),
         "&$subtleColor": decorateColorStyle({
             color: theme.palette.text.secondary,
-            "&.MuiButton-outlined": {
+            "&$outlined": {
                 borderColor: theme.palette.type === "light" ? "rgba(0, 0, 0, 0.18)" : "rgba(255, 255, 255, 0.18)",
             },
-            "&.MuiButton-contained": {
+            "&$contained": {
                 backgroundColor: theme.palette.grey[200],
                 color: theme.palette.getContrastText(theme.palette.grey[200]),
             },        
@@ -125,6 +125,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         "&$warningColor": makeColorStyle(theme.palette.warning, theme.palette),
         "&$errorColor": makeColorStyle(theme.palette.error, theme.palette),
     },
+    startIcon: {},
+    outlined: {},
+    contained: {},
+    disabled: {},
     defaultColor: {},    
     primaryColor: {},
     secondaryColor: {},
@@ -149,12 +153,12 @@ const makeColorStyle = (
 const decorateColorStyle = (style: Record<string, unknown>, palette: Theme["palette"]) => ({
     ...style,
     "&$interactionFailed": makeColorStyleCore(palette.error, palette),
-    "&.Mui-disabled": {
+    "&$disabled": {
         color: palette.action.disabled,
-        "&.MuiButton-outlined": {
+        "&$outlined": {
             borderColor: palette.action.disabledBackground,
         },
-        "&.MuiButton-contained": {
+        "&$contained": {
             backgroundColor: palette.action.disabledBackground,
             "& .ScribingFlowIcon-root": {
                 color: palette.action.disabled,
@@ -173,13 +177,13 @@ const makeColorStyleCore = (color: PickedColor, palette: Theme["palette"]) => ({
     "&:hover": {
         backgroundColor: alpha(color.main, palette.action.hoverOpacity),
     },
-    "&.MuiButton-outlined": {
+    "&$outlined": {
         borderColor: alpha(color.main, 0.5),
         "&:hover": {
             borderColor: color.main,
         },
     },
-    "&.MuiButton-contained": {
+    "&$contained": {
         backgroundColor: color.main,
         color: color.contrastText,
         "&:hover": {
