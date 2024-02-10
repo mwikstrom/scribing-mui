@@ -7,5 +7,5 @@
 **Signature:**
 
 ```typescript
-onEditChange: (value: boolean) => void;
+onEditChange?: (value: boolean) => void;
 ```

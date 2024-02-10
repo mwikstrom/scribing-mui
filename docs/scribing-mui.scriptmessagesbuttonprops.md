@@ -17,6 +17,6 @@ export interface ScriptMessagesButtonProps
 |  --- | --- | --- | --- |
 |  [lang?](./scribing-mui.scriptmessagesbuttonprops.lang.md) |  | string | _(Optional)_ |
 |  [messages](./scribing-mui.scriptmessagesbuttonprops.messages.md) |  | ReadonlyMap&lt;string, string&gt; |  |
-|  [onEditChange](./scribing-mui.scriptmessagesbuttonprops.oneditchange.md) |  | (value: boolean) =&gt; void |  |
+|  [onEditChange?](./scribing-mui.scriptmessagesbuttonprops.oneditchange.md) |  | (value: boolean) =&gt; void | _(Optional)_ |
 |  [onMessagesChange](./scribing-mui.scriptmessagesbuttonprops.onmessageschange.md) |  | (callback: (before: ReadonlyMap&lt;string, string&gt;) =&gt; Map&lt;string, string&gt;) =&gt; void |  |
 

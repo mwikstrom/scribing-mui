@@ -530,7 +530,7 @@ export interface ScriptMessagesButtonProps {
     // (undocumented)
     messages: ReadonlyMap<string, string>;
     // (undocumented)
-    onEditChange: (value: boolean) => void;
+    onEditChange?: (value: boolean) => void;
     // (undocumented)
     onMessagesChange: (callback: (before: ReadonlyMap<string, string>) => Map<string, string>) => void;
 }
