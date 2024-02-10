@@ -1,3 +1,7 @@
+## 1.17.1 - 2024-02-10
+
+- Typofix: `ScriptMessagesButtonProps.onEditChange` is optional
+
 ## 1.17.0 - 2024-02-10
 
 - Add `<ScriptMessagesButton>`

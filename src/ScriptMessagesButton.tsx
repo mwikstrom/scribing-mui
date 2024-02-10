@@ -11,7 +11,7 @@ export interface ScriptMessagesButtonProps {
     messages: ReadonlyMap<string, string>;
     lang?: string;
     onMessagesChange: (callback: (before: ReadonlyMap<string, string>) => Map<string, string>) => void;
-    onEditChange: (value: boolean) => void;
+    onEditChange?: (value: boolean) => void;
 }
 
 /** @public */
