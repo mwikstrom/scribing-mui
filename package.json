@@ -1,6 +1,6 @@
 {
   "name": "scribing-mui",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "description": "Material-UI components for collaborative rich text editing",
   "main": "./dist/scribing-mui.js",
   "typings": "./dist/scribing-mui.d.ts",
