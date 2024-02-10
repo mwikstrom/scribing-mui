@@ -1,3 +1,7 @@
+## 1.16.8 - 2024-02-09
+
+- Fix: Filter unrecognized MUI classes (default button)
+
 ## 1.16.7 - 2024-02-09
 
 - Fix: Default button MUI class name mapping (supporting nested theme provider)

@@ -35,6 +35,7 @@ export const DefaultButton = forwardRef<HTMLElement, ScribingButtonProps>((props
 
     const classes = useStyles();
     const buttonVariant = boxVariant && ButtonVariantMapping[boxVariant];
+    const buttonClasses = Object.fromEntries(Object.entries(classes).filter(([key]) => ButtonClassKeys.includes(key)));
 
     if (buttonVariant) {
         return (
@@ -50,7 +51,7 @@ export const DefaultButton = forwardRef<HTMLElement, ScribingButtonProps>((props
                     error && classes.interactionFailed,
                     classes[`${boxColor || "default"}Color`],
                 )}
-                classes={classes}
+                classes={buttonClasses}
                 startIcon={<Icon size={1} path={mdiAlert}/>}
                 children={(
                     <>
@@ -81,6 +82,14 @@ const ButtonVariantMapping: Partial<Record<BoxVariant, ButtonProps["variant"]>> 
     outlined: "outlined",
     contained: "contained",
 };
+
+const ButtonClassKeys = [
+    "root",
+    "startIcon",
+    "outlined",
+    "contained",
+    "disabled",
+];
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
