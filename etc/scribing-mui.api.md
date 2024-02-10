@@ -18,6 +18,7 @@ import { ReactNode } from 'react';
 import { ScribingComponents } from 'scribing-react';
 import { Script } from 'scribing';
 import { ScriptFunction } from 'scripthost';
+import { VFC } from 'react';
 
 // @public (undocumented)
 export interface ArrayType extends TypeDecl<"array"> {
@@ -517,6 +518,21 @@ export interface ScriptEditorDialogProps extends DialogProps {
 export interface ScriptEditorProps extends Omit<CodeEditorProps, "parse" | "language"> {
     // (undocumented)
     globals?: Iterable<[string, TypeInfo]>;
+}
+
+// @public (undocumented)
+export const ScriptMessagesButton: VFC<ScriptMessagesButtonProps>;
+
+// @public (undocumented)
+export interface ScriptMessagesButtonProps {
+    // (undocumented)
+    lang?: string;
+    // (undocumented)
+    messages: ReadonlyMap<string, string>;
+    // (undocumented)
+    onEditChange: (value: boolean) => void;
+    // (undocumented)
+    onMessagesChange: (callback: (before: ReadonlyMap<string, string>) => Map<string, string>) => void;
 }
 
 // @public (undocumented)

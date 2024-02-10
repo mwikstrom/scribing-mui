@@ -1,6 +1,6 @@
 import { Box, Button, DialogActions, DialogProps, IconButton, Theme, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { mdiFullscreen, mdiFullscreenExit, mdiMessagePlusOutline, mdiMessageTextOutline } from "@mdi/js";
+import { mdiFullscreen, mdiFullscreenExit } from "@mdi/js";
 import Icon from "@mdi/react";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Script } from "scribing";
@@ -12,8 +12,7 @@ import { buildGlobalAssignments, parseScript } from "./script/syntax";
 import { TypeInfo } from "./TypeInfo";
 import { ResponsiveDialog } from "./components/ResponsiveDialog";
 import { ScriptEditor } from "./ScriptEditor";
-import { ScriptMessageDialog } from "./components/ScriptMessageDialog";
-import { ScriptMessageListDialog } from "./components/ScriptMessageListDialog";
+import { ScriptMessagesButton } from "./ScriptMessagesButton";
 
 /** @public */
 export interface ScriptEditorDialogProps extends DialogProps {
@@ -48,14 +47,17 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         onClose: onCloseOuter,
         ...rest
     } = props;
+
     const hostFuncs = useScriptHostFuncs();
     const otherScripts = useOtherScripts(controller);
     const [code, setCode] = useState(initialValue?.code || "");    
     const [messages, setMessages] = useState(() => initialValue?.messages || Object.freeze(new Map<string, string>()));
-    const hasMessages = useMemo(() => messages.size > 0, [messages]);
     const classes = useStyles();
     const [isFullScreen, setIsFullScreen] = useState<boolean | undefined>();
     const [canToggleFullScreen, setCanTooggleFullScreen] = useState(false);
+    const [editingMessages, setEditingMessages] = useState(false);
+    const [disableBackdropTransition, setDisableBackdropTransition] = useState(false);
+
     const globals = useMemo<Map<string, TypeInfo>>(() => {
         const result = new Map<string, TypeInfo>();
 
@@ -142,28 +144,6 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         setCanTooggleFullScreen(!implied);
     }, []);
     
-    const [editMessage, setEditMessage] = useState<string | boolean>(false);
-    
-    const saveMessage = useCallback((key: string, value: string) => {
-        setMessages(before => {
-            return Object.freeze(new Map(before).set(key, value));
-        });
-        setEditMessage(false);
-    }, []);
-
-    const deleteMessage = useCallback((key: string) => {
-        let gotEmpty = false;
-        setMessages(before => {
-            const after = new Map(before);
-            after.delete(key);
-            gotEmpty = after.size === 0;
-            return Object.freeze(after);
-        });
-        if (gotEmpty) {
-            setEditMessage(false);
-        }
-    }, []);
-
     const [innerRef, setInnerRef] = useState<HTMLElement | null>(null);
     const keyHandler = useCallback((e: KeyboardEvent) => {
         if (e.ctrlKey && e.key === "s" && !e.shiftKey && !e.altKey) {
@@ -182,8 +162,6 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
         }
     }, [innerRef, keyHandler]);
 
-    const [disableBackdropTransition, setDiableBackdropTransition] = useState(false);
-
     useEffect(() => {
         if (!open) {
             setCode(initialValue?.code || "");
@@ -192,13 +170,13 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
     }, [open, initialValue]);
 
     useEffect(() => {
-        if (editMessage !== false) {
-            setDiableBackdropTransition(true);
+        if (editingMessages) {
+            setDisableBackdropTransition(true);
         } else {
-            const timerId = setTimeout(() => setDiableBackdropTransition(false), 300);
+            const timerId = setTimeout(() => setDisableBackdropTransition(false), 300);
             return () => clearTimeout(timerId);
         }
-    }, [editMessage]);
+    }, [editingMessages]);
 
     return (
         <>
@@ -207,7 +185,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                 scroll="paper"
                 onClose={onClose}
                 disableEscapeKeyDown={didChange}
-                hideBackdrop={editMessage !== false}
+                hideBackdrop={editingMessages}
                 innerRef={setInnerRef}
                 BackdropProps={{
                     transitionDuration: disableBackdropTransition ? 0 : undefined,
@@ -231,18 +209,11 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                             />
                         </div>
                         <DialogActions>
-                            <Tooltip 
-                                arrow
-                                placement="top"
-                                title={hasMessages ? locale.tip_messages : locale.tip_add_message}
-                                children={
-                                    <IconButton color="primary" onClick={() => setEditMessage(true)}>
-                                        <Icon
-                                            path={hasMessages ? mdiMessageTextOutline : mdiMessagePlusOutline}
-                                            size={1}
-                                        />
-                                    </IconButton>
-                                }
+                            <ScriptMessagesButton
+                                lang={lang}
+                                messages={messages}
+                                onMessagesChange={setMessages}
+                                onEditChange={setEditingMessages}
                             />
                             <Tooltip arrow placement="top" title={locale.tip_toggle_fullscreen}>
                                 <IconButton 
@@ -258,27 +229,6 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                     </>
                 )}
             /> 
-            { editMessage !== false && ((typeof editMessage === "string" || !hasMessages) ? (
-                <ScriptMessageDialog
-                    open={open}
-                    BackdropProps={{transitionDuration:0}}
-                    allMessages={messages}
-                    messageKey={typeof editMessage === "string" ? editMessage : undefined}
-                    lang={lang}
-                    onClose={() => setEditMessage(false)}
-                    onSave={saveMessage}
-                />
-            ) : (
-                <ScriptMessageListDialog
-                    open={open}
-                    BackdropProps={{transitionDuration:0}}
-                    messages={messages}
-                    onClose={() => setEditMessage(false)}
-                    onMessageClick={setEditMessage}
-                    onMessageDelete={deleteMessage}
-                    onAddNew={() => setEditMessage("")}
-                />
-            ))}
         </>
     );
 };

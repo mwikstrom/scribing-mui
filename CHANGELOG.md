@@ -1,3 +1,7 @@
+## 1.17.0 - 2024-02-10
+
+- Add `<ScriptMessagesButton>`
+
 ## 1.16.8 - 2024-02-09
 
 - Fix: Filter unrecognized MUI classes (default button)

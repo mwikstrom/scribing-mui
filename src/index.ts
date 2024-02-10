@@ -14,3 +14,4 @@ export * from "./TypeInfo";
 export * from "./CodeEditor";
 export * from "./ScriptEditor";
 export * from "./ScriptEditorDialog";
+export * from "./ScriptMessagesButton";

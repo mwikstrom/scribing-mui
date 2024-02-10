@@ -40,6 +40,7 @@ Material-UI components for collaborative rich text editing
 |  [PromiseType](./scribing-mui.promisetype.md) |  |
 |  [ScriptEditorDialogProps](./scribing-mui.scripteditordialogprops.md) |  |
 |  [ScriptEditorProps](./scribing-mui.scripteditorprops.md) |  |
+|  [ScriptMessagesButtonProps](./scribing-mui.scriptmessagesbuttonprops.md) |  |
 |  [StringType](./scribing-mui.stringtype.md) |  |
 |  [TupleType](./scribing-mui.tupletype.md) |  |
 |  [TypeDecl](./scribing-mui.typedecl.md) |  |
@@ -59,6 +60,7 @@ Material-UI components for collaborative rich text editing
 |  [MaterialScribingComponents](./scribing-mui.materialscribingcomponents.md) |  |
 |  [ScriptEditor](./scribing-mui.scripteditor.md) |  |
 |  [ScriptEditorDialog](./scribing-mui.scripteditordialog.md) |  |
+|  [ScriptMessagesButton](./scribing-mui.scriptmessagesbutton.md) |  |
 |  [TypeInfo](./scribing-mui.typeinfo.md) |  |
 |  [UnsetAttribute](./scribing-mui.unsetattribute.md) |  |
 
