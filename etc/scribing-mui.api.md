@@ -11,6 +11,7 @@ import { FlowColor } from 'scribing';
 import { FlowEditorController } from 'scribing-react';
 import { FlowLocale } from 'scribing-react';
 import { FontFamily } from 'scribing';
+import { IconButtonProps } from '@material-ui/core';
 import { Interaction } from 'scribing';
 import { LanguageSupport } from '@codemirror/language';
 import { ParagraphVariant } from 'scribing';
@@ -525,6 +526,8 @@ export const ScriptMessagesButton: VFC<ScriptMessagesButtonProps>;
 
 // @public (undocumented)
 export interface ScriptMessagesButtonProps {
+    // (undocumented)
+    color?: IconButtonProps["color"];
     // (undocumented)
     lang?: string;
     // (undocumented)

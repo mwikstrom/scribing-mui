@@ -15,6 +15,7 @@ export interface ScriptMessagesButtonProps
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [color?](./scribing-mui.scriptmessagesbuttonprops.color.md) |  | IconButtonProps\["color"\] | _(Optional)_ |
 |  [lang?](./scribing-mui.scriptmessagesbuttonprops.lang.md) |  | string | _(Optional)_ |
 |  [messages](./scribing-mui.scriptmessagesbuttonprops.messages.md) |  | ReadonlyMap&lt;string, string&gt; |  |
 |  [onEditChange?](./scribing-mui.scriptmessagesbuttonprops.oneditchange.md) |  | (value: boolean) =&gt; void | _(Optional)_ |
