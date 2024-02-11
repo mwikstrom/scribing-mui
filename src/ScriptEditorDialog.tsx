@@ -211,6 +211,7 @@ export const ScriptEditorDialog: FC<ScriptEditorDialogProps> = props => {
                         <DialogActions>
                             <ScriptMessagesButton
                                 lang={lang}
+                                color="primary"
                                 messages={messages}
                                 onMessagesChange={setMessages}
                                 onEditChange={setEditingMessages}

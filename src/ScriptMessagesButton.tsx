@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "@material-ui/core";
+import { IconButton, IconButtonProps, Tooltip } from "@material-ui/core";
 import { mdiMessagePlusOutline, mdiMessageTextOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import React, { VFC, useCallback, useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { ScriptMessageListDialog } from "./components/ScriptMessageListDialog";
 /** @public */
 export interface ScriptMessagesButtonProps {
     messages: ReadonlyMap<string, string>;
+    color?: IconButtonProps["color"],
     lang?: string;
     onMessagesChange: (callback: (before: ReadonlyMap<string, string>) => Map<string, string>) => void;
     onEditChange?: (value: boolean) => void;
@@ -20,6 +21,7 @@ export const ScriptMessagesButton: VFC<ScriptMessagesButtonProps> = props => {
     const {
         messages,
         lang,
+        color,
         onMessagesChange,
         onEditChange,
     } = props;
@@ -60,7 +62,7 @@ export const ScriptMessagesButton: VFC<ScriptMessagesButtonProps> = props => {
                 placement="top"
                 title={hasMessages ? locale.tip_messages : locale.tip_add_message}
                 children={
-                    <IconButton color="primary" onClick={() => setEdit(true)}>
+                    <IconButton color={color} onClick={() => setEdit(true)}>
                         <Icon
                             path={hasMessages ? mdiMessageTextOutline : mdiMessagePlusOutline}
                             size={1}
