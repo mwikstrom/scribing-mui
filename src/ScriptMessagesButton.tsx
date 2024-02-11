@@ -31,10 +31,14 @@ export const ScriptMessagesButton: VFC<ScriptMessagesButtonProps> = props => {
     
     const saveMessage = useCallback((key: string, value: string) => {
         onMessagesChange(before => {
-            return Object.freeze(new Map(before).set(key, value));
+            const newMap = new Map(before).set(key, value);
+            if (typeof edit === "string" && edit !== key) {
+                newMap.delete(edit);
+            }
+            return Object.freeze(newMap);
         });
         setEdit(false);
-    }, [onMessagesChange]);
+    }, [onMessagesChange, edit]);
 
     const deleteMessage = useCallback((key: string) => {
         let gotEmpty = false;

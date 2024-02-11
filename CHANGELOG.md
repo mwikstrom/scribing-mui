@@ -1,6 +1,7 @@
 ## 1.17.2 - 2024-02-11
 
 - Add `ScriptMessagesButtonProps.color`
+- Fix: Changing ID of script message
 
 ## 1.17.1 - 2024-02-10
 
