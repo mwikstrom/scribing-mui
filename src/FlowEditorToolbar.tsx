@@ -3,6 +3,7 @@ import { FlowEditorController } from "scribing-react";
 import { Collapse, IconButton, Theme, Toolbar, Tooltip, useMediaQuery } from "@material-ui/core";
 import Icon from "@mdi/react";
 import { 
+    mdiEyeCheck,
     mdiFormatLineSpacing, 
     mdiFormatSize, 
     mdiFullscreen, 
@@ -88,11 +89,13 @@ export interface FlowEditorToolbarProps {
     frozen?: boolean;
     isProofReadingActive?: boolean;
     isFullscreenActive?: boolean;
+    isPreviewActive?: boolean;
     onCheckIn?: () => void;
     onCheckOut?: () => void;
     onReset?: () => void;
     onToggleProofReading?: () => void;
     onToggleFullscreen?: () => void;
+    onTogglePreview?: () => void;
     getCustomInteractionOptions?: CustomOptionProvider<Interaction | null, InteractionOptionResult>;
     getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
     renderImageSelector?: (callback: (sourceUrl: string | null) => void) => ReactNode;
@@ -127,11 +130,13 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
         frozen,
         isProofReadingActive,
         isFullscreenActive,
+        isPreviewActive,
         onCheckIn,
         onCheckOut,
         onReset,
         onToggleProofReading,
         onToggleFullscreen,
+        onTogglePreview,
         getCustomInteractionOptions,
         getCustomMarkupOptions,
         renderImageSelector,
@@ -368,7 +373,17 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                         title={locale.tip_proofreading}
                                     />
                                 )}
-                                <CommandButton {...toolProps} command={TogglePreview} title={locale.tip_preview}/>
+                                {typeof isPreviewActive === "boolean" ? (
+                                    <ToolButton
+                                        disabled={!isPreviewActive && !onTogglePreview}
+                                        active={isPreviewActive}
+                                        children={<Icon size={1} path={mdiEyeCheck} />}
+                                        onClick={onTogglePreview}
+                                        title={locale.tip_preview}
+                                    />
+                                ) : (
+                                    <CommandButton {...toolProps} command={TogglePreview} title={locale.tip_preview}/>
+                                )}
                                 <CheckInOutButton {...checkInOutProps} title={locale.tip_check_in}/>
                             </ToolGroup>
                         </>

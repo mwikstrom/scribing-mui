@@ -23,6 +23,7 @@ import { InteractionOptionResult } from "../src";
 
 interface StoryProps {
     dark?: boolean;
+    customPreview?: boolean;
     broken?: boolean;
     renderImageSelector?: FlowEditorToolbarProps["renderImageSelector"];
 }
@@ -38,7 +39,7 @@ const Story: FC<StoryProps> = props => {
 };
 
 const Root: FC<Omit<StoryProps, "dark">> = props => {
-    const { broken, renderImageSelector } = props;
+    const { broken, customPreview, renderImageSelector } = props;
     const [controller, setController] = useState<FlowEditorController | null>(null);
     const classes = useStyles();
 
@@ -47,8 +48,11 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
     const [isProofReadingActive, setProofReadingActive] = useState(false);
     const onToggleProofReading = useCallback(() => setProofReadingActive(before => !before), [setProofReadingActive]);
 
-    const [isFullscreenActive, seFullscreenActive] = useState(false);
-    const onToggleFullscreen = useCallback(() => seFullscreenActive(before => !before), [seFullscreenActive]);
+    const [isFullscreenActive, setFullscreenActive] = useState(false);
+    const onToggleFullscreen = useCallback(() => setFullscreenActive(before => !before), [setFullscreenActive]);
+
+    const [isPreviewActive, setPreviewActive] = useState(false);
+    const onTogglePreview = useCallback(() => setPreviewActive(before => !before), [setPreviewActive]);
 
     const transitionSource = useCallback((target: EditorSourceState, delay = 1000) => {
         setSource("busy");
@@ -92,10 +96,12 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
                             frozen={frozen}
                             isProofReadingActive={isProofReadingActive}
                             isFullscreenActive={isFullscreenActive}
+                            isPreviewActive={customPreview ? isPreviewActive : undefined}
                             onCheckIn={onCheckIn}
                             onCheckOut={onCheckOut}
                             onToggleProofReading={onToggleProofReading}
                             onToggleFullscreen={onToggleFullscreen}
+                            onTogglePreview={onTogglePreview}
                             getCustomInteractionOptions={getCustomInteractionOptions}
                             getCustomMarkupOptions={getCustomMarkupOptions}
                             renderImageSelector={renderImageSelector}
@@ -219,4 +225,10 @@ DarkWithImageSelector.args = {
             </DialogActions>
         </Dialog>
     ),
+};
+
+export const DarkWithCustomPreview = Template.bind({});
+DarkWithCustomPreview.args = {
+    dark: true,
+    customPreview: true,
 };

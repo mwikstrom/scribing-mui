@@ -4,6 +4,7 @@
 - Move the proofreading button to the preview/check-in group
 - Add proofreading props
 - Add fullscreen toggle button
+- Optional custom preview handling
 
 ## 1.17.2 - 2024-02-11
 

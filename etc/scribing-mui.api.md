@@ -145,6 +145,8 @@ export interface FlowEditorToolbarProps {
     // (undocumented)
     isFullscreenActive?: boolean;
     // (undocumented)
+    isPreviewActive?: boolean;
+    // (undocumented)
     isProofReadingActive?: boolean;
     // (undocumented)
     onCheckIn?: () => void;
@@ -154,6 +156,8 @@ export interface FlowEditorToolbarProps {
     onReset?: () => void;
     // (undocumented)
     onToggleFullscreen?: () => void;
+    // (undocumented)
+    onTogglePreview?: () => void;
     // (undocumented)
     onToggleProofReading?: () => void;
     // (undocumented)

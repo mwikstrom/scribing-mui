@@ -201,7 +201,7 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     tip_data_source: "Data source",
     tip_more_tools: "Hide or show additional tools",
     tip_check_in: "Check in",
-    tip_preview: "Show preview",
+    tip_preview: "Toggle preview",
     tip_formatting_marks: "Hide or show formatting marks",
     tip_reading_ltr: "Left-to-right reading direction",
     tip_reading_rtl: "Right-to-left reading direction",
