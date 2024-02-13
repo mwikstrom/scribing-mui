@@ -143,6 +143,8 @@ export interface FlowEditorToolbarProps {
     // (undocumented)
     getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
     // (undocumented)
+    isFullscreenActive?: boolean;
+    // (undocumented)
     isProofReadingActive?: boolean;
     // (undocumented)
     onCheckIn?: () => void;
@@ -150,6 +152,8 @@ export interface FlowEditorToolbarProps {
     onCheckOut?: () => void;
     // (undocumented)
     onReset?: () => void;
+    // (undocumented)
+    onToggleFullscreen?: () => void;
     // (undocumented)
     onToggleProofReading?: () => void;
     // (undocumented)
@@ -327,6 +331,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_font_family: string;
     // (undocumented)
     tip_formatting_marks: string;
+    // (undocumented)
+    tip_fullscreen: string;
     // (undocumented)
     tip_icon: string;
     // (undocumented)

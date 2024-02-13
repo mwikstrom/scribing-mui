@@ -5,6 +5,7 @@ import Icon from "@mdi/react";
 import { 
     mdiFormatLineSpacing, 
     mdiFormatSize, 
+    mdiFullscreen, 
     mdiMenuDown, 
     mdiMenuUp, 
     mdiSpellcheck,
@@ -86,10 +87,12 @@ export interface FlowEditorToolbarProps {
     source?: EditorSourceState;
     frozen?: boolean;
     isProofReadingActive?: boolean;
+    isFullscreenActive?: boolean;
     onCheckIn?: () => void;
     onCheckOut?: () => void;
     onReset?: () => void;
     onToggleProofReading?: () => void;
+    onToggleFullscreen?: () => void;
     getCustomInteractionOptions?: CustomOptionProvider<Interaction | null, InteractionOptionResult>;
     getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
     renderImageSelector?: (callback: (sourceUrl: string | null) => void) => ReactNode;
@@ -123,10 +126,12 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
         source,
         frozen,
         isProofReadingActive,
+        isFullscreenActive,
         onCheckIn,
         onCheckOut,
         onReset,
         onToggleProofReading,
+        onToggleFullscreen,
         getCustomInteractionOptions,
         getCustomMarkupOptions,
         renderImageSelector,
@@ -345,6 +350,15 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                     command={ToggleFormattingMarks}
                                     title={locale.tip_formatting_marks}
                                 />
+                                {typeof isFullscreenActive === "boolean" && (
+                                    <ToolButton
+                                        disabled={!isFullscreenActive && !onToggleFullscreen}
+                                        active={isFullscreenActive}
+                                        children={<Icon size={1} path={mdiFullscreen} />}
+                                        onClick={onToggleFullscreen}
+                                        title={locale.tip_fullscreen}
+                                    />
+                                )}
                                 {typeof isProofReadingActive === "boolean" && (
                                     <ToolButton
                                         disabled={!isProofReadingActive && !onToggleProofReading}

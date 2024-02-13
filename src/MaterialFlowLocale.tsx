@@ -122,6 +122,7 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_toggle_fullscreen: string;
     tip_messages: string;
     tip_add_message: string;
+    tip_fullscreen: string;
 }
 
 /** @public */
@@ -248,6 +249,7 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     tip_messages: "Messages",
     tip_add_message: "Add message",
     tip_proofreading: "Proof-reading",
+    tip_fullscreen: "Toggle fullscreen"
 });
 
 /** @public */

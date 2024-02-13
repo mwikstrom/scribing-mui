@@ -43,8 +43,12 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
     const classes = useStyles();
 
     const [source, setSource] = useState<EditorSourceState>(broken ? "broken" : "checked-out");
+
     const [isProofReadingActive, setProofReadingActive] = useState(false);
     const onToggleProofReading = useCallback(() => setProofReadingActive(before => !before), [setProofReadingActive]);
+
+    const [isFullscreenActive, seFullscreenActive] = useState(false);
+    const onToggleFullscreen = useCallback(() => seFullscreenActive(before => !before), [seFullscreenActive]);
 
     const transitionSource = useCallback((target: EditorSourceState, delay = 1000) => {
         setSource("busy");
@@ -87,9 +91,11 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
                             source={source}
                             frozen={frozen}
                             isProofReadingActive={isProofReadingActive}
+                            isFullscreenActive={isFullscreenActive}
                             onCheckIn={onCheckIn}
                             onCheckOut={onCheckOut}
                             onToggleProofReading={onToggleProofReading}
+                            onToggleFullscreen={onToggleFullscreen}
                             getCustomInteractionOptions={getCustomInteractionOptions}
                             getCustomMarkupOptions={getCustomMarkupOptions}
                             renderImageSelector={renderImageSelector}
