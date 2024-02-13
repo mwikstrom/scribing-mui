@@ -333,9 +333,6 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                             <ToolGroup>
                                 <CommandButton {...toolProps} command={ReadingLtr} title={locale.tip_reading_ltr}/>
                                 <CommandButton {...toolProps} command={ReadingRtl} title={locale.tip_reading_rtl}/>
-                                <ToolButton disabled>
-                                    <Icon size={1} path={mdiSpellcheck}/>
-                                </ToolButton>
                             </ToolGroup>
                             <ToolGroup>
                                 <CommandButton
@@ -343,6 +340,9 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                     command={ToggleFormattingMarks}
                                     title={locale.tip_formatting_marks}
                                 />
+                                <ToolButton disabled>
+                                    <Icon size={1} path={mdiSpellcheck}/>
+                                </ToolButton>
                                 <CommandButton {...toolProps} command={TogglePreview} title={locale.tip_preview}/>
                                 <CheckInOutButton {...checkInOutProps} title={locale.tip_check_in}/>
                             </ToolGroup>
