@@ -143,11 +143,15 @@ export interface FlowEditorToolbarProps {
     // (undocumented)
     getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
     // (undocumented)
+    isProofReadingActive?: boolean;
+    // (undocumented)
     onCheckIn?: () => void;
     // (undocumented)
     onCheckOut?: () => void;
     // (undocumented)
     onReset?: () => void;
+    // (undocumented)
+    onToggleProofReading?: () => void;
     // (undocumented)
     renderImageSelector?: (callback: (sourceUrl: string | null) => void) => ReactNode;
     // (undocumented)
@@ -353,6 +357,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_paste: string;
     // (undocumented)
     tip_preview: string;
+    // (undocumented)
+    tip_proofreading: string;
     // (undocumented)
     tip_reading_ltr: string;
     // (undocumented)

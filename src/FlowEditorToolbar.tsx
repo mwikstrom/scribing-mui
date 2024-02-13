@@ -85,9 +85,11 @@ export interface FlowEditorToolbarProps {
     className?: string;
     source?: EditorSourceState;
     frozen?: boolean;
+    isProofReadingActive?: boolean;
     onCheckIn?: () => void;
     onCheckOut?: () => void;
     onReset?: () => void;
+    onToggleProofReading?: () => void;
     getCustomInteractionOptions?: CustomOptionProvider<Interaction | null, InteractionOptionResult>;
     getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
     renderImageSelector?: (callback: (sourceUrl: string | null) => void) => ReactNode;
@@ -120,9 +122,11 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
         className,
         source,
         frozen,
+        isProofReadingActive,
         onCheckIn,
         onCheckOut,
         onReset,
+        onToggleProofReading,
         getCustomInteractionOptions,
         getCustomMarkupOptions,
         renderImageSelector,
@@ -157,6 +161,7 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
     const checkInOutProps = { source, onCheckIn, onCheckOut, };
     const toolProps = { controller, frozen };
     const locale = useMaterialFlowLocale();
+
     return (
         <div className={clsx(classes.root, className)}>
             <Collapse in={isExpanded || source === "broken"} collapsedSize={collapsedSize}>
@@ -340,9 +345,15 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                     command={ToggleFormattingMarks}
                                     title={locale.tip_formatting_marks}
                                 />
-                                <ToolButton disabled>
-                                    <Icon size={1} path={mdiSpellcheck}/>
-                                </ToolButton>
+                                {typeof isProofReadingActive === "boolean" && (
+                                    <ToolButton
+                                        disabled={!isProofReadingActive && !onToggleProofReading}
+                                        active={isProofReadingActive}
+                                        children={<Icon size={1} path={mdiSpellcheck} />}
+                                        onClick={onToggleProofReading}
+                                        title={locale.tip_proofreading}
+                                    />
+                                )}
                                 <CommandButton {...toolProps} command={TogglePreview} title={locale.tip_preview}/>
                                 <CheckInOutButton {...checkInOutProps} title={locale.tip_check_in}/>
                             </ToolGroup>

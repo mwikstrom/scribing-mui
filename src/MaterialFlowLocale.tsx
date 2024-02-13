@@ -76,6 +76,7 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_check_in: string;
     tip_preview: string;
     tip_formatting_marks: string;
+    tip_proofreading: string;
     tip_reading_ltr: string;
     tip_reading_rtl: string;
     tip_paste: string;
@@ -246,6 +247,7 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     tip_toggle_fullscreen: "Toogle fullscreen",
     tip_messages: "Messages",
     tip_add_message: "Add message",
+    tip_proofreading: "Proof-reading",
 });
 
 /** @public */

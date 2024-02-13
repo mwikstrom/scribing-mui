@@ -2,6 +2,7 @@
 
 - Remove the translation toolbar button
 - Move the proofreading button to the preview/check-in group
+- Add proofreading props
 
 ## 1.17.2 - 2024-02-11
 

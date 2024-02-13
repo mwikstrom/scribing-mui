@@ -41,15 +41,21 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
     const { broken, renderImageSelector } = props;
     const [controller, setController] = useState<FlowEditorController | null>(null);
     const classes = useStyles();
+
     const [source, setSource] = useState<EditorSourceState>(broken ? "broken" : "checked-out");
+    const [isProofReadingActive, setProofReadingActive] = useState(false);
+    const onToggleProofReading = useCallback(() => setProofReadingActive(before => !before), [setProofReadingActive]);
+
     const transitionSource = useCallback((target: EditorSourceState, delay = 1000) => {
         setSource("busy");
         const timerId = setTimeout(() => setSource(target), delay);
         return () => clearTimeout(timerId);
     }, []);
+
     const onCheckIn = useCallback(() => transitionSource("checked-in"), []);
     const onCheckOut = useCallback(() => transitionSource("checked-out"), []);
-    const frozen = useMemo(() => source === "busy" || source === "checked-in", [source]);    
+    const frozen = useMemo(() => source === "busy" || source === "checked-in", [source]);
+
     const getCustomInteractionOptions = useCallback((interaction: Interaction | null) => {
         const openTopic: CustomOption<Interaction | null, InteractionOptionResult> = {
             key: "open_topic",
@@ -59,6 +65,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
         };
         return [openTopic];
     }, []);
+
     const getCustomMarkupOptions = useCallback((markup: MarkupInfo | null) => {
         const importFragment: CustomOption<MarkupInfo | null, MarkupUpdateInfo> = {
             key: "import_fragment",
@@ -68,6 +75,7 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
         };
         return [importFragment];
     }, []);
+
     return (
         <div className={classes.root}>
             <MaterialFlowTypography>
@@ -78,8 +86,10 @@ const Root: FC<Omit<StoryProps, "dark">> = props => {
                             controller={controller}
                             source={source}
                             frozen={frozen}
+                            isProofReadingActive={isProofReadingActive}
                             onCheckIn={onCheckIn}
                             onCheckOut={onCheckOut}
+                            onToggleProofReading={onToggleProofReading}
                             getCustomInteractionOptions={getCustomInteractionOptions}
                             getCustomMarkupOptions={getCustomMarkupOptions}
                             renderImageSelector={renderImageSelector}
