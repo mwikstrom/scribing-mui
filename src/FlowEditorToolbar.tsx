@@ -8,7 +8,6 @@ import {
     mdiMenuDown, 
     mdiMenuUp, 
     mdiSpellcheck,
-    mdiTranslate,
 } from "@mdi/js";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import { ToolGroup } from "./components/ToolGroup";
@@ -336,9 +335,6 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                 <CommandButton {...toolProps} command={ReadingRtl} title={locale.tip_reading_rtl}/>
                                 <ToolButton disabled>
                                     <Icon size={1} path={mdiSpellcheck}/>
-                                </ToolButton>
-                                <ToolButton disabled>
-                                    <Icon size={1} path={mdiTranslate}/>
                                 </ToolButton>
                             </ToolGroup>
                             <ToolGroup>

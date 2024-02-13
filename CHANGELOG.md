@@ -1,3 +1,7 @@
+## 1.18.0 - 2024-02-13
+
+- Remove the translation toolbar button
+
 ## 1.17.2 - 2024-02-11
 
 - Add `ScriptMessagesButtonProps.color`
