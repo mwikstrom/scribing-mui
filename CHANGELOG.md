@@ -1,3 +1,7 @@
+## 1.19.0 - 2024-03-26
+
+- Add `CodeEditorProps.onValueParsed` callback prop
+
 ## 1.18.0 - 2024-02-13
 
 - Remove the translation toolbar button

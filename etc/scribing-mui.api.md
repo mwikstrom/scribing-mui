@@ -90,6 +90,8 @@ export interface CodeEditorProps {
     // (undocumented)
     onValueChange?: (value: string) => void;
     // (undocumented)
+    onValueParsed?: (success: boolean, value: string) => void;
+    // (undocumented)
     parse?: (value: string, decorate: (annotation: CodeEditorParseAnnotation) => void) => Error | unknown;
     // (undocumented)
     parseDelay?: number;

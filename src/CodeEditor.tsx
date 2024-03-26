@@ -24,6 +24,7 @@ export interface CodeEditorProps {
     theirValue?: string;
     autoFocus?: boolean;
     onValueChange?: (value: string) => void;
+    onValueParsed?: (success: boolean, value: string) => void;
     onBlur?: () => void;
     label?: string;
     theirLabel?: string;
@@ -53,6 +54,7 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
         theirValue,
         autoFocus = typeof initialPosition === "number",
         onValueChange,
+        onValueParsed: onValueParsedProp,
         onBlur,
         label,
         theirLabel,
@@ -71,23 +73,32 @@ export const CodeEditor: FC<CodeEditorProps> = props => {
     const classes = useCodeEditorStyles();
     const [parseFailed, setParseFailed] = useState(false);
 
+    const onValueParsed = useCallback((success: boolean, text: string) => {
+        setParseFailed(!success);
+        if (onValueParsedProp) {
+            onValueParsedProp(success, text);
+        }
+    }, [setParseFailed, onValueParsedProp]);
+
     const lintSource = useCallback<LintSource>(view => {
         const text = view.state.doc.sliceString(0);
         const diagnostics: Diagnostic[] = [];
+        let success: boolean;
 
         if (/^\s*$/.test(text) || !parse) {
-            setParseFailed(false);
+            success = true;
         } else {
             try {
                 const output = parse(text, item => diagnostics.push(item));
-                setParseFailed(output instanceof Error);
+                success = !(output instanceof Error);
             } catch (caught) {
-                setParseFailed(true);
+                success = false;
             }
         }
 
+        onValueParsed(success, text);
         return diagnostics;
-    }, [parse]);
+    }, [parse, onValueParsed]);
 
     const multiline = useMemo(() => value.indexOf("\n") >= 0, [value]);
     const editorTheme = useMemo(() => createCodeEditorViewTheme(palette), [palette]);

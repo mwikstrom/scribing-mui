@@ -26,6 +26,7 @@ export interface CodeEditorProps
 |  [minHeight?](./scribing-mui.codeeditorprops.minheight.md) |  | string \| number | _(Optional)_ |
 |  [onBlur?](./scribing-mui.codeeditorprops.onblur.md) |  | () =&gt; void | _(Optional)_ |
 |  [onValueChange?](./scribing-mui.codeeditorprops.onvaluechange.md) |  | (value: string) =&gt; void | _(Optional)_ |
+|  [onValueParsed?](./scribing-mui.codeeditorprops.onvalueparsed.md) |  | (success: boolean, value: string) =&gt; void | _(Optional)_ |
 |  [parse?](./scribing-mui.codeeditorprops.parse.md) |  | (value: string, decorate: (annotation: [CodeEditorParseAnnotation](./scribing-mui.codeeditorparseannotation.md)<!-- -->) =&gt; void) =&gt; Error \| unknown | _(Optional)_ |
 |  [parseDelay?](./scribing-mui.codeeditorprops.parsedelay.md) |  | number | _(Optional)_ |
 |  [readOnly?](./scribing-mui.codeeditorprops.readonly.md) |  | boolean | _(Optional)_ |
