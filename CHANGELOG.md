@@ -1,3 +1,7 @@
+## 1.20.0 - 2024-09-04
+
+- Support video in flow content
+
 ## 1.19.0 - 2024-03-26
 
 - Add `CodeEditorProps.onValueParsed` callback prop
