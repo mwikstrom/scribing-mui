@@ -165,6 +165,8 @@ export interface FlowEditorToolbarProps {
     // (undocumented)
     renderImageSelector?: (callback: (sourceUrl: string | null) => void) => ReactNode;
     // (undocumented)
+    renderVideoSelector?: (callback: (sourceUrl: string | null, posterUrl?: string | null) => void) => ReactNode;
+    // (undocumented)
     source?: EditorSourceState;
 }
 
@@ -324,6 +326,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     // (undocumented)
     tip_change_image: string;
     // (undocumented)
+    tip_change_video: string;
+    // (undocumented)
     tip_check_in: string;
     // (undocumented)
     tip_copy: string;
@@ -351,6 +355,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_insert_image: string;
     // (undocumented)
     tip_insert_table: string;
+    // (undocumented)
+    tip_insert_video: string;
     // (undocumented)
     tip_italic: string;
     // (undocumented)
