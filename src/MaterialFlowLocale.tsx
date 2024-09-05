@@ -96,6 +96,8 @@ export interface MaterialFlowLocale extends Record<LocaleItemKey, string>, FlowL
     tip_insert_table: string;
     tip_insert_image: string;
     tip_change_image: string;
+    tip_insert_video: string;
+    tip_change_video: string;
     tip_icon: string;
     tip_insert_box: string;
     tip_dynamic_text: string;
@@ -222,6 +224,8 @@ export const DefaultMaterialFlowLocale: Readonly<MaterialFlowLocale> = Object.fr
     tip_insert_table: "Insert table",
     tip_insert_image: "Insert image",
     tip_change_image: "Change image",
+    tip_insert_video: "Insert video",
+    tip_change_video: "Change video",
     tip_icon: "Insert or change icon",
     tip_insert_box: "Insert box",
     tip_dynamic_text: "Insert or edit dynamic text",

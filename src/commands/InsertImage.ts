@@ -6,7 +6,11 @@ import { Command } from "./Command";
 
 export const InsertImage: Command = {
     exec: async controller => {
-        const blob = await fileOpen({mimeTypes: ["image/*"]});
+        const blob = await fileOpen({
+            description: "Image files",
+            mimeTypes: ["image/png", "image/gif", "image/jpeg", "image/webp"],
+            extensions: [".png", ".gif", ".jpg", ".jpeg", ".webp"]
+        });
         const uploadId = controller.uploadAsset(blob);
         const source = await createImageSource(blob, uploadId);
 

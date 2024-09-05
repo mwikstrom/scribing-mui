@@ -1,22 +1,22 @@
 import { Box, Button, DialogActions, DialogContent, DialogProps, TextField } from "@material-ui/core";
 import React, { FC, useCallback, useState } from "react";
-import { FlowImage } from "scribing";
+import { FlowImage, FlowVideo } from "scribing";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import { ResponsiveDialog } from "./ResponsiveDialog";
 
-export interface ImageScaleDialogProps extends Omit<DialogProps, "onClose"> {
-    image: FlowImage;
+export interface MediaScaleDialogProps extends Omit<DialogProps, "onClose"> {
+    node: FlowImage | FlowVideo;
     onClose(): void;
     onApply(value: number): void;
 }
 
-export const ImageScaleDialog: FC<ImageScaleDialogProps> = props => {
+export const MediaScaleDialog: FC<MediaScaleDialogProps> = props => {
     const locale = useMaterialFlowLocale();
-    const { image, onClose, onApply, maxWidth = "xs", ...rest } = props;
-    const [scaleValue, setScaleValue] = useState(image.scale);
-    const [scaleText, setScaleText] = useState((image.scale * 100).toFixed(1));
-    const [widthText, setWidthText] = useState((image.source.width * image.scale).toFixed(0));
-    const [heightText, setHeightText] = useState((image.source.height * image.scale).toFixed(0));
+    const { node, onClose, onApply, maxWidth = "xs", ...rest } = props;
+    const [scaleValue, setScaleValue] = useState(node.scale);
+    const [scaleText, setScaleText] = useState((node.scale * 100).toFixed(1));
+    const [widthText, setWidthText] = useState((node.source.width * node.scale).toFixed(0));
+    const [heightText, setHeightText] = useState((node.source.height * node.scale).toFixed(0));
     const [isValidScaleText, setIsValidScaleText] = useState(true);
     const [isValidWidthText, setIsValidWidthText] = useState(true);
     const [isValidHeightText, setIsValidHeightText] = useState(true);
@@ -37,15 +37,15 @@ export const ImageScaleDialog: FC<ImageScaleDialogProps> = props => {
         if (typeof parsedValue === "number" && Number.isFinite(parsedValue) && parsedValue > 0) {
             const newScale = parsedValue / 100;
             setScaleValue(newScale);
-            setWidthText((image.source.width * newScale).toFixed(0));
-            setHeightText((image.source.height * newScale).toFixed(0));
+            setWidthText((node.source.width * newScale).toFixed(0));
+            setHeightText((node.source.height * newScale).toFixed(0));
             setIsValidScaleText(true);
             setIsValidWidthText(true);
             setIsValidHeightText(true);
         } else {
             setIsValidScaleText(false);
         }
-    }, [image]);
+    }, [node]);
 
     const onWidthTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const newText = e.target.value;
@@ -53,17 +53,17 @@ export const ImageScaleDialog: FC<ImageScaleDialogProps> = props => {
         const parsedValue = isValidText && parseInt(newText, 10);
         setWidthText(newText);
         if (typeof parsedValue === "number" && Number.isFinite(parsedValue) && parsedValue > 0) {
-            const newScale = parsedValue / image.source.width;
+            const newScale = parsedValue / node.source.width;
             setScaleValue(newScale);
             setScaleText((newScale * 100).toFixed(1));
-            setHeightText((image.source.height * newScale).toFixed(0));
+            setHeightText((node.source.height * newScale).toFixed(0));
             setIsValidScaleText(true);
             setIsValidWidthText(true);
             setIsValidHeightText(true);
         } else {
             setIsValidWidthText(false);
         }
-    }, [image]);
+    }, [node]);
 
     const onHeightTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const newText = e.target.value;
@@ -71,17 +71,17 @@ export const ImageScaleDialog: FC<ImageScaleDialogProps> = props => {
         const parsedValue = isValidText && parseInt(newText, 10);
         setHeightText(newText);
         if (typeof parsedValue === "number" && Number.isFinite(parsedValue) && parsedValue > 0) {
-            const newScale = parsedValue / image.source.height;
+            const newScale = parsedValue / node.source.height;
             setScaleValue(newScale);
             setScaleText((newScale * 100).toFixed(1));
-            setWidthText((image.source.width * newScale).toFixed(0));
+            setWidthText((node.source.width * newScale).toFixed(0));
             setIsValidScaleText(true);
             setIsValidWidthText(true);
             setIsValidHeightText(true);
         } else {
             setIsValidHeightText(false);
         }
-    }, [image]);
+    }, [node]);
 
     return (
         <ResponsiveDialog {...rest} maxWidth={maxWidth} onClose={onClose}>

@@ -46,6 +46,7 @@ import { BoxVariantSelector } from "./tools/BoxVariantSelector";
 import { BoxColorButton } from "./tools/BoxColorButton";
 import { ToggleFullWidthBox } from "./commands/ToggleFullWidthBox";
 import { InsertImage } from "./commands/InsertImage";
+import { InsertVideo } from "./commands/InsertVideo";
 import { InsertTableButton } from "./tools/InsertTableButton";
 import { MergeTableCells } from "./commands/MergeTableCells";
 import { SplitTableCell } from "./commands/SplitTableCell";
@@ -71,6 +72,8 @@ import { MarkupInfo } from "./MarkupInfo";
 import { EditImageButton } from "./tools/EditImageButton";
 import { InteractionOptionResult } from "./InteractionOptionResult";
 import { InsertImageButton } from "./tools/InsertImageButton";
+import { EditVideoButton } from "./tools/EditVideoButton";
+import { InsertVideoButton } from "./tools/InsertVideoButton";
 
 /** @public */
 export type EditorSourceState = (
@@ -99,6 +102,7 @@ export interface FlowEditorToolbarProps {
     getCustomInteractionOptions?: CustomOptionProvider<Interaction | null, InteractionOptionResult>;
     getCustomMarkupOptions?: CustomOptionProvider<MarkupInfo | null, MarkupUpdateInfo>;
     renderImageSelector?: (callback: (sourceUrl: string | null) => void) => ReactNode;
+    renderVideoSelector?: (callback: (sourceUrl: string | null, posterUrl?: string | null) => void) => ReactNode;
 }
 
 /** @public */
@@ -140,10 +144,12 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
         getCustomInteractionOptions,
         getCustomMarkupOptions,
         renderImageSelector,
+        renderVideoSelector,
     } = props;
     const isPreview = useMemo(() => controller?.getPreview(), [controller]);
     const isBoxSelection = useMemo(() => controller?.isBox(), [controller]);
     const isImageSelection = useMemo(() => controller?.isImage(), [controller]);
+    const isVideoSelection = useMemo(() => controller?.isVideo(), [controller]);
     const isTableSelection = useMemo(() => controller?.isTableSelection(), [controller]);
     const [isExpanded, setExpanded] = useState(false);
     const [toolsRef, setToolsRef] = useState<HTMLElement | null>(null);
@@ -281,6 +287,17 @@ export const FlowEditorToolbar: FC<FlowEditorToolbarProps> = props => {
                                         {...toolProps}
                                         command={InsertImage}
                                         title={locale.tip_insert_image}
+                                    />
+                                )}
+                                {isVideoSelection ? (
+                                    <EditVideoButton {...toolProps}/>
+                                ) : renderVideoSelector ? (
+                                    <InsertVideoButton {...toolProps} renderVideoSelector={renderVideoSelector} />
+                                ) : (
+                                    <CommandButton
+                                        {...toolProps}
+                                        command={InsertVideo}
+                                        title={locale.tip_insert_video}
                                     />
                                 )}
                                 <InsertTableButton {...toolProps} title={locale.tip_insert_table}/>

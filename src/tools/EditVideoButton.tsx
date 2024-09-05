@@ -3,41 +3,41 @@ import { FlowEditorController } from "scribing-react";
 import { ToolButtonProps } from "../components/ToolButton";
 import { useMaterialFlowLocale } from "../MaterialFlowLocale";
 import Icon from "@mdi/react";
-import { mdiImageEdit, mdiImagePlus } from "@mdi/js";
+import { mdiMovieEdit, mdiMoviePlus } from "@mdi/js";
 import { MenuItem } from "@material-ui/core";
 import { MenuButton } from "../components/MenuButton";
-import { InsertImage } from "../commands/InsertImage";
-import { FlowImage } from "scribing";
+import { InsertVideo } from "../commands/InsertVideo";
+import { FlowVideo } from "scribing";
 import { MediaScaleDialog } from "../components/MediaScaleDialog";
 
-export interface EditImageButtonProps extends ToolButtonProps {
+export interface EditVideoButtonProps extends ToolButtonProps {
     controller?: FlowEditorController | null;
     frozen?: boolean;
 }
 
-export const EditImageButton: FC<EditImageButtonProps> = props => {
+export const EditVideoButton: FC<EditVideoButtonProps> = props => {
     const { controller, frozen, ...rest } = props;
     const locale = useMaterialFlowLocale();
-    const disabled = useMemo(() => frozen || !controller || !controller?.isImage(), [frozen, controller]);
+    const disabled = useMemo(() => frozen || !controller || !controller?.isVideo(), [frozen, controller]);
     const [editingScale, setEditingScale] = useState(false);
-    const imageNode = useMemo<FlowImage | null | undefined>(() => {
-        let single: FlowImage | null | undefined;
+    const videoNode = useMemo<FlowVideo | null | undefined>(() => {
+        let single: FlowVideo | null | undefined;
         controller?.forEachNode(node => {
             if (single === undefined) {
-                single = node instanceof FlowImage ? node : null;
+                single = node instanceof FlowVideo ? node : null;
             }
         });
         return single;
     }, [controller]);
-    const active = !!controller?.isImage();
-    const onChangeSource = useCallback(() => controller && InsertImage.exec(controller), [controller]);
-    const onResetScale = useCallback(() => controller && controller.setImageScale(1), [controller]);
+    const active = !!controller?.isVideo();
+    const onChangeSource = useCallback(() => controller && InsertVideo.exec(controller), [controller]);
+    const onResetScale = useCallback(() => controller && controller.setVideoScale(1), [controller]);
     const onEditScale = useCallback(() => setEditingScale(true), [setEditingScale]);
     const onCloseDialog = useCallback(() => setEditingScale(false), [setEditingScale]);
     const onApplyScale = useCallback((value: number) => {
         if (controller) {
             setEditingScale(false);
-            controller.setImageScale(value);
+            controller.setVideoScale(value);
         }
     }, [controller, setEditingScale]);
     return (
@@ -46,20 +46,20 @@ export const EditImageButton: FC<EditImageButtonProps> = props => {
                 {...rest}
                 disabled={disabled}
                 active={active}
-                title={active ? locale.tip_change_image : locale.tip_insert_image}
-                children={<Icon size={1} path={active ? mdiImageEdit : mdiImagePlus}/>}
+                title={active ? locale.tip_change_video : locale.tip_insert_video}
+                children={<Icon size={1} path={active ? mdiMovieEdit : mdiMoviePlus}/>}
                 menu={(
                     <>
                         <MenuItem onClick={onChangeSource}>{locale.label_change_source}&hellip;</MenuItem>
-                        <MenuItem onClick={onEditScale} disabled={!imageNode}>
+                        <MenuItem onClick={onEditScale} disabled={!videoNode}>
                             {locale.label_edit_scale}&hellip;
                         </MenuItem>
                         <MenuItem onClick={onResetScale}>{locale.label_reset_scale}</MenuItem>
                     </>
                 )}
             />
-            {editingScale && imageNode && (
-                <MediaScaleDialog open node={imageNode} onClose={onCloseDialog} onApply={onApplyScale} />
+            {editingScale && videoNode && (
+                <MediaScaleDialog open node={videoNode} onClose={onCloseDialog} onApply={onApplyScale} />
             )}
         </>
     );
