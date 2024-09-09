@@ -1,4 +1,4 @@
-## 1.20.0 - 2024-09-04
+## 1.20.0 - 2024-09-09
 
 - Support video in flow content
 
